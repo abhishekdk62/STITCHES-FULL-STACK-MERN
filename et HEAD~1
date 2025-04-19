@@ -1,0 +1,185 @@
+[33mcommit 321964b4b4a99e40253f45db4923be388771e0a3[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m
+Author: ABHISHEK <abhidk62@gmail.com>
+Date:   Sat Mar 15 19:14:12 2025 +0530
+
+    Updated .gitignore
+
+[33mcommit a8d3632a2d8c0264ebaaa1230a5d7eac3a228742[m
+Author: ABHISHEK <abhidk62@gmail.com>
+Date:   Sat Mar 15 19:12:06 2025 +0530
+
+    Updated .gitignore
+
+[33mcommit 4ebb26f0807dbafb1d6e6de194243df02806b058[m
+Author: ABHISHEK <abhidk62@gmail.com>
+Date:   Sat Mar 15 19:10:58 2025 +0530
+
+    Updated .gitignore
+
+[33mcommit c1eeaf59fc194ee4aab1d69e158c710aaabeaf7c[m
+Author: ABHISHEK <abhidk62@gmail.com>
+Date:   Sat Mar 15 19:08:27 2025 +0530
+
+    Updated .gitignore
+
+[33mcommit e31641a5fd423f4af9e7a79bfdd5febd9c67a5a4[m
+Author: ABHISHEK <abhidk62@gmail.com>
+Date:   Sat Mar 15 19:01:50 2025 +0530
+
+    Updated .gitignore
+
+[33mcommit 85aae40fae06153f632551b73339a822e0c10883[m
+Author: ABHISHEK <abhidk62@gmail.com>
+Date:   Sat Mar 15 18:41:10 2025 +0530
+
+    upto AddCart3
+
+[33mcommit 16905f0c71640d8ecd1a663fe5dfee9363afddbd[m
+Author: ABHISHEK <abhidk62@gmail.com>
+Date:   Sat Mar 15 18:35:10 2025 +0530
+
+    upto AddCart
+
+[33mcommit debe0fd91a4a91e87eefdd93ccb718d54a1fd09f[m
+Author: ABHISHEK <abhidk62@gmail.com>
+Date:   Tue Mar 11 01:52:00 2025 +0530
+
+    Add .env to .gitignore
+
+[33mcommit fd26c50e7d94ca6566de50cb6f3494cb4a064fcd[m
+Author: ABHISHEK <abhidk62@gmail.com>
+Date:   Tue Mar 11 01:36:53 2025 +0530
+
+    Ignore .env file
+
+[33mcommit 7d80a72043dbc6ae1fa40cf46b339a11344833a0[m
+Author: ABHISHEK <abhidk62@gmail.com>
+Date:   Tue Mar 11 01:35:00 2025 +0530
+
+    Added .env to .gitignore
+
+[33mcommit 5d8a489083809be6f2c2f01dc0db786357387c61[m
+Author: ABHISHEK <abhidk62@gmail.com>
+Date:   Tue Mar 11 01:31:48 2025 +0530
+
+    Validations-BugFix
+
+[33mcommit c2146b828f0f194c2f994b1fabadefc5e99e6206[m
+Author: ABHISHEK <abhidk62@gmail.com>
+Date:   Mon Mar 10 20:47:40 2025 +0530
+
+    HttpOnlyCookie-Coupon
+
+[33mcommit b8dc91ffdb3b3fda55b8e8c065d105b005f70197[m
+Author: ABHISHEK <abhidk62@gmail.com>
+Date:   Mon Mar 10 20:41:00 2025 +0530
+
+    HttpOnlyCookie-Coupon
+
+[33mcommit c23fc445013af8d5e019c7ec0acd75f5ab5875e9[m
+Author: ABHISHEK <abhidk62@gmail.com>
+Date:   Mon Mar 10 20:35:02 2025 +0530
+
+    coupon-httpOnlyCookie
+
+[33mcommit 2d645b32eed2b05f47afd2844286275780436671[m
+Author: ABHISHEK <abhidk62@gmail.com>
+Date:   Mon Mar 10 10:20:54 2025 +0530
+
+    Added .env to .gitignore
+
+[33mcommit 2b660a334724b0f018d602f0a850f67dab6ed0ec[m
+Author: ABHISHEK <abhidk62@gmail.com>
+Date:   Mon Mar 10 10:14:50 2025 +0530
+
+    Removed secrets from commit
+
+[33mcommit 84a61caa228e59642f2e7f202308003ebb8d3b7d[m
+Author: ABHISHEK <abhidk62@gmail.com>
+Date:   Sun Mar 9 23:51:48 2025 +0530
+
+    Removed .env file and updated .gitignore
+
+[33mcommit 616c58a33e53e250cadb05ff7e06faac6d334d0c[m
+Author: ABHISHEK <abhidk62@gmail.com>
+Date:   Sun Mar 9 23:48:37 2025 +0530
+
+    Removed sensitive data
+
+[33mcommit 44ab02aaaec5355aa3386884ae625a942d9cda70[m
+Author: ABHISHEK <abhidk62@gmail.com>
+Date:   Sun Mar 9 18:13:01 2025 +0530
+
+    User-side-Product-view-done
+
+[33mcommit e51010ddd7b8c552c661a97fb4c2ca81ca7db19c[m
+Author: ABHISHEK <abhidk62@gmail.com>
+Date:   Sat Mar 8 18:09:36 2025 +0530
+
+    product-variants-completed
+
+[33mcommit 06179750745f5f7a622cd2f9fd9644874908e961[m
+Author: ABHISHEK <abhidk62@gmail.com>
+Date:   Sat Mar 8 11:56:39 2025 +0530
+
+    product-variant-adding
+
+[33mcommit d17bc663347326a5827bc0d049c29fa90a72b9ae[m
+Author: ABHISHEK <abhidk62@gmail.com>
+Date:   Fri Mar 7 23:54:09 2025 +0530
+
+    subcategories added
+
+[33mcommit 4ef52e37b83116771a8181b5dc62ef57e1c2869b[m
+Author: ABHISHEK <abhidk62@gmail.com>
+Date:   Wed Mar 5 18:53:10 2025 +0530
+
+    pagination-completed
+
+[33mcommit cd073dbe3b70b02b6f81a03d992a8ad52d5bf365[m
+Author: ABHISHEK <abhidk62@gmail.com>
+Date:   Wed Mar 5 00:29:39 2025 +0530
+
+    review-completed
+
+[33mcommit f0929b50c57ccf1ece3604cb4fa9cd788b72630b[m
+Author: ABHISHEK <abhidk62@gmail.com>
+Date:   Sat Mar 1 19:47:38 2025 +0530
+
+    forgotPass-done
+
+[33mcommit 92575b3df4aabfac0bad455c2cdc0d9c6469071d[m
+Author: ABHISHEK <abhidk62@gmail.com>
+Date:   Sat Mar 1 09:13:48 2025 +0530
+
+    admin-(prod,cat,user)-crud-completed
+
+[33mcommit 7393ccd32aa17cba0be956e1a284c0067c20a88a[m
+Author: ABHISHEK <abhidk62@gmail.com>
+Date:   Fri Feb 28 15:20:48 2025 +0530
+
+    commit-004
+
+[33mcommit 0aecab537f0981fc55673e269b73ec8df0016cc2[m
+Author: ABHISHEK <abhidk62@gmail.com>
+Date:   Thu Feb 27 23:58:12 2025 +0530
+
+    commit-003
+
+[33mcommit 12b13d3ab41ebb01f233a921d40b9612970e9b9b[m
+Author: ABHISHEK <abhidk62@gmail.com>
+Date:   Thu Feb 27 21:00:49 2025 +0530
+
+    Commit-002
+
+[33mcommit 2b7c3a39ec609be0da8cb681d0ef393ce5763f16[m
+Author: ABHISHEK <abhidk62@gmail.com>
+Date:   Thu Feb 27 20:48:28 2025 +0530
+
+    Commit-001
+
+[33mcommit 7529f2db4c7b734329c70020f5010976a7757b07[m
+Author: ABHISHEK <abhidk62@gmail.com>
+Date:   Thu Feb 27 20:47:03 2025 +0530
+
+    Initial commit
