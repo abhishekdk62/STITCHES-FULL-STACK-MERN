@@ -62,6 +62,7 @@ export const logoutAdmin = async () => {
   }
 };
 
+
 export const loginUser = async (email, password) => {
   try {
     const response = await apiClient.post("/user/login", { email, password });

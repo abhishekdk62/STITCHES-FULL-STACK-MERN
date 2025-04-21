@@ -6,10 +6,11 @@ const connectDB = require('./config/db');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const session = require('express-session');
-const commonRouter = require('./routes/commonRoutes');
-const userRouter = require('./routes/userRoutes');
-const adminRouter = require('./routes/adminRoutes');
-const paymentRouter = require('./routes/paymentRoutes');
+const commonRouter = require('./routes/common/commonRoutes');
+const userRouter = require('./routes/user/userRoutes');
+const adminRouter = require('./routes/admin/adminRoutes');
+const paymentRouter = require('./routes/payment/paymentRoutes');
+const authRoutes = require('./routes/googleAuth/authRoutes');
 
 const passport = require('./config/passport');
 
@@ -24,8 +25,13 @@ app.use(
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
   })
 );
+
+
 //!morgan code to see what all api calls coming from front end
+
+
 // app.use(morgan("dev"))
+
 
 app.use((req, res, next) => {
   res.set("Cache-Control", "no-store, no-cache, must-revalidate, private");
@@ -44,7 +50,6 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-const authRoutes = require('./routes/authRoutes');
 
 app.use('/auth', authRoutes);
 

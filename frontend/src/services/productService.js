@@ -72,7 +72,7 @@ export const getProductsService = async (requestBody) => {
 export const fetchProductsService = async (query = "", page = 1) => {
   try {
     const response = await apiClient.get(
-      `/admin/searchproducts?q=${query}&page=${page}&limit=10`
+      `/admin/searchproducts?q=${query}&page=${page}&limit=8`
     );
     // Expected response structure: { products: [...], page: number, totalPages: number }
     return response.data;

@@ -33,6 +33,7 @@
     "react-slick": "^0.30.3",
     "react-slider": "^2.0.6",
     "react-toastify": "^11.0.5",
+    "recharts": "^2.15.3",
     "shadcn-ui": "^0.9.5",
     "slick-carousel": "^1.8.1",
     "three": "^0.175.0",

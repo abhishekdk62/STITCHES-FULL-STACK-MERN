@@ -1,18 +1,19 @@
 import React, { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import Header from "../../components/user/Header";
-import Promotions from "../../components/user/Promotions";
-import NewArivals from "../../components/user/NewArivals";
-import Banner from "../../components/user/Banner";
-import Footer from "../../components/user/Footer";
-import CategoryMen from "../../components/user/CategoryMen";
-import CategoryWomen from "../../components/user/CategoryWomen";
-import Saving from "../../components/user/Saving";
-import Brands from "../../components/user/Brands";
-import Trending from "../../components/user/Trending";
+import Header from "../../components/user/common/Header";
+import Promotions from "../../components/user/landing/Promotions";
+import NewArivals from "../../components/user/landing/NewArivals";
+import Banner from "../../components/user/common/Banner";
+import Footer from "../../components/user/common/Footer";
+import CategoryMen from "../../components/user/category/CategoryMen";
+import CategoryWomen from "../../components/user/category/CategoryWomen";
+import Saving from "../../components/user/landing/Saving";
+import Brands from "../../components/user/landing/Brands";
+import Trending from "../../components/user/landing/Trending";
 import { useDispatch } from "react-redux";
 import { login } from "../../../slices/authSlice";
-import Gap from "../../components/user/Gap";
+import Gap from "../../components/user/landing/Gap";
+import { useState } from "react";
 
 const Home = () => {
   const location = useLocation();
@@ -31,10 +32,12 @@ const Home = () => {
       navigate("/user/home", { replace: true });
     }
   }, [location, navigate]);
+    const [selectedCategory, setSelectedCategory] = useState(null);
 
   return (
     <div>
-      <Header />
+      <Header selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} />
+
       <Banner />
 
    

@@ -3,7 +3,8 @@ import authReducer from "../slices/authSlice";
 import searchReducer from "../slices/searchSlice";
 import selectedTabReducer from "../slices/selectedTabSlice";
 import checkoutReducer from "../slices/checkoutSlice";
-import orderReducer from "../slices/orderSlice"; // Import the order slice
+import orderReducer from "../slices/orderSlice";
+import cartReducer from "../slices/cartSlice";
 
 const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ const store = configureStore({
     selectedTab: selectedTabReducer,
     checkout: checkoutReducer,
     order: orderReducer,
+    cart: cartReducer,
   },
 });
 

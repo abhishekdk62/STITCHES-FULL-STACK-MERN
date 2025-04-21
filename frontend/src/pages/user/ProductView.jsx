@@ -1,16 +1,19 @@
 import React from "react";
-import ProductDetails from "../../components/user/ProductDetails";
-import Footer from "../../components/user/Footer";
-import Navbar from "../../components/user/Header";
+import ProductDetails from "../../components/user/product/ProductDetails";
+import Header from "../../components/user/common/Header";
+import Footer from "../../components/user/common/Footer";
+import  { useState } from "react";
 
 const ProductView = () => {
+      const [selectedCategory, setSelectedCategory] = useState(null);
+  
   return (
     <div>
-      <Navbar />
-      <div className="px-6 md:px-12 lg:px-20 space-y-12">
+    <Header selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory}  />
+    <div className="px-6 md:px-12 lg:px-20 space-y-12">
         <ProductDetails />
       </div>
-      <Footer /> 
+      <Footer />
     </div>
   );
 };

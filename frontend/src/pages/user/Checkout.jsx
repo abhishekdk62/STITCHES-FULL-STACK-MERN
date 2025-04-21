@@ -1,12 +1,18 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import Payment from "../../components/user/Payment";
-import OrderSummary from "../../components/user/OrderSummary";
-import DeliveryAddress from "../../components/user/DeliveryAddress";
-import Header from "../../components/user/Header";
-import CheckoutEditAddress from "../../components/user/CheckoutEditAddress";
-import AddAddress from "../../components/user/AddAddress";
-import AddaddressCheckout from "../../components/user/AddAddressCheckout";
+import Payment from "../../components/user/order/Payment";
+import OrderSummary from "../../components/user/order/OrderSummary";
+import AddaddressCheckout from "../../components/user/editinfo/AddAddressCheckout";
+import DeliveryAddress from "../../components/user/editinfo/DeliveryAddress";
+
+
+
+
+import Header from "../../components/user/common/Header";
+import CheckoutEditAddress from "../../components/user/editInfo/CheckoutEditAddress";
+
+
+
 import { CheckCircle } from "lucide-react";
 
 export default function Checkout() {
@@ -17,7 +23,7 @@ export default function Checkout() {
     address: "",
     city: "",
     postalCode: "",
-    country: "",
+    country: "",  
     phone: "",
   });
 
@@ -57,6 +63,7 @@ export default function Checkout() {
     }
   };
   const[couponData,setCouponData]=useState()
+    const [selectedCategory, setSelectedCategory] = useState(null);
 
   return (
     <motion.div
@@ -64,7 +71,8 @@ export default function Checkout() {
       animate={{ opacity: 1 }}
       className="min-h-screen bg-gray-50"
     >
-      <Header />
+      <Header selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} />
+
       
       <motion.div 
         className="max-w-4xl mx-auto p-6 pt-8"

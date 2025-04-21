@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
-import Header from "../../components/user/Header";
-import Success from "../../components/user/Success";
-import Footer from "../../components/user/Footer";
+import Header from "../../components/user/common/Header";
+import Success from "../../components/user/order/Success";
+import Footer from "../../components/user/common/Footer";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 
-import WallSuccess from "../../components/user/WalletSuccess";
+import WallSuccess from "../../components/user/wallet/WalletSuccess";
 import { captureWalletPaymentApi } from "../../services/transactionService";
 
 const WalletSuccuss = () => {
