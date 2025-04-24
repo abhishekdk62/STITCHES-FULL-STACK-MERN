@@ -37,22 +37,13 @@ export default function Payment({ setStep,couponData }) {
   const [errorMessage, setErrorMessage] = useState("");
   const address = useSelector((state) => state.checkout.shippingAddress);
   const cartItems = useSelector((state) => state.checkout.cart);
-  const [cardDetails, setCardDetails] = useState({
-    cardNumber: "",
-    cardName: "",
-    expiry: "",
-    cvv: "",
-  });
+
 
   const userDetails = useSelector((state) => state.auth.user);
 const [disableCod,setDisableCod]=useState(false)
 
 
 
-  const handleCardDetailsChange = (e) => {
-    const { name, value } = e.target;
-    setCardDetails((prev) => ({ ...prev, [name]: value }));
-  };
   const discount = ((couponData?.discountValue)/100*(cartItems?.totalPrice + cartItems?.tax)) || 0;
 
   const grandTotal =

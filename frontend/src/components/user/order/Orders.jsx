@@ -186,8 +186,8 @@ if(!userDetails)
                     );
 
                   const productName =
-                    typeof item.product === "object" && item.product.name
-                      ? item.product.name
+                    typeof item.product === "object" && item?.product?.name
+                      ? item?.product?.name
                       : "N/A";
 
                   const productImage =

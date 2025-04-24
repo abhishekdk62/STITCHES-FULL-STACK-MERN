@@ -53,7 +53,7 @@ const ListProducts = ({ selectedCategory, setSelectedCategory }) => {
       const data = await getProductsService(requestBody);
       setProducts(data.products);
       console.log(data);
-      
+
       setCurrentPage(data.page);
       setTotalPages(data.totalPages);
       setError("");
@@ -313,79 +313,77 @@ const ListProducts = ({ selectedCategory, setSelectedCategory }) => {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {loading ? (
-   
-    Array(10).fill(0).map((_, index) => (
-      <ProducsListShimmer key={index} />
-    ))
- 
-          ) : (
-              products.map((product) => {
-                const ratingData = ratings.find(
-                  (rating) => rating._id === product._id
-                );
-                const averageRating = ratingData
-                  ? ratingData.averageRating.toFixed(1)
-                  : "";
-                const ratingDisplay = ratingData ? (
-                  <div className="bg-[#0b5c10] space-x-1 text-white px-1.5 py-0.5 rounded flex justify-center content-center items-center">
-                    <span className="text-xs mr-0.5">{averageRating}</span>
-                    <Star className="h-2 w-2 fill-white stroke-white" />
-                  </div>
-                ) : null;
+            {loading
+              ? Array(10)
+                  .fill(0)
+                  .map((_, index) => <ProducsListShimmer key={index} />)
+              : products.map((product) => {
+                  const ratingData = ratings.find(
+                    (rating) => rating._id === product._id
+                  );
+                  const averageRating = ratingData
+                    ? ratingData.averageRating.toFixed(1)
+                    : "";
+                  const ratingDisplay = ratingData ? (
+                    <div className="bg-[#0b5c10] space-x-1 text-white px-1.5 py-0.5 rounded flex justify-center content-center items-center">
+                      <span className="text-xs mr-0.5">{averageRating}</span>
+                      <Star className="h-2 w-2 fill-white stroke-white" />
+                    </div>
+                  ) : null;
 
-                return (
-                  <div key={product._id} className="relative">
-                    <div
-                      onClick={() => handleProductView(product)}
-                      className="p-0 group cursor-pointer"
-                    >
-                      <div className="flex items-center justify-center">
-                        <div className="w-100 h-100 relative">
-                          <div className="absolute ml-63 mt-2">
-                            {ratingDisplay}
-                          </div>
-                          <img
-                            src={product.variants[0].productImages?.[0]}
-                            alt={product.name}
-                            className="w-full h-full object-cover transition duration-300 ease-in-out group-hover:brightness-75"
-                          />
-                          <button
-                            className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 
-             opacity-0 group-hover:opacity-100 transition duration-300"
-                            onClick={(e) => {
-                              e.stopPropagation(); // Prevents triggering handleProductView
-                              handleWishlist(product._id, product.variants[0]);
-                            }}
-                          >
-                            <Heart className="w-8 h-8 text-white bg-black/50 p-1 rounded-full hover:scale-110 transition" />
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="flex flex-col mt-2 items-center">
-                      <p
-                        style={{
-                          fontFamily: "'Cambay', sans-serif",
-                          fontWeight: 400,
-                        }}
-                        className="text-center text-gray-700 text-sm"
+                  return (
+                    <div key={product._id} className="relative">
+                      <div
+                        onClick={() => handleProductView(product)}
+                        className="p-0 group cursor-pointer"
                       >
-                        {product.name} - {product.brand}
-                      </p>
-                      <div className="flex items-center justify-center space-x-2 mt-0">
-                        <div className="text-black font-medium text-sm">
-                          RS.{product.variants[0].discount_price}.00
+                        <div className="flex items-center justify-center">
+                          <div className="w-100 h-100 relative">
+                            <div className="absolute ml-63 mt-2">
+                              {ratingDisplay}
+                            </div>
+                            <img
+                              src={product.variants[0].productImages?.[0]}
+                              alt={product.name}
+                              className="w-full h-full object-cover transition duration-300 ease-in-out group-hover:brightness-75"
+                            />
+                            <button
+                              className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition duration-300"
+                              onClick={(e) => {
+                                e.stopPropagation(); // Prevents triggering handleProductView
+                                handleWishlist(
+                                  product._id,
+                                  product.variants[0]
+                                );
+                              }}
+                            >
+                              <Heart className="w-8 h-8 text-white bg-black/50 p-1 rounded-full hover:scale-110 transition" />
+                            </button>
+                          </div>
                         </div>
-                        <div className="text-gray-700 text-sm line-through">
-                          RS.{product.variants[0].base_price}.00
+                      </div>
+                      <div className="flex flex-col mt-2 items-center">
+                        <p
+                          style={{
+                            fontFamily: "'Cambay', sans-serif",
+                            fontWeight: 400,
+                          }}
+                          className="text-center text-gray-700 text-sm"
+                        >
+                          {product.name} - {product.brand}
+                        </p>
+                        <div className="flex items-center justify-center space-x-2 mt-0">
+                          <div className="text-black font-medium text-sm">
+                            RS.{product.variants[0].discount_price}.00
+                          </div>
+                          <div className="text-gray-700 text-sm line-through">
+                            RS.{product.variants[0].base_price}.00
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                );
-              })
-            )}
+                  );
+                })}
           </div>
         </div>
       </div>
@@ -450,6 +448,5 @@ const ListProducts = ({ selectedCategory, setSelectedCategory }) => {
     </div>
   );
 };
-
 
 export default ListProducts;

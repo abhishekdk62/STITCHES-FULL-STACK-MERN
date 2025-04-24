@@ -28,12 +28,8 @@ export default function AddAddress() {
     const fetchCountries = async () => {
       try {
         const response = await getCountries();
+        setCountries(response);
         
-        
-        const sortedCountries = response.data.sort((a, b) =>
-          a.name.common.localeCompare(b.name.common)
-        );
-        setCountries(sortedCountries);
       } catch (error) {
         console.log(error);
       }
@@ -194,8 +190,8 @@ export default function AddAddress() {
               >
                 <option value="">Select a country</option>
                 {countries.map((c) => (
-                  <option key={c.name.common} value={c.name.common}>
-                    {c.name.common}
+                  <option key={c.name} value={c.name}>
+                    {c.name}
                   </option>
                 ))}
               </select>

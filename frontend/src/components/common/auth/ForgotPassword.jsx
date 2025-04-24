@@ -13,14 +13,16 @@ const ForgotPassword = ({ setForgotPassword }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [message, setMessage] = useState("");
+  const [info, setInfo] = useState("");
   const [otpVerified, setOtpVerified] = useState(false);
 
   const handleSendOTP = async () => { 
     try {
       await sendOTP(email);
       setOtpSent(true);
-      setMessage("OTP sent successfully. Check your email.");
+      setInfo("OTP sent successfully. Check your email.");
     } catch (error) {
+
       setMessage(error.response?.data?.message || "Error sending OTP");
     }
   };
@@ -30,28 +32,34 @@ const ForgotPassword = ({ setForgotPassword }) => {
       const data = await verifyOTP(email, otp);
       if (data.success) {
         setOtpVerified(true);
-        setMessage("OTP verified successfully.");
+        setMessage(null)
+        setInfo("OTP verified successfully.");
       } else {
+        setInfo(null)
         setMessage("Invalid OTP. Please try again.");
       }
     } catch (error) {
       console.log(error);
+      setInfo(null)
       setMessage(error.response?.data?.message || "Error verifying OTP");
     }
   };
 
   const handleResetPassword = async () => {
     if (password !== confirmPassword) {
+      setInfo(null)
       setMessage("Passwords do not match!");
       return;
     }
     try {
       const data = await updatePassword(email, password);
-      setMessage(data.message);
+      setMessage(null)
+      setInfo(data.message);
       setTimeout(() => {
         setForgotPassword(false);
       }, 2000);
     } catch (error) {
+      setInfo(null)
       setMessage(error.response?.data?.message || "Error updating password");
     }
   };
@@ -86,14 +94,23 @@ const ForgotPassword = ({ setForgotPassword }) => {
               </div>
             </div>
   
-            {/* Error display */}
+         
             {message && (
               <motion.div
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="mb-6 text-center text-red-500 bg-red-50 border border-red-200 p-4 rounded-lg"
+                className="mb-6 text-center text-red-500 "
               >
                 {message}
+              </motion.div>
+            )}
+            {info && (
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="mb-6 text-center text-green-500 p-4 "
+              >
+                {info}
               </motion.div>
             )}
   

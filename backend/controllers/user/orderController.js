@@ -9,7 +9,6 @@ const Coupons = require("../../models/couponSchema");
 const Transaction = require("../../models/transactionSchema");
 const Cart = require("../../models/cartSchema");
 
-
 const createOrder = async (req, res) => {
   try {
     const user = req.user.id;
@@ -47,12 +46,11 @@ const createOrder = async (req, res) => {
       quantity: item.quantity,
       price: item.price,
     }));
-    if(couponData.length>0)
-    {
-      let coupon=await Coupons.findById(couponData._id)
-    coupon.usedCount += 1;
-  
-coupon.save()
+    if (couponData.length > 0) {
+      let coupon = await Coupons.findById(couponData._id);
+      coupon.usedCount += 1;
+
+      coupon.save();
     }
 
     if (paymentMethod === "wallet") {
@@ -86,7 +84,10 @@ coupon.save()
       paymentMethod,
       totalPrice,
       grandTotal,
-      coupon: { code: couponData.code||null, value: couponData.discountValue||null },
+      coupon: {
+        code: couponData.code || null,
+        value: couponData.discountValue || null,
+      },
       tax: tax || 0,
       shippingPrice: shippingPrice || 0,
       discount: discount || 0,
@@ -209,4 +210,3 @@ module.exports = {
   getUserOrders,
   cancelOrderItem,
 };
-

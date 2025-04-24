@@ -23,10 +23,7 @@ export default function EditAddress({ address }) {
     const fetchCountries = async () => {
       try {
         const response = await getCountries();
-        const sortedCountries = response.data.sort((a, b) =>
-          a.name.common.localeCompare(b.name.common)
-        );
-        setCountries(sortedCountries);
+        setCountries(response);
       } catch (error) {
         console.log(error);
       }
@@ -133,7 +130,7 @@ export default function EditAddress({ address }) {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.4 }}
-      className="p-8 bg-white min-h-screen w-4xl rounded-xl"
+      className="w-4xl p-8 bg-white rounded-xl"
     >
       <nav className="flex items-center text-sm text-gray-500 mb-8">
         <a href="/" className="hover:text-gray-700">
@@ -147,122 +144,124 @@ export default function EditAddress({ address }) {
         <span className="text-gray-700">Edit Address</span>
       </nav>
 
-      <motion.div
+      <div className="flex justify-between items-center border-b pb-4 mb-6">
+        <div className="flex items-center gap-3">
+          <MapPin className="w-5 h-5 text-black" />
+          <h2 className="text-xl font-bold text-black tracking-tight">Edit Address</h2>
+        </div>
+      </div>
+
+      {error && (
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="bg-red-50 border-l-4 border-red-500 p-4 mb-6 rounded-md"
+        >
+          <p className="text-red-600 text-sm flex items-center">
+            <X size={16} className="mr-2" />
+            {error}
+          </p>
+        </motion.div>
+      )}
+
+      <motion.form 
+        onSubmit={handleSubmit} 
+        className="space-y-6"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.1 }}
       >
-        <div className="flex items-center gap-3 mb-6">
-          <MapPin className="w-5 h-5 text-gray-700" />
-          <h3 className="text-lg font-semibold">Edit Address</h3>
-        </div>
-
-        <form onSubmit={handleSubmit} className="space-y-6 bg-gray-50 p-6 rounded-lg border border-gray-100">
-          <div className="flex justify-between items-center border-b border-gray-200 pb-4">
-            <div className="w-full">
-              <p className="text-gray-500 text-sm mb-1">Full Name</p>
+        <div className="bg-gray-50 p-6 rounded-lg border border-gray-100">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <label className="text-sm text-gray-500">Full Name</label>
               <input
                 type="text"
-                placeholder="Full Name"
+                placeholder="Enter your full name"
                 value={fullName}
                 onChange={(e) => setFullName(e.target.value)}
-                className="text-lg border border-gray-300 p-2 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-black"
+                className="w-full p-3 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-black"
               />
             </div>
-          </div>
 
-          <div className="flex justify-between items-center border-b border-gray-200 pb-4">
-            <div className="w-full">
-              <p className="text-gray-500 text-sm mb-1">Country</p>
+            <div className="space-y-2">
+              <label className="text-sm text-gray-500">Phone Number</label>
+              <input
+                type="tel"
+                placeholder="Enter your phone number"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                className="w-full p-3 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-black"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-sm text-gray-500">Country</label>
               <select
                 id="country"
                 value={country}
                 onChange={(e) => setCountry(e.target.value)}
-                className="text-lg border border-gray-300 p-2 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-black"
-                
+                className="w-full p-3 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-black"
               >
                 <option value="">Select a country</option>
                 {countries.map((c) => (
-                  <option key={c.name.common} value={c.name.common}>
-                    {c.name.common}
+                  <option key={c.name} value={c.name}>
+                    {c.name}
                   </option>
                 ))}
               </select>
             </div>
-          </div>
 
-          <div className="flex justify-between items-center border-b border-gray-200 pb-4">
-            <div className="w-full">
-              <p className="text-gray-500 text-sm mb-1">State</p>
+            <div className="space-y-2">
+              <label className="text-sm text-gray-500">State/Province</label>
               <input
-                placeholder="State"
+                placeholder="Enter your state"
                 id="State"
                 value={state}
                 onChange={(e) => setState(e.target.value)}
-                className="text-lg border border-gray-300 p-2 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-black"
+                className="w-full p-3 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-black"
               />
             </div>
-          </div>
 
-          <div className="flex justify-between items-center border-b border-gray-200 pb-4">
-            <div className="w-full">
-              <p className="text-gray-500 text-sm mb-1">Street</p>
+            <div className="space-y-2">
+              <label className="text-sm text-gray-500">City</label>
               <input
                 type="text"
-                placeholder="Street"
-                value={street}
-                onChange={(e) => setStreet(e.target.value)}
-                className="text-lg border border-gray-300 p-2 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-black"
-              />
-            </div>
-          </div>
-
-          <div className="flex justify-between items-center border-b border-gray-200 pb-4">
-            <div className="w-full">
-              <p className="text-gray-500 text-sm mb-1">City</p>
-              <input
-                type="text"
-                placeholder="City"
+                placeholder="Enter your city"
                 value={city}
                 onChange={(e) => setCity(e.target.value)}
-                className="text-lg border border-gray-300 p-2 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-black"
+                className="w-full p-3 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-black"
               />
             </div>
-          </div>
 
-          <div className="flex justify-between items-center border-b border-gray-200 pb-4">
-            <div className="w-full">
-              <p className="text-gray-500 text-sm mb-1">Phone Number</p>
-              <input
-                type="tel"
-                placeholder="Phone"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                className="text-lg border border-gray-300 p-2 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-black"
-              />
-            </div>
-          </div>
-
-          <div className="flex justify-between items-center border-b border-gray-200 pb-4">
-            <div className="w-full">
-              <p className="text-gray-500 text-sm mb-1">Zip Code</p>
+            <div className="space-y-2">
+              <label className="text-sm text-gray-500">ZIP/Postal Code</label>
               <input
                 type="text"
-                placeholder="Zip Code"
+                placeholder="Enter zip code"
                 value={zip}
                 onChange={(e) => setZip(e.target.value)}
-                className="text-lg border border-gray-300 p-2 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-black"
+                className="w-full p-3 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-black"
               />
             </div>
-          </div>
 
-          <div className="flex justify-between items-center border-b border-gray-200 pb-4">
-            <div className="w-full">
-              <p className="text-gray-500 text-sm mb-1">Address Type</p>
+            <div className="space-y-2 md:col-span-2">
+              <label className="text-sm text-gray-500">Street Address</label>
+              <input
+                type="text"
+                placeholder="Enter your street address"
+                value={street}
+                onChange={(e) => setStreet(e.target.value)}
+                className="w-full p-3 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-black"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-sm text-gray-500">Address Type</label>
               <select
                 value={addressType}
                 onChange={(e) => setAddressType(e.target.value)}
-                className="text-lg border border-gray-300 p-2 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-black"
+                className="w-full p-3 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-black"
               >
                 <option value="Home">Home</option>
                 <option value="Office">Office</option>
@@ -270,38 +269,29 @@ export default function EditAddress({ address }) {
               </select>
             </div>
           </div>
-        </form>
-
-        <div className="relative mt-9 flex items-center justify-center">
-          {error && (
-            <motion.p 
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="text-xl text-center text-red-500"
-            >
-              {error}
-            </motion.p>
-          )}
-          <div className="absolute right-0 flex gap-4">
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => dispatch(setSelectedTab("editinfo"))}
-              className="flex items-center gap-2 px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors duration-300"
-            >
-              Cancel
-            </motion.button>
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={handleSubmit}
-              className="flex items-center gap-2 px-4 py-2 rounded-md border border-black hover:bg-black hover:text-white transition-colors duration-300"
-            >
-              Save <Save size={15} />
-            </motion.button>
-          </div>
         </div>
-      </motion.div>
+
+        <div className="flex justify-between items-center pt-4">
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            type="button"
+            onClick={() => dispatch(setSelectedTab("editinfo"))}
+            className="px-6 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors duration-300"
+          >
+            Cancel
+          </motion.button>
+          
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            type="submit"
+            className="px-6 py-2 rounded-md bg-black text-white hover:bg-white hover:text-black border border-black transition-colors duration-300"
+          >
+            Save Address
+          </motion.button>
+        </div>
+      </motion.form>
     </motion.div>
   );
 }

@@ -1,4 +1,3 @@
-import axios from "axios";
 const mockCountries = [
   { name: "United States", code: "US" },
   { name: "Canada", code: "CA" },
