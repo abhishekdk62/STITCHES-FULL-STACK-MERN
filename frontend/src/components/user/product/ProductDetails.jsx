@@ -466,40 +466,35 @@ const ProductDetails = () => {
   const handleCrumbsByCat = () => {
     navigate(`/products?category=${encodeURIComponent(catDetails._id)}`);
   };
-
   return (
-    <div className="container mx-auto p-4">
+    <div className="container mx-auto px-4 py-6 max-w-6xl">
       {showWishlistAlert && (
         <AlertDialog
-          title={"Hey"}
-          message={"Please login first"}
+          title="Sign In Required"
+          message="Please log in to add items to your wishlist"
           onClose={() => setShowWishlistAlert(false)}
         />
       )}
-
-      <nav className="text-gray-600 text-sm mb-4">
-        <a
-          onClick={() => navigate("/products")}
-          className="cursor-pointer hover:underline"
-        >
+  
+      {/* Breadcrumb Navigation */}
+      <nav className="flex items-center text-xs mb-4 text-gray-500">
+        <a onClick={() => navigate("/products")} className="cursor-pointer hover:text-black transition-colors">
           Shop
         </a>
-        &gt;
-        <a
-          onClick={handleCrumbsByCat}
-          className="cursor-pointer hover:underline"
-        >
+        <span className="mx-2">&gt;</span>
+        <a onClick={handleCrumbsByCat} className="cursor-pointer hover:text-black transition-colors">
           {catDetails?.name}
         </a>
-        &gt;
-        <a className="cursor-pointer hover:underline">
+        <span className="mx-2">&gt;</span>
+        <a className="text-gray-800">
           {productDetails?.subCategory}
         </a>
       </nav>
-      {/* Product Section */}
-      <div className="flex flex-col lg:flex-row bg-white p-6 rounded-lg shadow-md">
-        {/* Product Images */}
-        <div className="flex flex-col gap-3 items-center lg:w-1/2">
+  
+      {/* Product Main Section */}
+      <div className="flex flex-col lg:flex-row bg-white rounded-md shadow-md overflow-hidden border border-gray-100">
+        {/* Product Images - Keeping original positioning */}
+        <div className="flex flex-col gap-4 items-center lg:w-1/2 p-6 bg-gray-50">
           <div className="h-100 w-95 relative">
             <ReactImageMagnify
               {...{
@@ -507,16 +502,11 @@ const ProductDetails = () => {
                   alt: "Main product image",
                   height: 400,
                   width: 309,
-
-                  src:
-                    selectedImage ||
-                    productDetails?.variants[0]?.productImages[0],
+                  src: selectedImage || productDetails?.variants[0]?.productImages[0],
                 },
                 largeImage: {
-                  src:
-                    selectedImage ||
-                    productDetails?.variants[0]?.productImages[0],
-                  width: 1200, // Higher resolution for zoomed view
+                  src: selectedImage || productDetails?.variants[0]?.productImages[0],
+                  width: 1200,
                   height: 1200,
                 },
                 enlargedImageContainerDimensions: {
@@ -526,352 +516,372 @@ const ProductDetails = () => {
                 lensStyle: { backgroundColor: "rgba(0,0,0,0.2)" },
               }}
             />
-          </div>{" "}
-          <div className="flex gap-5">
+          </div>
+          
+          <div className="flex gap-3">
             {selectedVariant?.productImages?.map((productImage, index) => (
               <div
                 key={index}
                 onClick={() => setSelectedImage(productImage)}
-                className="flex"
+                className={`cursor-pointer transition-all ${selectedImage === productImage ? 'ring-1 ring-black' : ''}`}
               >
                 <img
-                  alt="Thumbnail 1"
-                  className="w-20 rounded-lg"
-                  height="100"
+                  alt={`Product view ${index + 1}`}
+                  className="w-16 h-16 object-cover rounded-sm"
                   src={productImage}
-                  width="100"
                 />
               </div>
             ))}
           </div>
         </div>
+  
         {/* Product Details */}
-        <div className="lg:w-1/2 lg:pl-8">
-          <h1 className="text-2xl font-bold mb-2">{productDetails?.name}</h1>
-          <div className="flex gap-3">
-            <span className="text-4xl font-bold">
-              ${selectedVariant?.discount_price}
-            </span>
-            <span className="text-4xl text-red-500 line-through font-bold ml-2">
-              ${selectedVariant?.base_price}
-            </span>
+        <div className="lg:w-1/2 p-6">
+          <h1 className="text-xl font-semibold mb-2 text-gray-900">{productDetails?.name}</h1>
           
-            <span className="text-3xl text-red-500  ml-2">
-              (${selectedVariant?.discount_percentage} % OFF)
+          {/* Pricing Section */}
+          <div className="flex items-end gap-2 mb-3">
+            <span className="text-2xl font-bold text-black">₹{selectedVariant?.discount_price}</span>
+            <span className="text-sm text-gray-400 line-through">₹{selectedVariant?.base_price}</span>
+            <span className="text-sm font-medium text-green-600 ml-1">
+              ({selectedVariant?.discount_percentage}% OFF)
             </span>
-          
           </div>
+  
+          {/* Rating Section */}
           <div className="flex items-center mb-4">
-            <div className="flex text-yellow-500">
+            <div className="flex text-yellow-400">
               {[...Array(5)].map((_, i) => {
                 if (i < Math.floor(rat)) {
-                  return <i key={i} className="fas fa-star"></i>; // Full star
+                  return <i key={i} className="fas fa-star text-xs"></i>; // Full star
                 } else if (i === Math.floor(rat) && rat % 1 !== 0) {
-                  return <i key={i} className="fas fa-star-half-alt"></i>; // Half star
+                  return <i key={i} className="fas fa-star-half-alt text-xs"></i>; // Half star
                 } else {
-                  return <i key={i} className="far fa-star"></i>; // Empty star
+                  return <i key={i} className="far fa-star text-xs"></i>; // Empty star
                 }
               })}
             </div>
-
-            <span className="ml-2 text-gray-600"> {rat}</span>
-            <span className="ml-2 text-gray-600">
-              {rating[0]?.totalReviews} Reviews
-            </span>
+            <span className="ml-2 text-xs text-gray-700">{rat}</span>
+            <span className="ml-1 text-xs text-gray-500">({rating[0]?.totalReviews} Reviews)</span>
           </div>
-          <div className="mb-4">
-            <h2 className="text-lg font-semibold mb-2">Select Size</h2>
-            <div className="flex space-x-2">
-              {selectedColor && (
-                <div className="mb-4">
-                  <div className="flex space-x-2">
-                    {[
-                      ...new Set(
-                        variantsByColor[selectedColor]?.map((v) => v.size)
-                      ),
-                    ].map((size, index) => (
-                      <button
-                        key={index}
-                        onClick={() => {
-                          setSelectedSize(size);
-                        }}
-                        className={`px-4 py-2 border rounded-lg ${
-                          selectedSize === size
-                            ? "bg-black text-white"
-                            : "bg-white text-gray-600"
-                        }`}
-                      >
-                        {size}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              )}
+  
+          {/* Size Selection */}
+          {selectedColor && (
+            <div className="mb-4">
+              <h2 className="text-sm font-medium mb-2 flex items-center">
+                <span className="mr-2">Select Size</span>
+                <button className="text-xs text-gray-500 underline hover:text-black">Size Guide</button>
+              </h2>
+              <div className="flex flex-wrap gap-2">
+                {[...new Set(variantsByColor[selectedColor]?.map((v) => v.size))].map((size, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setSelectedSize(size)}
+                    className={`px-3 py-1 text-xs border transition-all ${
+                      selectedSize === size
+                        ? "bg-black text-white border-black"
+                        : "bg-white text-gray-700 border-gray-300 hover:border-black"
+                    }`}
+                  >
+                    {size}
+                  </button>
+                ))}
+              </div>
             </div>
-          </div>
+          )}
+  
+          {/* Color Selection */}
           <div className="mb-4">
-            <h2 className="text-lg font-semibold mb-2">Colours Available</h2>
-            <div className="flex space-x-2">
+            <h2 className="text-sm font-medium mb-2">Select Color</h2>
+            <div className="flex flex-wrap gap-2">
               {Object.keys(variantsByColor).map((color) => (
                 <button
                   key={color}
                   onClick={() => {
                     setSelectedColor(color);
-                    const defaultImage =
-                      variantsByColor[color][0]?.productImages[0];
+                    const defaultImage = variantsByColor[color][0]?.productImages[0];
                     setSelectedImage(defaultImage);
-
-                    const uniqueSizes = [
-                      ...new Set(variantsByColor[color].map((v) => v.size)),
-                    ];
+  
+                    const uniqueSizes = [...new Set(variantsByColor[color].map((v) => v.size))];
                     if (uniqueSizes.length > 0) {
                       setSelectedSize(uniqueSizes[0]);
                     }
                   }}
-                  className={`w-8 cursor-pointer h-8 rounded-full border border-gray-300 ${
-                    selectedColor === color ? "ring-2 ring-purple-600" : ""
+                  className={`w-8 h-8 rounded-full transition-transform hover:scale-105 ${
+                    selectedColor === color ? "ring-2 ring-offset-1 ring-black" : "border border-gray-300"
                   }`}
                   style={{ backgroundColor: color }}
+                  aria-label={color}
                 ></button>
               ))}
             </div>
           </div>
-          <div className="flex items-center mb-4">
+  
+          {/* Stock Message */}
+          <h2 className={`font-medium text-xs mb-4 ${stockColors[stockMessageColor]}`}>
+            {stockMessage}
+          </h2>
+  
+          {/* Action Buttons */}
+          <div className="flex items-center mb-6 gap-3">
             {isCarted ? (
               <button
-                className={` flex gap-1 cursor-pointer  px-6 py-2 rounded-lg mr-4 bg-black text-white `}
+                className="flex items-center justify-center gap-1 px-6 py-2 rounded-sm bg-black text-white text-sm font-medium transition-opacity hover:opacity-80"
                 onClick={() => {
                   dispatch(setSelectedTab("cart"));
                   navigate("/user/account");
                 }}
               >
                 View Cart
-                <ShoppingCart size={23} />
+                <ShoppingCart size={16} />
               </button>
             ) : (
               <button
                 onClick={addToCart}
                 disabled={isOutOfStock}
-                className={` flex gap-1 cursor-pointer  px-6 py-2 rounded-lg mr-4 ${
+                className={`flex items-center justify-center gap-1 px-6 py-2 rounded-sm text-sm font-medium transition-all ${
                   isOutOfStock
-                    ? "bg-gray-500 text-gray-600"
-                    : "bg-black text-white"
-                } `}
+                    ? "bg-gray-200 text-gray-500 cursor-not-allowed"
+                    : "bg-black text-white hover:bg-gray-900"
+                }`}
               >
                 Add to Cart
-                <ShoppingCart size={23} />
+                <ShoppingCart size={16} />
               </button>
             )}
+            
             <button
-              onClick={() => {
-                handleWishlist();
-              }}
-              className="group "
+              onClick={handleWishlist}
+              className="group p-2 rounded-sm border border-gray-200 hover:border-gray-900 transition-colors"
+              aria-label="Add to wishlist"
             >
               <Heart
-                className="text-pink-500 group-hover:cursor-pointer"
-                style={{ fill: "none" }} // initially, no fill (outlined)
-                size={28}
+                className="text-pink-500"
+                style={{ fill: "none" }}
+                size={18}
               />
             </button>
           </div>
-          <h1 className={`font-bold text-xl ${stockColors[stockMessageColor]}`}>
-            {stockMessage}
-          </h1>
-
-          <div className="flex flex-col space-y-2">
+  
+          {/* Product Features */}
+          <div className="grid grid-cols-2 gap-y-2 gap-x-4 border-t pt-4 border-gray-200">
             <div className="flex items-center">
-              <i className="fas fa-shield-alt text-gray-600 mr-2"></i>
-              <span className="text-gray-600">Secure payment</span>
+              <i className="fas fa-shield-alt text-gray-800 mr-2 text-sm"></i>
+              <span className="text-xs text-gray-700">Secure Payment</span>
             </div>
             <div className="flex items-center">
-              <i className="fas fa-ruler-combined text-gray-600 mr-2"></i>
-              <span className="text-gray-600">Size &amp; Fit</span>
+              <i className="fas fa-ruler-combined text-gray-800 mr-2 text-sm"></i>
+              <span className="text-xs text-gray-700">Size & Fit Guide</span>
             </div>
             <div className="flex items-center">
-              <i className="fas fa-truck text-gray-600 mr-2"></i>
-              <span className="text-gray-600">Free shipping</span>
+              <i className="fas fa-truck text-gray-800 mr-2 text-sm"></i>
+              <span className="text-xs text-gray-700">Free Express Shipping</span>
             </div>
             <div className="flex items-center">
-              <i className="fas fa-undo text-gray-600 mr-2"></i>
-              <span className="text-gray-600">Free Shipping &amp; Returns</span>
+              <i className="fas fa-undo text-gray-800 mr-2 text-sm"></i>
+              <span className="text-xs text-gray-700">30-Day Returns</span>
             </div>
           </div>
         </div>
       </div>
-      {/* Product Description */}
-      <div className="bg-white p-6 rounded-lg shadow-md mt-6">
-        <h2 className="text-xl font-bold mb-4">Product Description</h2>
-        <div className="flex space-x-4 mb-4">
-          {["Description", "Reviews", "Question&Answer"].map((tab, indx) => (
-            <button
-              key={indx}
-              onClick={() => setSelectedTabSmall(tab)}
-              className={`pb-2  ${
-                tab === selectedTabSmall
-                  ? "text-purple-600 border-purple-600 border-b-2"
-                  : "text-gray-600 border-gray-600"
-              }`}
-            >
-              {tab} {/* ✅ Move this inside the button */}
-            </button>
-          ))}
-        </div>
-        {selectedTabSmall == "Description" && (
-          <p className="text-gray-600 mb-4">{productDetails.description}</p>
-        )}
-        {selectedTabSmall == "Reviews" && (
-          <div className="bg-white p-6 rounded-lg shadow-md mt-6">
-            <h2 className="text-xl font-bold mb-4">Reviews</h2>
-
-            {reviews.map((review) => (
-              <div
-                key={review._id}
-                className="flex items-start space-x-4 mb-4 p-4 border rounded"
+  
+      {/* Product Information Tabs */}
+      <div className="bg-white rounded-md shadow-md mt-6 overflow-hidden border border-gray-100">
+        <div className="border-b border-gray-200">
+          <div className="flex">
+            {["Description", "Reviews", "Question&Answer"].map((tab, indx) => (
+              <button
+                key={indx}
+                onClick={() => setSelectedTabSmall(tab)}
+                className={`py-3 px-4 text-sm font-medium transition-colors ${
+                  tab === selectedTabSmall
+                    ? "text-black border-b-2 border-black"
+                    : "text-gray-500 hover:text-gray-800"
+                }`}
               >
-                <div className="w-12 h-12 rounded-full overflow-hidden bg-gray-300 flex items-center justify-center">
-                  <img
-                    src={review?.userId?.profileImage}
-                    alt="Profile"
-                    className="w-full h-full object-cover"
-                  />
-                </div>{" "}
-                <div>
-                  <div className="flex items-center space-x-1">
-                    {[...Array(5)].map((_, i) => (
-                      <Star
-                        key={i}
-                        size={16}
-                        className={
-                          i < review.rating
-                            ? "text-yellow-500 fill-yellow-500"
-                            : "text-gray-300"
-                        }
+                {tab}
+              </button>
+            ))}
+          </div>
+        </div>
+  
+        <div className="p-4">
+          {/* Description Tab */}
+          {selectedTabSmall === "Description" && (
+            <div className="text-sm text-gray-700">
+              <p className="leading-relaxed">{productDetails.description}</p>
+              
+              <div className="mt-6">
+                <h3 className="text-sm font-semibold mb-3">Product Specifications</h3>
+                <div className="bg-gray-50 rounded-sm p-3">
+                  <table className="w-full text-left text-xs text-gray-700">
+                    <tbody>
+                      <tr className="border-b border-gray-200">
+                        <th className="py-2 pr-4 font-medium">Fabric</th>
+                        <td className="py-2 pr-6">Bio-washed Cotton</td>
+                        <th className="py-2 pr-4 font-medium">Pattern</th>
+                        <td className="py-2 pr-6">Printed</td>
+                        <th className="py-2 pr-4 font-medium">Fit</th>
+                        <td className="py-2">Regular-fit</td>
+                      </tr>
+                      <tr>
+                        <th className="py-2 pr-4 font-medium">Neck</th>
+                        <td className="py-2 pr-6">Round Neck</td>
+                        <th className="py-2 pr-4 font-medium">Sleeve</th>
+                        <td className="py-2 pr-6">Half-sleeves</td>
+                        <th className="py-2 pr-4 font-medium">Style</th>
+                        <td className="py-2">Casual Wear</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          )}
+  
+          {/* Reviews Tab */}
+          {selectedTabSmall === "Reviews" && (
+            <div>
+              <h2 className="text-base font-semibold mb-4">Customer Reviews</h2>
+  
+              {/* Review List */}
+              <div className="space-y-4">
+                {reviews.map((review) => (
+                  <div
+                    key={review._id}
+                    className="flex gap-3 p-3 border border-gray-100 rounded-sm"
+                  >
+                    <div className="w-10 h-10 rounded-full overflow-hidden bg-gray-200 flex-shrink-0">
+                      <img
+                        src={review?.userId?.profileImage}
+                        alt="Reviewer"
+                        className="w-full h-full object-cover"
                       />
+                    </div>
+                    <div className="flex-1">
+                      <div className="flex items-center">
+                        {[...Array(5)].map((_, i) => (
+                          <Star
+                            key={i}
+                            size={12}
+                            className={
+                              i < review.rating
+                                ? "text-yellow-500 fill-yellow-500"
+                                : "text-gray-300"
+                            }
+                          />
+                        ))}
+                      </div>
+                      <p className="text-xs text-gray-700 mt-1 mb-2">{review.comment}</p>
+                      <div className="flex justify-between items-center text-xxs text-gray-500">
+                        <p>{review.userId.email}</p>
+                        <p>{review.updatedAt.split("T")[0]}</p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+  
+              {/* Add New Review */}
+              <div className="mt-6 p-4 border border-gray-200 rounded-sm">
+                <h3 className="text-sm font-semibold mb-3">Write a Review</h3>
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="w-8 h-8 rounded-full overflow-hidden bg-gray-200 flex-shrink-0 flex items-center justify-center">
+                    {user?.profileImage ? (
+                      <img
+                        src={user.profileImage}
+                        alt="Your Profile"
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <span className="text-gray-500 text-xs">You</span>
+                    )}
+                  </div>
+  
+                  <div className="flex gap-1">
+                    {[...Array(5)].map((_, i) => (
+                      <button
+                        key={i}
+                        onClick={() => setNewReview({ ...newReview, rating: i + 1 })}
+                        className="focus:outline-none"
+                      >
+                        <Star
+                          size={16}
+                          className={
+                            i < newReview.rating
+                              ? "text-yellow-400 fill-yellow-400"
+                              : "text-gray-300 hover:text-gray-400"
+                          }
+                        />
+                      </button>
                     ))}
                   </div>
-                  <p className="text-gray-600 mt-1">{review.comment}</p>
-                  <div className="flex gap-3 justify-between">
-                    <p className="text-gray-600 mt-1 text-xs">
-                      {review.userId.email}
-                    </p>
-
-                    <p className="text-gray-600 mt-1 text-xs">
-                      {review.updatedAt.split("T")[0]}
-                    </p>
-                  </div>
                 </div>
+                
+                <textarea
+                  className="w-full p-2 border border-gray-300 rounded-sm text-sm focus:outline-none focus:border-black"
+                  placeholder="Share your experience with this product..."
+                  rows={3}
+                  value={newReview.text}
+                  onChange={(e) => setNewReview({ ...newReview, text: e.target.value })}
+                ></textarea>
+                
+                {err && (
+                  <p className="text-red-500 text-xs mt-1">
+                    Please write your review before submitting
+                  </p>
+                )}
+                
+                <button
+                  className="mt-3 px-4 py-2 bg-black text-white text-xs font-medium rounded-sm hover:bg-gray-900 transition-colors"
+                  onClick={handleSubmitReview}
+                >
+                  Submit Review
+                </button>
               </div>
-            ))}
-
-            {/* Add New Review */}
-            <div className="mt-6 p-4 border rounded">
-              <h3 className="text-lg font-semibold mb-2">Add a Review</h3>
-              <div className="flex items-center space-x-4">
-                <div className="w-12 h-12 rounded-full overflow-hidden bg-gray-300 flex items-center justify-center">
-                  {user?.profileImage ? (
-                    <img
-                      src={user.profileImage}
-                      alt="Profile"
-                      className="w-full h-full object-cover"
-                    />
-                  ) : (
-                    <span className="text-gray-500 text-sm">No Image</span> // Optional placeholder text
-                  )}
-                </div>
-
-                {/* Profile Placeholder */}
-                <div className="flex space-x-1">
-                  {[...Array(5)].map((_, i) => (
-                    <button
-                      key={i}
-                      onClick={() =>
-                        setNewReview({ ...newReview, rating: i + 1 })
-                      }
-                    >
-                      <Star
-                        size={20}
-                        className={
-                          i < newReview.rating
-                            ? "text-yellow-500 fill-yellow-500"
-                            : "text-gray-300"
-                        }
-                      />
-                    </button>
-                  ))}
-                </div>
-              </div>
-              <textarea
-                className="w-full mt-2 p-2 border rounded"
-                placeholder="Write your review..."
-                value={newReview.text}
-                onChange={(e) =>
-                  setNewReview({ ...newReview, text: e.target.value })
-                }
-              ></textarea>
-              {err && (
-                <p className=" text-red-500 text-sm">
-                  Please enter the description
-                </p>
-              )}
-              <button
-                className="mt-2 px-4 py-2 bg-black text-white border hover:bg-white hover:text-black"
-                onClick={handleSubmitReview}
-              >
-                Submit Review
-              </button>
             </div>
-          </div>
-        )}
-        {selectedTabSmall == "Question&Answer" && (
-          <p className="text-gray-600 mb-4">QA</p>
-        )}
-        <table className="w-full text-left text-gray-600">
-          <tbody>
-            <tr>
-              <th className="py-2">Fabric</th>
-              <td className="py-2">Bio-washed Cotton</td>
-              <th className="py-2">Pattern</th>
-              <td className="py-2">Printed</td>
-              <th className="py-2">Fit</th>
-              <td className="py-2">Regular-fit</td>
-            </tr>
-            <tr>
-              <th className="py-2">Neck</th>
-              <td className="py-2">Round Neck</td>
-              <th className="py-2">Sleeve</th>
-              <td className="py-2">Half-sleeves</td>
-              <th className="py-2">Style</th>
-              <td className="py-2">Casual Wear</td>
-            </tr>
-          </tbody>
-        </table>
+          )}
+  
+          {/* Q&A Tab */}
+          {selectedTabSmall === "Question&Answer" && (
+            <div className="py-4">
+              <div className="flex flex-col items-center justify-center py-6 text-gray-600">
+                <i className="fas fa-comments text-3xl mb-3 text-gray-400"></i>
+                <p className="text-sm">No questions yet. Be the first to ask!</p>
+                <button className="mt-3 px-4 py-2 bg-black text-white text-xs rounded-sm hover:bg-gray-900 transition-colors">
+                  Ask a Question
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
+  
       {/* Similar Products */}
-      <div className="bg-white p-6 rounded-lg shadow-md mt-6">
-        <h2 className="text-xl font-bold mb-4">Similar Products</h2>
+      <div className="bg-white rounded-md shadow-md mt-6 p-4 border border-gray-100">
+        <h2 className="text-base font-bold mb-4">You May Also Like</h2>
         {loading ? (
           <SimilarProductsShimmer />
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {similarProducts.map((product, index) => (
               <div
                 key={index}
                 onClick={() => handleProductView(product)}
-                className="bg-white p-4 rounded-lg shadow-md"
+                className="bg-white overflow-hidden border border-gray-100 transition-all hover:shadow-md cursor-pointer"
               >
-                <img
-                  alt={product?.name}
-                  className="w-full rounded-lg mb-4"
-                  height="400"
-                  src={product?.variants[0]?.productImages[0]}
-                  width="300"
-                />
-                <h3 className="text-lg font-semibold">{product?.name}</h3>
-                <p className="text-gray-600">{product?.brand}</p>
-                <p className="text-lg font-bold">
-                  ${product?.variants[0]?.discount_price}
-                </p>
+                <div className="h-48 overflow-hidden">
+                  <img
+                    alt={product?.name}
+                    className="w-full h-full object-cover transition-transform hover:scale-105"
+                    src={product?.variants[0]?.productImages[0]}
+                  />
+                </div>
+                <div className="p-3">
+                  <h3 className="text-xs font-medium text-gray-800 mb-1 truncate">{product?.name}</h3>
+                  <p className="text-xs text-gray-500 mb-1">{product?.brand}</p>
+                  <p className="text-sm font-bold text-black">₹{product?.variants[0]?.discount_price}</p>
+                </div>
               </div>
             ))}
           </div>

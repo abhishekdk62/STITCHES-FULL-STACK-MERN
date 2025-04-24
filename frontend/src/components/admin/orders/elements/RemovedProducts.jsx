@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import toast from "react-hot-toast";
 import { fetchProducts, restoreProduct } from "../../../../services/productService";
+import { useDebounce } from "../../../../../utils/useDebounce";
 
 
 
@@ -21,6 +22,7 @@ const RemovedProducts = ({ setShowRemoved }) => {
   const [error, setError] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const debouncedValue=useDebounce(searchInput.trim(),500)
 
   const fetchProductsHandler = async (query = "", page = 1) => {
     try {
@@ -95,13 +97,13 @@ const RemovedProducts = ({ setShowRemoved }) => {
     }
   };
 
-  const handleSearch = () => {
-    fetchProductsHandler(searchInput.trim(), 1);
-  };
-
+ 
   useEffect(() => {
     fetchProductsHandler("", 1);
   }, []);
+  useEffect(()=>{
+fetchProductsHandler(debouncedValue)
+  },[debouncedValue])
 
   useEffect(() => {
     fetchProductsHandler(searchInput.trim(), currentPage);
@@ -118,7 +120,6 @@ const RemovedProducts = ({ setShowRemoved }) => {
           <h1 className="text-3xl font-bold">Removed Products</h1>
         </div>
 
-        {/* Controls Bar */}
         <div className="bg-white p-5 rounded-lg shadow-md mb-6">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <div className="w-full md:w-auto flex flex-col md:flex-row items-center gap-4">
@@ -132,7 +133,6 @@ const RemovedProducts = ({ setShowRemoved }) => {
                   className="pl-10 pr-10 py-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black/70"
                   value={searchInput}
                   onChange={(e) => setSearchInput(e.target.value)}
-                  onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
                 />
                 {searchInput && (
                   <button
@@ -146,22 +146,10 @@ const RemovedProducts = ({ setShowRemoved }) => {
                   </button>
                 )}
               </div>
-              <button
-                onClick={handleSearch}
-                className="bg-black text-white px-4 py-2 rounded-md flex items-center transition-all hover:bg-gray-800 w-full md:w-auto justify-center"
-              >
-                <Search size={18} className="mr-2" />
-                <span>Search</span>
-              </button>
+         
             </div>
             <div className="flex gap-4 w-full md:w-auto">
-              <button
-                onClick={() => fetchProductsHandler(searchInput.trim(), currentPage)}
-                className="bg-white text-black border border-gray-300 px-4 py-2 rounded-md flex items-center transition-all hover:bg-gray-100 w-full md:w-auto justify-center"
-              >
-                <RefreshCw size={18} className="mr-2" />
-                <span>Refresh</span>
-              </button>
+            
               <button
                 onClick={() => setShowRemoved(false)}
                 className="bg-black text-white px-4 py-2 rounded-md flex items-center transition-all hover:bg-gray-800 w-full md:w-auto justify-center"
@@ -221,7 +209,7 @@ const RemovedProducts = ({ setShowRemoved }) => {
                     </div>
                     <div className="flex items-center gap-3">
                       <div className="text-sm text-gray-600">
-                        ${product.discount_price || "0.00"} | {product.color || "N/A"} | {product.size || "N/A"}
+                      ₹{product.discount_price || "0.00"} | {product.color || "N/A"} | {product.size || "N/A"}
                       </div>
                       <div className="flex gap-2">
                         <button

@@ -92,8 +92,8 @@ const SalesTable = ({
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-bold text-gray-900">{formatCurrency(totaldiscount)}</td>
               )}
               <td className="px-6 py-4 whitespace-nowrap text-sm font-bold text-gray-900">----------</td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm font-bold text-gray-900">----------</td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm font-bold text-gray-900">{totalShippingCharge}</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center font-bold text-gray-900">----------</td>
+              <td className="px-6 py-4 text-center whitespace-nowrap text-sm font-bold text-gray-900">{totalShippingCharge}</td>
             </tr>
           </tfoot>
         </table>

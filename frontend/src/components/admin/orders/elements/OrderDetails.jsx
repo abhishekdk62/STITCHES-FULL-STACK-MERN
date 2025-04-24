@@ -103,7 +103,7 @@ const OrderDetails = ({
                         <div className="grid grid-cols-2 gap-x-6 gap-y-2 text-sm w-full md:w-auto">
                           <div className="text-gray-500">Price:</div>
                           <div className="font-medium">
-                            ${item.price?.toFixed(2) || "0.00"}
+                          ₹{item.price?.toFixed(2) || "0.00"}
                           </div>
                           <div className="text-gray-500">Quantity:</div>
                           <div className="font-medium">{item.quantity}</div>

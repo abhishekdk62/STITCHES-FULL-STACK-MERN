@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import OrderList from "./elements/OrderList";
 import { fetchOrdersAdmin } from "../../../services/orderServices";
+import { useDebounce } from "../../../../utils/useDebounce";
 
 const Orders = ({ setActiveTab }) => {
   const [orderList, setOrderList] = useState([]);
@@ -9,6 +10,7 @@ const Orders = ({ setActiveTab }) => {
   const [error, setError] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const debouncedValue = useDebounce(searchInput.trim(), 500);
 
   const getOrders = async (search = "", page = 1) => {
     setLoading(true);
@@ -27,7 +29,9 @@ const Orders = ({ setActiveTab }) => {
   useEffect(() => {
     getOrders();
   }, []);
-
+  useEffect(() => {
+    getOrders(debouncedValue);
+  }, [debouncedValue]);
   return (
     <OrderList
       orderList={orderList}

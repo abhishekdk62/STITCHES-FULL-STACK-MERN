@@ -4,8 +4,7 @@ const User = require("../../models/userSchema");
 const generateToken = require("../../utils/generateToken");
 const jwt = require("jsonwebtoken");
 
-
-const login = async (req, res) => { 
+const login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
@@ -18,9 +17,10 @@ const login = async (req, res) => {
         return res.status(400).json({ message: "Incorrect Email address" });
       }
       if (user.status !== "Active") {
-        return res.status(403).json({ message: "Your account is blocked. Contact support." });
+        return res
+          .status(403)
+          .json({ message: "Your account is blocked. Contact support." });
       }
-      
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
@@ -28,32 +28,40 @@ const login = async (req, res) => {
       return res.status(400).json({ message: "Incorrect Password" });
     }
 
-//generate token 
+    //generate token
 
-    const accessToken = generateToken(user._id, role,process.env.ACCESS_SECRET,"15m");
-    const refreshToken = generateToken(user._id, role,process.env.REFRESH_SECRET,"7d");
+    const accessToken = generateToken(
+      user._id,
+      role,
+      process.env.ACCESS_SECRET,
+      "15m"
+    );
+    const refreshToken = generateToken(
+      user._id,
+      role,
+      process.env.REFRESH_SECRET,
+      "7d"
+    );
 
     res.cookie("accessToken", accessToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",
-      maxAge: Number(process.env.ACCESS_TOKEN_MAX_AGE), 
+      maxAge: Number(process.env.ACCESS_TOKEN_MAX_AGE),
     });
 
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",
-      maxAge: Number(process.env.REFRESH_TOKEN_MAX_AGE), 
+      maxAge: Number(process.env.REFRESH_TOKEN_MAX_AGE),
     });
 
-    
     res.status(200).json({
       message: "Login successful",
       userId: user._id,
-      role: role
+      role: role,
     });
-
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -63,7 +71,6 @@ const updateProfile = async (req, res) => {
   try {
     const { _id, status } = req.body;
 
-  
     const user = await User.findById(_id);
     if (!user) {
       return res.status(400).json({ message: "User not found" });
@@ -84,18 +91,18 @@ const updateProfile = async (req, res) => {
 
 const logout = async (req, res) => {
   try {
-    res.clearCookie('accessToken', { 
-      httpOnly: true, 
-      sameSite: 'lax', 
-      secure: process.env.NODE_ENV === "production" 
+    res.clearCookie("accessToken", {
+      httpOnly: true,
+      sameSite: "lax",
+      secure: process.env.NODE_ENV === "production",
     });
-    
-    res.clearCookie('refreshToken', { 
-      httpOnly: true, 
-      sameSite: 'lax', 
-      secure: process.env.NODE_ENV === "production" 
+
+    res.clearCookie("refreshToken", {
+      httpOnly: true,
+      sameSite: "lax",
+      secure: process.env.NODE_ENV === "production",
     });
-    
+
     res.status(200).json({ message: "Logged out successfully" });
   } catch (error) {
     res.status(500).json({ message: "Server error", error });
@@ -103,7 +110,6 @@ const logout = async (req, res) => {
 };
 
 const check = async (req, res) => {
-
   try {
     const accessToken = req.cookies.accessToken;
     if (!accessToken) {
@@ -116,26 +122,19 @@ const check = async (req, res) => {
       if (!user) {
         return res.status(401).json({ message: "User not found" });
       }
-      if (user.status !== "Active") { 
-        return res.status(403).json({ message: "Your account is blocked. Please sign in again." });
+      if (user.status !== "Active") {
+        return res
+          .status(403)
+          .json({ message: "Your account is blocked. Please sign in again." });
       }
-    } 
+    }
     const user = await User.findById(decoded.id).populate("addresses");
 
-    res.status(200).json({ userId: decoded.id, role: decoded.role ,user});
+    res.status(200).json({ userId: decoded.id, role: decoded.role, user });
   } catch (error) {
     console.error("JWT Error:", error);
     res.status(401).json({ message: "Invalid or expired token" });
   }
 };
 
-
-
-
-
-
-
-
-
-
-module.exports = { login,logout,check, updateProfile };
+module.exports = { login, logout, check, updateProfile };

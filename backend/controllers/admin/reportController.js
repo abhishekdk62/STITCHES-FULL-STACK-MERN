@@ -1,4 +1,6 @@
 const Orders = require("../../models/orderSchema");
+const Products = require("../../models/productSchema");
+const Category = require("../../models/categorySchema");
 
 const getSalesReport = async (req, res) => {
   try {
@@ -10,7 +12,7 @@ const getSalesReport = async (req, res) => {
     const end = e ? new Date(e) : null;
     function isSameWeek(d1, d2) {
       const startOfWeek = new Date(d2);
-      startOfWeek.setDate(d2.getDate() - d2.getDay()); // Sunday
+      startOfWeek.setDate(d2.getDate() - d2.getDay());
       startOfWeek.setHours(0, 0, 0, 0);
 
       const endOfWeek = new Date(startOfWeek);
@@ -120,4 +122,62 @@ const getSalesReport = async (req, res) => {
   }
 };
 
-module.exports = { getSalesReport };
+const getTopSellers = async (req, res) => {
+  try {
+    // 🔥 1 DB call, but we populate each item’s product (only the 'name', 'brand', and 'category' fields)
+    const orders = await Orders.find({ /* your filter */ })
+      .populate({
+        path: 'items.product',
+        select: 'name brand category'
+      });
+
+    let topBrands    = {};
+    let topCategory  = {};
+    let topProduct   = {};
+
+    const categoryIds = new Set();
+    orders.forEach(o =>
+      o.items.forEach(i => {
+        if (i.status === 'Delivered') {
+          categoryIds.add(i.product.category.toString());
+        }
+      })
+    );
+
+    // Optionally populate categories once
+    const categories = await Category.find({
+      _id: { $in: Array.from(categoryIds) }
+    }).select('name');
+    const categoryMap = categories.reduce((map, c) => {
+      map[c._id.toString()] = c.name;
+      return map;
+    }, {});
+
+    // Now tally up using the populated product docs
+    orders.forEach(o =>
+      o.items.forEach(i => {
+        if (i.status !== 'Delivered') return;
+
+        const prod = i.product;       // ← already populated
+        if (!prod) return;
+
+        // Brand
+        topBrands[prod.brand] = (topBrands[prod.brand] || 0) + i.quantity;
+
+        const catName = categoryMap[prod.category.toString()];
+        topCategory[catName] = (topCategory[catName] || 0) + i.quantity;
+
+        topProduct[prod.name] = (topProduct[prod.name] || 0) + i.quantity;
+      })
+    );
+
+    return res.json({ topBrands, topCategory, topProduct });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: 'Server error', error: err.message });
+  }
+};
+
+
+
+module.exports = { getSalesReport,getTopSellers };

@@ -18,16 +18,11 @@ const OrderList = ({
 }) => {
   const [expandedOrder, setExpandedOrder] = useState(null);
 
-  // 1️⃣ Whenever page changes, re-fetch with current search term
   useEffect(() => {
     getOrders(searchInput.trim(), currentPage);
   }, [currentPage]);
 
-  const handleSearch = () => {
-    // jump back to page 1 on new search
-    setCurrentPage(1);
-    getOrders(searchInput.trim(), 1);
-  };
+ 
 
   const toggleOrderExpansion = (orderId) => {
     setExpandedOrder(expandedOrder === orderId ? null : orderId);
@@ -58,7 +53,6 @@ const OrderList = ({
                   className="pl-10 pr-10 py-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black/70"
                   value={searchInput}
                   onChange={(e) => setSearchInput(e.target.value)}
-                  onKeyPress={(e) => e.key === "Enter" && handleSearch()}
                 />
                 {searchInput && (
                   <button
@@ -73,24 +67,8 @@ const OrderList = ({
                   </button>
                 )}
               </div>
-              <button
-                onClick={handleSearch}
-                className="bg-black text-white px-4 py-2 rounded-md flex items-center transition-all hover:bg-gray-800 w-full md:w-auto justify-center"
-              >
-                <Search size={18} className="mr-2" />
-                Search
-              </button>
-              <button
-                onClick={() => {
-                  setSearchInput("");
-                  setCurrentPage(1);
-                  getOrders("", 1);
-                }}
-                className="bg-white text-black border border-gray-300 px-4 py-2 rounded-md flex items-center transition-all hover:bg-gray-100 w-full md:w-auto justify-center"
-              >
-                <RefreshCw size={18} className="mr-2" />
-                Refresh
-              </button>
+            
+        
             </div>
             <button
               className="bg-black text-white px-4 py-2 rounded-md flex items-center transition-all hover:bg-gray-800 w-full md:w-auto justify-center"

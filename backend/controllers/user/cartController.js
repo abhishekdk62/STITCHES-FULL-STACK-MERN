@@ -64,7 +64,7 @@ const addToCart = async (req, res) => {
     );
     cart.tax = parseFloat(cart.tax.toFixed(2));
 
-    cart.shippingPrice = cart.totalPrice > 499 ? 0 : 50;
+    cart.shippingPrice = cart.totalPrice > 1000 ? 0 : 50;
     await cart.save();
     res.status(200).json({ message: "Product added to cart", cart });
   } catch (error) {
@@ -112,6 +112,7 @@ const changeQuantity = async (req, res) => {
       (total, item) => total + item.price * item.quantity,
       0
     );
+    cart.shippingPrice = cart.totalPrice > 1000 ? 0 : 50;
 
     // ✅ Update tax
     let taxRate = 0.12;
@@ -173,6 +174,8 @@ const deleteItem = async (req, res) => {
       (total, item) => total + item.price * item.quantity,
       0
     );
+    cart.shippingPrice = cart.totalPrice > 1000 ? 0 : 50;
+
     await cart.save();
     return res.status(200).json({ message: "Item removed successfully", cart });
   } catch (error) {

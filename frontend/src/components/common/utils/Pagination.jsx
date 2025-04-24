@@ -2,13 +2,13 @@
 import React from "react";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 
-const Pagination = ({ currentPage, totalPages, setCurrentPage }) => {
+const Pagination = ({ currentPage, totalPages, setCurrentPage,loading=false }) => {
   return (
     <div className="flex justify-center items-center space-x-4">
       <button
         onClick={() => currentPage > 1 && setCurrentPage(currentPage - 1)}
-        disabled={currentPage <= 1}
-        className="h-10 w-10 flex items-center justify-center rounded-md bg-gray-100 text-gray-700 hover:bg-gray-200 disabled:opacity-50 disabled:hover:bg-gray-100 transition-colors"
+        disabled={currentPage <= 1||loading}
+        className={`h-10 w-10 flex items-center justify-center rounded-md bg-gray-100 ${loading?"text-gray-400":"text-gray-700"} hover:bg-gray-200 disabled:opacity-50 disabled:hover:bg-gray-100 transition-colors`}
         aria-label="Previous page"
       >
         <ArrowLeft size={18} />
@@ -20,8 +20,8 @@ const Pagination = ({ currentPage, totalPages, setCurrentPage }) => {
 
       <button
         onClick={() => currentPage < totalPages && setCurrentPage(currentPage + 1)}
-        disabled={currentPage >= totalPages}
-        className="h-10 w-10 flex items-center justify-center rounded-md bg-gray-100 text-gray-700 hover:bg-gray-200 disabled:opacity-50 disabled:hover:bg-gray-100 transition-colors"
+        disabled={currentPage >= totalPages||loading}
+        className={`h-10 w-10 flex items-center justify-center rounded-md bg-gray-100 ${loading?"text-gray-400":"text-gray-700"} hover:bg-gray-200 disabled:opacity-50 disabled:hover:bg-gray-100 transition-colors`}
         aria-label="Next page"
       >
         <ArrowRight size={18} />

@@ -38,3 +38,13 @@ export const captureWalletPaymentApi = async ( orderID, userId ) => {
   };
   
   
+
+ export const fetchTransactionsService=async(query,page,)=>{
+  try {
+    const response=await apiClient.get(`/admin/transactions?query=${query}&page=${page}`)
+    return response
+  } catch (error) {
+    throw error
+  }
+
+ }

@@ -8,6 +8,7 @@ import FiltersSection from "./elements/FiltersSection";
 import SalesTable from "./elements/SalesTable";
 import SalesTrendChart from "./elements/SalesTrendChart";
 import { downloadExcel, downloadPDF } from "./elements/ReportDownload";
+import TopSelling from "./elements/TopSelling";
 
 const Report = () => {
   const [salesReportData, setSalesReportData] = useState();
@@ -44,7 +45,7 @@ const Report = () => {
   const formatCurrency = (value) => {
     return new Intl.NumberFormat("en-US", {
       style: "currency",
-      currency: "USD",
+      currency: "INR",
       minimumFractionDigits: 2,
     }).format(value);
   };
@@ -83,6 +84,7 @@ const Report = () => {
           showFilters={showFilters}
           setShowFilters={setShowFilters}
         />
+    
 
         {salesReportData && (
           <>
@@ -111,6 +113,15 @@ const Report = () => {
                 </button>
               </div>
             </div>
+
+            <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+          className="mb-8"
+        >
+          <TopSelling />
+        </motion.div>
 
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -146,6 +157,8 @@ const Report = () => {
             </motion.div>
           </>
         )}
+
+
       </div>
     </motion.div>
   );

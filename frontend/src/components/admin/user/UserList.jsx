@@ -5,6 +5,7 @@ import SearchBar from "./elements/SearchBar";
 import CustomerList from "./elements/CustomerList";
 import Pagination from "./elements/Pagination";
 import ShimmerUI from "./elements/ShimmerUI";
+import { useDebounce } from "../../../../utils/useDebounce";
 
 const UserList = () => {
   const [userList, setUserList] = useState([]);
@@ -13,6 +14,7 @@ const UserList = () => {
   const [error, setError] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const debouncedValue=useDebounce(searchInput,500)
 
   const getUsers = async (searchQuery = "", page = 1) => {
     setLoading(true);
@@ -45,9 +47,9 @@ const UserList = () => {
     getUsers("", 1);
   }, []);
 
-  const handleSearch = () => {
-    getUsers(searchInput.trim(), 1);
-  };
+useEffect(()=>{
+getUsers(debouncedValue)
+},[debouncedValue])
 
   const handleUpdateStatus = async (id, status) => {
     try {
@@ -80,7 +82,6 @@ const UserList = () => {
         <SearchBar
           searchInput={searchInput}
           setSearchInput={setSearchInput}
-          handleSearch={handleSearch}
           getUsers={getUsers}
         />
 

@@ -8,6 +8,7 @@ router.use("/", require("./userRoutes"));
 router.use("/", require("./returnRoutes"));
 router.use("/", require("./orderRoutes"));
 router.use("/", require("./reportRoutes"));
+router.use("/", require("./transactionRoutes"));
 
 module.exports = router;
 

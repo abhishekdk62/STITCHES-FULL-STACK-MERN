@@ -5,6 +5,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { login } from "../../../../slices/authSlice";
 import { loginUser } from "../../../services/userService";
+import SplitText from "../utils/SplitText";
 
 const LoginForm = ({ setForgotPassword }) => {
   const [email, setEmail] = useState("");
@@ -16,13 +17,16 @@ const LoginForm = ({ setForgotPassword }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [searchParams] = useSearchParams();
+const [err,setErr]=useState(false)
+  const handleAnimationComplete = () => {
+    console.log("All letters have animated!");
+  };
 
-  // Check for OAuth error parameters on component mount
   useEffect(() => {
     const oauthError = searchParams.get("error");
     if (oauthError) {
       setError(decodeURIComponent(oauthError));
-     
+
       const url = new URL(window.location.href);
       url.searchParams.delete("error");
       window.history.replaceState({}, "", url);
@@ -32,23 +36,27 @@ const LoginForm = ({ setForgotPassword }) => {
   const handleLogin = async (e) => {
     e.preventDefault();
     setError(null);
-  
+
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     if (!email) {
-      alert("Error: Email address is required");
+
+      setError("Email address is required")
+
       return;
     }
     if (!emailRegex.test(email)) {
-      alert("Error: Please enter a valid email address");
+      setError("Please enter a valid email address");
       return;
     }
     // Validate password
     if (!password) {
-      alert("Error: Password is required");
+      setError("Password is required")
+
       return;
     }
     if (password.length < 6) {
-      alert("Error: Password must be at least 6 characters long");
+      setError("Password must be at least 6 characters long")
+
       return;
     }
     setLoading(true);
@@ -57,11 +65,10 @@ const LoginForm = ({ setForgotPassword }) => {
       const res = await loginUser(email, password);
       console.log(res);
       const { userId, role } = res; // Expecting backend to send userId and role
-      dispatch(login({ userId, role })); 
+      dispatch(login({ userId, role }));
       navigate(role === "admin" ? "/admin/dashboard" : "/user/home");
     } catch (err) {
       setError(err.response?.data?.message || "Login failed");
-      alert(`Error: ${err.response?.data?.message || "Login failed"}`);
     } finally {
       setLoading(false);
     }
@@ -87,7 +94,6 @@ const LoginForm = ({ setForgotPassword }) => {
         transition={{ duration: 0.6 }}
         className=" w-2xl relative"
       >
-
         <motion.div
           className="bg-white z-10 overflow-hidden"
           whileHover={{ y: -5 }}
@@ -99,10 +105,45 @@ const LoginForm = ({ setForgotPassword }) => {
                 <div className="flex items-center justify-center mb-2">
                   <User className="w-6 h-6 text-black mr-2" />
                   <h2 className="text-2xl font-bold  text-black tracking-tight">
-                    Welcome Back
+                    <SplitText
+                      size={"2xl"}
+                      text="Welcome Back!"
+                      // className="text-2xl font-semibold text-center"
+                      delay={10}
+                      animationFrom={{
+                        opacity: 0,
+                        transform: "translate3d(0,50px,0)",
+                      }}
+                      animationTo={{
+                        opacity: 1,
+                        transform: "translate3d(0,0,0)",
+                      }}
+                      easing="easeOutCubic"
+                      threshold={0.2}
+                      rootMargin="-50px"
+                      onLetterAnimationComplete={handleAnimationComplete}
+                    />
                   </h2>
                 </div>
-                <h1 className="text-3xl font-bold text-black">Sign In</h1>
+
+                <h1 className="text-3xl font-bold text-black"> <SplitText
+                  size={"4xl"}
+                    text="Sign In"
+                    // className="text-2xl font-semibold text-center"
+                    delay={10}
+                    animationFrom={{
+                      opacity: 0,
+                      transform: "translate3d(0,50px,0)",
+                    }}
+                    animationTo={{
+                      opacity: 1,
+                      transform: "translate3d(0,0,0)",
+                    }}
+                    easing="easeOutCubic"
+                    threshold={0.2}
+                    rootMargin="-50px"
+                    onLetterAnimationComplete={handleAnimationComplete}
+                  />   </h1>
               </div>
             </div>
 

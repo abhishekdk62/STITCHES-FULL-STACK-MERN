@@ -324,7 +324,7 @@ export default function ShoppingCart() {
                   {/* Price */}
                   <div className="mb-4 md:mb-0">
                     <p className="text-gray-500 text-sm">Price</p>
-                    <p className="font-medium">${item.price}</p>
+                    <p className="font-medium">₹{item.price}</p>
                   </div>
 
                   {/* Quantity */}
@@ -358,7 +358,7 @@ export default function ShoppingCart() {
                   {/* Subtotal */}
                   <div>
                     <p className="text-gray-500 text-sm">Subtotal</p>
-                    <p className="font-bold">${(item.price * item.quantity).toFixed(2)}</p>
+                    <p className="font-bold">₹{(item.price * item.quantity).toFixed(2)}</p>
                   </div>
                 </div>
               </div>
@@ -377,7 +377,7 @@ export default function ShoppingCart() {
         <div className="flex flex-col md:flex-row justify-between items-center">
           <div className="mb-4 md:mb-0">
             <p className="text-gray-500 mb-1">Total ({cartItems.items.length} items)</p>
-            <p className="text-2xl font-bold">${cartItems.totalPrice?.toFixed(2) || 0}</p>
+            <p className="text-2xl font-bold">₹{cartItems.totalPrice?.toFixed(2) || 0}</p>
           </div>
           <motion.button
             variants={buttonVariants}

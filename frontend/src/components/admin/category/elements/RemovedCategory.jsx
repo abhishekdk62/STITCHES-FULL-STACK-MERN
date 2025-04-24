@@ -6,6 +6,7 @@ import { fetchCategories } from "../../../../services/categoryService";
 const RemovedCategory = ({ setShowRemovedCategory, showRemovedCategory }) => {
   const [loading, setLoading] = useState(true);
   const [categorieList, setCategoryList] = useState([]);
+  
 
   const fetchCategoriesHandler = async () => {
     try {

@@ -25,6 +25,9 @@ const refreshToken =(req,res)=>{
         sameSite: "lax",
         maxAge: Number(process.env.ACCESS_TOKEN_MAX_AGE), 
       });
+      console.log("access token ",accessToken);
+      console.log("refresh token",refreshToken);
+      
 
       return res.status(200).json({ message: "Access token refreshed successfully!" });
     } catch (jwtError) {

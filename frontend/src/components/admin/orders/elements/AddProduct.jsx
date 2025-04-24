@@ -145,8 +145,8 @@ const AddProduct = ({ setShowAddProduct }) => {
         setError("Error: Please enter a base price");
         return false;
       }
-      if (Number(basePrice) < 5000) {
-        setError("Error: Base price must be at least 5000");
+      if (Number(basePrice) < 0) {
+        setError("Error: Base price must be greater than 0");
         return false;
       }
       if (!discountPrice) {
@@ -157,6 +157,10 @@ const AddProduct = ({ setShowAddProduct }) => {
         setError("Error: Discount price cannot be more than base price");
         return false;
       }
+      if (Number(discountPrice) < 0) {
+        setError("Error: Discount price must be more than 0");
+        return false;
+      }
       if (!stock) {
         setError("Error: Please enter the stock quantity");
         return false;
@@ -165,7 +169,6 @@ const AddProduct = ({ setShowAddProduct }) => {
         setError("Error: Stock must be greater than 0");
         return false;
       }
-      // Ensure at least 2 valid images
       if (
         !productImages ||
         productImages.filter((img) => img && img.trim() !== "").length < 2
@@ -173,7 +176,7 @@ const AddProduct = ({ setShowAddProduct }) => {
         setError("Error: Variant must have at least 2 images");
         return false;
       }
-      setError(""); // Clear error if validations pass
+      setError(""); 
       return true;
     };
   

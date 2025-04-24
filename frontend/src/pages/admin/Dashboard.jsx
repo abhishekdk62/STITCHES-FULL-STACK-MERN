@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
 import Sidebar from "../../components/admin/Sidebar"; // Import your custom Sidebar
-import Header from "../../components/user/common/Header";
+
+
+import Header from "../../components/common/utils/Header";
+
+
 import Category from "../../components/admin/category/Category";
 import Customer from "../../components/admin/user/UserList";
 import Products from "../../components/admin/orders/Products";
@@ -10,12 +14,10 @@ import OrdersInfo from "../../components/admin/orders/OrdersInfo";
 import AdminReturnRequests from "../../components/admin/orders/AdminReturnRequests";
 import Offers from "../../components/admin/offer/Offers";
 import Report from "../../components/admin/report/Report";
-
+import Transactions from "../../components/admin/transactions/Transactions";
 const Dashboard = () => {
-  const [activeTab, setActiveTab] = useState(localStorage.getItem("activeTab"));
-  useEffect(()=>{
-    localStorage.setItem("activeTab",activeTab)
-  },[activeTab])
+  const [activeTab, setActiveTab] = useState("order");
+ 
   const[selectedTab,setSelectedTab]=useState("view")
   return (
     <>
@@ -32,6 +34,7 @@ const Dashboard = () => {
           {activeTab === "returns" && <AdminReturnRequests activeTab={activeTab} setActiveTab={setActiveTab} />}
           {activeTab === "offers" && <Offers activeTab={activeTab} setActiveTab={setActiveTab} />}
           {activeTab === "report" && <Report activeTab={activeTab} setActiveTab={setActiveTab} />}
+          {activeTab === "transactions" && <Transactions activeTab={activeTab} setActiveTab={setActiveTab} />}
         </div>
       </div>
     </>

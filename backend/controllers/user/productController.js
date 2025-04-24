@@ -1,10 +1,8 @@
-
 const Product = require("../../models/productSchema");
 
 const Category = require("../../models/categorySchema");
 
 const { default: mongoose } = require("mongoose");
-
 
 const getNewArrivals = async (req, res) => {
   try {
@@ -25,7 +23,6 @@ const getNewArrivals = async (req, res) => {
     });
   }
 };
-
 
 const categoryWiseProducs = async (req, res) => {
   try {
@@ -61,12 +58,11 @@ const categoryWiseProducs = async (req, res) => {
   }
 };
 
-
 const getSimilarProducts = async (req, res) => {
   try {
     const { categoryId } = req.body;
 
-    const prods = await Product.find({ category: categoryId })
+    const prods = await Product.find({ category: categoryId,isDeleted:false })
       .sort({ createdAt: -1 })
       .limit(10);
 
@@ -82,17 +78,17 @@ const getSimilarProducts = async (req, res) => {
     });
   }
 };
+
 const filteredProducts = async (req, res) => {
   try {
-    const { searchTerm, category, minPrice, maxPrice, sortBy, page, limit } =
+    const { search, category, minPrice, maxPrice, sortBy, page, limit } =
       req.body;
-
     const currentPage = parseInt(page) || 1;
     const perPage = parseInt(limit) || 10;
 
     let match = { isDeleted: false };
-    if (searchTerm) {
-      match.name = { $regex: searchTerm, $options: "i" };
+    if (search && search.trim() !== "") {
+      match.name = { $regex: search.trim(), $options: "i" };
     }
     if (category) {
       match.category = new mongoose.Types.ObjectId(category);
@@ -101,7 +97,6 @@ const filteredProducts = async (req, res) => {
     const pipeline = [];
     pipeline.push({ $match: match });
 
-    // Lookup category details
     pipeline.push({
       $lookup: {
         from: "categories",
@@ -168,7 +163,6 @@ const filteredProducts = async (req, res) => {
   }
 };
 
-
 const searchProducts = async (req, res) => {
   try {
     const searchQuery = req.query.q || "";
@@ -184,7 +178,6 @@ const searchProducts = async (req, res) => {
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
-
 
 module.exports = {
   getNewArrivals,

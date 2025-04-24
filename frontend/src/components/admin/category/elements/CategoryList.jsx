@@ -13,6 +13,8 @@ import CategoryCard from "./CategoryCard";
 import { fetchCategoriesService } from "../../../../services/categoryService";
 import {CategoryCardShimmer} from './CategoryCard'
 import Pagination from "../../../common/utils/Pagination";
+import { useDebounce } from "../../../../../utils/useDebounce";
+import toast from "react-hot-toast";
 const CategoryList = ({
   setShowAddCategory,
   setEditCategory,
@@ -25,6 +27,9 @@ const CategoryList = ({
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+
+  const debouncedValue = useDebounce(searchInput.trim(), 500); 
+
 
   const fetchCategories = async (query = "", page = 1) => {
     try {
@@ -44,21 +49,27 @@ const CategoryList = ({
 
   const refreshData = () => {
     setIsRefreshing(true);
-    fetchCategories(searchInput.trim(), currentPage).finally(() => {
+
+    fetchCategories(debouncedValue, currentPage).finally(() => {
       setTimeout(() => setIsRefreshing(false), 500);
     });
   };
 
   useEffect(() => {
-    fetchCategories("");
+    setCurrentPage(1);
+
+    fetchCategories("",1);
   }, []);
 
   useEffect(() => {
-    fetchCategories(searchInput.trim(), currentPage);
-  }, [currentPage]);
+
+    fetchCategories(debouncedValue, currentPage);
+  }, [currentPage,debouncedValue]);
 
   const handleSearch = () => {
-    fetchCategories(searchInput.trim(), 1);
+    setCurrentPage(1);
+
+    fetchCategories(debouncedValue, 1);
   };
 
   const handleKeyPress = (e) => {
@@ -98,6 +109,7 @@ const CategoryList = ({
                   <button
                     onClick={() => {
                       setSearchInput("");
+                      setCurrentPage(1)
                       fetchCategories("", 1);
                     }}
                     className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"

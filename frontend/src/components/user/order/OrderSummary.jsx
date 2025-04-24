@@ -415,12 +415,12 @@ const couponVariants = {
                 <div>
                   <p className="font-medium">{item?.productId?.name}</p>
                   <div className="flex items-center gap-3 text-sm text-gray-500 mt-1">
-                    <p>${item?.price?.toFixed(2)} × {item?.quantity}</p>
+                    <p>₹{item?.price?.toFixed(2)} × {item?.quantity}</p>
                   </div>
                 </div>
               </div>
               <p className="font-medium">
-                ${(item?.price * item?.quantity).toFixed(2)}
+              ₹{(item?.price * item?.quantity).toFixed(2)}
               </p>
             </motion.div>
           ))}
@@ -442,27 +442,27 @@ const couponVariants = {
         <div className="space-y-3 bg-gray-50 p-6 rounded-lg border border-gray-100">
           <div className="flex justify-between text-gray-700">
             <p>Subtotal</p>
-            <p>${cartItems?.totalPrice?.toFixed(2) || "0.00"}</p>
+            <p>₹{cartItems?.totalPrice?.toFixed(2) || "0.00"}</p>
           </div>
           <div className="flex justify-between text-gray-700">
             <div className="flex items-center gap-2">
               <Truck className="w-4 h-4" />
               <p>Shipping</p>
             </div>
-            <p>${cartItems?.shippingPrice?.toFixed(2) || "0.00"}</p>
+            <p>₹{cartItems?.shippingPrice?.toFixed(2) || "0.00"}</p>
           </div>
           <div className="flex justify-between text-gray-700">
             <p>Tax</p>
-            <p>${cartItems?.tax?.toFixed(2) || "0.00"}</p>
+            <p>₹{cartItems?.tax?.toFixed(2) || "0.00"}</p>
           </div>
          {discount? <div className="flex justify-between text-gray-700">
             <p>Discount</p>
-            <p className="text-green-300">${discount}</p>
+            <p className="text-green-300">₹{discount}</p>
           </div>:null}
           <div className="border-t border-gray-200 pt-3 mt-3"></div>
           <div className="flex justify-between font-bold text-lg">
             <p>Grand Total</p>
-            <p>${finalTotal?.toFixed(2) || "0.00"}</p>
+            <p>₹{finalTotal?.toFixed(2) || "0.00"}</p>
           </div>
         </div>
       </motion.div>

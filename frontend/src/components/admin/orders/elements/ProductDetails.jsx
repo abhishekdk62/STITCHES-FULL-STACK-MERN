@@ -24,11 +24,11 @@ const ProductDetails = ({ selectedVariant, productName, quantity, variantId }) =
         <div className="flex items-center justify-between mt-4">
           <div className="flex items-center">
             <span className="font-medium text-lg">
-              ${selectedVariant?.discount_price || "0.00"}
+            ₹{selectedVariant?.discount_price || "0.00"}
             </span>
             {selectedVariant?.base_price > selectedVariant?.discount_price && (
               <span className="text-gray-400 line-through ml-2 text-sm">
-                ${selectedVariant?.base_price}
+                ₹{selectedVariant?.base_price}
               </span>
             )}
           </div>

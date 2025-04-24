@@ -128,7 +128,7 @@ const Wallet = () => {
         <div className="flex items-start justify-between">
           <div>
             <p className="text-gray-300 mb-2">Available Balance</p>
-            <h3 className="text-4xl font-bold">${userDetails?.balance.toFixed(2)}</h3>
+            <h3 className="text-4xl font-bold">₹{userDetails?.balance.toFixed(2)}</h3>
           </div>
           <CreditCard className="w-8 h-8 text-gray-300" />
         </div>
@@ -150,14 +150,14 @@ const Wallet = () => {
           <p className="text-gray-500 mb-1 text-sm">Last Transaction</p>
           <p className="font-medium text-lg">
             {transactions[0] ? 
-              `$${Math.abs(transactions[0].amount).toFixed(2)}` : 
+              `₹${Math.abs(transactions[0].amount).toFixed(2)}` : 
               "No transactions yet"}
           </p>
         </div>
         <div className="bg-gray-50 p-4 rounded-lg border border-gray-100">
           <p className="text-gray-500 mb-1 text-sm">This Month</p>
           <p className="font-medium text-lg">
-            ${transactions
+          ₹{transactions
               .filter(t => new Date(t.createdAt).getMonth() === new Date().getMonth())
               .reduce((sum, t) => sum + Math.abs(t.amount), 0)
               .toFixed(2)}
@@ -213,8 +213,8 @@ const Wallet = () => {
                           : "text-red-600"
                       }`}>
                         {transaction.transactionType === "Credit" || transaction.transactionType === "Return"||transaction.transactionType === "Cancellation"
-                          ? `+$${Math.abs(transaction.amount).toFixed(2)}` 
-                          : `-$${Math.abs(transaction.amount).toFixed(2)}`}
+                          ? `+₹${Math.abs(transaction.amount).toFixed(2)}` 
+                          : `-₹${Math.abs(transaction.amount).toFixed(2)}`}
                       </p>
                       <span className="inline-block text-xs px-2 py-1 mt-1 bg-gray-100 text-gray-600 rounded">
                         {transaction.transactionType}
@@ -257,9 +257,9 @@ const Wallet = () => {
             </div>
 
             <div className="mb-6">
-              <label className="block text-gray-700 font-medium mb-2">Amount ($)</label>
+              <label className="block text-gray-700 font-medium mb-2">Amount (₹)</label>
               <div className="relative">
-                <span className="absolute left-3 top-3 text-gray-500">$</span>
+                <span className="absolute left-3 top-3 text-gray-500">₹</span>
                 <input
                   type="number"
                   value={amount}
@@ -269,7 +269,7 @@ const Wallet = () => {
                   min="1"
                 />
               </div>
-              <p className="text-sm text-gray-500 mt-2">Minimum amount: $1.00</p>
+              <p className="text-sm text-gray-500 mt-2">Minimum amount: ₹1.00</p>
             </div>
 
             <div className="flex gap-3 justify-end">

@@ -9,7 +9,7 @@ const orderSchema = new mongoose.Schema(
       required: true,
       default: () => "ORD-" + uuidv4().slice(0, 8),
     },
-
+ 
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",

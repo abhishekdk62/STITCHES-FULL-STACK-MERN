@@ -15,6 +15,7 @@ import {
 import toast from "react-hot-toast";
 import { fetchProductsService, softDeleteProductService } from "../../../../services/productService";
 import Pagination from "../../../common/utils/Pagination";
+import { useDebounce } from "../../../../../utils/useDebounce";
 const ProductsList = ({
   setShowAddProduct,
   setShowEditProduct,
@@ -27,6 +28,7 @@ const ProductsList = ({
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [isOpen, setIsOpen] = useState(false);
+  const debouncedValue=useDebounce(searchInput.trim(),500)
 
   const fetchProducts = async (query = "", page = 1) => {
     try {
@@ -45,21 +47,6 @@ const ProductsList = ({
     }
   };
 
-  // const fetchProducts = useCallback(async (query = "", page = 1) => {
-  //   try {
-  //     setLoading(true);
-  //     const data = await debouncedFetchProductsService(query, page);
-  //     setProductsList(data.products);
-  //     setCurrentPage(data.page);
-  //     setTotalPages(data.totalPages);
-  //     setError("");
-  //   } catch (err) {
-  //     setError("Failed to fetch products. Please try again.");
-  //     console.error("Error fetching products:", err);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // }, []);
 
   const [deleteProdId, setDeleteProdId] = useState();
 
@@ -71,9 +58,11 @@ const ProductsList = ({
     fetchProducts(searchInput.trim(), currentPage);
   }, [currentPage]);
 
-  const handleSearch = () => {
-    fetchProducts(searchInput.trim(), 1);
-  };
+
+
+  useEffect(()=>{
+fetchProducts(debouncedValue)
+  },[debouncedValue])
 
   const softDelete = async () => {
     try {
@@ -222,7 +211,6 @@ const ProductsList = ({
                   className="pl-10 pr-10 py-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black/70"
                   value={searchInput}
                   onChange={(e) => setSearchInput(e.target.value)}
-                  onKeyPress={(e) => e.key === "Enter" && handleSearch()}
                 />
                 {searchInput && (
                   <button
@@ -236,13 +224,7 @@ const ProductsList = ({
                   </button>
                 )}
               </div>
-              <button
-                onClick={handleSearch}
-                className="bg-black text-white px-4 py-2 rounded-md flex items-center transition-all hover:bg-gray-800 w-full md:w-auto justify-center"
-              >
-                <Search size={18} className="mr-2" />
-                <span>Search</span>
-              </button>
+         
             </div>
             <div className="flex gap-4 w-full md:w-auto">
               <button

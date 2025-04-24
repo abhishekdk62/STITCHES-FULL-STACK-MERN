@@ -179,7 +179,7 @@ export default function EditAddress({ address }) {
                 value={country}
                 onChange={(e) => setCountry(e.target.value)}
                 className="text-lg border border-gray-300 p-2 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-black"
-                required
+                
               >
                 <option value="">Select a country</option>
                 {countries.map((c) => (

@@ -1,7 +1,7 @@
 import React from "react";
 import { X, Search, RefreshCw } from "lucide-react";
 
-const SearchBar = ({ searchInput, setSearchInput, handleSearch, getUsers }) => {
+const SearchBar = ({ searchInput, setSearchInput, getUsers }) => {
   return (
     <div className="bg-white p-5 rounded-lg shadow-md mb-6">
       <div className="flex flex-col md:flex-row justify-between items-center gap-4">
@@ -16,7 +16,6 @@ const SearchBar = ({ searchInput, setSearchInput, handleSearch, getUsers }) => {
               className="pl-10 pr-10 py-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black/70"
               value={searchInput}
               onChange={(e) => setSearchInput(e.target.value)}
-              onKeyPress={(e) => e.key === "Enter" && handleSearch()}
             />
             {searchInput && (
               <button
@@ -30,20 +29,8 @@ const SearchBar = ({ searchInput, setSearchInput, handleSearch, getUsers }) => {
               </button>
             )}
           </div>
-          <button
-            onClick={handleSearch}
-            className="bg-black text-white px-4 py-2 rounded-md flex items-center transition-all hover:bg-gray-800 w-full md:w-auto justify-center"
-          >
-            <Search size={18} className="mr-2" />
-            <span>Search</span>
-          </button>
-          <button
-            onClick={() => getUsers("", 1)}
-            className="bg-white text-black border border-gray-300 px-4 py-2 rounded-md flex items-center transition-all hover:bg-gray-100 w-full md:w-auto justify-center"
-          >
-            <RefreshCw size={18} className="mr-2" />
-            <span>Refresh</span>
-          </button>
+      
+     
         </div>
       </div>
     </div>

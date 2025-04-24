@@ -14,6 +14,7 @@ import { useDispatch } from "react-redux";
 import { login } from "../../../slices/authSlice";
 import Gap from "../../components/user/landing/Gap";
 import { useState } from "react";
+import PromotionalBanner from "../../components/user/common/PromotionalBanner";
 
 const Home = () => {
   const location = useLocation();
@@ -36,6 +37,7 @@ const Home = () => {
 
   return (
     <div>
+      <PromotionalBanner />
       <Header selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} />
 
       <Banner />

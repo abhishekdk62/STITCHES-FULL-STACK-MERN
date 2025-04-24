@@ -14,6 +14,7 @@ import OrderInfo from "../../components/user/order/OrderInfo";
 import Wallet from "../../components/user/wallet/Wallet";
 import AddaddressCheckout from "../../components/user/editinfo/AddAddressCheckout";
 import EditAddress from "../../components/user/editinfo/EditAddress";
+import PromotionalBanner from "../../components/user/common/PromotionalBanner";
 
 
 const Account = () => {
@@ -24,6 +25,7 @@ const Account = () => {
 
   return ( 
     <div>
+      <PromotionalBanner />
       <Header selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} />
       <div className="px-6 md:px-12 lg:px-20 py-8">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-8">

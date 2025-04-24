@@ -9,3 +9,13 @@ export const getReportsApi = async (customStartDate,customEndDate,dateRange) => 
     throw error;
   }
 };
+export const getTopSellersApi = async () => {
+  try {
+    const response = await apiClient.get(`/admin/topsellers`);
+    
+    return response
+  } catch (error) {
+    throw error;
+    
+  }
+};

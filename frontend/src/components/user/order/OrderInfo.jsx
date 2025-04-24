@@ -32,9 +32,7 @@ import {
   checkForReturn,
 } from "../../../services/orderServices";
 
-
-
-import {generatePDFInvoice} from '../../../../utils/generateInvoice'
+import { generatePDFInvoice } from "../../../../utils/generateInvoice";
 import { setOrderDetail } from "../../../../slices/orderSlice";
 export default function OrderInfo() {
   const orderDetail = useSelector((state) => state.order.orderDetail);
@@ -73,7 +71,23 @@ export default function OrderInfo() {
       return dateString || "N/A";
     }
   };
+  // order.createdAt.
 
+  const [returnDisabled, setReturnDisabled] = useState(false);
+  useEffect(() => {
+    const today = new Date();
+    const createdDate = new Date(order?.createdAt);
+    
+    const diffInTime = today.getTime() - createdDate.getTime();
+    const diffInDays = diffInTime / (1000 * 3600 * 24);
+  
+    if (diffInDays > 4) {
+      setReturnDisabled(true);
+    } else {
+      setReturnDisabled(false);
+    }
+  }, [order?.createdAt]);
+  
   const formatDate = (dateString) => {
     try {
       const date = new Date(dateString);
@@ -555,7 +569,7 @@ export default function OrderInfo() {
                       {item?.product?.name || "Product Name"}
                     </h3>
                     <p className="text-lg font-bold text-gray-900">
-                      ${item?.price ? item.price.toFixed(2) : "0.00"}
+                    ₹{item?.price ? item.price.toFixed(2) : "0.00"}
                     </p>
                   </div>
                   <div className="flex flex-wrap gap-4 mt-2">
@@ -578,21 +592,7 @@ export default function OrderInfo() {
                       </span>
                     </p>
                   </div>
-                  <div className="mt-4 pt-4 border-t border-gray-200">
-                    <div className="flex justify-between items-center">
-                      {item.status === "Delivered" &&
-                        status !== "Requested" &&
-                        item.status !== "Returned" && (
-                          <button
-                            onClick={openReturnModal}
-                            className="text-sm text-gray-800 font-medium flex items-center gap-1 hover:text-gray-600"
-                          >
-                            <RotateCcw size={14} />
-                            Return Item
-                          </button>
-                        )}
-                    </div>
-                  </div>
+            
                 </div>
               </div>
             </div>
@@ -615,8 +615,9 @@ export default function OrderInfo() {
               ) : item.status === "Returned" ? null : item.status ===
                 "Delivered" ? (
                 <button
+                disabled={returnDisabled}
                   onClick={() => setReturnModal(true)}
-                  className="flex items-center gap-2 px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-700 transition-colors font-medium"
+                  className={`flex items-center gap-2 px-4 py-2 rounded-lg ${returnDisabled?"bg-gray-200 cursor-not-allowed text-gray-600":"bg-gray-800 text-white hover:bg-gray-700"}  transition-colors font-medium1`}
                 >
                   <RotateCcw size={18} />
                   Return Item
@@ -676,25 +677,25 @@ export default function OrderInfo() {
               <div className="flex justify-between">
                 <span className="text-gray-600">Subtotal</span>
                 <span className="text-gray-900 font-medium">
-                  ${subtotal.toFixed(2)}
+                ₹{subtotal.toFixed(2)}
                 </span>
               </div>
               <div className="flex justify-between">
                 <span className="text-gray-600">Shipping</span>
                 <span className="text-gray-900 font-medium">
-                  ${shipping.toFixed(2)}
+                ₹{shipping.toFixed(2)}
                 </span>
               </div>
               <div className="flex justify-between">
                 <span className="text-gray-600">Tax (12%)</span>
                 <span className="text-gray-900 font-medium">
-                  ${tax.toFixed(2)}
+                ₹{tax.toFixed(2)}
                 </span>
               </div>
               {discount > 0 && (
                 <div className="flex justify-between text-green-600">
                   <span>Discount</span>
-                  <span className="font-medium">-${discount.toFixed(2)}</span>
+                  <span className="font-medium">-₹{discount.toFixed(2)}</span>
                 </div>
               )}
               <div className="flex justify-between mt-4 pt-4 border-t border-gray-300">
@@ -702,7 +703,7 @@ export default function OrderInfo() {
                   Grand Total
                 </span>
                 <span className="text-lg font-bold text-gray-900">
-                  ${grandTotal.toFixed(2)}
+                ₹{grandTotal.toFixed(2)}
                 </span>
               </div>
             </div>
@@ -799,8 +800,9 @@ export default function OrderInfo() {
                 Cancel
               </button>
               <button
+              disabled={returnDisabled}
                 onClick={handleReturnOrder}
-                className="px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-700 transition-colors"
+                className={`px-4 py-2 ${returnDisabled?"cursor-not-allowed bg-gray-800 text-white hover:bg-gray-700":"bg-gray-300 text-gray-700"}   rounded-lg  transition-colors`}
               >
                 Submit Return
               </button>

@@ -45,6 +45,9 @@ export default function Payment({ setStep,couponData }) {
   });
 
   const userDetails = useSelector((state) => state.auth.user);
+const [disableCod,setDisableCod]=useState(false)
+
+
 
   const handleCardDetailsChange = (e) => {
     const { name, value } = e.target;
@@ -54,12 +57,28 @@ export default function Payment({ setStep,couponData }) {
 
   const grandTotal =
     cartItems?.totalPrice + cartItems?.tax + cartItems?.shippingPrice-discount;
+
+    useEffect(()=>{
+      if(paymentMethod=="cod" && grandTotal>=1000)
+        {
+          setDisableCod(true)
+        
+        }
+    
+    },[paymentMethod,grandTotal])
+    
+
+
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrorMessage("");
     setSuccessMessage("");
+    if(disableCod)
+    {
+      return setErrorMessage("Cash on delivery cant be applied for products with price more than 1000")
+    }
     try {
       const response = await createOrder(
         cartItems._id,
@@ -203,7 +222,7 @@ export default function Payment({ setStep,couponData }) {
                 <p className="text-gray-500 text-md">Current wallet balance</p>
               </div>
               <div className="text-right">
-                <p className="text-lg font-bold">${userDetails?.balance.toFixed(2)}</p>
+                <p className="text-lg font-bold">₹{userDetails?.balance.toFixed(2)}</p>
               </div>
             </div>
             
@@ -213,7 +232,7 @@ export default function Payment({ setStep,couponData }) {
                 <p className="text-gray-500 text-sm">Total order amount</p>
               </div>
               <div className="text-right">
-                <p className="text-lg font-bold">${grandTotal?.toFixed(2)}</p>
+                <p className="text-lg font-bold">₹{grandTotal?.toFixed(2)}</p>
               </div>
             </div>
             
@@ -247,7 +266,7 @@ export default function Payment({ setStep,couponData }) {
             </div>
             <h3 className="text-md font-semibold mb-2">PayPal Checkout</h3>
             <p className="text-gray-600 text-md mb-4">You will be redirected to PayPal to complete your payment securely.</p>
-            <p className="font-bold  text-md mb-1">Total: ${grandTotal?.toFixed(2)}</p>
+            <p className="font-bold  text-md mb-1">Total: ₹{grandTotal?.toFixed(2)}</p>
           </motion.div>
         )}
 
@@ -275,7 +294,7 @@ export default function Payment({ setStep,couponData }) {
                     <span>Inspect your items before paying</span>
                   </li>
                 </ul>
-            <p className="font-bold pt-3  text-md mb-1">Total: ${grandTotal?.toFixed(2)}</p>
+            <p className="font-bold pt-3  text-md mb-1">Total: ₹{grandTotal?.toFixed(2)}</p>
 
               </div>
             </div>
@@ -322,7 +341,7 @@ export default function Payment({ setStep,couponData }) {
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               type="submit"
-              className="px-8 py-3 flex items-center gap-2 bg-black text-white border border-black hover:bg-white hover:text-black transition-all duration-300 rounded"
+              className={`px-8 py-3 flex items-center gap-2 bg-black ${disableCod?"cursor-not-allowed":null} text-white border border-black hover:bg-white hover:text-black transition-all duration-300 rounded`}
             >
               Place Order
               <ChevronRight className="w-4 h-4" />

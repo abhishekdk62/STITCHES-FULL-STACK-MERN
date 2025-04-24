@@ -23,10 +23,10 @@ const CategoryCard = ({
   const handleDeleteCategory = async () => {
     try {
       const data = await deleteCategory(id);
-      Toast.success(data.message);
+      toast.success(data.message);
       fetchCategories("");
     } catch (error) {
-      Toast.error(error?.response?.data?.message || "Failed to delete category");
+      toast.error(error?.response?.data?.message || "Failed to delete category");
     }
     setIsOpen(false);
   };
@@ -46,7 +46,7 @@ const CategoryCard = ({
     try {
       const response = await restoreCategory(id);
       if (response.status === 200) {
-        Toast.success("Category restored!");
+        toast.success("Category restored!");
       }
       fetchCategoriesHandler();
     } catch (error) {

@@ -9,10 +9,11 @@ import {
   Users,
   Tag,
   LineChart,
+  Activity,
 } from "lucide-react";
 const Sidebar = ({ activeTab, setActiveTab }) => {
   const navItems = [
-    { key: "dashboard", label: "Dashboard", icon: <Gauge /> },
+  
     { key: "order", label: "Order", icon: <ShoppingCart /> },
     { key: "products", label: "Products", icon: <Package /> },
     { key: "report", label: "Sales Report", icon: <LineChart /> },
@@ -20,6 +21,7 @@ const Sidebar = ({ activeTab, setActiveTab }) => {
     { key: "coupon", label: "Coupon", icon: <Tag /> },
     { key: "category", label: "Category", icon: <ChartBarStacked /> },
     { key: "offers", label: "Offers", icon: <BadgeDollarSign /> },
+    { key: "transactions", label: "Transactions", icon: <Activity /> },
   ];
 
   return (

@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import { Heart } from "lucide-react";
-import {toast} from 'react-hot-toast'
-
+import { toast } from "react-hot-toast";
+import { useDebounce } from "../../../../utils/useDebounce";
 import { useNavigate } from "react-router-dom";
 import ReactSlider from "react-slider";
 import { ChevronLeft, Star, ChevronRight, Weight } from "lucide-react";
@@ -12,9 +12,9 @@ import {
   fetchCategoriesForFilter,
   getRatingsService,
 } from "../../../services/userService";
-import { addToWishlist } from "../../../services/wishlistService";  
+import { addToWishlist } from "../../../services/wishlistService";
 
-const ListProducts = ({selectedCategory,setSelectedCategory}) => {
+const ListProducts = ({ selectedCategory, setSelectedCategory }) => {
   const searchTerm = useSelector((state) => state.search.searchTerm);
   const [products, setProducts] = useState([]);
   const [minPrice, setMinPrice] = useState(200);
@@ -31,15 +31,16 @@ const ListProducts = ({selectedCategory,setSelectedCategory}) => {
   const [totalPages, setTotalPages] = useState(1);
   const [ratings, setRatings] = useState([]);
 
-  // Fetch products from backend with pagination
-  const getProducts = async () => {
+  const dedbouncedValue = useDebounce(searchTerm, 500);
+
+  const getProducts = async (search) => {
     try {
       setLoading(true);
       const params = new URLSearchParams(location.search);
       const categoryFromURL = params.get("category");
 
       const requestBody = {
-        searchTerm, // from redux or props
+        search,
         category: categoryFromURL || selectedCategory,
         minPrice,
         maxPrice,
@@ -61,16 +62,20 @@ const ListProducts = ({selectedCategory,setSelectedCategory}) => {
     }
   };
   const userDetails = useSelector((state) => state.auth.user);
-  // When filters change, reset page to 1
   useEffect(() => {
     setCurrentPage(1);
-  }, [searchTerm, minPrice, maxPrice, sortBy, selectedCategory]);
+  }, [dedbouncedValue, minPrice, maxPrice, sortBy, selectedCategory]);
 
-  // Fetch products when currentPage or any filter changes
   useEffect(() => {
-    getProducts();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentPage, searchTerm, minPrice, maxPrice, sortBy, selectedCategory]);
+    getProducts(dedbouncedValue);
+  }, [
+    currentPage,
+    dedbouncedValue,
+    minPrice,
+    maxPrice,
+    sortBy,
+    selectedCategory,
+  ]);
 
   useEffect(() => {
     const fetchRatings = async () => {
@@ -103,13 +108,19 @@ const ListProducts = ({selectedCategory,setSelectedCategory}) => {
     navigate(`/product/${product._id}`);
   };
 
-  const handleWishlist = async (pid,selectedVariant) => {
+  const handleWishlist = async (pid, selectedVariant) => {
     if (!userDetails) {
       toast.success("Please login", {
-        icon: <img src="https://static.thenounproject.com/png/3941-200.png" className="animate-pulse"
-        style={{ filter: "invert(1)" }}
-
-        alt="Success Icon" width="30" height="30" />,
+        icon: (
+          <img
+            src="https://static.thenounproject.com/png/3941-200.png"
+            className="animate-pulse"
+            style={{ filter: "invert(1)" }}
+            alt="Success Icon"
+            width="30"
+            height="30"
+          />
+        ),
         style: {
           border: "1px solid #0f5132",
           padding: "16px",
@@ -118,37 +129,46 @@ const ListProducts = ({selectedCategory,setSelectedCategory}) => {
           fontSize: "14px",
           fontWeight: "bold",
         },
-        
       });
       return;
     }
     try {
       const response = await addToWishlist(pid, selectedVariant);
 
-  toast.success(response.data.message, {
-          icon: <img src="https://static.thenounproject.com/png/29520-200.png" className="animate-bounce"
-          style={{ filter: "invert(1)" }}
-  
-          alt="Success Icon" width="30" height="30" />,
-          style: {
-            border: "1px solid #0f5132",
-            padding: "16px",
-            color: "white",
-            background: "black",
-            fontSize: "14px",
-            fontWeight: "bold",
-          },
-        });
-
+      toast.success(response.data.message, {
+        icon: (
+          <img
+            src="https://static.thenounproject.com/png/29520-200.png"
+            className="animate-bounce"
+            style={{ filter: "invert(1)" }}
+            alt="Success Icon"
+            width="30"
+            height="30"
+          />
+        ),
+        style: {
+          border: "1px solid #0f5132",
+          padding: "16px",
+          color: "white",
+          background: "black",
+          fontSize: "14px",
+          fontWeight: "bold",
+        },
+      });
 
       console.log(response);
     } catch (error) {
-
       toast.error(error.response.data.message, {
-        icon: <img src="https://static.thenounproject.com/png/3941-200.png" className="animate-bounce"
-        style={{ filter: "invert(1)" }}
-
-        alt="Success Icon" width="30" height="30" />,
+        icon: (
+          <img
+            src="https://static.thenounproject.com/png/3941-200.png"
+            className="animate-bounce"
+            style={{ filter: "invert(1)" }}
+            alt="Success Icon"
+            width="30"
+            height="30"
+          />
+        ),
         style: {
           padding: "16px",
           color: "white",
@@ -158,7 +178,6 @@ const ListProducts = ({selectedCategory,setSelectedCategory}) => {
         },
       });
 
-
       console.log(error);
     }
   };
@@ -167,9 +186,11 @@ const ListProducts = ({selectedCategory,setSelectedCategory}) => {
     <div className="container text-gray-800 mx-auto p-4 pb-20">
       <div className="flex flex-col lg:flex-row gap-6">
         {/* Sidebar */}
-        <div className="w-full lg:w-1/4 p-4 bg-white sticky top-4 h-fit font-sans">
-          <h2 className="text-xl text-gray-800 font-bold mb-3">Filters</h2>
-          <hr className="mb-4" />
+        <div className="w-65 p-4 bg-white sticky top-4 h-fit font-sans">
+          <h2 className="text-xl tracking-widest text-gray-800  mb-3">
+            Filters
+          </h2>
+          <hr className="mb-4 text-gray-200" />
 
           <div className="mb-6">
             <h3 className="text-base text-gray-800 font-semibold mb-3">
@@ -196,13 +217,13 @@ const ListProducts = ({selectedCategory,setSelectedCategory}) => {
               ))}
             </ul>
           </div>
-          <hr className="mb-4" />
+          <hr className="mb-4 text-gray-200" />
 
           <div className="mb-6">
             <h3 className="text-base font-semibold mb-3">Price Range</h3>
             <div className="flex items-center justify-between mb-2">
-              <span className="text-sm font-medium">${minPrice}</span>
-              <span className="text-sm font-medium">${maxPrice}</span>
+              <span className="text-sm font-medium">₹{minPrice}</span>
+              <span className="text-sm font-medium">₹{maxPrice}</span>
             </div>
             <ReactSlider
               value={[minPrice, maxPrice]}
@@ -220,7 +241,7 @@ const ListProducts = ({selectedCategory,setSelectedCategory}) => {
               minDistance={10}
             />
           </div>
-          <hr className="mb-4" />
+          <hr className="mb-4 text-gray-200" />
 
           <div className="mb-6">
             <h3 className="text-base font-semibold mb-3">Size</h3>
@@ -237,7 +258,7 @@ const ListProducts = ({selectedCategory,setSelectedCategory}) => {
               )}
             </div>
           </div>
-          <hr className="mb-4" />
+          <hr className="mb-4 text-gray-200" />
 
           <div className="mb-6">
             <h3 className="text-base font-semibold mb-3">Colors</h3>
@@ -255,7 +276,7 @@ const ListProducts = ({selectedCategory,setSelectedCategory}) => {
                 "blue-500",
                 "green-500",
                 "blue-500",
-              ].map((color,indx) => (
+              ].map((color, indx) => (
                 <div
                   key={indx}
                   className={`w-6 h-6 bg-${color} rounded-full cursor-pointer border border-gray-200 hover:scale-110 transition-transform shadow-sm`}
@@ -327,8 +348,8 @@ const ListProducts = ({selectedCategory,setSelectedCategory}) => {
              opacity-0 group-hover:opacity-100 transition duration-300"
                             onClick={(e) => {
                               e.stopPropagation(); // Prevents triggering handleProductView
-handleWishlist(product._id,product.variants
-  [0])                            }}
+                              handleWishlist(product._id, product.variants[0]);
+                            }}
                           >
                             <Heart className="w-8 h-8 text-white bg-black/50 p-1 rounded-full hover:scale-110 transition" />
                           </button>
@@ -347,10 +368,10 @@ handleWishlist(product._id,product.variants
                       </p>
                       <div className="flex items-center justify-center space-x-2 mt-0">
                         <div className="text-black font-medium text-sm">
-                          USD.{product.variants[0].discount_price}.00
+                          RS.{product.variants[0].discount_price}.00
                         </div>
                         <div className="text-gray-700 text-sm line-through">
-                          USD.{product.variants[0].base_price}.00
+                          RS.{product.variants[0].base_price}.00
                         </div>
                       </div>
                     </div>
@@ -362,7 +383,6 @@ handleWishlist(product._id,product.variants
         </div>
       </div>
 
-      {/* Fixed Pagination UI at Bottom */}
       <div className="fixed bottom-0 left-0 right-0 p-3 bg-white shadow-md border-t border-gray-200 z-10">
         <div className="flex justify-center items-center space-x-4 max-w-xs mx-auto">
           <button
@@ -427,16 +447,12 @@ handleWishlist(product._id,product.variants
 const ProductListShimmer = () => {
   return (
     <div className="bg-white rounded-lg shadow-md p-4">
-      {/* Image placeholder */}
       <div className="w-full h-48 bg-gray-300 rounded-lg mb-4 animate-pulse"></div>
-      {/* Title and heart icon row placeholder */}
       <div className="flex justify-between items-center mb-2">
         <div className="h-6 w-1/2 bg-gray-300 rounded animate-pulse"></div>
         <div className="h-6 w-6 bg-gray-300 rounded-full animate-pulse"></div>
       </div>
-      {/* Brand placeholder */}
       <div className="h-4 bg-gray-300 rounded mb-2 animate-pulse"></div>
-      {/* Price placeholder */}
       <div className="h-6 bg-gray-300 rounded animate-pulse"></div>
     </div>
   );

@@ -62,7 +62,6 @@ export const fetchWomenProducts = async () => {
 export const getProductsService = async (requestBody) => {
   try {
     const response = await apiClient.post("/user/products", requestBody);
-    // Expected response format: { products, page, totalPages }
     return response.data;
   } catch (error) {
     throw error;
