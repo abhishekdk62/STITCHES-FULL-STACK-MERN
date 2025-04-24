@@ -9,16 +9,17 @@ const addCoupon = async (req, res) => {
     const code = Math.random().toString(36).slice(2, 8).toUpperCase();
 
     const existingCoupon = await Coupon.findOne({
-      $or: [{ code }, { couponName }],
-    });
+        couponName },
+    );
 
     if (existingCoupon) {
       return res
         .status(400)
-        .json({ message: "Coupon code or name already exists" });
+        .json({ message: "Coupon name already exists" });
     }
 
-    // Create new coupon
+
+
     const newCoupon = new Coupon({
       code,
       couponName,

@@ -60,13 +60,8 @@ const ForgotPassword = ({ setForgotPassword }) => {
 
   return (
     <div
-      className="flex min-h-full p-35 w-full justify-center items-center"
-      style={{
-        backgroundImage: `url('https://as1.ftcdn.net/v2/jpg/00/95/63/36/1000_F_95633689_oBuCYmHIFSabh2y8cfAoSLIsgjW7VXAA.jpg')`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
-      }}
+      className="flex bg-gray-200 min-h-full p-35 w-full justify-center items-center"
+     
     >
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -75,7 +70,7 @@ const ForgotPassword = ({ setForgotPassword }) => {
         className="w-2xl relative"
       >
         <motion.div
-          className="bg-white z-10 overflow-hidden"
+          className="bg-white z-10 rounded-2xl overflow-hidden"
           whileHover={{ y: -5 }}
           transition={{ duration: 0.3 }}
         >
@@ -279,7 +274,7 @@ const ForgotPassword = ({ setForgotPassword }) => {
               Remembered your password?{" "}
               <motion.span
                 whileHover={{ scale: 1.05, color: "#000" }}
-                onClick={() => navigate("/login")}
+                onClick={() => setForgotPassword(false)}
                 className="text-black font-medium hover:underline cursor-pointer transition-all"
               >
                 Sign in

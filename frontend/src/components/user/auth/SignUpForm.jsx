@@ -24,6 +24,7 @@ import {
   Eye,
   Gift,
 } from "lucide-react";
+import SplitText from "../../common/utils/SplitText";
 
 // const LoginForm = () => {
 //   const [step, setStep] = useState(1);
@@ -665,7 +666,7 @@ const LoginForm = () => {
 
   return (
     <div
-      className="flex bg-gray-500 min-h-full p-15 w-full justify-center items-center"
+      className="flex bg-gray-200 min-h-full p-15 w-full justify-center items-center"
       style={{
         backgroundSize: "cover",
         backgroundPosition: "center",
@@ -679,16 +680,33 @@ const LoginForm = () => {
         className="w-2xl relative"
       >
         <motion.div
-          className="bg-white z-10 overflow-hidden"
+          className="bg-white rounded-2xl z-10 overflow-hidden"
           whileHover={{ y: -5 }}
           transition={{ duration: 0.3 }}
         >
           <div className="p-8 border rounded-2xl">
             <div className="flex justify-center">
-              <div className="text-center">
-                <h1 className="text-3xl font-bold text-black">
-                  Create an account
-                </h1>
+              <div className="text-center pb-6">
+              <h1 className="text-3xl font-bold text-black">
+              <SplitText
+                      size={"4xl"}
+                      text="sign up"
+                      // className="text-2xl font-semibold text-center"
+                      delay={10}
+                      animationFrom={{
+                        opacity: 0,
+                        transform: "translate3d(0,50px,0)",
+                      }}
+                      animationTo={{
+                        opacity: 1,
+                        transform: "translate3d(0,0,0)",
+                      }}
+                      easing="easeOutCubic"
+                      threshold={0.2}
+                      rootMargin="-50px"
+                    />
+                    </h1>
+
               </div>
             </div>
 

@@ -83,6 +83,8 @@ const filteredProducts = async (req, res) => {
   try {
     const { search, category, minPrice, maxPrice, sortBy, page, limit } =
       req.body;
+      
+      
     const currentPage = parseInt(page) || 1;
     const perPage = parseInt(limit) || 10;
 

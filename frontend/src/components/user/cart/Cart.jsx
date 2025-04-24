@@ -1,4 +1,11 @@
-import { Trash2, ShoppingBag, Home, ChevronRight, MinusCircle, PlusCircle } from "lucide-react";
+import {
+  Trash2,
+  ShoppingBag,
+  Home,
+  ChevronRight,
+  MinusCircle,
+  PlusCircle,
+} from "lucide-react";
 import {
   getCartItems,
   changeQuantityApi,
@@ -10,6 +17,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setCart } from "../../../../slices/checkoutSlice";
 import { motion, AnimatePresence } from "framer-motion";
 import toast from "react-hot-toast";
+import Notification from "../common/Notification";
 
 export default function ShoppingCart() {
   const dispatch = useDispatch();
@@ -18,6 +26,7 @@ export default function ShoppingCart() {
   const [isOpen, setIsOpen] = useState(false);
   const [removeCartId, setRemoveCartId] = useState();
   const [isLoading, setIsLoading] = useState(false);
+  const userDetails = useSelector((state) => state.auth.user);
 
   const getCart = async () => {
     try {
@@ -35,7 +44,6 @@ export default function ShoppingCart() {
 
     getCart();
     setIsLoading(false);
-
   }, []);
 
   const changeQauntity = async (item, newQuantity) => {
@@ -51,32 +59,32 @@ export default function ShoppingCart() {
       );
 
       getCart();
-      
     } catch (error) {
       console.log(error.response?.data?.message);
 
-
-      toast.error(error.response?.data?.message||"Failed to update quantity", {
-        icon: (
-          <img
-            src="https://static.thenounproject.com/png/217675-200.png"
-            className="animate-pulse"
-            style={{ filter: "invert(1)" }}
-            alt="Success Icon"
-            width="30"
-            height="30"
-          />
-        ),
-        style: {
-          border: "1px solid #0f5132",
-          padding: "16px",
-          color: "white",
-          background: "#ff5252",
-          fontSize: "14px",
-          fontWeight: "bold",
-        },
-      });
-
+      toast.error(
+        error.response?.data?.message || "Failed to update quantity",
+        {
+          icon: (
+            <img
+              src="https://static.thenounproject.com/png/217675-200.png"
+              className="animate-pulse"
+              style={{ filter: "invert(1)" }}
+              alt="Success Icon"
+              width="30"
+              height="30"
+            />
+          ),
+          style: {
+            border: "1px solid #0f5132",
+            padding: "16px",
+            color: "white",
+            background: "#ff5252",
+            fontSize: "14px",
+            fontWeight: "bold",
+          },
+        }
+      );
     }
   };
 
@@ -106,8 +114,6 @@ export default function ShoppingCart() {
         },
         autoClose: 5000,
       });
-
-
     } catch (error) {
       console.log(error);
       toast.error("Failed to remove item");
@@ -123,44 +129,59 @@ export default function ShoppingCart() {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.1
-      }
-    }
+        staggerChildren: 0.1,
+      },
+    },
   };
   const itemVariants = {
     hidden: { y: 20, opacity: 0 },
-    visible: { 
-      y: 0, 
+    visible: {
+      y: 0,
       opacity: 1,
-      transition: { 
-        type: "spring", 
-        stiffness: 300, 
-        damping: 24 
-      }
-    }
+      transition: {
+        type: "spring",
+        stiffness: 300,
+        damping: 24,
+      },
+    },
   };
 
   const buttonVariants = {
-    hover: { 
-      scale: 1.05, 
-      transition: { 
-        type: "spring", 
-        stiffness: 400, 
-        damping: 10 
-      } 
+    hover: {
+      scale: 1.05,
+      transition: {
+        type: "spring",
+        stiffness: 400,
+        damping: 10,
+      },
     },
-    tap: { scale: 0.95 }
+    tap: { scale: 0.95 },
   };
+
+  if(!userDetails)
+  {
+    return(
+         
+      
+  <Notification
+        p1={"You’re not signed in"}
+        p2={"Please log in to view your Cart."}
+        icon={    <ShoppingBag size={80} className="text-gray-300" />
+      }
+      />
+      
+    )
+  }
 
   if (isLoading) {
     return (
       <div className="flex items-center justify-center h-[600px] w-4xl">
         <motion.div
           animate={{ rotate: 360 }}
-          transition={{ 
-            repeat: Infinity, 
-            duration: 1, 
-            ease: "linear" 
+          transition={{
+            repeat: Infinity,
+            duration: 1,
+            ease: "linear",
           }}
         >
           <ShoppingBag className="w-12 h-12 text-gray-400" />
@@ -171,34 +192,23 @@ export default function ShoppingCart() {
 
   if (!cartItems || !cartItems.items || cartItems.items.length === 0) {
     return (
-      <motion.div 
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        className="p-6 bg-card h-[600px] w-4xl rounded-lg  flex flex-col items-center justify-center"
-      >
-        <ShoppingBag className="w-24 h-24 text-gray-300 mb-4" />
-        <h2 className="text-2xl font-bold text-gray-700 mb-2">Your cart is empty</h2>
-        <p className="text-gray-500 mb-6">Looks like you haven't added any items to your cart yet</p>
-        <motion.button
-          variants={buttonVariants}
-          whileHover="hover"
-          whileTap="tap"
-          onClick={() => navigate("/")}
-          className="bg-black text-white px-6 py-3 rounded-md flex items-center gap-2"
-        >
-          Continue Shopping
-        </motion.button>
-      </motion.div>
+    
+ <Notification
+        p1={"Your cart is empty"}
+        p2={"Looks like you haven't added any items to your cart yet."}
+        icon={    <ShoppingBag size={80} className="text-gray-300" />
+      }
+      />
+
     );
   }
 
   return (
-    <motion.div 
+    <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="p-6 bg-white h-auto min-h-[600px] w-4xl rounded-lg"
+      className="p-6 bg-white h-auto shadow-sm w-4xl border border-gray-100 min-h-[600px] w-4xl rounded-lg"
     >
-     
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -216,7 +226,9 @@ export default function ShoppingCart() {
               <div className="p-5 border-b">
                 <div className="flex items-center justify-center">
                   <Trash2 className="w-6 h-6 text-red-500 mr-2" />
-                  <h3 className="text-lg font-semibold text-gray-900">Remove from Cart</h3>
+                  <h3 className="text-lg font-semibold text-gray-900">
+                    Remove from Cart
+                  </h3>
                 </div>
               </div>
               <div className="p-5 text-center">
@@ -258,8 +270,8 @@ export default function ShoppingCart() {
         className="space-y-6"
       >
         {cartItems.items.map((item, indx) => (
-          <motion.div 
-            key={indx} 
+          <motion.div
+            key={indx}
             variants={itemVariants}
             className="overflow-hidden h-[200px] bg-white rounded-lg border border-gray-200 transition-shadow duration-300 "
           >
@@ -278,12 +290,13 @@ export default function ShoppingCart() {
                   className="w-full md:w-40 h-full object-cover rounded-md shadow"
                 />
               </motion.div>
-                
-              
+
               <div className="flex-grow p-3">
                 <div className="flex justify-between items-start">
                   <div className="">
-                    <h3 className="font-medium text-lg mb-1">{item.productId.name}</h3>
+                    <h3 className="font-medium text-lg mb-1">
+                      {item.productId.name}
+                    </h3>
                     <p className="text-gray-500 mb-1">
                       Color:{" "}
                       <span className="font-medium">
@@ -305,7 +318,7 @@ export default function ShoppingCart() {
                       </span>
                     </p>
                   </div>
-                  
+
                   <motion.button
                     variants={buttonVariants}
                     whileHover="hover"
@@ -355,10 +368,11 @@ export default function ShoppingCart() {
                     </div>
                   </div>
 
-                  {/* Subtotal */}
                   <div>
                     <p className="text-gray-500 text-sm">Subtotal</p>
-                    <p className="font-bold">₹{(item.price * item.quantity).toFixed(2)}</p>
+                    <p className="font-bold">
+                      ₹{(item.price * item.quantity).toFixed(2)}
+                    </p>
                   </div>
                 </div>
               </div>
@@ -367,7 +381,6 @@ export default function ShoppingCart() {
         ))}
       </motion.div>
 
-      {/* Cart Summary */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -376,8 +389,12 @@ export default function ShoppingCart() {
       >
         <div className="flex flex-col md:flex-row justify-between items-center">
           <div className="mb-4 md:mb-0">
-            <p className="text-gray-500 mb-1">Total ({cartItems.items.length} items)</p>
-            <p className="text-2xl font-bold">₹{cartItems.totalPrice?.toFixed(2) || 0}</p>
+            <p className="text-gray-500 mb-1">
+              Total ({cartItems.items.length} items)
+            </p>
+            <p className="text-2xl font-bold">
+              ₹{cartItems.totalPrice?.toFixed(2) || 0}
+            </p>
           </div>
           <motion.button
             variants={buttonVariants}

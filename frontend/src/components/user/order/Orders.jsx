@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { fetchOrders } from "../../../services/orderServices";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setSelectedTab } from "../../../../slices/selectedTabSlice";
+import { motion } from "framer-motion";
 
 
 
@@ -9,6 +10,7 @@ import { setSelectedTab } from "../../../../slices/selectedTabSlice";
 
 import { Package, Search, Calendar, ChevronRight } from "lucide-react";
 import { setOrderDetail } from "../../../../slices/orderSlice";
+import Notification from "../common/Notification";
 
 export default function Orders() {
   const [orders, setOrders] = useState([]);
@@ -64,7 +66,34 @@ export default function Orders() {
 
     return `${statusStyles[status] || "bg-gray-100 text-gray-800 border-gray-200"} px-2 py-1 rounded-full text-xs font-medium border`;
   };
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+      },
+    },
+  };
+const userDetails=useSelector((state)=>state.auth.user)
 
+if(!userDetails)
+{
+  
+  return(
+
+
+<Notification
+        p1={"You’re not signed in"}
+        p2={"Please log in to view your Cart."}
+        icon={    <Package size={80} className="text-gray-300" />
+      }
+      />
+
+
+    
+    )
+}
   return (
     <div className="bg-white p-8 w-4xl ">
       <div className="flex justify-between items-center mb-8">
@@ -93,11 +122,28 @@ export default function Orders() {
           {error}
         </div>
       ) : filteredOrders.length === 0 ? (
-        <div className="bg-gray-50 border w-full border-gray-200 p-12 text-center">
-          <Package size={48} className="mx-auto text-gray-400 mb-4" />
-          <p className="text-lg font-medium text-gray-600">No orders found</p>
-          <p className="text-gray-500 mt-2">Try changing your search criteria</p>
+
+
+
+
+        <div className="flex h-auto shadow-sm w-4xl border border-gray-100 justify-center gap-3 items-center flex-col">
+        <Package size={80} className="text-gray-300" />
+        <div>
+          <p className="text-2xl text-center font-bold text-gray-700 mb-2">
+          No orders found
+          </p>
+         
         </div>
+      </div>
+    
+
+
+
+
+
+
+
+
       ) : (
         <div className="space-y-4">
           {filteredOrders.map((order) => (

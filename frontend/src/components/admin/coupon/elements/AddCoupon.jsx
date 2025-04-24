@@ -5,7 +5,6 @@ import { addCoupon } from "../../../../services/couponService";
 
 
 const AddCoupon = ({ setSelectedTab }) => {
-  const [code, setCode] = useState("");
   const [discountType, setDiscountType] = useState("percentage");
   const [discountValue, setDiscountValue] = useState("");
   const [expiryDate, setExpiryDate] = useState("");
@@ -15,13 +14,12 @@ const AddCoupon = ({ setSelectedTab }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!code || !discountValue || !expiryDate || !usageLimit) {
+    if (  !discountValue || !expiryDate || !usageLimit) {
       setError("Please fill in all fields.");
       return;
     }
 
     const couponData = {
-      code,
       name,
       discountType,
       discountValue: Number(discountValue),
@@ -44,7 +42,6 @@ const AddCoupon = ({ setSelectedTab }) => {
       });
 
       // Reset form fields
-      setCode("");
       setDiscountType("percentage");
       setDiscountValue("");
       setExpiryDate("");
@@ -73,21 +70,7 @@ const AddCoupon = ({ setSelectedTab }) => {
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Form Fields */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* Coupon Code */}
-          <div className="space-y-2">
-            <label className="flex items-center text-gray-700 font-medium" htmlFor="code">
-              <Hash className="mr-2" size={18} />
-              Coupon Code
-            </label>
-            <input
-              id="code"
-              type="text"
-              placeholder="e.g. SUMMER25"
-              value={code}
-              onChange={(e) => setCode(e.target.value.toUpperCase())}
-              className="w-full border border-gray-300 rounded-lg px-4 py-3"
-            />
-          </div>
+        
 
           {/* Coupon Name */}
           <div className="space-y-2">
@@ -122,7 +105,6 @@ const AddCoupon = ({ setSelectedTab }) => {
               className="w-full border border-gray-300 rounded-lg px-4 py-3"
             >
               <option value="percentage">Percentage Discount (%)</option>
-              <option value="fixed">Fixed Amount (₹)</option>
             </select>
           </div>
 

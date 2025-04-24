@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setSelectedTab } from "../../../../slices/selectedTabSlice";
 import PleaseLogin from "../auth/PleaseLogin";
 import { motion } from "framer-motion";
+import Notification from "../common/Notification";
 
 const MyInfo = ({ avatar }) => {
   const user = useSelector((state) => state.auth.user);
@@ -26,10 +27,34 @@ const MyInfo = ({ avatar }) => {
   };
 
   const dispatch = useDispatch();
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+      },
+    },
+  };
 
-  if (!user) {
-    return <PleaseLogin />;
+if(!user)
+  {
+    
+    return(
+    
+
+
+<Notification
+        p1={"You’re not signed in"}
+        p2={"Please log in to view your Account Information."}
+        icon={    <User size={80} className="text-gray-300" />
+      }
+      />
+
+   
+      )
   }
+
 
   return (
     <motion.div

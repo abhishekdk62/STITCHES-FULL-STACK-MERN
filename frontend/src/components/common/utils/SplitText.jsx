@@ -12,7 +12,6 @@ const SplitText = ({
   threshold = 0.1,
   rootMargin = "-100px",
   textAlign = "center",
-  onLetterAnimationComplete,
 }) => {
   const words = text.split(" ").map((word) => word.split(""));
 
@@ -45,12 +44,7 @@ const SplitText = ({
         ? async (next) => {
             await next(animationTo);
             animatedCount.current += 1;
-            if (
-              animatedCount.current === letters.length &&
-              onLetterAnimationComplete
-            ) {
-              onLetterAnimationComplete();
-            }
+         
           }
         : animationFrom,
       delay: i * delay,

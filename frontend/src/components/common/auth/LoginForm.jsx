@@ -80,13 +80,8 @@ const [err,setErr]=useState(false)
 
   return (
     <div
-      className="flex min-h-full bg-gradient-to-r from-gray-700 via-gray-500 to-gray-600 p-5 w-full justify-center items-center"
-      // style={{
-      //   backgroundImage: `url('https://as1.ftcdn.net/v2/jpg/00/95/63/36/1000_F_95633689_oBuCYmHIFSabh2y8cfAoSLIsgjW7VXAA.jpg')`,
-      //   backgroundSize: "cover",
-      //   backgroundPosition: "center",
-      //   backgroundRepeat: "no-repeat",
-      // }}
+      className="flex min-h-full bg-gray-200 p-5 w-full justify-center items-center"
+   
     >
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -95,16 +90,19 @@ const [err,setErr]=useState(false)
         className=" w-2xl relative"
       >
         <motion.div
-          className="bg-white z-10 overflow-hidden"
+          className="bg-white rounded-2xl z-10 overflow-hidden"
           whileHover={{ y: -5 }}
           transition={{ duration: 0.3 }}
         >
           <div className="p-8 border border-gray-400 rounded-2xl">
             <div className="flex justify-center ">
-              <div className="text-center">
+              <div className="text-center pb-4">
                 <div className="flex items-center justify-center mb-2">
-                  <User className="w-6 h-6 text-black mr-2" />
-                  <h2 className="text-2xl font-bold  text-black tracking-tight">
+                  {/* <User className="w-6 h-6 text-black mr-2" /> */}
+                  {/* <h2 className="text-2xl font-bold  text-black tracking-tight">
+
+
+
                     <SplitText
                       size={"2xl"}
                       text="Welcome Back!"
@@ -123,7 +121,10 @@ const [err,setErr]=useState(false)
                       rootMargin="-50px"
                       onLetterAnimationComplete={handleAnimationComplete}
                     />
-                  </h2>
+
+
+
+                  </h2> */}
                 </div>
 
                 <h1 className="text-3xl font-bold text-black"> <SplitText

@@ -1,20 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { X, Heart, ShoppingCart, AlertCircle } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+
 import { toast } from "react-hot-toast";
 import {
   getWishlistApi,
   removeWishlistItem,
 } from "../../../services/wishlistService";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { addToCartApi } from "../../../services/userService";
+import { useSelector } from "react-redux";
+import Notification from "../common/Notification";
 
 const Wishlist = () => {
   const [wishlistItems, setWishlistItems] = useState([]);
   const [isEmpty, setIsEmpty] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [removeItemId, setRemoveItemId] = useState(null);
-  
+
   const getWishlist = async () => {
     try {
       const response = await getWishlistApi();
@@ -119,124 +122,137 @@ const Wishlist = () => {
     }
   };
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+      },
+    },
+  };
+  const userDetails = useSelector((state) => state.auth.user);
+
+  if (!userDetails) {
+    return (
+      <Notification
+        p1={"You’re not signed in"}
+        p2={"Please log in to view your Wishlists."}
+        icon={<Heart className="w-16 h-16 text-gray-300 mb-4" />}
+      />
+    );
+  }
+  if (isEmpty) {
+    return (
+      <Notification
+        p1={"Your wishlist is empty"}
+        p2={"Items added to your wishlist will appear here"}
+        icon={<Heart className="w-16 h-16 text-gray-300 mb-4" />}
+      />
+    );
+  }
+
   return (
     <div className="p-8 bg-white min-h-screen w-4xl mx-auto rounded-xl">
       <div className="flex items-center justify-between mb-8 border-b pb-4">
         <div className="flex items-center gap-3">
           <Heart className="w-8 h-8 text-black" />
-          <h1 className="text-3xl font-bold text-black tracking-tight">My Wishlist</h1>
+          <h1 className="text-3xl font-bold text-black tracking-tight">
+            My Wishlist
+          </h1>
         </div>
         <div className="text-sm text-gray-500">
           {wishlistItems.length} {wishlistItems.length === 1 ? "item" : "items"}
         </div>
       </div>
 
-      {!isEmpty ? (
-        <div className="grid gap-6">
-          {wishlistItems.map((item, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1 }}
-              className="group bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-md transition-all duration-300"
-            >
-              <div className="flex items-stretch">
-                <div 
-                  onClick={() => handleProductView(item.productId)}
-                  className="relative w-32 h-50 cursor-pointer overflow-hidden bg-gray-100"
-                >
-                  <img
-                    src={item.selectedVariant.productImages[0]}
-                    alt={item.productId.name}
-                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
-                  {/* <div className="absolute inset-0 bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-300" /> */}
-                </div>
+      <div className="grid gap-6">
+        {wishlistItems.map((item, index) => (
+          <motion.div
+            key={index}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: index * 0.1 }}
+            className="group bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-md transition-all duration-300"
+          >
+            <div className="flex items-stretch">
+              <div
+                onClick={() => handleProductView(item.productId)}
+                className="relative w-32 h-50 cursor-pointer overflow-hidden bg-gray-100"
+              >
+                <img
+                  src={item.selectedVariant.productImages[0]}
+                  alt={item.productId.name}
+                  className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+              </div>
 
-                {/* Details section */}
-                <div className="flex-1 p-4 flex flex-col justify-between">
-                  <div className="flex justify-between items-start">
-                    <div 
-                      onClick={() => handleProductView(item.productId)}
-                      className="cursor-pointer"
-                    >
-                      <h3 className="text-lg font-semibold text-gray-900 group-hover:text-black transition-colors">
-                        {item.productId.name}
-                      </h3>
-                      <p className="text-gray-500 text-sm mt-1">
-                        {item.productId.brand}
+              <div className="flex-1 p-4 flex flex-col justify-between">
+                <div className="flex justify-between items-start">
+                  <div
+                    onClick={() => handleProductView(item.productId)}
+                    className="cursor-pointer"
+                  >
+                    <h3 className="text-lg font-semibold text-gray-900 group-hover:text-black transition-colors">
+                      {item.productId.name}
+                    </h3>
+                    <p className="text-gray-500 text-sm mt-1">
+                      {item.productId.brand}
+                    </p>
+                    <div className="mt-2 space-y-1">
+                      <p className="text-sm text-gray-600">
+                        <span className="font-medium">Color:</span>{" "}
+                        {item.selectedVariant.color}
                       </p>
-                      <div className="mt-2 space-y-1">
-                        <p className="text-sm text-gray-600">
-                          <span className="font-medium">Color:</span>{" "}
-                      
-                          {item.selectedVariant.color}
-                        </p>
-                        <div className="mt-2">
-                          {item.selectedVariant.stock > 0 ? (
-                            <span className="text-xs bg-white border border-gray-700 bg-opacity-10 text-green-600 font-medium px-2 py-1 rounded">
-                              In Stock
-                            </span>
-                          ) : (
-                            <span className="text-sm bg-red-50 text-red-500 font-medium px-2 py-1 rounded flex items-center gap-1">
-                              <AlertCircle className="w-3 h-3" /> Out of Stock
-                            </span>
-                          )}
-                        </div>
+                      <div className="mt-2">
+                        {item.selectedVariant.stock > 0 ? (
+                          <span className="text-xs bg-white border border-gray-700 bg-opacity-10 text-green-600 font-medium px-2 py-1 rounded">
+                            In Stock
+                          </span>
+                        ) : (
+                          <span className="text-sm bg-red-50 text-red-500 font-medium px-2 py-1 rounded flex items-center gap-1">
+                            <AlertCircle className="w-3 h-3" /> Out of Stock
+                          </span>
+                        )}
                       </div>
-                    </div>
-
-                    <div className="flex items-center gap-2">
-                      <button
-                        onClick={() => {
-                          setRemoveItemId(item._id);
-                          setIsOpen(true);
-                        }}
-                        className="p-2 rounded-full hover:bg-gray-100 transition-colors"
-                        aria-label="Remove from wishlist"
-                      >
-                        <X className="h-5 w-5 text-gray-400 hover:text-red-500" />
-                      </button>
                     </div>
                   </div>
 
-                  <div className="mt-4 flex items-center justify-end gap-3">
+                  <div className="flex items-center gap-2">
                     <button
-                      onClick={() => addToCart(item.productId._id, item.selectedVariant._id)}
-                      disabled={item.selectedVariant.stock <= 0}
-                      className={`flex items-center gap-2 px-5 py-2 rounded-md font-medium transition-all duration-300 ${
-                        item.selectedVariant.stock <= 0
-                          ? "bg-gray-200 text-gray-500 cursor-not-allowed"
-                          : "bg-black text-white hover:bg-gray-800"
-                      }`}
+                      onClick={() => {
+                        setRemoveItemId(item._id);
+                        setIsOpen(true);
+                      }}
+                      className="p-2 rounded-full hover:bg-gray-100 transition-colors"
+                      aria-label="Remove from wishlist"
                     >
-                      <ShoppingCart className="w-4 h-4" />
-                      Add to Cart
+                      <X className="h-5 w-5 text-gray-400 hover:text-red-500" />
                     </button>
                   </div>
                 </div>
+
+                <div className="mt-4 flex items-center justify-end gap-3">
+                  <button
+                    onClick={() =>
+                      addToCart(item.productId._id, item.selectedVariant._id)
+                    }
+                    disabled={item.selectedVariant.stock <= 0}
+                    className={`flex items-center gap-2 px-5 py-2 rounded-md font-medium transition-all duration-300 ${
+                      item.selectedVariant.stock <= 0
+                        ? "bg-gray-200 text-gray-500 cursor-not-allowed"
+                        : "bg-black text-white hover:bg-gray-800"
+                    }`}
+                  >
+                    <ShoppingCart className="w-4 h-4" />
+                    Add to Cart
+                  </button>
+                </div>
               </div>
-            </motion.div>
-          ))}
-        </div>
-      ) : (
-        <motion.div 
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          className="flex flex-col items-center justify-center py-16 text-center"
-        >
-          <Heart className="w-16 h-16 text-gray-300 mb-4" />
-          <h3 className="text-xl font-medium text-gray-800 mb-2">Your wishlist is empty</h3>
-          <p className="text-gray-500 mb-6 max-w-md">Items added to your wishlist will appear here</p>
-          <button
-            onClick={() => navigate('/')}
-            className="px-6 py-3 bg-black text-white rounded-md font-medium hover:bg-gray-800 transition-colors"
-          >
-            Continue Shopping
-          </button>
-        </motion.div>
-      )}
+            </div>
+          </motion.div>
+        ))}
+      </div>
 
       {/* Confirmation modal */}
       <AnimatePresence>
@@ -256,7 +272,9 @@ const Wishlist = () => {
               <div className="p-5 border-b">
                 <div className="flex items-center justify-center">
                   <Heart className="w-6 h-6 text-red-500 mr-2" />
-                  <h3 className="text-lg font-semibold text-gray-900">Remove from Wishlist</h3>
+                  <h3 className="text-lg font-semibold text-gray-900">
+                    Remove from Wishlist
+                  </h3>
                 </div>
               </div>
               <div className="p-5 text-center">

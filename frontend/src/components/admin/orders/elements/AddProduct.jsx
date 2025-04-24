@@ -238,9 +238,9 @@ const AddProduct = ({ setShowAddProduct }) => {
       // Validate each variant
       for (let i = 0; i < variants.length; i++) {
         const variant = variants[i];
-        if (variant.base_price < 5000) {
+        if (variant.base_price < 0) {
           setError(
-            `Variant ${i + 1} (${variant.color}, ${variant.size}): Base price must be at least 5000`
+            `Variant ${i + 1} (${variant.color}, ${variant.size}): Base price must be greater than 0`
           );
           return;
         }
