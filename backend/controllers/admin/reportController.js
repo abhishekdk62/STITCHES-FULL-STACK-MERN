@@ -131,20 +131,25 @@ const getTopSellers = async (req, res) => {
         select: 'name brand category'
       });
 
-    let topBrands    = {};
-    let topCategory  = {};
-    let topProduct   = {};
+    let topBrands   = {};
+    let topCategory = {};
+    let topProduct  = {};
 
+    // 1️⃣ Gather unique category IDs from delivered items that actually have a product & category
     const categoryIds = new Set();
     orders.forEach(o =>
       o.items.forEach(i => {
-        if (i.status === 'Delivered') {
+        if (
+          i.status === 'Delivered' &&
+          i.product &&
+          i.product.category
+        ) {
           categoryIds.add(i.product.category.toString());
         }
       })
     );
 
-    // Optionally populate categories once
+    // Populate category names in one go
     const categories = await Category.find({
       _id: { $in: Array.from(categoryIds) }
     }).select('name');
@@ -153,30 +158,43 @@ const getTopSellers = async (req, res) => {
       return map;
     }, {});
 
-    // Now tally up using the populated product docs
+    // 2️⃣ Tally up brands, categories, and product counts for delivered items
     orders.forEach(o =>
       o.items.forEach(i => {
-        if (i.status !== 'Delivered') return;
+        if (
+          i.status !== 'Delivered' ||
+          !i.product ||
+          !i.product.category
+        ) return;
 
-        const prod = i.product;       // ← already populated
-        if (!prod) return;
+        const prod = i.product;
 
         // Brand
-        topBrands[prod.brand] = (topBrands[prod.brand] || 0) + i.quantity;
+        if (prod.brand) {
+          topBrands[prod.brand] = (topBrands[prod.brand] || 0) + i.quantity;
+        }
 
-        const catName = categoryMap[prod.category.toString()];
+        // Category (fall back to “Unknown” if name missing)
+        const catName = categoryMap[prod.category.toString()] || 'Unknown';
         topCategory[catName] = (topCategory[catName] || 0) + i.quantity;
 
-        topProduct[prod.name] = (topProduct[prod.name] || 0) + i.quantity;
+        // Product
+        if (prod.name) {
+          topProduct[prod.name] = (topProduct[prod.name] || 0) + i.quantity;
+        }
       })
     );
 
     return res.json({ topBrands, topCategory, topProduct });
   } catch (err) {
     console.error(err);
-    return res.status(500).json({ message: 'Server error', error: err.message });
+    return res.status(500).json({
+      message: 'Server error',
+      error: err.message
+    });
   }
 };
+
 
 
 

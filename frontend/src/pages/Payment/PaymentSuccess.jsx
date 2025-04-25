@@ -17,17 +17,25 @@ const PaymentSuccess = () => {
     console.log("🔍 Extracted orderID:", orderID);
   
     const storedOrderDetails = localStorage.getItem("orderDetails");
+
+
+
+    const storedCouponDetails = localStorage.getItem("coupon");
+
+
+
     const orderDetails = storedOrderDetails ? JSON.parse(storedOrderDetails) : null;
+    const couponDetails = storedCouponDetails ? JSON.parse(storedCouponDetails) : null;
   
     console.log("📝 Order Details Received:", orderDetails);
   
-    if (!orderID || !orderDetails) {
-      console.error("❌ Missing orderID or orderDetails. Redirecting to failure.");
+    if (!orderID || !orderDetails||!couponDetails) {
+      console.error("❌ Missing orderID or orderDetails or couponDetails. Redirecting to failure.");
       navigate("/payment/failure");
       return;
     }
   
-    capturePaypalOrder(orderID, orderDetails)
+    capturePaypalOrder(orderID, orderDetails,couponDetails)
       .then((response) => {
         console.log("✅ Capture Response:", response);
   

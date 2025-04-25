@@ -59,6 +59,8 @@ router.post("/create-order", async (req, res) => {
       uid,
       returnUrl,
       cancelUrl,
+      couponData,
+      discount,
     } = req.body;
 
     const finalReturnUrl = returnUrl || "http://localhost:5173/payment/success";
@@ -72,13 +74,18 @@ router.post("/create-order", async (req, res) => {
           {
             amount: {
               currency_code: "USD",
-              value: grandTotal.toFixed(2), // Rounding to two decimal places
+              value: grandTotal.toFixed(2),
               breakdown: {
                 item_total: {
                   currency_code: "USD",
                   value: totalPrice.toFixed(2),
                 },
                 tax_total: { currency_code: "USD", value: tax.toFixed(2) },
+                discount: {
+                  currency_code: "USD",
+                  value: discount.toFixed(2),
+                },
+
                 shipping: {
                   currency_code: "USD",
                   value: shippingPrice.toFixed(2),
@@ -121,6 +128,8 @@ router.post("/create-order", async (req, res) => {
         grandTotal,
         uid,
         cid,
+        couponData,
+        discount,
       },
     });
   } catch (error) {
@@ -139,6 +148,10 @@ router.post("/capture-order/:orderID", async (req, res) => {
     const accessToken = await generateAccessToken();
     const { orderID } = req.params;
     const orderDetails = req.body;
+
+
+
+
     for (const item of orderDetails.items) {
       const product = await Product.findOne({ _id: item.productId });
 
@@ -188,11 +201,15 @@ router.post("/capture-order/:orderID", async (req, res) => {
       shippingPrice: orderDetails.shippingPrice,
       grandTotal: orderDetails.grandTotal,
       transactionId,
+      coupon: {
+        code: orderDetails.couponData.code,
+        value: orderDetails.couponData.discountValue,
+      },
+      discount: orderDetails.discount || 0,
     });
 
     await newOrder.save();
 
-    // Clear the cart
     await Cart.findByIdAndUpdate(orderDetails.cid, { $set: { items: [] } });
 
     res.json({
@@ -218,7 +235,6 @@ router.post("/add-money", async (req, res) => {
       return res.status(400).json({ message: "Invalid amount" });
     }
 
-    // Use a return URL without the placeholder; PayPal will append ?token=ORDER_ID on redirect.
     const return_url = `http://localhost:5173/wallet/payed?success=true&userId=${userId}`;
     const cancel_url = `http://localhost:5173/wallet/payed?cancel=true`;
 
@@ -314,7 +330,7 @@ router.post("/capture-wallet-payment", async (req, res) => {
     user.balance += amount;
     await user.save();
 
-    // Log the transaction
+    
     const transaction = new Transaction({
       user: userId,
       transactionType: "Credited",

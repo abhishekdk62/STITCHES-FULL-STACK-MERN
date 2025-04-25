@@ -3,7 +3,7 @@ import React, { useEffect, useState, useCallback } from "react";
 import { useSelector } from "react-redux";
 import { createPaypalOrder } from "../src/services/paypalService";
 
-export default function PayPalButton({ grandTotal, paymentMethod }) {
+export default function PayPalButton({ grandTotal, paymentMethod,couponData,discount }) {
   const [errorMessage, setErrorMessage] = useState("");
   const [sdkLoaded, setSdkLoaded] = useState(false);
 
@@ -74,10 +74,14 @@ export default function PayPalButton({ grandTotal, paymentMethod }) {
         userId: userDetails?._id,
         returnUrl,
         cancelUrl,
+        couponData,
+        discount
       };
   
       console.log("💾 Storing Order Details in Local Storage:", orderDetails);
       localStorage.setItem("orderDetails", JSON.stringify(orderDetails)); // Store order details
+      localStorage.setItem("coupon", JSON.stringify(couponData,
+        discount)); // Store order details
   
       const data = await createPaypalOrder(orderDetails);
       console.log("🔍 PayPal Order Response:", data);

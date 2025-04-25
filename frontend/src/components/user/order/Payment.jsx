@@ -308,9 +308,9 @@ const [disableCod,setDisableCod]=useState(false)
             <ChevronLeft className="w-4 h-4" />
             Back to Summary
           </motion.button>
-
+ 
           {paymentMethod === "paypal" ? (
-            <PayPalButton grandTotal={grandTotal} paymentMethod={paymentMethod} />
+            <PayPalButton couponData={couponData} discount={discount} grandTotal={grandTotal} paymentMethod={paymentMethod} />
           ) : paymentMethod === "wallet" ? (
             <motion.button
               whileHover={{ scale: userDetails?.balance >= grandTotal ? 1.02 : 1 }}
