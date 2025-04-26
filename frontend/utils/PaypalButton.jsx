@@ -79,9 +79,9 @@ export default function PayPalButton({ grandTotal, paymentMethod,couponData,disc
       };
   
       console.log("💾 Storing Order Details in Local Storage:", orderDetails);
-      localStorage.setItem("orderDetails", JSON.stringify(orderDetails)); // Store order details
+      localStorage.setItem("orderDetails", JSON.stringify(orderDetails)); 
       localStorage.setItem("coupon", JSON.stringify(couponData,
-        discount)); // Store order details
+        discount)); 
   
       const data = await createPaypalOrder(orderDetails);
       console.log("🔍 PayPal Order Response:", data);

@@ -76,9 +76,9 @@ export const getCoupons = async () => {
   }
 };
 
-export const appllyCouponApi = async (couponCode) => {
+export const appllyCouponApi = async (couponCode,finalTotal) => {
   try {
-    const response = await apiClient.post("/user/coupon", { couponCode });
+    const response = await apiClient.post("/user/coupon", { couponCode,finalTotal });
 
     return response.data;
   } catch (error) {

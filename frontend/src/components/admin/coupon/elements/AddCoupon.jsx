@@ -9,15 +9,22 @@ const AddCoupon = ({ setSelectedTab }) => {
   const [discountValue, setDiscountValue] = useState("");
   const [expiryDate, setExpiryDate] = useState("");
   const [usageLimit, setUsageLimit] = useState("");
+  const [minimumAmount, setMinimumAmount] = useState("");
   const [name, setName] = useState("");
   const [error, setError] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (  !discountValue || !expiryDate || !usageLimit) {
+    if (  !discountValue || !expiryDate || !usageLimit||!minimumAmount) {
       setError("Please fill in all fields.");
       return;
     }
+    
+    if (  discountValue<=0 || usageLimit<=0||minimumAmount<=0) {
+      setError("Please provide valid values.");
+      return;
+    }
+
 
     const couponData = {
       name,
@@ -25,6 +32,7 @@ const AddCoupon = ({ setSelectedTab }) => {
       discountValue: Number(discountValue),
       expiryDate,
       usageLimit: Number(usageLimit),
+      minimumAmount:Number(minimumAmount)
     };
 
     try {
@@ -155,6 +163,20 @@ const AddCoupon = ({ setSelectedTab }) => {
               placeholder="e.g. 100"
               value={usageLimit}
               onChange={(e) => setUsageLimit(e.target.value)}
+              className="w-full border border-gray-300 rounded-lg px-4 py-3"
+            />
+          </div>
+          <div className="space-y-2">
+            <label className="flex items-center text-gray-700 font-medium" htmlFor="minimumAmount">
+              <DollarSign className="mr-2" size={18} />
+              Mininum amount
+            </label>
+            <input
+              id="minimumAmount"
+              type="number"
+              placeholder="e.g. 100"
+              value={minimumAmount}
+              onChange={(e) => setMinimumAmount(e.target.value)}
               className="w-full border border-gray-300 rounded-lg px-4 py-3"
             />
           </div>

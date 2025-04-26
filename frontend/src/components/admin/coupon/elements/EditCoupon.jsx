@@ -10,6 +10,8 @@ const EditCoupon = ({ setSelectedTab }) => {
   const [discountValue, setDiscountValue] = useState("");
   const [expiryDate, setExpiryDate] = useState("");
   const [usageLimit, setUsageLimit] = useState("");
+    const [minimumAmount, setMinimumAmount] = useState("");
+  
   const [error, setError] = useState("");
   const [coupon, setCoupon] = useState(null);
 
@@ -18,12 +20,12 @@ const EditCoupon = ({ setSelectedTab }) => {
     const parsedVal = JSON.parse(val);
     if (parsedVal) {
       setCoupon(parsedVal);
-      setCode(parsedVal.code || "");
       setName(parsedVal.couponName || "");
       setDiscountType(parsedVal.discountType || "percentage");
       setDiscountValue(parsedVal.discountValue || "");
       setUsageLimit(parsedVal.usageLimit || "");
       setExpiryDate(new Date(parsedVal.expiryDate).toISOString().split("T")[0]);
+      setMinimumAmount(parsedVal.minimumAmount || "")
     }
   }, []);
 
@@ -31,18 +33,23 @@ const EditCoupon = ({ setSelectedTab }) => {
     e.preventDefault();
     setError("");
 
-    if (!code || !discountValue || !expiryDate || !usageLimit) {
+    if (  !discountValue || !expiryDate || !usageLimit||!minimumAmount) {
       setError("Please fill in all fields.");
       return;
     }
+    if (  discountValue<=0 || usageLimit<=0||minimumAmount<=0) {
+      setError("Please provide valid values.");
+      return;
+    }
+
 
     const updateData = {
-      code,
       couponName: name,
       discountType,
       discountValue: Number(discountValue),
       expiryDate,
       usageLimit: Number(usageLimit),
+      minimumAmount:Number(minimumAmount)
     };
 
     try {
@@ -61,7 +68,8 @@ const EditCoupon = ({ setSelectedTab }) => {
 
       setSelectedTab("view");
     } catch (error) {
-      setError("An error occurred while updating the coupon.");
+      
+      setError(error.response.data.message);
     }
   };
 
@@ -81,24 +89,7 @@ const EditCoupon = ({ setSelectedTab }) => {
 
           <form onSubmit={handleSubmit} className="space-y-6">
          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-           {/* Coupon Code */}
-           <div className="space-y-2">
-             <label className="flex items-center text-gray-700 font-medium" htmlFor="code">
-               <Hash className="mr-2" size={18} />
-               Coupon Code
-             </label>
-             <div className="relative">
-               <input
-                 id="code"
-                 type="text"
-                 placeholder="e.g. SUMMER25"
-                 value={code}
-                 onChange={(e) => setCode(e.target.value.toUpperCase())}
-                 className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
-               />
-             </div>
-           </div>
-           
+      
            {/* Coupon Name */}
            <div className="space-y-2">
              <label className="flex items-center text-gray-700 font-medium" htmlFor="name">
@@ -132,11 +123,9 @@ const EditCoupon = ({ setSelectedTab }) => {
                className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent appearance-none bg-white"
              >
                <option value="percentage">Percentage Discount (%)</option>
-               <option value="fixed">Fixed Amount (₹)</option>
              </select>
            </div>
            
-           {/* Discount Value */}
            <div className="space-y-2">
              <label className="flex items-center text-gray-700 font-medium" htmlFor="discountValue">
                {discountType === "percentage" ? (
@@ -161,7 +150,6 @@ const EditCoupon = ({ setSelectedTab }) => {
              </div>
            </div>
            
-           {/* Expiry Date */}
            <div className="space-y-2">
              <label className="flex items-center text-gray-700 font-medium" htmlFor="expiryDate">
                <Calendar className="mr-2" size={18} />
@@ -191,6 +179,23 @@ const EditCoupon = ({ setSelectedTab }) => {
                className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
              />
            </div>
+
+
+       <div className="space-y-2">
+            <label className="flex items-center text-gray-700 font-medium" htmlFor="minimumAmount">
+              <DollarSign className="mr-2" size={18} />
+              Mininum amount
+            </label>
+            <input
+              id="minimumAmount"
+              type="number"
+              placeholder="e.g. 100"
+              value={minimumAmount}
+              onChange={(e) => setMinimumAmount(e.target.value)}
+              className="w-full border border-gray-300 rounded-lg px-4 py-3"
+            />
+          </div>
+
          </div>
  
          <div className="flex justify-between items-center pt-6 mt-6 border-t">

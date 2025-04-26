@@ -296,20 +296,31 @@ const Coupon = () => {
                       </div>
                       <div className="flex items-center text-gray-400">
                         <Clock size={16} className="mr-2" />
-                        <span className="text-black">
+                        <span className="text-black flex justify-center items-center">
                           {daysUntilExpiry(coupon.expiryDate)} days left
                         </span>
                       </div>
                     </div>
 
-                    <div className="mt-4 text-black text-sm">
-                      Usage: {coupon.usedCount} used out of {coupon.usageLimit}
+                    <div className="flex justify-between">
+                      <div className="mt-4 text-black text-sm">
+                        Usage: {coupon.usedCount} used out of{" "}
+                        {coupon.usageLimit}
+                      </div>
+                      <div class="">
+                    
+
+                        <div class=" flex justify-center mt-4 items-center text-black text-xs ">
+                        minimum Amount {coupon.minimumAmount}Rs
+                        </div>
+                      </div>
                     </div>
                   </div>
 
                   {/* Coupon code section */}
-                  <div className="bg-gray-400 p-7 flex flex-col justify-center items-center min-w-48">
+                  <div className="bg-gray-400 flex flex-col justify-center items-center min-w-48">
                     <div className="text-center">
+                
                       <div className="text-xs uppercase tracking-wide text-gray-400 mb-2">
                         Coupon Code
                       </div>

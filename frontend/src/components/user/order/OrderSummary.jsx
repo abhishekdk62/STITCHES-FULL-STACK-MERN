@@ -43,7 +43,7 @@ const handleApplyCoupon =async()=>{
   }
 
   try {
-    const response=await appllyCouponApi(couponCode)
+    const response=await appllyCouponApi(couponCode,finalTotal)
     console.log(response);
     setCouponData(response)
 
@@ -312,7 +312,7 @@ const couponVariants = {
                                   onClick={() => selectCoupon(coupon.code)}
                                   className="text-xs bg-black text-white hover:bg-gray-800 p-1 px-2 rounded transition-colors"
                                 >
-                                  Apply
+                                  Use
                                 </button>
                               </div>
                             </div>

@@ -2,14 +2,14 @@ const Coupon = require("../../models/couponSchema");
 
 const addCoupon = async (req, res) => {
   try {
-    const { name, discountType, discountValue, expiryDate, usageLimit } =
+    const { name, discountType, discountValue, expiryDate, usageLimit,minimumAmount } =
       req.body;
     let couponName = name;
 
     const code = Math.random().toString(36).slice(2, 8).toUpperCase();
 
     const existingCoupon = await Coupon.findOne({
-        couponName },
+        couponName:{$regex:`^${couponName}$`,$options:"i"} },
     );
 
     if (existingCoupon) {
@@ -27,6 +27,7 @@ const addCoupon = async (req, res) => {
       discountValue,
       expiryDate,
       usageLimit,
+      minimumAmount
     });
 
     await newCoupon.save();
@@ -44,10 +45,21 @@ const addCoupon = async (req, res) => {
 
 const editCoupon = async (req, res) => {
   try {
-    // Assume the coupon ID is provided in req.params.id
     const couponId = req.params.id;
-    // The new data is provided in req.body
+   
     const updateData = req.body;
+
+
+
+    const existingCoupon=await Coupon.find({couponName:{$regex:`^${updateData.couponName}$`,$options:"i"},_id:{$ne:couponId}})
+    if(existingCoupon.length>0)
+    {
+      return res
+      .status(400)
+      .json({ message: "Coupon name already exists" });
+
+
+    }
 
     const updatedCoupon = await Coupon.findByIdAndUpdate(couponId, updateData, {
       new: true,
@@ -62,6 +74,8 @@ const editCoupon = async (req, res) => {
       coupon: updatedCoupon,
     });
   } catch (error) {
+    console.log(error);
+    
     res.status(500).json({ message: error.message });
   }
 };

@@ -8,32 +8,20 @@ const getCoupons = async (req, res) => {
     const uid = req.user.id;
     const now = new Date();
 
-    const expiredCoupons = await Coupons.find({
-      expiryDate: { $lte: now },
-      isDeleted: false,
-    });
+   await Coupons.deleteMany({
+    expiryDate:{$lte:now},
+    isDeleted: false
 
-    if (expiredCoupons.length > 0) {
-      for (const coupon of expiredCoupons) {
-        coupon.isDeleted = true;
-        await coupon.save(); 
-      }
-    }
 
-    const expiredRefCoupons = await Referal.find({
-      expiryDate: { $lte: now },
-      isDeleted: false,
-    });
+   })
 
-    if (expiredRefCoupons.length > 0) {
-      for (const refCoupon of expiredRefCoupons) {
-        refCoupon.isDeleted = true;
-        await refCoupon.save(); 
-      }
-    }
+
+    await Referal.deleteMany({expiryDate:{$lte:now},  isDeleted: false
+    })
 
     const coupons = await Coupons.find({
       isDeleted: false,
+
     });
 
     const refCoupons = await Referal.find({
@@ -50,6 +38,7 @@ const getCoupons = async (req, res) => {
 const applyCoupon = async (req, res) => {
   try {
     const { couponCode } = req.body;
+    const { finalTotal } = req.body;
 
     if (couponCode === "") {
       return res.status(200).json({ message: "Coupon removed" });
@@ -70,11 +59,20 @@ const applyCoupon = async (req, res) => {
       await coupon.save();
       return res.status(400).json("Coupon is no longer valid");
     }
+    console.log(finalTotal);
+
+  if(coupon.minimumAmount>finalTotal)
+  {
+    return res.status(400).json(`Minimum order amount to use this coupon is ${coupon.minimumAmount}`);
+
+  }
 
     await coupon.save();
 
     res.status(200).json(coupon);
   } catch (error) {
+    console.log(error);
+    
     res.status(500).json(error);
   }
 };
