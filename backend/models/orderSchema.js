@@ -7,7 +7,6 @@ const orderSchema = new mongoose.Schema(
       type: String,
       unique: true,
       required: true,
-      default: () => "ORD-" + uuidv4().slice(0, 8),
     },
  
     user: {

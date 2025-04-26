@@ -24,7 +24,7 @@ const TransactionSchema = new Schema({
   },
   currency: {
     type: String,
-    default: "USD"
+    default: "Rs"
   },
   details: {
     type: String,

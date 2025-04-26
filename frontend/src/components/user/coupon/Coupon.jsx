@@ -307,10 +307,10 @@ const Coupon = () => {
                         Usage: {coupon.usedCount} used out of{" "}
                         {coupon.usageLimit}
                       </div>
-                      <div class="">
+                      <div className="">
                     
 
-                        <div class=" flex justify-center mt-4 items-center text-black text-xs ">
+                        <div className=" flex justify-center mt-4 items-center text-black text-xs ">
                         minimum Amount {coupon.minimumAmount}Rs
                         </div>
                       </div>

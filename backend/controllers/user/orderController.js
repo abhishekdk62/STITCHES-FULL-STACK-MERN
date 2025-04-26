@@ -53,16 +53,20 @@ const createOrder = async (req, res) => {
       coupon.save();
     }
 
+    const orderID = "ORD-" + Math.random().toString().slice(2, 7);
     if (paymentMethod === "wallet") {
       await User.findByIdAndUpdate(user, { $inc: { balance: -grandTotal } });
+
+      let transactionDetails = `${grandTotal} Rs has been deducted from your wallet for the Order with ID ${orderID}.`;
+      
 
       const transaction = new Transaction({
         user,
         order: cartid,
         transactionType: "Debited",
         amount: grandTotal,
-        currency: "USD",
-        details: `${grandTotal} has been deducted from your wallet`,
+        currency: "Rs",
+        details:transactionDetails ,
       });
 
       await transaction.save();
@@ -70,6 +74,7 @@ const createOrder = async (req, res) => {
 
     const newOrder = new Order({
       user,
+      orderID,
       items: transformedItems,
       address: {
         addressType: address.addressType,
@@ -165,7 +170,7 @@ const cancelOrderItem = async (req, res) => {
     }
     let transactionDetails = `Order ID ${orderId} has been cancelled.`;
 
-    if (paymentMethod === "paypal") {
+    if (paymentMethod !== "cod") {
       const user = await User.findById(userId);
       if (!user) {
         return res.status(404).json({ error: "User not found" });
@@ -174,7 +179,7 @@ const cancelOrderItem = async (req, res) => {
       try {
         user.balance += grandTotal;
         await user.save();
-        transactionDetails += ` Refunded ${grandTotal} USD to user wallet.`;
+        transactionDetails += ` Refunded ${grandTotal} Rs to user wallet.`;
       } catch (error) {
         console.error("Error updating user balance:", error);
         return res

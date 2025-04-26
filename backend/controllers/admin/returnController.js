@@ -57,7 +57,7 @@ const approveReturn = async (req, res) => {
     user.balance += rate;
     await user.save();
 
-    const transactionDetails = `Order ID ${request.orderId} has been returned. Refunded ${rate} USD to user wallet.`;
+    const transactionDetails = `Order ID ${request.orderId} has been returned. Refunded ${rate} Rs to user wallet.`;
 
     const transaction = new Transaction({
       user: userId,

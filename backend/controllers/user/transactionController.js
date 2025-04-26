@@ -1,5 +1,6 @@
 
 const Transaction = require("../../models/transactionSchema");
+const User = require("../../models/userSchema");
 
 
 
@@ -11,7 +12,9 @@ const getTransactions = async (req, res) => {
       createdAt: -1,
     });
 
-    res.status(200).json({ transactions });
+    const user=await User.findById(userId)
+
+    res.status(200).json({ transactions,user });
   } catch (error) {
     console.error("Error fetching transactions:", error);
     res.status(500).json({ error: error.message });

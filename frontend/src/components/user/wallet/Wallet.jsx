@@ -26,11 +26,15 @@ const Wallet = () => {
   const [amount, setAmount] = useState("");
   const [showAddMoneyModal, setShowAddMoneyModal] = useState(false);
   const userDetails = useSelector((state) => state.auth.user);
+  const [walletBalance,setWalletBalance]=useState(0)
 
   const fetchTransactions = async () => {
     try {
       const response = await getTransactionsApi();
+      console.log(response);
+      
       setTransactions(response.transactions);
+      setWalletBalance(response.user.balance)
     } catch (error) {
       console.log(error);
     }
@@ -155,7 +159,7 @@ const Wallet = () => {
               <div>
                 <p className="text-gray-300 mb-2">Available Balance</p>
                 <h3 className="text-4xl font-bold">
-                  ₹{userDetails?.balance.toFixed(2)}
+                  ₹{walletBalance?.toFixed(2)}
                 </h3>
               </div>
               <CreditCard className="w-8 h-8 text-gray-300" />
