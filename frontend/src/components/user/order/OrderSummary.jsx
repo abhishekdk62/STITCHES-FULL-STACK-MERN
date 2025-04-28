@@ -338,8 +338,8 @@ const couponVariants = {
 
       <div className="flex justify-between items-center border-b pb-4 mb-8">
         <div className="flex items-center gap-3">
-          <ShoppingBag className="w-6 h-6 text-black" />
-          <h2 className="text-2xl font-bold text-black tracking-tight">Order Summary</h2>
+          <ShoppingBag className="sm:w-6 sm:h-6 w-5 h-5 text-black" />
+          <h2 className="sm:text-2xl font-bold text-black tracking-tight">Order Summary</h2>
         </div>
       
       </div>
@@ -351,7 +351,7 @@ const couponVariants = {
         transition={{ delay: 0.1 }}
         className="mb-8"
       >
-        <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
+        <h3 className="sm:text-lg text-sm font-semibold mb-4 flex items-center gap-2">
           <MapPin className="w-5 h-5 text-gray-700" />
           Delivery Address
         </h3>
@@ -360,14 +360,18 @@ const couponVariants = {
           <div className="flex justify-between items-center">
             <div className="flex items-start gap-3">
               <div>
-                <p className="font-medium text-lg">{address?.fullName}</p>
-                <p className="text-gray-700 mt-1">{address?.street}</p>
-                <p className="text-gray-700">{address?.city}, {address?.state}, {address?.zipCode}</p>
-                <p className="text-gray-700 mt-2 flex items-center gap-2">
+                <p className="font-medium text-sm sm:text-lg">{address?.fullName}</p>
+                <p className="text-gray-700 text:xs sm:text-base mt-1">{address?.street}</p>
+                <p className="text-gray-700 text:xs sm:text-base">{address?.city}, {address?.state}, {address?.zipCode}</p>
+                <p className="text-gray-700 text:xs sm:text-base mt-2 flex items-center gap-2">
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
                     <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
                   </svg>
+                  <p className="text:sm sm:text-base">
                   {address?.phone}
+
+                  </p>
+                  
                 </p>
               </div>
             </div>
@@ -391,7 +395,7 @@ const couponVariants = {
         className="mb-8"
       >
         <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
-          <Package className="w-5 h-5 text-gray-700" />
+          <Package className="w-5 text-sm sm:text-base h-5 text-gray-700" />
           Items ({cartItems?.items?.length || 0})
         </h3>
         
@@ -405,7 +409,7 @@ const couponVariants = {
               className="py-4 px-6 flex justify-between items-center border-b border-gray-100 bg-gray-50 hover:bg-white transition-colors duration-300"
             >
               <div className="flex items-center gap-4">
-                <div className="w-12 h-12 bg-gray-100 rounded flex items-center justify-center">
+                <div className="w-12 h-12 bg-gray-100 rounded flex text-sm sm:text-base items-center justify-center">
                   {item?.productId?.image ? (
                     <img src={item?.productId?.image} alt={item?.productId?.name} className="w-10 h-10 object-contain" />
                   ) : (
@@ -413,13 +417,13 @@ const couponVariants = {
                   )}
                 </div>
                 <div>
-                  <p className="font-medium">{item?.productId?.name}</p>
-                  <div className="flex items-center gap-3 text-sm text-gray-500 mt-1">
+                  <p className="text-sm sm:text-base font-medium">{item?.productId?.name}</p>
+                  <div className="text-sm sm:text-base flex items-center gap-3  text-gray-500 mt-1">
                     <p>₹{item?.price?.toFixed(2)} × {item?.quantity}</p>
                   </div>
                 </div>
               </div>
-              <p className="font-medium">
+              <p className="text-sm sm:text-base font-medium">
               ₹{(item?.price * item?.quantity).toFixed(2)}
               </p>
             </motion.div>
@@ -441,28 +445,28 @@ const couponVariants = {
         
         <div className="space-y-3 bg-gray-50 p-6 rounded-lg border border-gray-100">
           <div className="flex justify-between text-gray-700">
-            <p>Subtotal</p>
-            <p>₹{cartItems?.totalPrice?.toFixed(2) || "0.00"}</p>
+            <p className="text-sm sm:text-base">Subtotal</p>
+            <p className="text-sm sm:text-base">₹{cartItems?.totalPrice?.toFixed(2) || "0.00"}</p>
           </div>
           <div className="flex justify-between text-gray-700">
             <div className="flex items-center gap-2">
               <Truck className="w-4 h-4" />
-              <p>Shipping</p>
+              <p className="text-sm sm:text-base">Shipping</p>
             </div>
-            <p>₹{cartItems?.shippingPrice?.toFixed(2) || "0.00"}</p>
+            <p className="text-sm sm:text-base">₹{cartItems?.shippingPrice?.toFixed(2) || "0.00"}</p>
           </div>
           <div className="flex justify-between text-gray-700">
-            <p>Tax</p>
-            <p>₹{cartItems?.tax?.toFixed(2) || "0.00"}</p>
+            <p className="text-sm sm:text-base">Tax</p>
+            <p className="text-sm sm:text-base">₹{cartItems?.tax?.toFixed(2) || "0.00"}</p>
           </div>
          {discount? <div className="flex justify-between text-gray-700">
-            <p>Discount</p>
-            <p className="text-green-300">₹{discount}</p>
+            <p className="text-sm sm:text-base">Discount</p>
+            <p className="text-sm sm:text-base text-green-300">₹{discount}</p>
           </div>:null}
           <div className="border-t border-gray-200 pt-3 mt-3"></div>
           <div className="flex justify-between font-bold text-lg">
-            <p>Grand Total</p>
-            <p>₹{finalTotal?.toFixed(2) || "0.00"}</p>
+            <p className="text-[0.88rem] sm:text-base">Grand Total</p>
+            <p className="text-[0.88rem] sm:text-base">₹{finalTotal?.toFixed(2) || "0.00"}</p>
           </div>
         </div>
       </motion.div>
@@ -473,27 +477,27 @@ const couponVariants = {
   transition={{ delay: 0.25 }}
   className="mb-8"
 >
-  <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
+  <h3 className="text-base sm:text-lg font-semibold mb-4 flex items-center gap-2">
     <Ticket className="w-5 h-5 text-gray-700" />
     Apply Coupon
   </h3>
 
   <div className="flex flex-col  gap-4 bg-gray-50 p-6 rounded-lg border border-gray-100">
-  <div className="flex gap-3"> <div> <input
+  <div className="flex sm:gap-3"> <div> <input
       type="text"
       placeholder="Enter coupon code"
       className=" px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black text-sm"
       value={couponCode}
       onChange={(e) => setCouponCode(e.target.value)}
     /></div>
-<div className=" flex gap-70 items-center">
+<div className=" flex sm:flex-row flex-col md:gap-70 gap-5 items-center">
 <div>
    <motion.button
       whileHover={{ scale: 1.03 }}
       whileTap={{ scale: 0.97 }}
       
       onClick={handleApplyCoupon}
-      className={`px-6 py-2 bg-black text-white rounded-lg border border-black hover:bg-white hover:text-black transition-all duration-300 ${disabled?"cursor-not-allowed":"null"} `}
+      className={`sm:px-6 sm:py-2 px-3 py-1 bg-black text-white rounded-lg border border-black hover:bg-white hover:text-black transition-all duration-300 ${disabled?"cursor-not-allowed":"null"} `}
     >
       Apply
     </motion.button>
@@ -503,7 +507,7 @@ const couponVariants = {
       whileHover={{ scale: 1.03 }}
       whileTap={{ scale: 0.97 }}
       onClick={()=>setIsOpen(true)}
-      className=" py-2 px-2 bg-white hover:border-green-500 text-xs text-black rounded-lg border border-black transition-all duration-300"
+      className=" md:py-2 md:px-2 py-1 px-1 bg-white hover:border-green-500 text-xs text-black rounded-lg border border-black transition-all duration-300"
     >
           Show coupons
     </motion.button>
@@ -539,7 +543,7 @@ const couponVariants = {
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
           onClick={() => setStep(1)}
-          className="px-6 py-3 flex items-center gap-2 border border-black text-black hover:bg-black hover:text-white transition-all duration-300 rounded"
+          className="sm:px-6 px-2 py-1 sm:text-base text-sm flex items-center gap-2 border border-black text-black hover:bg-black hover:text-white transition-all duration-300 rounded"
         >
           <ChevronLeft className="w-4 h-4" />
           Back to Shipping
@@ -552,7 +556,7 @@ const couponVariants = {
             
             
             setStep(3)}}
-          className="px-6 py-3 flex items-center gap-2 bg-black text-white border border-black hover:bg-white hover:text-black transition-all duration-300 rounded"
+          className="sm:px-6 px-2 py-1 sm:text-base text-sm sm:py-3 flex items-center gap-2 bg-black text-white border border-black hover:bg-white hover:text-black transition-all duration-300 rounded"
         >
           Proceed to Payment
           <ChevronRight className="w-4 h-4" />

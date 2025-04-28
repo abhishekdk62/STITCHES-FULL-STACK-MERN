@@ -11,10 +11,11 @@ import {
 } from "lucide-react";
 import CategoryCard from "./CategoryCard";
 import { fetchCategoriesService } from "../../../../services/categoryService";
-import {CategoryCardShimmer} from './CategoryCard'
+import { CategoryCardShimmer } from "./CategoryCard";
 import Pagination from "../../../common/utils/Pagination";
 import { useDebounce } from "../../../../../utils/useDebounce";
 import toast from "react-hot-toast";
+
 const CategoryList = ({
   setShowAddCategory,
   setEditCategory,
@@ -28,8 +29,7 @@ const CategoryList = ({
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
-  const debouncedValue = useDebounce(searchInput.trim(), 500); 
-
+  const debouncedValue = useDebounce(searchInput.trim(), 500);
 
   const fetchCategories = async (query = "", page = 1) => {
     try {
@@ -58,13 +58,12 @@ const CategoryList = ({
   useEffect(() => {
     setCurrentPage(1);
 
-    fetchCategories("",1);
+    fetchCategories("", 1);
   }, []);
 
   useEffect(() => {
-
     fetchCategories(debouncedValue, currentPage);
-  }, [currentPage,debouncedValue]);
+  }, [currentPage, debouncedValue]);
 
   const handleSearch = () => {
     setCurrentPage(1);
@@ -79,14 +78,14 @@ const CategoryList = ({
   };
 
   return (
-    <div className="bg-gray-50 min-h-screen">
-      <div className="max-w-7xl mx-auto p-6 pb-20">
-        {/* Header */}
-        <div className="mb-8 flex items-center">
-          <div className="bg-black text-white p-3 rounded-full mr-4">
-            <Tag size={24} />
+    <div className="mx-auto bg-gray-50 w-full min-h-screen">
+      <div className="">
+    
+        <div className="mb-6 sm:mb-8 flex items-center">
+          <div className="bg-black text-white p-2 sm:p-3 rounded-full mr-3 sm:mr-4">
+            <Tag size={20} sm:size={24} />
           </div>
-          <h1 className="text-3xl font-bold">Category Management</h1>
+          <h1 className="text-lg sm:text-xl font-bold">Category Management</h1>
         </div>
 
         {/* Controls Bar */}
@@ -100,7 +99,7 @@ const CategoryList = ({
                 <input
                   type="text"
                   placeholder="Search by category name"
-                  className="pl-10 pr-10 py-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black/70"
+                  className="pl-10 pr-10 py-1 sm:py-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black/70 text-sm sm:text-base"
                   value={searchInput}
                   onChange={(e) => setSearchInput(e.target.value)}
                   onKeyPress={handleKeyPress}
@@ -109,7 +108,7 @@ const CategoryList = ({
                   <button
                     onClick={() => {
                       setSearchInput("");
-                      setCurrentPage(1)
+                      setCurrentPage(1);
                       fetchCategories("", 1);
                     }}
                     className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
@@ -118,32 +117,20 @@ const CategoryList = ({
                   </button>
                 )}
               </div>
-              <button
-                onClick={handleSearch}
-                className="bg-black text-white px-4 py-2 rounded-md flex items-center transition-all hover:bg-gray-800 w-full md:w-auto justify-center"
-              >
-                <Search size={18} className="mr-2" />
-                <span>Search</span>
-              </button>
-              <button
-                onClick={refreshData}
-                className="bg-white text-black border border-gray-300 px-4 py-2 rounded-md flex items-center transition-all hover:bg-gray-100 w-full md:w-auto justify-center"
-              >
-                <RefreshCw size={18} className="mr-2" />
-                <span>Refresh</span>
-              </button>
+       
+          
             </div>
-            <div className="flex gap-4">
-              <button
+            <div className="flex gap-3 sm:gap-4">
+            <button
                 onClick={() => setShowAddCategory(true)}
-                className="bg-black text-white px-4 py-2 rounded-md flex items-center transition-all hover:bg-gray-800"
+                className="bg-black text-white px-3 sm:px-4 py-1 sm:py-2 rounded-md flex items-center transition-all hover:bg-gray-800 text-sm sm:text-base"
               >
                 <Plus size={18} className="mr-2" />
                 <span>Add Category</span>
               </button>
               <button
                 onClick={() => setShowRemovedCategory(true)}
-                className="bg-red-500 text-white px-4 py-2 rounded-md flex items-center transition-all hover:bg-red-600"
+                className="bg-red-500 text-white px-3 sm:px-4 py-1 sm:py-2 rounded-md flex items-center transition-all hover:bg-red-600 text-sm sm:text-base"
               >
                 <Trash2 size={18} className="mr-2" />
                 <span>View Removed</span>
@@ -154,7 +141,7 @@ const CategoryList = ({
 
         {/* Error Message */}
         {error && (
-          <div className="mb-6 p-4 bg-red-50 border border-red-200 text-red-700 rounded-lg flex items-center">
+          <div className="mb-6 p-3 sm:p-4 bg-red-50 border border-red-200 text-red-700 rounded-lg flex items-center">
             <svg
               className="w-5 h-5 mr-2"
               fill="currentColor"
@@ -223,18 +210,13 @@ const CategoryList = ({
         </div>
       </div>
 
-  
-
-
-        <div className="fixed bottom-0 left-0 right-0 p-3 bg-white shadow-lg border-t border-gray-200">
-  <Pagination
-    currentPage={currentPage}
-    totalPages={totalPages}
-    setCurrentPage={setCurrentPage}
-  />
-</div>
-
-
+      <div className="fixed bottom-0 left-0 right-0 p-3 bg-white shadow-lg border-t border-gray-200">
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          setCurrentPage={setCurrentPage}
+        />
+      </div>
     </div>
   );
 };

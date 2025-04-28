@@ -148,6 +148,7 @@ router.post("/capture-order/:orderID", async (req, res) => {
     const accessToken = await generateAccessToken();
     const { orderID } = req.params;
     const orderDetails = req.body;
+    
 
 
 
@@ -183,8 +184,10 @@ router.post("/capture-order/:orderID", async (req, res) => {
 
     const transactionId =
       captureResponse.data.purchase_units[0].payments.captures[0].id;
+      const ordid = "ORD-" + Math.random().toString().slice(2, 7);
 
     const newOrder = new Order({
+      orderID: ordid,
       user: orderDetails.userId,
       items: orderDetails.items.map((item) => ({
         product: item.productId || item.product,
@@ -202,8 +205,8 @@ router.post("/capture-order/:orderID", async (req, res) => {
       grandTotal: orderDetails.grandTotal,
       transactionId,
       coupon: {
-        code: orderDetails.couponData.code,
-        value: orderDetails.couponData.discountValue,
+        code: orderDetails?.couponData?.code??null,
+        value: orderDetails?.couponData?.discountValue??null,
       },
       discount: orderDetails.discount || 0,
     });
@@ -266,16 +269,13 @@ router.post("/add-money", async (req, res) => {
       }
     );
 
-    // Extract the order ID from the response
     const orderID = orderResponse.data.id;
 
-    // Get the approval URL from the response links
     let approvalUrl = orderResponse.data.links.find(
       (link) => link.rel === "approve"
     )?.href;
     if (!approvalUrl) throw new Error("No approval URL found");
 
-    // Optionally, you can also append the order ID to the approval URL, though it's not required
     const separator = approvalUrl.includes("?") ? "&" : "?";
     approvalUrl = `${approvalUrl}${separator}orderID=${orderID}`;
 

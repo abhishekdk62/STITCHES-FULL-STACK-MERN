@@ -55,7 +55,7 @@ const DeliveryStatus = ({ status, setStatus, orderId, productId, variantId }) =>
 
       <div className="mb-4">
         <div
-          className={`px-3 py-1.5 rounded-full text-sm font-medium inline-flex items-center ${getStatusColor(
+          className={`px-3 py-1.5 rounded-full text-xs sm:text-sm md:text-[0.9rem] lg-xl font-medium inline-flex items-center ${getStatusColor(
             status
           )}`}
         >

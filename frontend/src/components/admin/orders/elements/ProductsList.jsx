@@ -188,13 +188,13 @@ fetchProducts(debouncedValue)
         )}
       </AnimatePresence>
 
-      <div className="max-w-7xl mx-auto p-6 pb-20">
+      <div className="w-full mx-auto p-6 pb-20">
         {/* Header */}
         <div className="mb-8 flex items-center">
           <div className="bg-black text-white p-3 rounded-full mr-4">
-            <Package size={24} />
+            <Package size={20} className="sm:size-6" />
           </div>
-          <h1 className="text-3xl font-bold">Products Management</h1>
+          <h1 className="text-sm sm:text-3xl font-bold">Products Management</h1>
         </div>
 
         {/* Controls Bar */}
@@ -226,17 +226,17 @@ fetchProducts(debouncedValue)
               </div>
          
             </div>
-            <div className="flex gap-4 w-full md:w-auto">
+        <div className="flex lg:flex md:flex-col lg:flex-row gap-4 w-full md:w-auto">
               <button
                 onClick={() => setShowAddProduct(true)}
-                className="bg-black text-white px-4 py-2 rounded-md flex items-center transition-all hover:bg-gray-800 w-full md:w-auto justify-center"
+                className="bg-black md:text-[0.7rem] sm:text-sm text-white px-2 py-1 sm:py-2 sm:px-3 rounded-md flex items-center transition-all hover:bg-gray-800 w-full md:w-auto justify-center"
               >
                 <Plus size={18} className="mr-2" />
                 <span>Add Product</span>
               </button>
               <button
                 onClick={() => setShowRemoved(true)}
-                className="bg-white text-black border border-gray-300 px-4 py-2 rounded-md flex items-center transition-all hover:bg-gray-100 w-full md:w-auto justify-center"
+                className="bg-white md:text-[0.7rem] sm:text-sm   text-black border border-gray-300 sm:py-2 sm:px-3 px-2 py-1 rounded-md flex items-center transition-all hover:bg-gray-100 w-full md:w-auto justify-center"
               >
                 <Trash2 size={18} className="mr-2" />
                 <span>View Removed</span>

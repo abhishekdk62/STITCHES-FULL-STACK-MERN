@@ -44,6 +44,12 @@ export default function Checkout() {
       transition: { duration: 0.3 },
     },
   };
+  const stepData = [
+    { label: "Delivery" },
+    { label: "Summary" },
+    { label: "Payment" },
+  ];
+  
 
   const contentVariants = {
     hidden: { opacity: 0, y: 30 },
@@ -73,99 +79,66 @@ export default function Checkout() {
       />
 
       <motion.div
-        className="max-w-4xl mx-auto p-6 pt-8"
+        className="md:max-w-4xl w-full mx-auto md:p-6 pt-10 md:pt-8"
         variants={containerVariants}
         initial="hidden"
         animate="visible"
       >
         {/* Page Title */}
         <motion.h1
-          className="text-2xl font-semibold mb-8 text-center"
+          className="md:text-2xl font-semibold mb-8 text-center"
           variants={stepVariants}
         >
           Complete Your Purchase
         </motion.h1>
-
-        {/* Progress Steps */}
         <motion.div
-          className="flex justify-between mb-12 px-4"
-          variants={stepVariants}
-        >
+    className="flex justify-between mb-12 px-4"
+    variants={stepVariants}
+  >
+    {stepData.map((item, i) => {
+      const idx = i + 1;
+      const isCompleted = step > idx;
+      const isCurrent = step === idx;
+
+      return (
+        <div key={item.label}>
+          {/* Step indicator */}
           <div
             className={`flex flex-col items-center ${
-              step >= 1 ? "text-black" : "text-gray-400"
+              step >= idx ? "text-black" : "text-gray-400"
             }`}
           >
             <div
-              className={`w-10 h-10 flex items-center justify-center rounded-full border-2 transition-all duration-300 ${
-                step > 1
+              className={`sm:w-10 w-7 h-7 sm:h-10 flex items-center justify-center rounded-full border-2 transition-all duration-300 ${
+                isCompleted
                   ? "border-green-500 bg-green-500 text-white"
-                  : step === 1
+                  : isCurrent
                   ? "border-black bg-black text-white"
                   : "border-gray-300"
               }`}
             >
-              {step > 1 ? <CheckCircle size={18} /> : "1"}
+              {isCompleted ? <CheckCircle size={16} className="sm:w-5 sm:h-5" /> : <p className="text-xs sm:text-base">{idx}</p>}
             </div>
-            <span className="mt-2 font-medium">Delivery</span>
+            <span className="mt-2 text-sm sm:text-base font-medium">{item.label}</span>
           </div>
 
-          <div className="relative w-full self-center mx-4">
-            <div className="w-full h-0.5 absolute top-1/2 transform -translate-y-1/2 bg-gray-200"></div>
-            <div
-              className={`h-0.5 absolute top-1/2 transform -translate-y-1/2 transition-all duration-700 ease-in-out ${
-                step >= 2 ? "bg-black" : "bg-gray-200"
-              }`}
-              style={{ width: step >= 2 ? "100%" : "0%" }}
-            ></div>
-          </div>
-
-          <div
-            className={`flex flex-col items-center ${
-              step >= 2 ? "text-black" : "text-gray-400"
-            }`}
-          >
-            <div
-              className={`w-10 h-10 flex items-center justify-center rounded-full border-2 transition-all duration-300 ${
-                step > 2
-                  ? "border-green-500 bg-green-500 text-white"
-                  : step === 2
-                  ? "border-black bg-black text-white"
-                  : "border-gray-300"
-              }`}
-            >
-              {step > 2 ? <CheckCircle size={18} /> : "2"}
+          {/* Connector line (except after last step) */}
+          {i < stepData.length - 1 && (
+            <div className="relative w-full self-center mt-1">
+              <div className="w-full h-0.5 absolute top-1/2 transform -translate-y-1/2 bg-gray-200" />
+              <div
+                className={`h-0.5 absolute top-1/2 transform -translate-y-1/2 transition-all duration-700 ease-in-out ${
+                  step > idx ? "bg-gray-300" : "bg-gray-200"
+                }`}
+                style={{ width: step > idx ? "100%" : "0%" }}
+              />
             </div>
-            <span className="mt-2 font-medium">Summary</span>
-          </div>
+          )}
+        </div>
+      );
+    })}
+  </motion.div>
 
-          <div className="relative w-full self-center mx-4">
-            <div className="w-full h-0.5 absolute top-1/2 transform -translate-y-1/2 bg-gray-200"></div>
-            <div
-              className={`h-0.5 absolute top-1/2 transform -translate-y-1/2 transition-all duration-700 ease-in-out ${
-                step >= 3 ? "bg-black" : "bg-gray-200"
-              }`}
-              style={{ width: step >= 3 ? "100%" : "0%" }}
-            ></div>
-          </div>
-
-          <div
-            className={`flex flex-col items-center ${
-              step >= 3 ? "text-black" : "text-gray-400"
-            }`}
-          >
-            <div
-              className={`w-10 h-10 flex items-center justify-center rounded-full border-2 transition-all duration-300 ${
-                step === 3
-                  ? "border-black bg-black text-white"
-                  : "border-gray-300"
-              }`}
-            >
-              3
-            </div>
-            <span className="mt-2 font-medium">Payment</span>
-          </div>
-        </motion.div>
 
         {/* Content Section */}
         <motion.div

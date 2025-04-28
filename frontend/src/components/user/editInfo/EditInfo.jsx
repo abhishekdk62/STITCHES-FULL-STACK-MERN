@@ -155,35 +155,35 @@ const EditInfo = ({ setAddress }) => {
 
   const dispatch = useDispatch();
   return (
-    <motion.div 
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.4 }}
-      className="p-8 bg-white min-h-screen w-4xl rounded-xl"
-    >
+    <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.4 }}
+        className="pt-4 md:p-8 bg-white min-h-screen w-full rounded-xl"
+     >
       
 
       <div>
         {/* Contact Details */}
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 }}
-          className="mb-10"
-        >
-          <div className="flex items-center gap-3 mb-6">
-            <User className="w-5 h-5 text-gray-700" />
-            <h3 className="text-lg font-semibold">Edit Details</h3>
+        <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.1 }}
+        className="mb-6 md:mb-10"
+      >
+          <div className="flex items-center gap-2 md:gap-3 mb-4 md:mb-6">
+            <User className="md:w-6 md:h-6 w-4 h-4 text-black" />
+            <h3 className="md:text-2xl font-bold text-black tracking-tight">Edit Details</h3>
           </div>
-          <div className="space-y-6 bg-gray-50 p-6 rounded-lg border border-gray-100">
+          <div className="space-y-4 md:space-y-6 bg-gray-50 p-4 md:p-6 rounded-lg border border-gray-100">
             <div className="flex content-between justify-between border-b border-gray-200 pb-4 items-center">
               <div>
-                <p className="text-gray-500 text-sm mb-1">First Name</p>
+                <p className="text-gray-500 text-xs md:text-sm mb-1">First Name</p>
                 <input
                   type="text"
                   value={firstName}
                   onChange={(e) => setFirstName(e.target.value)}
-                  className="text-lg border border-gray-300 uppercase p-2 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-black"
+                  className="p-2 md:p-3 text-xs rounded-md w-full lg:text-lg border-gray-300  md:text-lg border uppercase focus:outline-none focus:ring-2 focus:ring-black"
                 />
               </div>
               <div className="ml-4">
@@ -191,14 +191,14 @@ const EditInfo = ({ setAddress }) => {
                   <motion.img
                     whileHover={{ scale: 1.05 }}
                     src={avatar}
-                    className="w-24 h-24 cursor-pointer rounded-full border-4 border-white shadow-md hover:brightness-90"
+                    className="w-16 h-16 md:w-24 md:h-24  cursor-pointer rounded-full border-4 border-white shadow-md hover:brightness-90"
                     onClick={() => setShowModal(true)}
                   />
                 ) : (
                   <motion.div
                     whileHover={{ scale: 1.05 }}
                     onClick={() => setShowModal(true)}
-                    className="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center shadow-md cursor-pointer hover:bg-gray-300"
+                    className="w-16 h-16 md:w-24 md:h-24  cursor-pointer rounded-full border-4 border-white shadow-md hover:brightness-90"
                   >
                     <span className="text-gray-700">
                       <Camera />
@@ -234,26 +234,26 @@ const EditInfo = ({ setAddress }) => {
 
             <div className="flex justify-between items-center border-b border-gray-200 pb-4">
               <div className="w-full">
-                <p className="text-gray-500 text-sm mb-1">Last Name</p>
+                <p className="text-gray-500 text-xs md:text-sm mb-1">Last Name</p>
                 <input
                   type="text"
                   value={lastName}
                   onChange={(e) => setLastName(e.target.value)}
-                  className="text-lg border border-gray-300 uppercase p-2 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-black"
+                  className="p-2 md:p-3 text-xs rounded-md w-full border-gray-300 md:text-base lg:text-lg border uppercase focus:outline-none focus:ring-2 focus:ring-black"
                 />
               </div>
             </div>
 
             <div className="flex justify-between items-center border-b border-gray-200 pb-4">
               <div className="flex-grow">
-                <p className="text-gray-500 text-sm mb-1">Email Address</p>
+                <p className="text-gray-500 text-xs md:text-sm mb-1">Email Address</p>
                 <div className="flex items-center">
                   <Mail className="w-5 h-5 text-gray-500 mr-2" />
                   <input
                     type="email"
                     value={email}
                     disabled
-                    className="text-lg border-gray-300 p-2 rounded-md w-full bg-gray-100"
+                    className=" border-gray-300 p-2 text-sm md:text-base lg:text-lg rounded-md w-full bg-gray-100"
                   />
                 </div>
               </div>
@@ -261,15 +261,15 @@ const EditInfo = ({ setAddress }) => {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={setshowEmailChange}
-                className="text-gray-500 cursor-pointer hover:text-black ml-4 px-3 py-1 rounded-md border border-gray-300 hover:border-black"
+                className="text-gray-500 cursor-pointer text-sm md:text-base lg:text-lg hover:text-black ml-4 md:px-3 px-1 py-1 md:py-1 rounded-md border border-gray-300 hover:border-black"
               >
                 change
               </motion.div>
             </div>
 
             <div className="flex space-x-6 items-center border-b border-gray-200 pb-4">
-              <p className="text-gray-500 text-sm">Gender:</p>
-              <div className="flex gap-4">
+              <p className="text-gray-500 text-xs md:text-base">Gender:</p>
+              <div className="flex gap-1 md:gap-4">
                 <div className="flex items-center">
                   <input
                     type="radio"
@@ -278,9 +278,9 @@ const EditInfo = ({ setAddress }) => {
                     value="Male"
                     checked={gender === "Male"}
                     onChange={(e) => setGender(e.target.value)}
-                    className="mr-2"
+                    className="mr-0.5"
                   />
-                  <label htmlFor="male" className="cursor-pointer">Male</label>
+                  <label htmlFor="male" className="text-sm md:text-base  cursor-pointer">Male</label>
                 </div>
                 <div className="flex items-center">
                   <input
@@ -292,45 +292,34 @@ const EditInfo = ({ setAddress }) => {
                     onChange={(e) => setGender(e.target.value)}
                     className="mr-2"
                   />
-                  <label htmlFor="female" className="cursor-pointer">Female</label>
+                  <label htmlFor="female" className="cursor-pointer text-sm md:text-base ">Female</label>
                 </div>
-                <div className="flex items-center">
-                  <input
-                    type="radio"
-                    id="other"
-                    name="gender"
-                    value="Other"
-                    checked={gender === "Other"}
-                    onChange={(e) => setGender(e.target.value)}
-                    className="mr-2"
-                  />
-                  <label htmlFor="other" className="cursor-pointer">Other</label>
-                </div>
+             
               </div>
             </div>
 
             <div className="flex justify-between items-center border-b border-gray-200 pb-4">
               <div className="w-full">
-                <p className="text-gray-500 text-sm mb-1">Date of Birth</p>
+                <p className="text-gray-500 text-xs md:text-sm   mb-1">Date of Birth</p>
                 <input
                   type="date"
                   value={dob}
                   onChange={(e) => setDob(e.target.value)}
-                  className="text-lg border border-gray-300 p-2 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-black"
+                  className="md:text-lg text-base border border-gray-300 p-2 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-black"
                 />
               </div>
             </div>
 
             <div className="flex justify-between items-center border-b border-gray-200 pb-4">
               <div className="w-full">
-                <p className="text-gray-500 text-sm mb-1">Phone Number</p>
+                <p className="text-gray-500 text-xs md:text-sm mb-1">Phone Number</p>
                 <div className="flex items-center">
                   <Phone className="w-5 h-5 text-gray-500 mr-2" />
                   <input
                     type="tel"
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
-                    className="text-lg border border-gray-300 p-2 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-black"
+                    className="md:text-lg text-base border border-gray-300 p-2 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-black"
                   />
                 </div>
               </div>
@@ -338,14 +327,14 @@ const EditInfo = ({ setAddress }) => {
 
             <div className="flex justify-between items-center border-b border-gray-200 pb-4">
               <div>
-                <p className="text-gray-500 text-sm mb-1">Password</p>
+                <p className="text-gray-500 text-xs md:text-sm mb-1">Password</p>
                 <p className="font-medium text-lg">•••••••</p>
               </div>
               <motion.div
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={passChange}
-                className="text-gray-500 cursor-pointer hover:text-black px-3 py-1 rounded-md border border-gray-300 hover:border-black"
+                className="text-gray-500 text-xs md:text-base cursor-pointer hover:text-black px-3 py-1 rounded-md border border-gray-300 hover:border-black"
               >
                 change
               </motion.div>
@@ -362,13 +351,13 @@ const EditInfo = ({ setAddress }) => {
           <div className="flex justify-between items-center mb-6">
             <div className="flex items-center gap-2">
               <MapPin className="w-5 h-5 text-gray-700" />
-              <h3 className="text-lg font-semibold">Address</h3>
+              <h3 className="text-base md:text-lg font-semibold">Address</h3>
             </div>
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => dispatch(setSelectedTab("address"))}
-              className="flex items-center gap-2 px-4 py-2 rounded-md border border-black hover:bg-black hover:text-white transition-colors duration-300"
+              className="flex items-center md:px-4 px-2 py-1 text-sm md:text-base md:py-2 rounded-md border border-black hover:bg-black hover:text-white transition-colors duration-300"
             >
               Add New
             </motion.button>
@@ -388,7 +377,7 @@ const EditInfo = ({ setAddress }) => {
                 >
                   <div className="p-6 bg-gray-50 h-full">
                     <div className="flex justify-between items-start mb-3">
-                      <h4 className="font-semibold text-lg">{address?.fullName}</h4>
+                      <h4 className="font-semibold text-base md:text-lg">{address?.fullName}</h4>
                       {indx === 0 && (
                         <span className="bg-black text-white text-xs px-2 py-1 rounded-full">
                           Default
@@ -398,12 +387,12 @@ const EditInfo = ({ setAddress }) => {
                     
                     <div className="flex items-start gap-3 mb-4">
                       <Phone className="w-4 h-4 text-gray-500 mt-1" />
-                      <p className="text-gray-700">{address?.phone}</p>
+                      <p className="text-gray-700 text-base">{address?.phone}</p>
                     </div>
                     
                     <div className="flex items-start gap-3 mb-4">
                       <Home className="w-4 h-4 text-gray-500 mt-1" />
-                      <p className="text-gray-700">
+                      <p className="text-gray-700 text-sm md:text-base">
                         {address?.street}, {address?.city}, {address?.state}, {address?.country}, {address?.zipCode}
                       </p>
                     </div>
@@ -412,11 +401,7 @@ const EditInfo = ({ setAddress }) => {
                       <span className="px-3 py-1 bg-gray-100 rounded-md text-sm font-medium text-gray-700">
                         {address?.addressType}
                       </span>
-                      {indx === 0 && (
-                        <span className="px-3 py-1 bg-gray-100 rounded-md text-sm font-medium text-gray-700">
-                          Billing address
-                        </span>
-                      )}
+                     
                     </div>
                     
                     <div className="flex gap-4 mt-4">
@@ -427,7 +412,7 @@ const EditInfo = ({ setAddress }) => {
                           dispatch(setSelectedTab("editaddress"));
                           setAddress(address);
                         }}
-                        className="px-3 py-1 border border-gray-300 rounded-md text-sm hover:border-blue-600 hover:text-blue-600 transition-colors duration-300"
+                        className=" border border-gray-300 rounded-md text-xs md:text-sm md:px-3 px-1 py-1 md:py-1 hover:border-blue-600 hover:text-blue-600 transition-colors duration-300"
                       >
                         EDIT
                       </motion.button>
@@ -438,7 +423,7 @@ const EditInfo = ({ setAddress }) => {
                           setSelectedId(address._id);
                           setIsOpen(true);
                         }}
-                        className="px-3 py-1 border border-gray-300 rounded-md text-sm hover:border-red-500 hover:text-red-500 transition-colors duration-300"
+                        className="text-xs md:text-sm md:px-3 px-1 py-1 md:py-1 border border-gray-300 rounded-md  hover:border-red-500 hover:text-red-500 transition-colors duration-300"
                       >
                         DELETE
                       </motion.button>
@@ -463,7 +448,7 @@ const EditInfo = ({ setAddress }) => {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={handleSave}
-                className="flex items-center gap-2 px-4 py-2 rounded-md border border-black hover:bg-black hover:text-white transition-colors duration-300"
+                className="flex items-center gap-2 md:px-4 px-2 py-1 text-sm md:text-base md:py-2 rounded-md border border-black hover:bg-black hover:text-white transition-colors duration-300"
               >
                 Save <Save size={15} />
               </motion.button>
@@ -584,7 +569,32 @@ const EmailChangeModal = ({ closeEmailModal, onEmailUpdated }) => {
   const [otpSent, setOtpSent] = useState(false);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState({ message: null, type: null });
-
+  const [secondsLeft, setSecondsLeft] = useState(0);
+  useEffect(() => {
+    let intervalId;
+    if (otpSent) {
+      setSecondsLeft(300); // 5 * 60 seconds
+      intervalId = setInterval(() => {
+        setSecondsLeft((sec) => {
+          if (sec <= 1) {
+            clearInterval(intervalId);
+            return 0;
+          }
+          return sec - 1;
+        });
+      }, 1000);
+    }
+    return () => clearInterval(intervalId);
+  }, [otpSent]);
+  const formatTimer = (sec) => {
+    const m = Math.floor(sec / 60)
+      .toString()
+      .padStart(2, "0");
+    const s = (sec % 60).toString().padStart(2, "0");
+    return `${m}:${s}`;
+  };
+  
+  
   const handleSendOTP = async () => {
     if (!newEmail.trim()) {
       console.log("email", newEmail);
@@ -599,6 +609,7 @@ const EmailChangeModal = ({ closeEmailModal, onEmailUpdated }) => {
 
     try {
       setLoading(true);
+      setOtpSent(false)
       await requestEmailChange(newEmail);
       setOtpSent(true);
       setLoading(false);
@@ -614,26 +625,8 @@ const EmailChangeModal = ({ closeEmailModal, onEmailUpdated }) => {
   };
 
   const handleVerifyOTP = async () => {
-    if (!otp) {
-      toast.error("Please enter the otp", {
-        icon: (
-          <img
-            src="https://static.thenounproject.com/png/3941-200.png"
-            className="animate-bounce"
-            style={{ filter: "invert(1)" }}
-            alt="Success Icon"
-            width="30"
-            height="30"
-          />
-        ),
-        style: {
-          padding: "16px",
-          color: "white",
-          background: "#ff6666",
-          fontSize: "14px",
-          fontWeight: "bold",
-        },
-      });
+    if (otp.trim() === "") {
+      setMessage({ message: "Please enter the OTP", type: null });
       return;
     }
 
@@ -685,13 +678,13 @@ const EmailChangeModal = ({ closeEmailModal, onEmailUpdated }) => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3 }}
-        className="bg-white p-8 shadow-lg w-full max-w-md rounded-xl"
+        className="bg-white md:p-8 p-3 shadow-lg md:w-full md:max-w-md rounded-xl"
       >
         <div className="flex items-center gap-3 border-b pb-4 mb-6">
           <Mail className="w-6 h-6 text-black" />
-          <h2 className="text-xl font-bold text-black tracking-tight">Change Email</h2>
+          <h2 className="md:text-xl font-bold text-black tracking-tight">Change Email</h2>
         </div>
-
+        
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
@@ -704,18 +697,18 @@ const EmailChangeModal = ({ closeEmailModal, onEmailUpdated }) => {
           >
             {message.message}
           </p>
-
+          
           <div className="space-y-4 bg-gray-50 p-6 rounded-lg border border-gray-100 mb-6">
             {!otpSent ? (
               <>
                 <div>
-                  <p className="text-gray-500 text-sm mb-2">New Email Address</p>
+                  <p className="text-gray-500 text-xs md:text-sm mb-2">New Email Address</p>
                   <input
                     type="email"
                     placeholder="Enter new email"
                     value={newEmail}
                     onChange={(e) => setNewEmail(e.target.value)}
-                    className="w-full p-3 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-black"
+                    className="w-full p-3 border border-gray-300 rounded-md text-xs md:text-sm focus:outline-none focus:ring-2 focus:ring-black"
                   />
                 </div>
                 <div className="flex justify-center pt-2">
@@ -733,21 +726,35 @@ const EmailChangeModal = ({ closeEmailModal, onEmailUpdated }) => {
             ) : (
               <>
                 <div>
-                  <p className="text-gray-500 text-sm mb-2">Verification Code</p>
+                  <p className="text-gray-500 text-xs md:text-sm mb-2">Verification Code</p>
                   <input
                     type="text"
                     placeholder="Enter OTP"
                     value={otp}
                     onChange={(e) => setOtp(e.target.value)}
-                    className="w-full p-3 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-black"
+                    className="w-full p-3 border border-gray-300 rounded-md text-xs md:text-sm focus:outline-none focus:ring-2 focus:ring-black"
                   />
+                  <div className="flex justify-end mt-1">
+                    <p className="text-xs text-gray-500">
+                      {secondsLeft > 0 ? (
+                        <>Resend in {formatTimer(secondsLeft)}</>
+                      ) : (
+                        <span 
+                          onClick={handleSendOTP} 
+                          className="text-blue-500 cursor-pointer hover:underline"
+                        >
+                          Resend OTP
+                        </span>
+                      )}
+                    </p>
+                  </div>
                 </div>
                 <div className="flex justify-center pt-2">
                   <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     onClick={handleVerifyOTP}
-                    disabled={loading || !otp}
+                    disabled={loading}
                     className="flex items-center gap-2 px-6 py-2 rounded-md border border-black bg-black text-white hover:bg-white hover:text-black transition-colors duration-300"
                   >
                     {loading ? "Verifying..." : "Verify OTP"}
@@ -757,7 +764,7 @@ const EmailChangeModal = ({ closeEmailModal, onEmailUpdated }) => {
             )}
           </div>
         </motion.div>
-
+        
         <div className="flex justify-center">
           <motion.button
             whileHover={{ scale: 1.05 }}
@@ -843,18 +850,18 @@ const ChangePassModal = ({ closePassChangeModal }) => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3 }}
-        className="bg-white p-8 shadow-lg w-full max-w-md rounded-xl"
+        className="bg-white p-3 md:p-8 shadow-lg w-full max-w-md rounded-xl"
       >
         <div className="flex items-center gap-3 border-b pb-4 mb-6">
           <Lock className="w-6 h-6 text-black" />
-          <h2 className="text-xl font-bold text-black tracking-tight">Change Password</h2>
+          <h2 className="md:text-xl text-lg font-bold text-black tracking-tight">Change Password</h2>
         </div>
 
         {error && (
           <motion.p 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="text-red-500 text-center text-sm mb-4 bg-red-50 p-3 rounded-md"
+            className="text-red-500 text-center text-xs md:text-sm mb-4 bg-red-50 p-3 rounded-md"
           >
             {error}
           </motion.p>
@@ -868,14 +875,14 @@ const ChangePassModal = ({ closePassChangeModal }) => {
         >
           {/* Old Password Input */}
           <div className="relative">
-            <p className="text-gray-500 text-sm mb-2">Old Password</p>
+            <p className="text-gray-500 text-xs md:text-sm mb-2">Old Password</p>
             <div className="relative">
               <input
                 type={showOld ? "text" : "password"}
                 placeholder="Enter your old password"
                 value={oldPassword}
                 onChange={(e) => setOldPassword(e.target.value)}
-                className="w-full p-3 border border-gray-300 rounded-md text-sm pr-10 focus:outline-none focus:ring-2 focus:ring-black"
+                className="w-full p-3 border border-gray-300 rounded-md text-xs md:text-sm pr-10 focus:outline-none focus:ring-2 focus:ring-black"
               />
               <button
                 type="button"
@@ -889,14 +896,14 @@ const ChangePassModal = ({ closePassChangeModal }) => {
 
           {/* New Password Input */}
           <div className="relative">
-            <p className="text-gray-500 text-sm mb-2">New Password</p>
+            <p className="text-gray-500 text-xs md:text-sm mb-2">New Password</p>
             <div className="relative">
               <input
                 type={showNew ? "text" : "password"}
                 placeholder="Enter your new password"
                 value={newPassword}
                 onChange={(e) => setNewPassword(e.target.value)}
-                className="w-full p-3 border border-gray-300 rounded-md text-sm pr-10 focus:outline-none focus:ring-2 focus:ring-black"
+                className="w-full p-3 border border-gray-300 rounded-md text-xs md:text-sm pr-10 focus:outline-none focus:ring-2 focus:ring-black"
               />
               <button
                 type="button"
@@ -910,14 +917,14 @@ const ChangePassModal = ({ closePassChangeModal }) => {
 
           {/* Confirm Password Input */}
           <div className="relative">
-            <p className="text-gray-500 text-sm mb-2">Confirm Password</p>
+            <p className="text-gray-500 text-xs md:text-sm mb-2">Confirm Password</p>
             <div className="relative">
               <input
                 type={showConfirm ? "text" : "password"}
                 placeholder="Confirm your new password"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
-                className="w-full p-3 border border-gray-300 rounded-md text-sm pr-10 focus:outline-none focus:ring-2 focus:ring-black"
+                className="w-full p-3 border border-gray-300 rounded-md text-xs md:text-sm pr-10 focus:outline-none focus:ring-2 focus:ring-black"
               />
               <button
                 type="button"
@@ -937,7 +944,7 @@ const ChangePassModal = ({ closePassChangeModal }) => {
             whileTap={{ scale: 0.95 }}
             onClick={handleSubmit}
             disabled={loading}
-            className="bg-black text-white px-6 py-2 rounded-md hover:bg-white hover:text-black border border-black transition-colors duration-300"
+            className="bg-black text-white px-6 py-2 rounded-md text-sm md:text-base hover:bg-white hover:text-black border border-black transition-colors duration-300"
           >
             {loading ? "Please Wait" : "Change Password"}
           </motion.button>
@@ -946,7 +953,7 @@ const ChangePassModal = ({ closePassChangeModal }) => {
             whileTap={{ scale: 0.95 }}
             onClick={closePassChangeModal}
             disabled={loading}
-            className="border border-gray-300 px-6 py-2 rounded-md hover:bg-gray-100 transition-colors duration-300"
+            className="border border-gray-300 px-6 text-sm md:text-base py-2 rounded-md hover:bg-gray-100 transition-colors duration-300"
           >
             Cancel
           </motion.button>

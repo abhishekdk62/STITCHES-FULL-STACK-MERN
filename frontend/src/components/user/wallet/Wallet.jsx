@@ -129,22 +129,33 @@ const Wallet = () => {
     }
   };
 
+
+  if (!userDetails) {
+    return (
+      <Notification
+        p1={"You’re not signed in"}
+        p2={"Please log in to view your wallet."}
+        icon={<Wallet className="w-16 h-16 text-gray-300 mb-4" />}
+      />
+    );
+  }
+
   return (
     <motion.div
       initial="hidden"
       animate="visible"
       variants={containerVariants}
-      className="p-8 bg-white rounded-xl shadow-sm w-4xl border border-gray-100"
+      className="p-8 bg-white rounded-xl shadow-sm w-full md:w-4xl border border-gray-100"
     >
-      {userDetails ? (
+      
         <>
           <motion.div
             variants={itemVariants}
             className="flex justify-between items-center border-b pb-4 mb-8"
           >
             <div className="flex items-center gap-3">
-              <WalletIcon className="w-6 h-6 text-black" />
-              <h2 className="text-2xl font-bold text-black tracking-tight">
+              <WalletIcon className="md:w-6 md:h-6 h-5 w-5 text-black" />
+              <h2 className="md:text-2xl text-lg font-bold text-black tracking-tight">
                 My Wallet
               </h2>
             </div>
@@ -153,45 +164,45 @@ const Wallet = () => {
           {/* Balance Card */}
           <motion.div
             variants={itemVariants}
-            className="mb-8 bg-gradient-to-r from-yellow-600 to-yellow-300 p-8 rounded-xl text-white shadow-lg"
+            className="mb-8 bg-gradient-to-r from-yellow-600 to-yellow-300 p-3 md:p-8 rounded-xl text-white shadow-lg"
           >
             <div className="flex items-start justify-between">
               <div>
-                <p className="text-gray-300 mb-2">Available Balance</p>
-                <h3 className="text-4xl font-bold">
+                <p className="text-gray-300 md:text-base text-sm mb-2">Available Balance</p>
+                <h3 className="md:text-4xl text-sm font-bold">
                   ₹{walletBalance?.toFixed(2)}
                 </h3>
               </div>
-              <CreditCard className="w-8 h-8 text-gray-300" />
+              <CreditCard className="md:w-8 w-6 h-6 md:h-8 text-gray-300" />
             </div>
 
             <motion.button
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               onClick={() => setShowAddMoneyModal(true)}
-              className="mt-6 flex items-center gap-2 bg-white text-black px-5 py-3 rounded-lg font-medium hover:bg-gray-100 transition-all duration-300"
+              className="mt-6 flex items-center gap-2 bg-white text-black md:px-5 md:py-3 px-2 py-1 rounded-md md:rounded-lg font-medium hover:bg-gray-100 transition-all duration-300"
             >
-              <Plus className="w-4 h-4" />
-              Add Money
+              <Plus className="md:w-4 w-3 h-3 md:h-4" />
+              <p className="md:text-base text-xs">Add Money</p>
             </motion.button>
           </motion.div>
 
           {/* Quick Stats */}
           <motion.div
             variants={itemVariants}
-            className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8"
+            className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8"
           >
             <div className="bg-gray-50 p-4 rounded-lg border border-gray-100">
-              <p className="text-gray-500 mb-1 text-sm">Last Transaction</p>
-              <p className="font-medium text-lg">
+              <p className="text-gray-500 mb-1 text-xs md:text-sm">Last Transaction</p>
+              <p className="font-medium text-sm  md:text-lg">
                 {transactions[0]
                   ? `₹${Math.abs(transactions[0].amount).toFixed(2)}`
                   : "No transactions yet"}
               </p>
             </div>
             <div className="bg-gray-50 p-4 rounded-lg border border-gray-100">
-              <p className="text-gray-500 mb-1 text-sm">This Month</p>
-              <p className="font-medium text-lg">
+              <p className="text-gray-500 mb-1 text-xs md:text-sm">This Month</p>
+              <p className="font-medium text-sm  md:text-lg">
                 ₹
                 {transactions
                   .filter(
@@ -203,8 +214,8 @@ const Wallet = () => {
               </p>
             </div>
             <div className="bg-gray-50 p-4 rounded-lg border border-gray-100">
-              <p className="text-gray-500 mb-1 text-sm">Total Transactions</p>
-              <p className="font-medium text-lg">{transactions.length}</p>
+              <p className="text-gray-500 mb-1 text-xs md:text-sm">Total Transactions</p>
+              <p className="font-medium text-sm  md:text-lg">{transactions.length}</p>
             </div>
           </motion.div>
 
@@ -213,7 +224,12 @@ const Wallet = () => {
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-semibold flex items-center gap-2">
                 <Clock className="w-5 h-5 text-gray-700" />
+               <p className="text-sm md:text-base">
+
                 Transaction History
+
+               </p>
+               
               </h3>
             </div>
 
@@ -221,8 +237,8 @@ const Wallet = () => {
               {transactions.length === 0 ? (
                 <div className="py-12 text-center">
                   <DollarSign className="w-12 h-12 text-gray-300 mx-auto mb-3" />
-                  <p className="text-gray-500">No transactions yet</p>
-                  <p className="text-sm text-gray-400">
+                  <p className="text-gray-500 text-sm md:text-base">No transactions yet</p>
+                  <p className=" text-gray-400 text-sm md:text-base">
                     Your transaction history will appear here
                   </p>
                 </div>
@@ -231,32 +247,39 @@ const Wallet = () => {
                   <ul className="divide-y divide-gray-100">
                     {(showAll ? transactions : transactions.slice(0,2)).map(
                       (transaction, index) => (
-                        <motion.li
-                          key={transaction._id}
-                          initial={{ opacity: 0, y: 10 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ delay: 0.1 * index, duration: 0.3 }}
-                          whileHover={{
-                            backgroundColor: "rgba(249, 250, 251, 0.5)",
-                          }}
-                          className="flex items-center justify-between p-4 hover:bg-gray-50 transition-colors"
-                        >
+<motion.li
+  key={transaction._id}
+  initial={{ opacity: 0, y: 10 }}
+  animate={{ opacity: 1, y: 0 }}
+  transition={{ delay: 0.1 * index, duration: 0.3 }}
+  whileHover={{ backgroundColor: "rgba(249, 250, 251, 0.5)" }}
+  className="
+    flex 
+    flex-col 
+    [@media(min-width:450px)]:flex-row 
+    items-center 
+    justify-between 
+    p-4 
+    hover:bg-gray-50 
+    transition-colors
+  "
+>
                           <div className="flex items-center gap-3">
-                            <div className="p-2 bg-gray-100 rounded-full">
+                            <div className="p-2 hidden [@media(min-width:450px)]:block text-end  text-sm md:text-base bg-gray-100 rounded-full">
                               {getTransactionIcon(transaction.transactionType)}
                             </div>
                             <div>
-                              <p className="font-medium">
+                              <p className="text-sm md:text-base font-medium">
                                 {transaction.details}
                               </p>
-                              <p className="text-sm text-gray-500">
+                              <p className="text-sm md:text-base text-gray-500">
                                 {formatDate(transaction.createdAt)}
                               </p>
                             </div>
                           </div>
                           <div className="text-right">
                             <p
-                              className={`font-semibold ${
+                              className={`font-semibold text-sm md:text-base ${
                                 transaction.transactionType === "Credited" ||
                                 transaction.transactionType === "Return" ||
                                 transaction.transactionType === "Cancellation"
@@ -272,7 +295,7 @@ const Wallet = () => {
                                     2
                                   )}`}
                             </p>
-                            <span className="inline-block text-xs px-2 py-1 mt-1 bg-gray-100 text-gray-600 rounded">
+                            <span className="inline-block text-sm md:text-base  px-2 py-1 mt-1 bg-gray-100 text-gray-600 rounded">
                               {transaction.transactionType}
                             </span>
                           </div>
@@ -290,7 +313,7 @@ const Wallet = () => {
                           onClick={handleViewAll}
                           whileHover={{ scale: 1.03 }}
                           whileTap={{ scale: 0.95 }}
-                          className="border border-white text-gray-700 py-3 px-6 rounded-lg hover:bg-white hover:text-black transition-colors"
+                          className="border text-sm md:text-base border-white text-gray-700 py-3 px-6 rounded-lg hover:bg-white hover:text-black transition-colors"
                         >
                           View All Transactions
                         </motion.button>
@@ -380,21 +403,7 @@ const Wallet = () => {
             </motion.div>
           )}
         </>
-      ) : (
-        <>
-          <div className="flex h-full justify-center gap-3 items-center flex-col">
-            <WalletIcon size={80} className="text-gray-300" />
-            <div>
-              <p className="text-2xl text-center font-bold text-gray-700 mb-2">
-                You’re not signed in
-              </p>
-              <p className="text-gray-500 text-center">
-                Please log in to view your wallet.
-              </p>
-            </div>
-          </div>
-        </>
-      )}
+      
     </motion.div>
   );
 };

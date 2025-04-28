@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import axios from "axios";
-import { Heart } from "lucide-react";
+import { Heart, X, Filter } from "lucide-react";
 import { toast } from "react-hot-toast";
 import { useDebounce } from "../../../../utils/useDebounce";
 import { useNavigate } from "react-router-dom";
@@ -27,7 +27,6 @@ const ListProducts = ({ selectedCategory, setSelectedCategory }) => {
 
   const navigate = useNavigate();
 
-  // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [ratings, setRatings] = useState([]);
@@ -184,126 +183,174 @@ const ListProducts = ({ selectedCategory, setSelectedCategory }) => {
       console.log(error);
     }
   };
+  const [showFilters, setShowFilters] = useState(false);
+
+  // Filter sidebar content - reused in both desktop and mobile views
+  const FiltersContent = () => (
+    <>
+      <h2 className="text-xl tracking-widest text-gray-800 mb-3">Filters</h2>
+      <hr className="mb-4 text-gray-200" />
+
+      <div className="mb-6">
+        <h3 className="text-base text-gray-800 font-semibold mb-3">
+          Categories
+        </h3>
+        <ul className="space-y-1">
+          {categoryList.map((category, indx) => (
+            <li
+              key={indx}
+              onClick={() => {
+                setSelectedCategory(category._id);
+                if (window.innerWidth < 1024) setShowFilters(false);
+              }}
+              className={`py-1 px-2 rounded-md cursor-pointer transition-colors hover:bg-gray-100 ${
+                category._id === selectedCategory
+                  ? "bg-gray-100 font-medium"
+                  : ""
+              }`}
+            >
+              <span
+                style={{ fontWeight: 400 }}
+                className="text-sm text-gray-700"
+              >
+                {category.name}
+              </span>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <hr className="mb-4 text-gray-200" />
+
+      <div className="mb-6">
+        <h3 className="text-base font-semibold mb-3">Price Range</h3>
+        <div className="flex items-center justify-between mb-2">
+          <span className="text-sm font-medium">₹{minPrice}</span>
+          <span className="text-sm font-medium">₹{maxPrice}</span>
+        </div>
+        <ReactSlider
+          value={[minPrice, maxPrice]}
+          min={200}
+          step={1000}
+          max={50000}
+          onChange={(values) => {
+            setMinPrice(values[0]);
+            setMaxPrice(values[1]);
+          }}
+          className="w-full mt-2"
+          thumbClassName="h-4 w-4 bg-gray-400 border-2 border-white shadow-md rounded-full cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary/50"
+          trackClassName="h-1.5 rounded-full bg-gray-400"
+          pearling
+          minDistance={10}
+        />
+      </div>
+      <hr className="mb-4 text-gray-200" />
+
+      <div className="mb-6">
+        <h3 className="text-base font-semibold mb-3">Size</h3>
+        <div className="grid grid-cols-3 gap-2">
+          {["XXS", "XS", "S", "M", "L", "XL", "XXL", "3XL", "4XL"].map(
+            (size) => (
+              <button
+                key={size}
+                className="border border-gray-300 rounded-lg py-1 text-xs hover:bg-gray-100 transition-colors font-medium"
+              >
+                {size}
+              </button>
+            )
+          )}
+        </div>
+      </div>
+      <hr className="mb-4 text-gray-200" />
+
+      <div className="mb-6">
+        <h3 className="text-base font-semibold mb-3">Colors</h3>
+        <div className="grid grid-cols-3 gap-4">
+          {[
+            "purple-500",
+            "black",
+            "red-500",
+            "orange-500",
+            "blue-500",
+            "green-500",
+            "yellow-500",
+            "gray-500",
+            "pink-500",
+            "blue-500",
+            "green-500",
+            "blue-500",
+          ].map((color, indx) => (
+            <div
+              key={indx}
+              className={`w-6 h-6 bg-${color} rounded-full cursor-pointer border border-gray-200 hover:scale-110 transition-transform shadow-sm`}
+            ></div>
+          ))}
+        </div>
+      </div>
+    </>
+  );
 
   return (
     <div className="container text-gray-800 mx-auto p-4 pb-20">
-      <div className="flex flex-col lg:flex-row gap-6">
-        {/* Sidebar */}
-        <div className="w-65 p-4 bg-white sticky top-4 h-fit font-sans">
-          <h2 className="text-xl tracking-widest text-gray-800  mb-3">
-            Filters
-          </h2>
-          <hr className="mb-4 text-gray-200" />
+      {/* Mobile Filter Button */}
+      <div className="lg:hidden flex justify-between items-center mb-4">
+        <h1 className="md:text-xl text-sm text-gray-800 font-semibold">
+          Explore Collections
+        </h1>
+        <button
+          onClick={() => setShowFilters(true)}
+          className="flex items-center gap-2 py-1 px-2 sm:px-3 sm:py-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
+        >
+          <Filter className="w-3 h-3 sm:w-4 sm:h-4" />
+          <span className="text-xs sm:text-sm  font-medium">Filters</span>
+        </button>
+      </div>
 
-          <div className="mb-6">
-            <h3 className="text-base text-gray-800 font-semibold mb-3">
-              Categories
-            </h3>
-            <ul className="space-y-1">
-              {categoryList.map((category, indx) => (
-                <li
-                  key={indx}
-                  onClick={() => setSelectedCategory(category._id)}
-                  className={`py-1 px-2 rounded-md cursor-pointer transition-colors hover:bg-gray-100 ${
-                    category._id === selectedCategory
-                      ? "bg-gray-100 font-medium"
-                      : ""
-                  }`}
+      {/* Mobile Filter Sidebar (Slide-in from left) */}
+      {showFilters && (
+        <div className="lg:hidden fixed inset-0 z-50 overflow-hidden">
+          <div
+            className="absolute inset-0 bg-black/20 bg-opacity-50"
+            onClick={() => setShowFilters(false)}
+          ></div>
+          <div className="absolute inset-y-0 left-0 max-w-xs w-full bg-white shadow-xl transform transition-transform duration-300 ease-in-out">
+            <div className="p-4 h-full overflow-y-auto">
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="text-xl font-semibold">Filters</h2>
+                <button
+                  onClick={() => setShowFilters(false)}
+                  className="p-2 hover:bg-gray-100 rounded-full"
                 >
-                  <span
-                    style={{ fontWeight: 400 }}
-                    className="text-sm text-gray-700"
-                  >
-                    {category.name}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          </div>
-          <hr className="mb-4 text-gray-200" />
-
-          <div className="mb-6">
-            <h3 className="text-base font-semibold mb-3">Price Range</h3>
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-sm font-medium">₹{minPrice}</span>
-              <span className="text-sm font-medium">₹{maxPrice}</span>
-            </div>
-            <ReactSlider
-              value={[minPrice, maxPrice]}
-              min={200}
-              step={1000}
-              max={50000}
-              onChange={(values) => {
-                setMinPrice(values[0]);
-                setMaxPrice(values[1]);
-              }}
-              className="w-full mt-2"
-              thumbClassName="h-4 w-4 bg-gray-400 border-2 border-white shadow-md rounded-full cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary/50"
-              trackClassName="h-1.5 rounded-full bg-gray-400"
-              pearling
-              minDistance={10}
-            />
-          </div>
-          <hr className="mb-4 text-gray-200" />
-
-          <div className="mb-6">
-            <h3 className="text-base font-semibold mb-3">Size</h3>
-            <div className="grid grid-cols-3 gap-2">
-              {["XXS", "XS", "S", "M", "L", "XL", "XXL", "3XL", "4XL"].map(
-                (size) => (
-                  <button
-                    key={size}
-                    className="border border-gray-300 rounded-lg py-1 text-xs hover:bg-gray-100 transition-colors font-medium"
-                  >
-                    {size}
-                  </button>
-                )
-              )}
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+              <FiltersContent />
             </div>
           </div>
-          <hr className="mb-4 text-gray-200" />
+        </div>
+      )}
 
-          <div className="mb-6">
-            <h3 className="text-base font-semibold mb-3">Colors</h3>
-            <div className="grid grid-cols-3 gap-4">
-              {[
-                "purple-500",
-                "black",
-                "red-500",
-                "orange-500",
-                "blue-500",
-                "green-500",
-                "yellow-500",
-                "gray-500",
-                "pink-500",
-                "blue-500",
-                "green-500",
-                "blue-500",
-              ].map((color, indx) => (
-                <div
-                  key={indx}
-                  className={`w-6 h-6 bg-${color} rounded-full cursor-pointer border border-gray-200 hover:scale-110 transition-transform shadow-sm`}
-                ></div>
-              ))}
-            </div>
-          </div>
+      <div className="flex flex-col lg:flex-row gap-6">
+        {/* Desktop Sidebar - visible only on lg and above */}
+        <div className="hidden lg:block w-65 p-4 bg-white sticky top-4 h-fit font-sans">
+          <FiltersContent />
         </div>
 
         {/* Main Content */}
         <div className="w-full lg:w-3/4">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-3">
-            <h1 className="text-xl text-gray-800 font-semibold">
+            {/* Title - hidden on mobile because we moved it above the filter button */}
+            <h1 className="hidden lg:block text-xl text-gray-800 font-semibold">
               Explore Collections
             </h1>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3 w-full sm:w-auto">
               {error && (
                 <p className="text-red-500 text-xs font-medium">{error}</p>
               )}
               <select
                 onChange={(e) => setSortBy(e.target.value)}
-                className="border border-gray-300 rounded-lg py-1.5 px-3 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-primary/50 cursor-pointer"
+                className="border border-gray-300 rounded-lg md:py-1.5 md:px-3 py-0.5 px-1 text-xs md:text-sm bg-white focus:outline-none focus:ring-2 focus:ring-primary/50 cursor-pointer w-full sm:w-auto"
               >
-                <option value="">Sort By</option>
+                <option className="text-xs sm:text-sm" value="">Sort By</option>
                 <option value="priceAsc">Price: Low to High</option>
                 <option value="priceDesc">Price: High to Low</option>
                 <option value="nameAsc">A-Z</option>
@@ -312,7 +359,7 @@ const ListProducts = ({ selectedCategory, setSelectedCategory }) => {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 gap-5">
             {loading
               ? Array(10)
                   .fill(0)
@@ -325,58 +372,90 @@ const ListProducts = ({ selectedCategory, setSelectedCategory }) => {
                     ? ratingData.averageRating.toFixed(1)
                     : "";
                   const ratingDisplay = ratingData ? (
-                    <div className="bg-[#0b5c10] space-x-1 text-white px-1.5 py-0.5 rounded flex justify-center content-center items-center">
+                    <div className="bg-[#0f8417] space-x-1 text-white px-1.5 py-0.5 rounded flex justify-center content-center items-center">
                       <span className="text-xs mr-0.5">{averageRating}</span>
                       <Star className="h-2 w-2 fill-white stroke-white" />
                     </div>
                   ) : null;
 
                   return (
-                    <div key={product._id} className="relative">
+                    <div key={product._id} className="relative group">
                       <div
                         onClick={() => handleProductView(product)}
-                        className="p-0 group cursor-pointer"
+                        className="p-0 cursor-pointer"
                       >
                         <div className="flex items-center justify-center">
-                          <div className="w-100 h-100 relative">
-                            <div className="absolute ml-63 mt-2">
+                          <div
+                            className="md:w-100 md:h-100 w-50 h-50
+                          
+                        
+      
+
+                          
+                          
+                          relative"
+                          >
+                            {/* rating stays put */}
+                            <div className="absolute xl:ml-50 xl:mt-2 lg:ml-32 lg:h-4 lg:w-10 xl:h-6 xl:w-12 md:h-2 md:w-10 h-2 w-10 text-xs sm:text-lg  ml-16 mt-2 lg:mt-2 md:ml-37 md:mt-2 ">
                               {ratingDisplay}
                             </div>
+
+                            {/* only dim on md+ hover */}
                             <img
                               src={product.variants[0].productImages?.[0]}
                               alt={product.name}
-                              className="w-full h-full object-cover transition duration-300 ease-in-out group-hover:brightness-75"
+                              className="w-full h-full object-cover transition duration-300 ease-in-out lg:group-hover:brightness-80"
                             />
+
                             <button
-                              className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition duration-300"
                               onClick={(e) => {
-                                e.stopPropagation(); // Prevents triggering handleProductView
+                                e.stopPropagation();
                                 handleWishlist(
                                   product._id,
                                   product.variants[0]
                                 );
                               }}
+                              className="
+    absolute top-1/2 left-1/2
+    transform -translate-x-1/2 -translate-y-1/2
+    transition duration-300 opacity-100 lg:opacity-0 group-hover:opacity-100
+  "
                             >
                               <Heart className="w-8 h-8 text-white bg-black/50 p-1 rounded-full hover:scale-110 transition" />
                             </button>
                           </div>
                         </div>
                       </div>
+
+                      {/* product info */}
                       <div className="flex flex-col mt-2 items-center">
                         <p
                           style={{
                             fontFamily: "'Cambay', sans-serif",
                             fontWeight: 400,
                           }}
-                          className="text-center text-gray-700 text-sm"
+                          className="text-center text-xs md:text-sm text-gray-700"
                         >
-                          {product.name} - {product.brand}
+                          {/* Mobile (<md): only first 3 words + ellipsis */}
+                          <span className="block md:hidden">
+                            {`${product.name} – ${product.brand}`
+                              .split(" ")
+                              .slice(0, 3)
+                              .join(" ")}
+                            …
+                          </span>
+
+                          {/* Desktop (>=md): full text */}
+                          <span className="hidden md:block">
+                            {product.name} – {product.brand}
+                          </span>
                         </p>
+
                         <div className="flex items-center justify-center space-x-2 mt-0">
-                          <div className="text-black font-medium text-sm">
+                          <div className="text-black font-medium md:text-sm text-[0.6rem]">
                             RS.{product.variants[0].discount_price}.00
                           </div>
-                          <div className="text-gray-700 text-sm line-through">
+                          <div className="text-gray-700 text-[0.6rem] md:text-sm line-through">
                             RS.{product.variants[0].base_price}.00
                           </div>
                         </div>
@@ -388,6 +467,7 @@ const ListProducts = ({ selectedCategory, setSelectedCategory }) => {
         </div>
       </div>
 
+      {/* Pagination - stays fixed at bottom */}
       <div className="fixed bottom-0 left-0 right-0 p-3 bg-white shadow-md border-t border-gray-200 z-10">
         <div className="flex justify-center items-center space-x-4 max-w-xs mx-auto">
           <button

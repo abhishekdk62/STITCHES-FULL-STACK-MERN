@@ -118,15 +118,15 @@ const Coupon = () => {
   }
 
   return (
-    <div className="p-6 w-4xl shadow-sm border rounded-xl border-gray-100 text-white">
+    <div className="md:p-6 pt-4 w-full md:w-4xl shadow-sm border rounded-xl border-gray-100 text-white">
       <div className="max-w-4xl mx-auto">
         <motion.h2
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="text-2xl flex text-black gap-2 items-center font-bold mb-8 border-b border-gray-800 pb-4"
+          className="md:text-2xl text-base flex text-black gap-2 items-center font-bold mb-8 border-b border-gray-800 pb-4"
         >
-          <Ticket size={35} />
+          <Ticket size={25} className="md:h-8 md:w-8" />
           Available Coupons
         </motion.h2>
 
@@ -184,12 +184,12 @@ const Coupon = () => {
                     </div>
 
                     <div className="mt-4 flex items-center">
-                      <div className="text-3xl font-bold text-black">
+                      <div className="md:text-3xl text-sm font-bold text-black">
                         {coupon.discountType === "percentage"
                           ? `${coupon.discountValue}%`
                           : `₹${coupon.discountValue}`}
                       </div>
-                      <div className="ml-2 text-black font-medium">
+                      <div className="ml-2 md:text-base text-sm text-black font-medium">
                         {coupon.discountType === "percentage"
                           ? "OFF"
                           : "FLAT OFF"}
@@ -268,7 +268,7 @@ const Coupon = () => {
                   {/* Coupon main info */}
                   <div className="p-6 flex-grow">
                     <div className="flex justify-between items-start">
-                      <h3 className="text-2xl text-black font-bold">
+                      <h3 className="md:text-2xl text-xl text-black font-bold">
                         {coupon.couponName}
                       </h3>
                       <div className="text-xs text-black">
@@ -277,12 +277,12 @@ const Coupon = () => {
                     </div>
 
                     <div className="mt-4 flex items-center">
-                      <div className="text-3xl font-bold text-black">
+                      <div className="md:text-3xl  text-xl font-bold text-black">
                         {coupon.discountType === "percentage"
                           ? `${coupon.discountValue}%`
                           : `₹${coupon.discountValue}`}
                       </div>
-                      <div className="ml-2 text-black font-medium">
+                      <div className="ml-2 md:text-base text-sm text-black font-medium">
                         {coupon.discountType === "percentage"
                           ? "OFF"
                           : "FLAT OFF"}
@@ -292,18 +292,18 @@ const Coupon = () => {
                     <div className="items text-black grid grid-cols-2 gap-4">
                       <div className="flex items-center text-black">
                         <Calendar size={16} className="mr-2" />
-                        <span>Expires: {formatDate(coupon.expiryDate)}</span>
+                        <span className="text-sm md:text-base">Expires: {formatDate(coupon.expiryDate)}</span>
                       </div>
                       <div className="flex items-center text-gray-400">
                         <Clock size={16} className="mr-2" />
-                        <span className="text-black flex justify-center items-center">
+                        <span className="text-black flex text-sm md:text-base justify-center items-center">
                           {daysUntilExpiry(coupon.expiryDate)} days left
                         </span>
                       </div>
                     </div>
 
                     <div className="flex justify-between">
-                      <div className="mt-4 text-black text-sm">
+                      <div className="mt-4 text-black text-xs md:text-sm">
                         Usage: {coupon.usedCount} used out of{" "}
                         {coupon.usageLimit}
                       </div>
@@ -334,7 +334,7 @@ const Coupon = () => {
                         onClick={() => copyToClipboard(coupon.code)}
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
-                        className="flex items-center justify-center bg-white text-black py-2 px-4 rounded hover:bg-gray-200 transition-colors w-full"
+                        className="flex items-center justify-center bg-white text-black md:py-2 py-1 px-2 md:px-4 rounded hover:bg-gray-200 transition-colors w-full"
                       >
                         <Copy size={14} className="mr-2" />
                         {copiedCode === coupon.code ? "Copied!" : "Copy Code"}

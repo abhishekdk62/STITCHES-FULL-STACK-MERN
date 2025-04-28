@@ -6,6 +6,7 @@ import "slick-carousel/slick/slick-theme.css";
 import CategorySlideShimmer from "../category/CategorySlideShimmer";
 import { useNavigate } from "react-router-dom";
 import { fetchNewArrivalsService } from "../../../services/productService";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
 const NewArrivals = () => {
   const [newArrivals, setNewArrivals] = useState([]);
@@ -13,8 +14,9 @@ const NewArrivals = () => {
   const navigate = useNavigate();
 
   const handleProductView = (product) => {
-   navigate(`/product/${product._id}`);
+    navigate(`/product/${product._id}`);
   };
+
   useEffect(() => {
     const fetchNewArrivals = async () => {
       try {
@@ -30,18 +32,38 @@ const NewArrivals = () => {
     fetchNewArrivals();
   }, []);
 
+  // Custom Arrow Components
+  const PrevArrow = ({ onClick }) => (
+    <button
+      onClick={onClick}
+      className="absolute left-0 top-1/2 transform -translate-y-1/2 z-10 bg-black text-white p-2 rounded-full hover:bg-gray-800 transition-all"
+    >
+      <FaChevronLeft className="w-4 h-4" />
+    </button>
+  );
+
+  const NextArrow = ({ onClick }) => (
+    <button
+      onClick={onClick}
+      className="absolute right-0 top-1/2 transform -translate-y-1/2 z-10 bg-black text-white p-2 rounded-full hover:bg-gray-800 transition-all"
+    >
+      <FaChevronRight className="w-4 h-4" />
+    </button>
+  );
 
   const sliderSettings = {
     dots: true,
     infinite: true,
     speed: 500,
-    slidesToShow: 5, // Adjust the number of slides as needed
+    slidesToShow: 5, // Default for larger screens
     slidesToScroll: 1,
-    draggable: true, // Allows mouse dragging
-    swipeToSlide: true, // Lets the swipe gesture directly change slides
+    draggable: true,
+    swipeToSlide: true,
+    prevArrow: <PrevArrow />, // Left Arrow
+    nextArrow: <NextArrow />, // Right Arrow
     responsive: [
       {
-        breakpoint: 1024,
+        breakpoint: 1024, // For screens below 1024px
         settings: {
           slidesToShow: 3,
           draggable: true,
@@ -49,17 +71,17 @@ const NewArrivals = () => {
         },
       },
       {
-        breakpoint: 600,
+        breakpoint: 768, // For screens below 768px (md)
         settings: {
-          slidesToShow: 2,
+          slidesToShow: 2, // Show only 2 items
           draggable: true,
           swipeToSlide: true,
         },
       },
       {
-        breakpoint: 480,
+        breakpoint: 480, // For screens below 480px
         settings: {
-          slidesToShow: 1,
+          slidesToShow: 2, // Show only 1 item
           draggable: true,
           swipeToSlide: true,
         },
@@ -70,11 +92,11 @@ const NewArrivals = () => {
   return (
     <section className="container mx-auto px-4 py-8">
       <div className="flex items-center justify-center my-4">
-        <div className="flex  mb-8 items-center w-full max-w-6xl">
+        <div className="flex mb-8 items-center w-full max-w-6xl">
           <div className="flex-grow border-t-2 border-gray-300"></div>
           <h1
             style={{ fontFamily: "'Cambay', sans-serif" }}
-            className="text-2xl mx-6  text-gray-600  whitespace-nowrap"
+            className="md:text-2xl mx-6 text-gray-600 whitespace-nowrap"
           >
             New Arrivals
           </h1>
@@ -85,31 +107,33 @@ const NewArrivals = () => {
       {loading ? (
         <CategorySlideShimmer />
       ) : (
-        <Slider {...sliderSettings}>
-          {newArrivals.map((product) => (
-            <div
-              onClick={() => handleProductView(product)}
-              key={product?._id}
-              className="p-3 group cursor-pointer"
-            >
-              <div className="flex items-center justify-center">
-                <div className="w-100 h-100">
-                  <img
-                    src={product?.variants[0]?.productImages?.[0]}
-                    alt={product?.name}
-                    className="w-full h-full object-cover  transition duration-300 ease-in-out group-hover:brightness-75"
-                  />
-                </div>
-              </div>
-              <p
-                style={{ fontFamily: "'Cambay', sans-serif" }}
-                className="mt-2 text-center text-gray-700 text-sm"
+        <div className="relative">
+          <Slider {...sliderSettings}>
+            {newArrivals.map((product) => (
+              <div
+                onClick={() => handleProductView(product)}
+                key={product?._id}
+                className="p-3 group cursor-pointer"
               >
-                {product?.name}
-              </p>
-            </div>
-          ))}
-        </Slider>
+                <div className="flex items-center justify-center">
+                  <div className="md:w-100 md:h-100">
+                    <img
+                      src={product?.variants[0]?.productImages?.[0]}
+                      alt={product?.name}
+                      className="w-full h-full object-cover transition duration-300 ease-in-out group-hover:brightness-75"
+                    />
+                  </div>
+                </div>
+                <p
+                  style={{ fontFamily: "'Cambay', sans-serif" }}
+                  className="mt-2 text-center text-gray-700 text-sm"
+                >
+                  {product?.name}
+                </p>
+              </div>
+            ))}
+          </Slider>
+        </div>
       )}
     </section>
   );

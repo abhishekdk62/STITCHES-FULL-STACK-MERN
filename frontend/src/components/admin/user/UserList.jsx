@@ -69,13 +69,13 @@ getUsers(debouncedValue)
 
   return (
     <div className="bg-gray-50 min-h-screen">
-      <div className="max-w-7xl mx-auto p-6 pb-20">
+      <div className="w-full mx-auto  pb-20">
         {/* Header */}
         <div className="mb-8 flex items-center">
-          <div className="bg-black text-white p-3 rounded-full mr-4">
+          <div className="md:text-xl text-sm font-bold text-black tracking-tight">
             <User size={24} />
           </div>
-          <h1 className="text-3xl font-bold">Customer Management</h1>
+          <h1 className="md:text-2xl sm:text-xl font-bold">Customer Management</h1>
         </div>
 
         {/* Search Bar */}

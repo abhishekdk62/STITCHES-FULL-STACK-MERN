@@ -22,23 +22,34 @@ const Dashboard = () => {
   return (
     <>
       <Header />
-      <div className="flex">
-        <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />
-        <div className="flex-1">
-          {activeTab === "customer" && <Customer />}
-          {activeTab === "category" && <Category />}
-          {activeTab === "products" && <Products />}
-          {activeTab === "coupon" && <Coupons selectedTab={selectedTab} setSelectedTab={setSelectedTab} />}
-          {activeTab === "order" && <Orders activeTab={activeTab} setActiveTab={setActiveTab} />}
-          {activeTab === "orderInfo" && <OrdersInfo activeTab={activeTab} setActiveTab={setActiveTab} />}
-          {activeTab === "returns" && <AdminReturnRequests activeTab={activeTab} setActiveTab={setActiveTab} />}
-          {activeTab === "offers" && <Offers activeTab={activeTab} setActiveTab={setActiveTab} />}
-          {activeTab === "report" && <Report activeTab={activeTab} setActiveTab={setActiveTab} />}
-          {activeTab === "transactions" && <Transactions activeTab={activeTab} setActiveTab={setActiveTab} />}
+      <div className="flex justify-center w-full">
+        {/* Inner container with max-w-7xl */}
+        <div className="flex w-full max-w-7xl">
+          {/* Sidebar with fixed width or adjustable */}
+          <Sidebar
+            activeTab={activeTab}
+            setActiveTab={setActiveTab}
+            className="w-64" // Adjust the width of the sidebar
+          />
+          
+          {/* Main content section */}
+          <div className="flex-1 w-full p-4">
+            {activeTab === "customer" && <Customer />}
+            {activeTab === "category" && <Category />}
+            {activeTab === "products" && <Products />}
+            {activeTab === "coupon" && <Coupons selectedTab={selectedTab} setSelectedTab={setSelectedTab} />}
+            {activeTab === "order" && <Orders activeTab={activeTab} setActiveTab={setActiveTab} />}
+            {activeTab === "orderInfo" && <OrdersInfo activeTab={activeTab} setActiveTab={setActiveTab} />}
+            {activeTab === "returns" && <AdminReturnRequests activeTab={activeTab} setActiveTab={setActiveTab} />}
+            {activeTab === "offers" && <Offers activeTab={activeTab} setActiveTab={setActiveTab} />}
+            {activeTab === "report" && <Report activeTab={activeTab} setActiveTab={setActiveTab} />}
+            {activeTab === "transactions" && <Transactions activeTab={activeTab} setActiveTab={setActiveTab} />}
+          </div>
         </div>
       </div>
     </>
   );
+
 };
 
 export default Dashboard;

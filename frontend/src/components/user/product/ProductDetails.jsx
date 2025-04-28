@@ -505,7 +505,7 @@ const ProductDetails = () => {
     navigate(`/products?category=${encodeURIComponent(catDetails._id)}`);
   };
   return (
-    <div className="container mx-auto px-4 py-6 max-w-6xl">
+    <div className="container mx-auto w-full">
       {showWishlistAlert && (
         <AlertDialog
           title="Sign In Required"
@@ -588,7 +588,7 @@ const ProductDetails = () => {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ type: "spring", stiffness: 100, damping: 10 }}
-            className="text-3xl font-semibold mb-2 text-gray-900"
+            className="md:text-3xl font-semibold mb-2 text-gray-900"
           >
             {productDetails?.name}
           </motion.h1>
@@ -659,16 +659,16 @@ const ProductDetails = () => {
             }}
             className="flex pt-2 items-end gap-2 mb-3"
           >
-            <span className="text-3xl font-bold text-black">
+            <span className="md:text-3xl font-bold text-black">
               Rs.{selectedVariant?.discount_price}
             </span>
-            <span className="text-2xl text-gray-400 line-through">
+            <span className="md:text-2xl text-gray-400 line-through">
               Rs.{selectedVariant?.base_price}
             </span>
             <motion.span
               whileHover={{ scale: 1.05 }}
               transition={{ type: "spring", stiffness: 400, damping: 10 }}
-              className="text-2xl font-medium text-red-400 ml-1"
+              className="md:text-2xl text-xs font-medium text-red-400 ml-1"
             >
               ({selectedVariant?.discount_percentage}% OFF)
             </motion.span>
@@ -688,7 +688,7 @@ const ProductDetails = () => {
               className="mb-4"
             >
               <h2 className="text-md justify-between pt-4 font-medium mb-2 flex items-center">
-                <span className="mr-2">Select Size</span>
+                <span className="mr-2 text-xs md:text-base">Select Size</span>
                 <motion.button
                   variants={buttonVariants}
                   whileHover="hover"
@@ -697,7 +697,7 @@ const ProductDetails = () => {
                     (window.location.href =
                       "https://ethnicity.in/pages/size-guide?srsltid=AfmBOorPjaWy69YhspHJ4zkJ2pEw-9aVB_nhg59NdpZ3E02GbitXOzMg")
                   }
-                  className="text-md text-gray-500 flex  underline hover:text-black"
+                  className="md:text-base text-xs text-gray-500 flex  underline hover:text-black"
                 >
                   Size Guide
                 </motion.button>
@@ -714,7 +714,7 @@ const ProductDetails = () => {
                     whileHover="hover"
                     whileTap="tap"
                     onClick={() => setSelectedSize(size)}
-                    className={`px-3 py-1 text-md border transition-all ${
+                    className={`px-3 md:text-base text-xs py-1 text-md border transition-all ${
                       selectedSize === size
                         ? "bg-black   text-white border-black"
                         : "bg-white   text-black border-black"
@@ -738,7 +738,7 @@ const ProductDetails = () => {
             }}
             className="mb-4"
           >
-            <h2 className="text-md font-medium mb-2">Select Color</h2>
+            <h2 className="md:text-base text-xs font-medium mb-2">Select Color</h2>
             <div className="flex flex-wrap gap-2">
               {Object.keys(variantsByColor).map((color) => (
                 <motion.button
@@ -759,7 +759,7 @@ const ProductDetails = () => {
                       setSelectedSize(uniqueSizes[0]);
                     }
                   }}
-                  className={`w-8 h-8 rounded-full ${
+                  className={`w-6 h-6 md:w-8 md-h-8 rounded-full ${
                     selectedColor === color
                       ? "ring-2 ring-offset-1 ring-black"
                       : "border border-gray-300"
@@ -780,7 +780,7 @@ const ProductDetails = () => {
               stiffness: 100,
               damping: 10,
             }}
-            className={`font-medium text-sm mb-4 ${stockColors[stockMessageColor]}`}
+            className={`font-medium md:text-base text-xs mb-4 ${stockColors[stockMessageColor]}`}
           >
             {stockMessage}
           </motion.h2>
@@ -802,15 +802,15 @@ const ProductDetails = () => {
                 variants={buttonVariants}
                 whileHover="hover"
                 whileTap="tap"
-                className="flex gap-2 items-center justify-center  px-6 py-3 rounded-md bg-black text-white  font-medium hover:bg-gray-800 transition-colors"
+                className="flex gap-2 items-center justify-center px-3 py-2  md:px-6 md:py-3 rounded-md bg-black text-white  font-medium hover:bg-gray-800 transition-colors"
                 onClick={() => {
                   dispatch(setSelectedTab("cart"));
                   navigate("/user/account");
                 }}
               >
-                <p className="text-xl"> View Cart</p>
+                <p className="md:text-xl text-xs"> View Cart</p>
                 <motion.span variants={iconVariants}>
-                  <ShoppingCart size={20} />
+                  <ShoppingCart size={18} className="md:h-8 md:w-8"  />
                 </motion.span>
               </motion.button>
             ) : (
@@ -820,7 +820,7 @@ const ProductDetails = () => {
                 whileTap="tap"
                 onClick={addToCart}
                 disabled={isOutOfStock}
-                className={`flex items-center gap-2 justify-center px-6 py-3 rounded-md text-xl font-medium transition-colors ${
+                className={`flex items-center gap-2 justify-center px-3 py-2  md:px-6 md:py-3 rounded-md md:text-xl text-xs font-medium transition-colors ${
                   isOutOfStock
                     ? "bg-gray-200 text-gray-500 cursor-not-allowed"
                     : "bg-black hover:bg-gray-900 text-white"
@@ -828,7 +828,7 @@ const ProductDetails = () => {
               >
                 Add to Cart
                 <motion.span variants={iconVariants}>
-                  <ShoppingCart size={20} />
+                  <ShoppingCart size={18} className="md:h-8 md:w-8" />
                 </motion.span>
               </motion.button>
             )}
@@ -842,7 +842,7 @@ const ProductDetails = () => {
               aria-label="Add to wishlist"
             >
               <motion.span variants={iconVariants}>
-                <Heart style={{ fill: "none" }} size={25} />
+                <Heart style={{ fill: "none" }} size={18} className="md:h-6 md:w-6" />
               </motion.span>
             </motion.button>
 
@@ -860,7 +860,7 @@ const ProductDetails = () => {
               aria-label="Add to wishlist"
             >
               <motion.span variants={iconVariants}>
-                <Share2 style={{ fill: "none" }} size={25} />
+                <Share2 style={{ fill: "none" }} size={18} className="md:h-6 md:w-6" />
               </motion.span>
             </motion.button>
           </motion.div>
@@ -878,33 +878,33 @@ const ProductDetails = () => {
           <div className="grid grid-cols-2  gap-y-2 gap-x-4 border-t pt-6 pb-3 border-gray-200">
             <div className="flex gap-2 items-center">
               <i>
-                <BadgeDollarSign size={32} />
+                <BadgeDollarSign size={26} className="md:h-7 md:w-7" />
               </i>
-              <span className="text-md font-medium text-gray-900">
+              <span className="md:text-base text-xs font-medium text-gray-900">
                 Secure Payment
               </span>
             </div>
             <div className="flex gap-2 items-center">
               <i>
-                <Ruler size={32} />
+                <Ruler size={26} className="md:h-7 md:w-7" />
               </i>
-              <span className="text-md font-medium text-gray-900">
+              <span className="md:text-base text-xs font-medium text-gray-900">
                 Size & Fit Guide
               </span>
             </div>
             <div className="flex gap-2 items-center">
               <i>
-                <Truck size={32} />
+                <Truck size={26} className="md:h-7 md:w-7" />
               </i>
-              <span className="text-md font-medium text-gray-900">
+              <span className="md:text-base text-xs font-medium text-gray-900">
                 Express Shipping
               </span>
             </div>
             <div className="flex gap-2 items-center">
               <i>
-                <Undo2 size={32} />
+                <Undo2 size={26} className="md:h-7 md:w-7" />
               </i>
-              <span className="text-md font-medium text-gray-900">
+              <span className="md:text-base text-xs font-medium text-gray-900">
                 4-Days Returns
               </span>
             </div>
@@ -1068,7 +1068,7 @@ const ProductDetails = () => {
                 )}
 
                 <button
-                  className="mt-3 px-4 py-3 bg-black text-white text-sm font-medium rounded-md hover:bg-gray-800 transition-colors"
+                  className="mt-3 md:px-4 md:py-3 py-1 px-2 bg-black text-white text-sm font-medium rounded-md hover:bg-gray-800 transition-colors"
                   onClick={handleSubmitReview}
                 >
                   Submit Review

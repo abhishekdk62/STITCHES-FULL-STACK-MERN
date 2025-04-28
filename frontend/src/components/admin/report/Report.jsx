@@ -55,13 +55,13 @@ const Report = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.4 }}
-      className="p-8 bg-white min-h-screen w-full rounded-xl"
+      className="bg-white min-h-screen w-full rounded-xl"
     >
-      <div>
-        <div className="flex justify-between items-center border-b pb-4 mb-8">
+      <div className=" w-full justify-between items-center border-b pb-4 mb-8">
+        <div className="">
           <div className="flex items-center gap-3">
             <BarChart className="w-6 h-6 text-black" />
-            <h2 className="text-2xl font-bold text-black tracking-tight">
+            <h2 className="md:text-2xl text-xl font-bold text-black tracking-tight">
               Sales Report
             </h2>
           </div>

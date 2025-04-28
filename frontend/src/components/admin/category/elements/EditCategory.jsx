@@ -64,18 +64,42 @@ const EditCategory = ({ setEditCategory }) => {
   };
 
   return (
-    <div className="w-full mx-auto bg-white p-8 rounded-lg shadow-lg border border-gray-100">
+    <div className="w-full mx-auto bg-white p-6 sm:p-8 rounded-lg shadow-lg border border-gray-100">
       {/* Header */}
-      <div className="flex justify-between items-center mb-8 pb-4 border-b border-gray-200">
+      <div className="flex justify-between items-center mb-6 sm:mb-8 pb-4 border-b border-gray-200">
         <div className="flex items-center">
-          <div className="bg-black text-white p-2 rounded-md mr-3">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-              <path d="M2 17L12 22L22 17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-              <path d="M2 12L12 17L22 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+          <div className="bg-black text-white p-2 sm:p-3 rounded-md mr-3">
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M12 2L2 7L12 12L22 7L12 2Z"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <path
+                d="M2 17L12 22L22 17"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <path
+                d="M2 12L12 17L22 12"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
             </svg>
           </div>
-          <h1 className="text-2xl font-bold">Edit Category</h1>
+          <h1 className="text-lg sm:text-2xl font-bold">Edit Category</h1>
         </div>
         <button
           onClick={() => {
@@ -90,16 +114,28 @@ const EditCategory = ({ setEditCategory }) => {
 
       {/* Notification */}
       {notification.show && (
-        <div className={`mb-4 p-3 rounded-md flex items-center ${
-          notification.type === "error" ? "bg-red-50 text-red-700" : "bg-green-50 text-green-700"
-        }`}>
+        <div
+          className={`mb-4 p-3 sm:p-4 rounded-md flex items-center ${
+            notification.type === "error"
+              ? "bg-red-50 text-red-700"
+              : "bg-green-50 text-green-700"
+          }`}
+        >
           {notification.type === "error" ? (
             <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
-              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+              <path
+                fillRule="evenodd"
+                d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                clipRule="evenodd"
+              />
             </svg>
           ) : (
             <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
-              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+              <path
+                fillRule="evenodd"
+                d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                clipRule="evenodd"
+              />
             </svg>
           )}
           {notification.message}
@@ -108,12 +144,15 @@ const EditCategory = ({ setEditCategory }) => {
 
       <form onSubmit={handleSubmit}>
         {/* Category Name */}
-        <div className="mb-6">
-          <label className="block text-gray-700 font-semibold mb-2" htmlFor="category-name">
+        <div className="mb-4 sm:mb-6">
+          <label
+            className="block text-gray-700 font-semibold mb-2 text-sm sm:text-base"
+            htmlFor="category-name"
+          >
             Category Name
           </label>
           <input
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent transition-all"
+            className="w-full px-3 sm:px-4 py-2 sm:py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent transition-all text-sm sm:text-base"
             id="category-name"
             type="text"
             value={categoryName}
@@ -122,8 +161,11 @@ const EditCategory = ({ setEditCategory }) => {
         </div>
 
         {/* Subcategories */}
-        <div className="mb-6">
-          <label className="block text-gray-700 font-semibold mb-2" htmlFor="subcategories">
+        <div className="mb-4 sm:mb-6">
+          <label
+            className="block text-gray-700 font-semibold mb-2 text-sm sm:text-base"
+            htmlFor="subcategories"
+          >
             Subcategories
           </label>
           <div className="flex mb-3">
@@ -132,7 +174,7 @@ const EditCategory = ({ setEditCategory }) => {
               placeholder="Enter new subcategory"
               value={newSubCategory}
               onChange={(e) => setNewSubCategory(e.target.value)}
-              className="flex-grow px-4 py-3 border border-gray-300 rounded-l-lg"
+              className="flex-grow px-3 sm:px-4 py-2 sm:py-3 border border-gray-300 rounded-l-lg text-sm sm:text-base"
               onKeyPress={(e) => {
                 if (e.key === "Enter") {
                   e.preventDefault();
@@ -153,7 +195,7 @@ const EditCategory = ({ setEditCategory }) => {
                   setNewSubCategory("");
                 }
               }}
-              className="bg-black text-white px-6 py-3 rounded-r-lg"
+              className="bg-black text-white px-4 sm:px-6 py-2 sm:py-3 rounded-r-lg text-sm sm:text-base"
             >
               Add
             </button>
@@ -172,7 +214,7 @@ const EditCategory = ({ setEditCategory }) => {
                     updated[index] = e.target.value;
                     setSubCategories(updated);
                   }}
-                  className="border-none focus:ring-0 bg-transparent"
+                  className="border-none focus:ring-0 bg-transparent text-sm sm:text-base"
                 />
                 <button
                   type="button"
@@ -187,20 +229,20 @@ const EditCategory = ({ setEditCategory }) => {
         </div>
 
         {/* Action Buttons */}
-        <div className="flex justify-end space-x-4">
+        <div className="flex flex-col sm:flex-row justify-end gap-3 sm:gap-4">
           <button
             type="button"
             onClick={() => {
               localStorage.removeItem("categoryId");
               setEditCategory(false);
             }}
-            className="px-6 py-3 border border-gray-300 rounded-lg"
+            className="px-3 sm:px-4 py-2 sm:py-3 border border-gray-300 rounded-lg text-sm sm:text-base"
           >
             Cancel
           </button>
           <button
             type="submit"
-            className="px-6 py-3 bg-black text-white rounded-lg"
+            className="px-4 sm:px-6 flex py-2 sm:py-3 bg-black text-white rounded-lg text-sm sm:text-base"
           >
             <Save size={18} className="mr-2" />
             Save Changes

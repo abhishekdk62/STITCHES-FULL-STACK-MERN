@@ -33,27 +33,30 @@ const Home = () => {
       navigate("/user/home", { replace: true });
     }
   }, [location, navigate]);
-    const [selectedCategory, setSelectedCategory] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState(null);
 
   return (
-    <div>
-      <PromotionalBanner />
-      <Header selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} />
+    <div className="overflow-x-hidden">
+      <div className="max-w-10xl lg:max-w-full">
 
-      <Banner />
+      <Header
+        selectedCategory={selectedCategory}
+        setSelectedCategory={setSelectedCategory}
+      />
+        <Banner />
 
-   
         <Saving />
         <NewArivals />
-      <div className="px-6 md:px-12 lg:px-20 space-y-12">
-        <Promotions />
-        {/* <Brands /> */}
-        {/* <CategoryWomen /> */}
-        {/* <Trending /> */}
+        <div className="md:px-12 lg:px-20 space-y-12">
+          <Promotions />
+          {/* <Brands /> */}
+          {/* <CategoryWomen /> */}
+          {/* <Trending /> */}
 
-        {/* <CategoryMen /> */}
-      </div>
+          {/* <CategoryMen /> */}
+        </div>
       <Footer />
+      </div>
     </div>
   );
 };

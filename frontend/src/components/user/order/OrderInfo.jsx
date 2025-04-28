@@ -34,6 +34,7 @@ import {
 
 import { generatePDFInvoice } from "../../../../utils/generateInvoice";
 import { setOrderDetail } from "../../../../slices/orderSlice";
+import { setSelectedTab } from "../../../../slices/selectedTabSlice";
 export default function OrderInfo() {
   const orderDetail = useSelector((state) => state.order.orderDetail);
   const [isOpen, setIsOpen] = useState(false);
@@ -156,7 +157,6 @@ export default function OrderInfo() {
     setShowReturnModal(false);
     setReason("");
   };
-
   const handleReturnOrder = async () => {
     if (!reason.trim()) {
       setError(true);
@@ -257,7 +257,7 @@ export default function OrderInfo() {
   };
 
   return (
-    <div className="w-full mx-auto p-6 font-sans bg-white rounded-xl shadow-sm">
+    <div className="w-full mx-auto pt-3 font-sans bg-white rounded-xl shadow-sm">
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -351,56 +351,50 @@ export default function OrderInfo() {
         )}
       </AnimatePresence>
 
-      {/* Header with visual hierarchy */}
-      <div className="flex items-center justify-between mb-8 pb-6 border-b border-gray-200">
-        <div className="flex items-center gap-4">
-          <button className="p-2 text-gray-600 hover:bg-gray-100 rounded-full transition-colors">
-            <ArrowLeft size={20} />
+      {/* Header Section */}
+      <div className="flex items-center justify-between mb-4 md:mb-8 pb-4 md:pb-6 border-b border-gray-200">
+        <div className="flex items-center gap-2 md:gap-4">
+          <button className="p-1 md:p-2 text-gray-600 hover:bg-gray-100 rounded-full transition-colors">
+            <ArrowLeft size={16} onClick={()=>dispatch(setSelectedTab("orders"))} className="md:w-5 md:h-5" />
           </button>
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">
+            <h1 className="text-sm md:text-xl  text-gray-900">
               Order #{order.orderID || "Unknown"}
             </h1>
-            <div className="flex items-center gap-2 mt-1 text-gray-600">
-              <Calendar size={16} />
+            <div className="flex items-center gap-1 md:gap-2 mt-1 text-xs md:text-sm text-gray-600">
+              <Calendar size={14} className="md:w-4 md:h-4" />
               <p>Placed on {formatDate(order.createdAt)}</p>
             </div>
           </div>
         </div>
-        <div className="flex items-center gap-3">
+        
+        <div className="flex items-center gap-2 md:gap-3">
           <button
             onClick={handleGenerateInvoice}
-            disabled={
-              item.status === "Returned" ||
-              item.status === "Cancelled" ||
-              orderCancelled
-            }
-            className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-colors font-medium ${
-              item.status === "Returned" ||
-              item.status === "Cancelled" ||
-              orderCancelled
+            disabled={item.status === "Returned" || item.status === "Cancelled" || orderCancelled}
+            className={`flex items-center gap-1 md:gap-2 px-2 md:px-3 py-1.5 md:py-2 rounded-lg transition-colors text-xs md:text-sm font-medium ${
+              item.status === "Returned" || item.status === "Cancelled" || orderCancelled
                 ? "bg-gray-100 text-gray-400 cursor-not-allowed"
                 : "bg-gray-800 text-white hover:bg-gray-700"
             }`}
           >
-            <Printer size={16} />
+            <Printer size={14} className="md:w-4 md:h-4" />
             Invoice
           </button>
         </div>
       </div>
 
-      {/* Main content area with two-column layout for desktop */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Left column - Order info and items */}
-        <div className="lg:col-span-2 space-y-6">
-          {/* Order Progress Section */}
-          <div className="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
-            <h2 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2">
-              <Truck className="text-gray-700" size={20} />
+      {/* Main Grid Layout */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6">
+        <div className="lg:col-span-2 space-y-4 md:space-y-6">
+          {/* Order Status Section */}
+          <div className="bg-white rounded-xl p-4 md:p-6 border border-gray-200 shadow-sm">
+            <h2 className="text-base md:text-lg font-bold text-gray-900 mb-4 md:mb-6 flex items-center gap-2">
+              <Truck className="text-gray-700 w-4 h-4 md:w-5 md:h-5" />
               Order Status
             </h2>
-
-            <div className="mb-8">
+            
+            <div className="text-xs md:text-sm">
               {item.status === "Cancelled" || item.status === "Returned" ? (
                 <div className="flex items-center justify-center p-4 bg-gray-50 rounded-lg border border-gray-200">
                   <div className="flex items-center gap-2 text-gray-700">
@@ -541,16 +535,17 @@ export default function OrderInfo() {
               )}
           </div>
 
-          <div className="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
-            <h2 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2">
-              <ShoppingBag className="text-gray-700" size={20} />
+          {/* Order Items Section */}
+          <div className="bg-white rounded-xl p-4 md:p-6 border border-gray-200 shadow-sm">
+            <h2 className="text-base md:text-lg font-bold text-gray-900 mb-4 md:mb-6 flex items-center gap-2">
+              <ShoppingBag className="text-gray-700 w-4 h-4 md:w-5 md:h-5" />
               Order Items
             </h2>
 
             <div className="space-y-4">
-              <div className="flex items-start gap-4 p-4 bg-gray-50 rounded-lg">
+              <div className="flex items-start gap-3 md:gap-4 p-3 md:p-4 bg-gray-50 rounded-lg">
                 {/* Product Image */}
-                <div className="w-24 h-24 bg-white rounded-lg overflow-hidden border border-gray-200 flex-shrink-0">
+                <div className="w-20 h-20 md:w-24 md:h-24 bg-white rounded-lg overflow-hidden border border-gray-200 flex-shrink-0">
                   <img
                     src={
                       (selectedVariant &&
@@ -565,27 +560,27 @@ export default function OrderInfo() {
                 </div>
                 <div className="flex-1">
                   <div className="flex justify-between">
-                    <h3 className="text-lg font-semibold text-gray-900">
+                    <h3 className="text-sm md:text-lg font-semibold text-gray-900">
                       {item?.product?.name || "Product Name"}
                     </h3>
-                    <p className="text-lg font-bold text-gray-900">
-                    ₹{item?.price ? item.price.toFixed(2) : "0.00"}
+                    <p className="text-sm md:text-lg font-bold text-gray-900">
+                    ₹{item?.price ? item.price.toFixed(0) : "0.00"}
                     </p>
                   </div>
-                  <div className="flex flex-wrap gap-4 mt-2">
-                    <p className="text-gray-600 text-sm px-2 py-1 bg-gray-100 rounded-full">
+                  <div className="flex flex-wrap gap-2 md:gap-4 mt-2">
+                    <p className="text-xs md:text-sm text-gray-600 px-2 py-1 bg-gray-100 rounded-full">
                       Color:{" "}
                       <span className="text-gray-900 font-medium">
                         {(selectedVariant && selectedVariant.color) || "N/A"}
                       </span>
                     </p>
-                    <p className="text-gray-600 text-sm px-2 py-1 bg-gray-100 rounded-full">
+                    <p className="text-xs md:text-sm text-gray-600 px-2 py-1 bg-gray-100 rounded-full">
                       Size:{" "}
                       <span className="text-gray-900 font-medium">
                         {(selectedVariant && selectedVariant.size) || "N/A"}
                       </span>
                     </p>
-                    <p className="text-gray-600 text-sm px-2 py-1 bg-gray-100 rounded-full">
+                    <p className="text-xs md:text-sm text-gray-600 px-2 py-1 bg-gray-100 rounded-full">
                       Qty:{" "}
                       <span className="text-gray-900 font-medium">
                         {item?.quantity || 0}
@@ -654,69 +649,71 @@ export default function OrderInfo() {
           </div>
         </div>
 
-        {/* Right column - Order summary and shipping */}
-        <div className="space-y-6">
+        {/* Right Column */}
+        <div className="space-y-4 md:space-y-6">
           {/* Payment Summary */}
-          <div className="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
-            <h2 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2">
-              <DollarSign className="text-gray-700" size={20} />
+          <div className="bg-white rounded-xl p-4 md:p-6 border border-gray-200 shadow-sm">
+            <h2 className="text-base md:text-lg font-bold text-gray-900 mb-4 md:mb-6 flex items-center gap-2">
+              <DollarSign className="text-gray-700 w-4 h-4 md:w-5 md:h-5" />
               Payment Summary
             </h2>
 
-            <div className="flex items-center justify-between mb-4 pb-4 border-b border-gray-200">
-              <div className="flex items-center gap-2">
-                <CreditCard size={18} className="text-gray-600" />
-                <span className="text-gray-700">Payment Method</span>
-              </div>
-              <span className="font-medium text-gray-900">
-                {order.paymentMethod || "Not specified"}
-              </span>
-            </div>
-
-            <div className="space-y-3">
-              <div className="flex justify-between">
-                <span className="text-gray-600">Subtotal</span>
-                <span className="text-gray-900 font-medium">
-                ₹{subtotal.toFixed(2)}
-                </span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-gray-600">Shipping</span>
-                <span className="text-gray-900 font-medium">
-                ₹{shipping.toFixed(2)}
-                </span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-gray-600">Tax (12%)</span>
-                <span className="text-gray-900 font-medium">
-                ₹{tax.toFixed(2)}
-                </span>
-              </div>
-              {discount > 0 && (
-                <div className="flex justify-between text-green-600">
-                  <span>Discount</span>
-                  <span className="font-medium">-₹{discount.toFixed(2)}</span>
+            <div className="text-xs md:text-sm space-y-3">
+              <div className="flex items-center justify-between mb-4 pb-4 border-b border-gray-200">
+                <div className="flex items-center gap-2">
+                  <CreditCard size={18} className="text-gray-600" />
+                  <span className="text-gray-700">Payment Method</span>
                 </div>
-              )}
-              <div className="flex justify-between mt-4 pt-4 border-t border-gray-300">
-                <span className="text-lg font-bold text-gray-900">
-                  Grand Total
+                <span className="font-medium text-gray-900">
+                  {order.paymentMethod || "Not specified"}
                 </span>
-                <span className="text-lg font-bold text-gray-900">
-                ₹{grandTotal.toFixed(2)}
-                </span>
+              </div>
+
+              <div className="space-y-3">
+                <div className="flex justify-between">
+                  <span className="text-gray-600">Subtotal</span>
+                  <span className="text-gray-900 font-medium">
+                  ₹{subtotal.toFixed(2)}
+                  </span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-600">Shipping</span>
+                  <span className="text-gray-900 font-medium">
+                  ₹{shipping.toFixed(2)}
+                  </span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-600">Tax (12%)</span>
+                  <span className="text-gray-900 font-medium">
+                  ₹{tax.toFixed(2)}
+                  </span>
+                </div>
+                {discount > 0 && (
+                  <div className="flex justify-between text-green-600">
+                    <span>Discount</span>
+                    <span className="font-medium">-₹{discount.toFixed(2)}</span>
+                  </div>
+                )}
+                <div className="flex justify-between mt-4 pt-4 border-t border-gray-300">
+                  <span className="md:text-lg text-base font-bold text-gray-900">
+                    Grand Total
+                  </span>
+                  <span className="md:text-lg text-base font-bold text-gray-900">
+                  ₹{grandTotal.toFixed(2)}
+                  </span>
+                </div>
               </div>
             </div>
           </div>
 
           {/* Shipping Details */}
-          <div className="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
-            <h2 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2">
-              <MapPin className="text-gray-700" size={20} />
+          <div className="bg-white rounded-xl p-2 md:p-6 border border-gray-200 shadow-sm">
+            <h2 className="text-base md:text-lg font-bold text-gray-900  flex items-center gap-2">
+              <MapPin className="text-gray-700 w-4 h-4 md:w-5 md:h-5" />
               Shipping Details
             </h2>
 
-            <div className="space-y-4">
+            <div className="space-y-0 text-xs md:text-sm">
               <div className="flex items-start gap-3 p-4 bg-gray-50 rounded-lg">
                 <User size={18} className="text-gray-600 mt-1" />
                 <div>
@@ -727,8 +724,8 @@ export default function OrderInfo() {
                 </div>
               </div>
 
-              <div className="flex items-start gap-3 p-4 bg-gray-50 rounded-lg">
-                <MapPin size={18} className="text-gray-600 mt-1" />
+              <div className="flex items-start gap-3 p-2 bg-gray-50 rounded-lg">
+                <MapPin size={18} className="text-gray-600 " />
                 <div className="text-gray-700">
                   <p>{order.address.street}</p>
                   <p>

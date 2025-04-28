@@ -4,7 +4,7 @@ import { editAddress } from "../../../services/userService";
 import { getCountries } from "../../../services/countiesService";
 import { toast } from "react-hot-toast";
 import { motion } from "framer-motion";
-import { MapPin, Save } from "lucide-react";
+import { Check, MapPin, Save } from "lucide-react";
 
 export default function CheckoutEditAddress({ setShowCheckEditAddress }) {
   const dispatch = useDispatch();
@@ -184,34 +184,34 @@ export default function CheckoutEditAddress({ setShowCheckEditAddress }) {
         <div className="bg-gray-50 p-6 rounded-lg border border-gray-100">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
-              <label className="text-sm text-gray-500">Full Name</label>
+              <label className="sm:text-sm text-[0.85rem] text-gray-500">Full Name</label>
               <input
                 type="text"
                 placeholder="Enter your full name"
                 value={fullName}
                 onChange={(e) => setFullName(e.target.value)}
-                className="w-full p-3 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-black"
+                className="w-full p-3 border border-gray-300 rounded-md sm:text-sm text-[0.85rem] focus:outline-none focus:ring-2 focus:ring-black"
               />
             </div>
 
             <div className="space-y-2">
-              <label className="text-sm text-gray-500">Phone Number</label>
+              <label className="sm:text-sm text-[0.85rem] text-gray-500">Phone Number</label>
               <input
                 type="tel"
                 placeholder="Enter your phone number"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
-                className="w-full p-3 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-black"
+                className="w-full p-3 border border-gray-300 rounded-md sm:text-sm text-[0.85rem] focus:outline-none focus:ring-2 focus:ring-black"
               />
             </div>
 
             <div className="space-y-2">
-              <label className="text-sm text-gray-500">Country</label>
+              <label className="sm:text-sm text-[0.85rem] text-gray-500">Country</label>
               <select
                 id="country"
                 value={country}
                 onChange={(e) => setCountry(e.target.value)}
-                className="w-full p-3 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-black"
+                className="w-full p-3 border border-gray-300 rounded-md sm:text-sm text-[0.85rem] focus:outline-none focus:ring-2 focus:ring-black"
               >
                 <option value="">Select a country</option>
                 {countries.map((c) => (
@@ -223,55 +223,55 @@ export default function CheckoutEditAddress({ setShowCheckEditAddress }) {
             </div>
 
             <div className="space-y-2">
-              <label className="text-sm text-gray-500">State/Province</label>
+              <label className="sm:text-sm text-[0.85rem] text-gray-500">State/Province</label>
               <input
                 placeholder="Enter your state"
                 id="State"
                 value={state}
                 onChange={(e) => setState(e.target.value)}
-                className="w-full p-3 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-black"
+                className="w-full p-3 border border-gray-300 rounded-md sm:text-sm text-[0.85rem] focus:outline-none focus:ring-2 focus:ring-black"
               />
             </div>
 
             <div className="space-y-2">
-              <label className="text-sm text-gray-500">City</label>
+              <label className="sm:text-sm text-[0.85rem] text-gray-500">City</label>
               <input
                 type="text"
                 placeholder="Enter your city"
                 value={city}
                 onChange={(e) => setCity(e.target.value)}
-                className="w-full p-3 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-black"
+                className="w-full p-3 border border-gray-300 rounded-md sm:text-sm text-[0.85rem] focus:outline-none focus:ring-2 focus:ring-black"
               />
             </div>
 
             <div className="space-y-2">
-              <label className="text-sm text-gray-500">ZIP/Postal Code</label>
+              <label className="sm:text-sm text-[0.85rem] text-gray-500">ZIP/Postal Code</label>
               <input
                 type="text"
                 placeholder="Enter zip code"
                 value={zip}
                 onChange={(e) => setZip(e.target.value)}
-                className="w-full p-3 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-black"
+                className="w-full p-3 border border-gray-300 rounded-md sm:text-sm text-[0.85rem] focus:outline-none focus:ring-2 focus:ring-black"
               />
             </div>
 
             <div className="space-y-2 md:col-span-2">
-              <label className="text-sm text-gray-500">Street Address</label>
+              <label className="sm:text-sm text-[0.85rem] text-gray-500">Street Address</label>
               <input
                 type="text"
                 placeholder="Enter your street address"
                 value={street}
                 onChange={(e) => setStreet(e.target.value)}
-                className="w-full p-3 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-black"
+                className="w-full p-3 border border-gray-300 rounded-md sm:text-sm text-[0.85rem] focus:outline-none focus:ring-2 focus:ring-black"
               />
             </div>
 
             <div className="space-y-2">
-              <label className="text-sm text-gray-500">Address Type</label>
+              <label className="sm:text-sm text-[0.85rem] text-gray-500">Address Type</label>
               <select
                 value={addressType}
                 onChange={(e) => setAddressType(e.target.value)}
-                className="w-full p-3 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-black"
+                className="w-full p-3 border border-gray-300 rounded-md sm:text-sm text-[0.85rem] focus:outline-none focus:ring-2 focus:ring-black"
               >
                 <option value="Home">Home</option>
                 <option value="Office">Office</option>
@@ -291,7 +291,7 @@ export default function CheckoutEditAddress({ setShowCheckEditAddress }) {
                 <span className={`w-5 h-5 mr-2 border flex items-center justify-center ${defaultBilling ? 'bg-black border-black' : 'border-gray-300'}`}>
                   {defaultBilling && <Check size={14} className="text-white" />}
                 </span>
-                <span className="text-sm">Set as default billing address</span>
+                <span className="sm:text-sm text-[0.85rem]">Set as default billing address</span>
               </label>
             </div>
           </div>
@@ -303,7 +303,7 @@ export default function CheckoutEditAddress({ setShowCheckEditAddress }) {
             whileTap={{ scale: 0.95 }}
             type="button"
             onClick={() => setShowCheckEditAddress("showaddress")}
-            className="px-6 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors duration-300"
+            className="sm:px-6 px-3 py-1 text-sm sm:py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors duration-300"
           >
             Cancel
           </motion.button>
@@ -313,7 +313,7 @@ export default function CheckoutEditAddress({ setShowCheckEditAddress }) {
             whileTap={{ scale: 0.95 }}
             type="submit"
             disabled={isSubmitting}
-            className="px-6 py-2 rounded-md bg-black text-white hover:bg-white hover:text-black border border-black transition-colors duration-300 flex items-center gap-2"
+            className="sm:px-6 px-3 py-1 text-sm sm:py-2 rounded-md bg-black text-white hover:bg-white hover:text-black border border-black transition-colors duration-300 flex items-center gap-2"
           >
             {isSubmitting ? "Saving..." : "Save"} <Save size={15} />
           </motion.button>

@@ -44,7 +44,7 @@ const DeliveryAddress = ({ setStep, setShowCheckEditAddress }) => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.4 }}
-      className="p-8 bg-gray-50 min-h-screen w-full mx-auto rounded-xl"
+      className="md:p-8 p-3 bg-gray-50 min-h-screen w-full mx-auto rounded-xl"
     >
     
 
@@ -56,20 +56,20 @@ const DeliveryAddress = ({ setStep, setShowCheckEditAddress }) => {
       >
         <div className="flex  items-center gap-3 mb-6">
           <MapPin className="w-5 h-5 text-gray-700" />
-          <h3 className="text-lg font-semibold">Select Delivery Address</h3>
+          <h3 className="md:text-lg text-sm font-semibold">Select Delivery Address</h3>
         </div>
         
-        <div className="space-y-6 bg-gray-50 p-6 rounded-lg ">
+        <div className="space-y-6 bg-gray-50 md:p-6 rounded-lg ">
           <div className="flex justify-between items-center mb-6">
             <h3 className="text-base font-medium flex items-center gap-2">
               <User className="w-4 h-4 text-gray-600" />
-              Saved Addresses
+              <p className="sm:text-base text-sm">Saved Addresses</p>
             </h3>
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => setShowCheckEditAddress("addaddress")}
-              className="flex items-center gap-2 px-4 py-2 rounded-md border border-black hover:bg-black hover:text-white transition-colors duration-300"
+              className="flex sm:text-base text-sm items-center  gap-2 sm:px-4 sm:py-2 px-2 py-1 rounded-md border border-black hover:bg-black hover:text-white transition-colors duration-300"
             >
               Add New
             </motion.button>
@@ -120,14 +120,14 @@ const DeliveryAddress = ({ setStep, setShowCheckEditAddress }) => {
                     
                     <div className="flex items-start gap-3 mb-4">
                       <Home className="w-4 h-4 text-gray-500 mt-1" />
-                      <p className="text-gray-700">
+                      <p className="text-sm md:text-base text-gray-700">
                         {address?.street}, {address?.city}, {address?.state},{" "}
                         {address?.country}, {address?.zipCode}
                       </p>
                     </div>
                     
                     <div className="flex gap-2 mb-4">
-                      <span className="px-3 py-1 bg-gray-100 rounded-md text-sm font-medium text-gray-700">
+                      <span className="px-3 py-1 text-sm md:text-base bg-gray-100 rounded-md  font-medium text-gray-700">
                         {address?.addressType}
                       </span>
                     
@@ -167,7 +167,7 @@ const DeliveryAddress = ({ setStep, setShowCheckEditAddress }) => {
               dispatch(setSelectedTab("cart"));
               navigate(-1);
             }}
-            className="flex items-center gap-2 px-6 py-3 rounded-md border border-black hover:bg-black hover:text-white transition-colors duration-300"
+            className="flex text-sm sm:text-base sm:px-6 px-3 py-2 sm:py-3 items-center gap-2  rounded-md border border-black hover:bg-black hover:text-white transition-colors duration-300"
           >
             <ArrowLeft size={16} /> Back to Cart
           </motion.button>
@@ -178,7 +178,7 @@ const DeliveryAddress = ({ setStep, setShowCheckEditAddress }) => {
             onClick={() => {
               setStep(2);
             }}
-            className="flex items-center gap-2 px-6 py-3 rounded-md bg-black text-white hover:bg-gray-800 transition-colors duration-300"
+            className="flex items-center gap-2 text-sm sm:text-base sm:px-6 px-3 py-2 sm:py-3 rounded-md bg-black text-white hover:bg-gray-800 transition-colors duration-300"
           >
             Continue <ArrowRight size={16} />
           </motion.button>

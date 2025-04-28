@@ -48,11 +48,9 @@ const Coupon = ({ setSelectedTab }) => {
     fetchCoupon("");
   }, []);
 
-  useEffect(()=>{
-
-    fetchCoupon(debouncedValue)
-
-  },[debouncedValue])
+  useEffect(() => {
+    fetchCoupon(debouncedValue);
+  }, [debouncedValue]);
 
   const handleDelete = async () => {
     try {
@@ -120,16 +118,16 @@ const Coupon = ({ setSelectedTab }) => {
                   </p>
                 </div>
 
-                <div className="mt-4 flex justify-center gap-4">
+                <div className="mt-4 flex flex-col sm:flex-row justify-center gap-4">
                   <button
                     onClick={handleDelete}
-                    className="bg-gray-200 px-3 py-1 rounded-md  text-black cursor-pointer"
+                    className="bg-gray-200 px-3 sm:px-4 py-1 sm:py-2 rounded-md text-sm sm:text-base text-black cursor-pointer w-full sm:w-auto"
                   >
                     Confirm
                   </button>
                   <button
                     onClick={() => setIsOpen(false)}
-                    className="bg-red-500 px-4 py-2 rounded text-white font-bold hover:bg-red-700"
+                    className="bg-red-500 px-4 sm:px-5 py-2 sm:py-3 rounded text-sm sm:text-base text-white font-bold hover:bg-red-700 w-full sm:w-auto"
                   >
                     Cancel
                   </button>
@@ -163,8 +161,6 @@ const Coupon = ({ setSelectedTab }) => {
                   value={search}
                   onChange={(e) => {
                     setSearch(e.target.value);
-
-            
                   }}
                 />
                 {search && (
@@ -179,8 +175,6 @@ const Coupon = ({ setSelectedTab }) => {
                   </button>
                 )}
               </div>
-
-          
             </div>
             <div className="flex gap-4">
               <button

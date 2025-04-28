@@ -318,12 +318,7 @@ const AddProduct = ({ setShowAddProduct }) => {
         {/* Header */}
         <div className="bg-gray-900 px-6 py-3 flex justify-between items-center">
           <h1 className="text-xl font-bold text-white">Add New Product</h1>
-          <button
-            onClick={() => setShowAddProduct(false)}
-            className="text-white hover:bg-gray-700 rounded-full p-1 transition-colors"
-          >
-            <X size={20} />
-          </button>
+    
         </div>
   
         {/* Content */}
@@ -459,8 +454,8 @@ const AddProduct = ({ setShowAddProduct }) => {
                               alt={`Uploaded ${index}`}
                               className="w-full h-full object-cover"
                             />
-                            <div className="absolute inset-0 bg-black bg-opacity-40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                              <button
+ <div className="absolute inset-0 w-full h-full bg-black bg-opacity-40 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity flex items-center justify-center">
+<button
                                 type="button"
                                 onClick={() => removeImage(index)}
                                 className="bg-red-500 text-white rounded-full p-1 hover:bg-red-600 transition-colors"
@@ -693,15 +688,21 @@ const AddProduct = ({ setShowAddProduct }) => {
             )}
   
             {/* Form Buttons and Error */}
-            <div className="flex justify-end items-center space-x-4 mt-6">
+            <div className="flex justify-between  space-x-4 mt-6">
               {error && <p className="text-red-500 text-xs">{error}</p>}
+       <button
+            onClick={() => setShowAddProduct(false)}
+            className="px-4 py-1 bg-black hover:bg-gray-800 rounded text-white text-sm font-medium transition-colors flex items-center"
+          >
+            Cancel
+          </button>
               <button
                 type="submit"
                 className="px-4 py-1 bg-black hover:bg-gray-800 rounded text-white text-sm font-medium transition-colors flex items-center"
               >
                 <CheckCircle size={16} className="mr-1" /> Save Product
               </button>
-            </div>
+       </div>
           </form>
         </div>
       </div>

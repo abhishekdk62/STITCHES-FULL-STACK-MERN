@@ -166,79 +166,62 @@ const TransactionsList = ({ setShowTransactionDetails }) => {
             }}
             className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 bg-opacity-50"
           >
-            <div className="w-full max-w-lg bg-white rounded-lg shadow-lg overflow-hidden">
-              <div className="bg-black text-white p-4 flex justify-between items-center">
-                <h3 className="text-lg font-medium">Transaction Details</h3>
+            <div className="w-full max-w-md sm:max-w-lg bg-white rounded-lg shadow-lg overflow-hidden">
+              <div className="bg-black text-white p-3 sm:p-4 flex justify-between items-center">
+                <h3 className="text-sm sm:text-base font-medium">Transaction Details</h3>
                 <button
                   onClick={() => setIsDetailsOpen(false)}
                   className="text-white hover:text-gray-300 transition-colors"
                 >
-                  <X size={20} />
+                  <X size={18} sm:size={20} />
                 </button>
               </div>
-              <div className="p-6">
-                <div className="space-y-4">
+              <div className="p-4 sm:p-6">
+                <div className="space-y-3 sm:space-y-4">
                   <div className="flex items-center">
-                    <User className="w-5 h-5 mr-2 text-gray-500" />
+                    <User className="w-4 sm:w-5 h-4 sm:h-5 mr-2 text-gray-500" />
                     <div>
-                      <h4 className="text-sm font-medium text-gray-500">Name</h4>
-                      <p className="font-medium">{selectedTransaction.name || "N/A"}</p>
+                      <h4 className="text-xs sm:text-sm font-medium text-gray-500">Name</h4>
+                      <p className="font-medium text-xs sm:text-sm">{selectedTransaction.name || "N/A"}</p>
                     </div>
                   </div>
-                  
                   <div className="flex items-center">
-                    <Mail className="w-5 h-5 mr-2 text-gray-500" />
+                    <Mail className="w-4 sm:w-5 h-4 sm:h-5 mr-2 text-gray-500" />
                     <div>
-                      <h4 className="text-sm font-medium text-gray-500">Email</h4>
-                      <p className="font-medium">{selectedTransaction.email || "N/A"}</p>
+                      <h4 className="text-xs sm:text-sm font-medium text-gray-500">Email</h4>
+                      <p className="font-medium text-xs sm:text-sm">{selectedTransaction.email || "N/A"}</p>
                     </div>
                   </div>
-                  
                   <div className="flex items-center">
-                    <Calendar className="w-5 h-5 mr-2 text-gray-500" />
+                    <Calendar className="w-4 sm:w-5 h-4 sm:h-5 mr-2 text-gray-500" />
                     <div>
-                      <h4 className="text-sm font-medium text-gray-500">Date</h4>
-                      <p className="font-medium">{formatDate(selectedTransaction.transactionDate)}</p>
+                      <h4 className="text-xs sm:text-sm font-medium text-gray-500">Date</h4>
+                      <p className="font-medium text-xs sm:text-sm">{formatDate(selectedTransaction.transactionDate)}</p>
                     </div>
                   </div>
-                  
                   <div className="flex items-center">
-                    <Info className="w-5 h-5 mr-2 text-gray-500" />
+                    <Info className="w-4 sm:w-5 h-4 sm:h-5 mr-2 text-gray-500" />
                     <div>
-                      <h4 className="text-sm font-medium text-gray-500">Transaction ID</h4>
-                      <p className="font-medium">{selectedTransaction.transactionId}</p>
+                      <h4 className="text-xs sm:text-sm font-medium text-gray-500">Transaction ID</h4>
+                      <p className="font-medium text-xs sm:text-sm">{selectedTransaction.transactionId}</p>
                     </div>
                   </div>
-                  
                   <div className="flex items-center">
-                    <Wallet className="w-5 h-5 mr-2 text-gray-500" />
+                    <Wallet className="w-4 sm:w-5 h-4 sm:h-5 mr-2 text-gray-500" />
                     <div>
-                      <h4 className="text-sm font-medium text-gray-500">Type</h4>
+                      <h4 className="text-xs sm:text-sm font-medium text-gray-500">Type</h4>
                       <div>{getTransactionTypeBadge(selectedTransaction.transactionType)}</div>
                     </div>
                   </div>
-                  
                   <div className="flex items-center">
-                    <ArrowUpRight className="w-5 h-5 mr-2 text-gray-500" />
+                    <ArrowUpRight className="w-4 sm:w-5 h-4 sm:h-5 mr-2 text-gray-500" />
                     <div>
-                      <h4 className="text-sm font-medium text-gray-500">Amount</h4>
-                      <p className={`font-bold ${getAmountColorClass(selectedTransaction.transactionType)}`}>
-                      ₹{selectedTransaction.amount ? selectedTransaction.amount.toFixed(2) : "N/A"}
+                      <h4 className="text-xs sm:text-sm font-medium text-gray-500">Amount</h4>
+                      <p className={`font-bold text-xs sm:text-sm ${getAmountColorClass(selectedTransaction.transactionType)}`}>
+                        ₹{selectedTransaction.amount ? selectedTransaction.amount.toFixed(2) : "N/A"}
                       </p>
                     </div>
                   </div>
-                  
-                  {/* {selectedTransaction.orderId && selectedTransaction.transactionType!="Debited" && (
-                    <div className="pt-4 border-t border-gray-200">
-                      <h4 className="text-sm font-medium text-gray-500 mb-2">Related Order</h4>
-                      <button
-                        onClick={() => navigateToOrder(selectedTransaction.orderId)}
-                        className="bg-black text-white px-4 py-2 rounded-md flex items-center transition-all hover:bg-gray-800"
-                      >
-                        <span>View Order Details</span>
-                      </button>
-                    </div>
-                  )} */}
                 </div>
               </div>
             </div>
@@ -246,41 +229,37 @@ const TransactionsList = ({ setShowTransactionDetails }) => {
         )}
       </AnimatePresence>
 
-      <div className="max-w-7xl mx-auto p-6 pb-20">
+      <div className="max-w-7xl mx-auto p-4 sm:p-6 pb-12 sm:pb-16">
         {/* Header */}
-        <div className="mb-8 flex items-center">
-          <div className="bg-black text-white p-3 rounded-full mr-4">
-            <Wallet size={24} />
+        <div className="mb-4 sm:mb-6 flex items-center">
+          <div className="bg-black text-white p-2 sm:p-3 rounded-full mr-2 sm:mr-3">
+            <Wallet size={20} sm:size={24} />
           </div>
-          <h1 className="text-3xl font-bold">Wallet Transactions</h1>
+          <h1 className="text-base sm:text-lg font-bold">Wallet Transactions</h1>
         </div>
 
         {/* Controls Bar */}
-        <div className="bg-white p-5 rounded-lg shadow-md mb-6">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <div className="w-full md:w-auto flex flex-col md:flex-row items-center gap-4">
-              <div className="relative w-full md:w-80">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Search size={18} className="text-gray-400" />
-                </div>
-                <input
-                  type="text"
-                  placeholder="Search by User or Transaction type"
-                  className="pl-10 pr-10 py-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black/70"
-                  value={searchInput}
-                  onChange={(e) => setSearchInput(e.target.value)}
-                />
-                {searchInput && (
-                  <button
-                    onClick={() => {
-                      setSearchInput("");
-                    }}
-                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
-                  >
-                    <X size={18} />
-                  </button>
-                )}
+        <div className="bg-white p-4 sm:p-5 rounded-lg shadow-md mb-4 sm:mb-6">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-3 sm:gap-4">
+            <div className="relative w-full md:w-80">
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <Search size={16} sm:size={18} className="text-gray-400" />
               </div>
+              <input
+                type="text"
+                placeholder="Search by User or Transaction type"
+                className="pl-10 pr-10 py-1 sm:py-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black/70 text-xs sm:text-sm"
+                value={searchInput}
+                onChange={(e) => setSearchInput(e.target.value)}
+              />
+              {searchInput && (
+                <button
+                  onClick={() => setSearchInput("")}
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                >
+                  <X size={16} sm:size={18} />
+                </button>
+              )}
             </div>
           </div>
         </div>
@@ -305,21 +284,17 @@ const TransactionsList = ({ setShowTransactionDetails }) => {
 
         {/* Transactions Section */}
         <div className="bg-white rounded-lg shadow-md overflow-hidden">
-          <div className="border-b border-gray-200 bg-gray-50 py-4 px-6">
-            <h2 className="font-semibold text-lg">Transactions List</h2>
+          <div className="border-b border-gray-200 bg-gray-50 py-2 sm:py-3 px-3 sm:px-4">
+            <h2 className="font-semibold text-sm sm:text-base">Transactions List</h2>
           </div>
 
           {loading ? (
             // Shimmer UI while loading
             <div className="divide-y divide-gray-200">
               {Array.from({ length: 5 }).map((_, index) => (
-                <div key={index} className="p-6 animate-pulse">
-                  <div className="flex justify-between mb-4">
-                    <div className="h-6 bg-gray-200 rounded w-32"></div>
-                    <div className="h-6 bg-gray-200 rounded w-24"></div>
-                  </div>
-                  <div className="h-4 bg-gray-200 rounded w-4/5 mb-3"></div>
-                  <div className="h-4 bg-gray-200 rounded w-3/5"></div>
+                <div key={index} className="p-4 sm:p-6 animate-pulse">
+                  <div className="h-4 bg-gray-200 rounded w-3/4 mb-2"></div>
+                  <div className="h-4 bg-gray-200 rounded w-1/2"></div>
                 </div>
               ))}
             </div>
@@ -328,22 +303,22 @@ const TransactionsList = ({ setShowTransactionDetails }) => {
               <table className="min-w-full divide-y divide-gray-200">
                 <thead className="bg-gray-50">
                   <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-4 sm:px-6 py-2 sm:py-3 text-left text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wider">
                       Transaction ID
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-4 sm:px-6 py-2 sm:py-3 text-left text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wider">
                       Date
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-4 sm:px-6 py-2 sm:py-3 text-left text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wider">
                       User
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-4 sm:px-6 py-2 sm:py-3 text-left text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wider">
                       Type
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-4 sm:px-6 py-2 sm:py-3 text-left text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wider">
                       Amount
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-4 sm:px-6 py-2 sm:py-3 text-left text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wider">
                       Action
                     </th>
                   </tr>
@@ -351,24 +326,24 @@ const TransactionsList = ({ setShowTransactionDetails }) => {
                 <tbody className="bg-white divide-y divide-gray-200">
                   {transactionsList.map((transaction, index) => (
                     <tr key={transaction.transactionId || index} className="hover:bg-gray-50 transition-colors">
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                      <td className="px-4 sm:px-6 py-2 sm:py-3 text-xs sm:text-sm text-gray-900">
                         {transaction.transactionId ? transaction.transactionId.substring(0, 8) : "N/A"}
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      <td className="px-4 sm:px-6 py-2 sm:py-3 text-xs sm:text-sm text-gray-500">
                         {formatDate(transaction.transactionDate)}
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                        {transaction.name !== "N/A" ? transaction.name : "N/A"}
+                      <td className="px-4 sm:px-6 py-2 sm:py-3 text-xs sm:text-sm text-gray-900">
+                        {transaction.name || "N/A"}
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm">
+                      <td className="px-4 sm:px-6 py-2 sm:py-3 text-xs sm:text-sm">
                         {getTransactionTypeBadge(transaction.transactionType)}
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                      <td className="px-4 sm:px-6 py-2 sm:py-3 text-xs sm:text-sm font-medium">
                         <span className={getAmountColorClass(transaction.transactionType)}>
-                        ₹{transaction.amount ? transaction.amount.toFixed(2) : "N/A"}
+                          ₹{transaction.amount ? transaction.amount.toFixed(2) : "N/A"}
                         </span>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm">
+                      <td className="px-4 sm:px-6 py-2 sm:py-3 text-xs sm:text-sm">
                         <button
                           onClick={() => viewTransactionDetails(transaction)}
                           className="text-black hover:underline"
@@ -382,14 +357,14 @@ const TransactionsList = ({ setShowTransactionDetails }) => {
               </table>
             </div>
           ) : (
-            <div className="p-8 text-center">
-              <div className="inline-flex justify-center items-center w-16 h-16 rounded-full bg-gray-100 mb-4">
-                <Wallet size={24} className="text-gray-400" />
+            <div className="p-6 sm:p-8 text-center">
+              <div className="inline-flex justify-center items-center w-12 sm:w-16 h-12 sm:h-16 rounded-full bg-gray-100 mb-4">
+                <Wallet size={20} sm:size={24} className="text-gray-400" />
               </div>
-              <h3 className="text-lg font-medium text-gray-900 mb-1">
+              <h3 className="text-sm sm:text-base font-medium text-gray-900 mb-1">
                 No transactions found
               </h3>
-              <p className="text-gray-500">
+              <p className="text-xs sm:text-sm text-gray-500">
                 Try adjusting your search criteria or check back later.
               </p>
             </div>

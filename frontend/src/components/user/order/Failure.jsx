@@ -8,9 +8,9 @@ import { setSelectedTab } from "../../../../slices/selectedTabSlice";
 export default function Failure() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
   const handleTryAgain = () => {
-    navigate("/user/checkout");
+    navigate("/user/account");
+    dispatch(setSelectedTab("cart"));
   };
 
   return (

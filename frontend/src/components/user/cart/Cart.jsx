@@ -158,19 +158,14 @@ export default function ShoppingCart() {
     tap: { scale: 0.95 },
   };
 
-  if(!userDetails)
-  {
-    return(
-         
-      
-  <Notification
+  if (!userDetails) {
+    return (
+      <Notification
         p1={"You’re not signed in"}
         p2={"Please log in to view your Cart."}
-        icon={    <ShoppingBag size={80} className="text-gray-300" />
-      }
+        icon={<ShoppingBag size={80} className="text-gray-300" />}
       />
-      
-    )
+    );
   }
 
   if (isLoading) {
@@ -192,14 +187,11 @@ export default function ShoppingCart() {
 
   if (!cartItems || !cartItems.items || cartItems.items.length === 0) {
     return (
-    
- <Notification
+      <Notification
         p1={"Your cart is empty"}
         p2={"Looks like you haven't added any items to your cart yet."}
-        icon={    <ShoppingBag size={80} className="text-gray-300" />
-      }
+        icon={<ShoppingBag size={80} className="text-gray-300" />}
       />
-
     );
   }
 
@@ -207,7 +199,7 @@ export default function ShoppingCart() {
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="p-6 bg-white h-auto shadow-sm w-4xl border border-gray-100 min-h-[600px] w-4xl rounded-lg"
+      className="p-6 bg-white h-auto shadow-sm  border border-gray-100 min-h-[600px] w-full md:w-4xl rounded-lg"
     >
       <AnimatePresence>
         {isOpen && (
@@ -255,11 +247,10 @@ export default function ShoppingCart() {
         )}
       </AnimatePresence>
 
-      {/* Header with Logo */}
-      <div className="flex justify-between items-center pb-5 border-b mb-8">
+      <div className="flex justify-between items-center pb-3 md:pb-5 border-b mb-4 md:mb-8">
         <div className="flex items-center gap-2">
-          <ShoppingBag className="h-8 w-8 text-black" />
-          <h1 className="text-2xl font-bold">Shopping Cart</h1>
+          <ShoppingBag className="h-5 w-5 md:h-8 md:w-8 text-black" />
+          <h1 className="text-lg md:text-2xl font-bold">Shopping Cart</h1>
         </div>
       </div>
 
@@ -267,39 +258,48 @@ export default function ShoppingCart() {
         variants={containerVariants}
         initial="hidden"
         animate="visible"
-        className="space-y-6"
+        className="space-y-6 "
       >
         {cartItems.items.map((item, indx) => (
           <motion.div
             key={indx}
             variants={itemVariants}
-            className="overflow-hidden h-[200px] bg-white rounded-lg border border-gray-200 transition-shadow duration-300 "
+            className=" border rounded-md border-gray-200  bg-white  transition-shadow duration-300"
           >
-            <div className="flex flex-col md:flex-row gap-6">
+            <div className="flex gap-3 md:gap-6">
               <motion.div
                 whileHover={{ scale: 1.05 }}
                 transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                className="flex-shrink-0"
+                className=""
               >
+
                 <img
                   src={
                     item?.productId.variants.find(
                       (v) => v._id == item.variantId
                     ).productImages[0]
                   }
-                  className="w-full md:w-40 h-full object-cover rounded-md shadow"
+                  className="h-30 w-20 md:w-40 md:h-full object-cover rounded-md shadow"
                 />
+
               </motion.div>
 
-              <div className="flex-grow p-3">
+              <div className="p-1 md:p-3 h-full flex-1">
                 <div className="flex justify-between items-start">
-                  <div className="">
-                    <h3 className="font-medium text-lg mb-1">
-                      {item.productId.name}
-                    </h3>
-                    <p className="text-gray-500 mb-1">
-                      Color:{" "}
-                      <span className="font-medium">
+                  <div>
+                  <h3 className="font-medium text-[0.6rem] md:text-lg mb-1">
+  {/* first word on small screens, full name on md+ */}
+  <span className="block md:hidden">
+    {item.productId.name.split(' ').slice(0.,2).join(" ")}
+  </span>
+  <span className="hidden md:block">
+    {item.productId.name}
+  </span>
+</h3>
+
+                    <p className="text-gray-500 text-[0.6rem] md:text-sm mb-1">
+                      Color:
+                      <span className="font-medium text-[0.6rem] md:text-sm">
                         {
                           item?.productId.variants.find(
                             (v) => v._id == item.variantId
@@ -307,9 +307,9 @@ export default function ShoppingCart() {
                         }
                       </span>
                     </p>
-                    <p className="text-gray-500 mb-3">
+                    <p className="text-gray-500 text-[0.6rem] md:text-sm mb-2 md:mb-3">
                       Size:{" "}
-                      <span className="font-medium">
+                      <span className=" text-[0.6rem] md:text-smfont-medium">
                         {
                           item?.productId.variants.find(
                             (v) => v._id == item.variantId
@@ -327,51 +327,61 @@ export default function ShoppingCart() {
                       setIsOpen(true);
                       setRemoveCartId(item._id);
                     }}
-                    className="text-red-500 hover:text-red-700 p-2 rounded-full hover:bg-red-50"
+                    className="text-red-500 hover:text-red-700 p-1 md:p-2 rounded-full hover:bg-red-50"
                   >
-                    <Trash2 className="h-5 w-5" />
+                    <Trash2 className="h-4 w-4 md:h-5 md:w-5" />
                   </motion.button>
                 </div>
 
-                <div className="flex flex-col md:flex-row md:items-center justify-between mt-4">
+                <div className="flex flex-row md:flex-row md:items-center justify-between mt-2 md:mt-4">
                   {/* Price */}
-                  <div className="mb-4 md:mb-0">
-                    <p className="text-gray-500 text-sm">Price</p>
-                    <p className="font-medium">₹{item.price}</p>
+                  <div className="mb-2 md:mb-0">
+                    <p className="text-gray-500 text-[0.5rem] md:text-sm">Price</p>
+                    <p className="font-medium text-[0.6rem] md:text-base">
+                      ₹{item.price}
+                    </p>
                   </div>
 
                   {/* Quantity */}
-                  <div className="mb-4 md:mb-0">
-                    <p className="text-gray-500 text-sm mb-2">Quantity</p>
+                  <div className="mb-2 md:mb-0">
+                    <p className="text-gray-500 text-[0.5rem] md:text-sm mb-1 md:mb-2">
+                      Quantity
+                    </p>
                     <div className="flex items-center gap-2">
                       <motion.button
                         variants={buttonVariants}
                         whileHover="hover"
                         whileTap="tap"
-                        onClick={() => changeQauntity(item, item.quantity - 1)}
+                        onClick={() =>
+                          changeQauntity(item, item.quantity - 1)
+                        }
                         className="text-gray-600 hover:text-red-500"
                       >
-                        <MinusCircle className="h-5 w-5" />
+                        <MinusCircle className="h-4 w-4 md:h-5 md:w-5" />
                       </motion.button>
-                      <span className="w-8 h-8 flex items-center justify-center bg-gray-100 rounded-md font-medium">
+                      <span className="text-[0.7rem] md:text-base flex items-center justify-center bg-gray-100 rounded-md font-medium text-sm ">
                         {item.quantity}
                       </span>
                       <motion.button
                         variants={buttonVariants}
                         whileHover="hover"
                         whileTap="tap"
-                        onClick={() => changeQauntity(item, item.quantity + 1)}
+                        onClick={() =>
+                          changeQauntity(item, item.quantity + 1)
+                        }
                         className="text-gray-600 hover:text-green-500"
                       >
-                        <PlusCircle className="h-5 w-5" />
+                        <PlusCircle className="h-4 w-4 md:h-5 md:w-5" />
                       </motion.button>
                     </div>
                   </div>
 
                   <div>
-                    <p className="text-gray-500 text-sm">Subtotal</p>
-                    <p className="font-bold">
-                      ₹{(item.price * item.quantity).toFixed(2)}
+                    <p className="text-gray-500  text-[0.5rem] md:text-sm">
+                      Subtotal
+                    </p>
+                    <p className="font-bold text-[0.6rem] md:text-base">
+                      ₹{(item.price * item.quantity).toFixed(0)}
                     </p>
                   </div>
                 </div>
@@ -385,14 +395,14 @@ export default function ShoppingCart() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3 }}
-        className="mt-8 bg-gray-50 p-6 rounded-lg border border-gray-200"
+        className="mt-4 md:mt-8 bg-gray-50 p-4 md:p-6 rounded-lg border border-gray-200"
       >
         <div className="flex flex-col md:flex-row justify-between items-center">
-          <div className="mb-4 md:mb-0">
-            <p className="text-gray-500 mb-1">
+          <div className="mb-3 md:mb-0">
+            <p className="text-gray-500 text-xs md:text-sm mb-1">
               Total ({cartItems.items.length} items)
             </p>
-            <p className="text-2xl font-bold">
+            <p className="text-base md:text-2xl font-bold">
               ₹{cartItems.totalPrice?.toFixed(2) || 0}
             </p>
           </div>
@@ -401,9 +411,9 @@ export default function ShoppingCart() {
             whileHover="hover"
             whileTap="tap"
             onClick={() => handleCheckout()}
-            className="bg-black hover:bg-gray-800 text-white px-8 py-3 rounded-md font-medium flex items-center gap-2"
+            className="w-full md:w-auto bg-black hover:bg-gray-800 text-white px-0 md:px-8 py-2 md:py-3 rounded-md text-sm md:text-base font-medium flex items-center justify-center gap-2"
           >
-            <ShoppingBag className="h-5 w-5" />
+            <ShoppingBag className="h-4 w-4 md:h-5 md:w-5" />
             Proceed To Checkout
           </motion.button>
         </div>

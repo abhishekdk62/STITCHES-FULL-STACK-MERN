@@ -57,12 +57,12 @@ export default function Orders() {
 
   const getStatusBadge = (status) => {
     const statusStyles = {
-      Pending: "bg-yellow-100 text-yellow-800 border-yellow-200",
-      Processing: "bg-blue-100 text-blue-800 border-blue-200",
-      Shipped: "bg-purple-100 text-purple-800 border-purple-200",
-      Delivered: "bg-green-100 text-green-800 border-green-200",
-      Returned: "bg-orange-100 text-orange-800 border-orange-200",
-      Cancelled: "bg-red-100 text-red-800 border-red-200",
+      Pending: "bg-yellow-100 text-sm text-yellow-800 hidden sm:block  border-yellow-200",
+      Processing: "bg-blue-100 text-blue-800 hidden sm:block border-blue-200",
+      Shipped: "bg-purple-100 text-purple-800 hidden sm:block border-purple-200",
+      Delivered: "bg-green-100 text-green-800 hidden sm:block border-green-200",
+      Returned: "bg-orange-100 text-orange-800 hidden sm:block border-orange-200",
+      Cancelled: "bg-red-100 text-xs text-red-800 hidden sm:block border-red-200",
     };
 
     return `${
@@ -98,9 +98,9 @@ export default function Orders() {
     );
   }
   return (
-    <div className="bg-white p-8 w-4xl ">
-      <div className="flex justify-between items-center mb-8">
-        <h1 className="text-2xl font-bold flex items-center">
+    <div className="bg-white px-1 pt-8 w-full ">
+      <div className="flex sm:justify-between gap-4 sm:gap-0 flex-col sm:flex-row  items-center mb-8">
+        <h1 className="text-base sm:text-lg  md:text-2xl font-bold flex items-center">
           <Package className="mr-2" />
           Orders Management
         </h1>
@@ -112,7 +112,7 @@ export default function Orders() {
           <input
             type="text"
             placeholder="Search orders..."
-            className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
+            className="pl-10 pr-4 py-2 text-sm sm:text-base border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
@@ -137,10 +137,10 @@ export default function Orders() {
               <div className="bg-gray-50 px-6 py-4 border-b border-gray-200">
                 <div className="flex justify-between items-center">
                   <div className="flex items-center">
-                    <div className="text-sm font-medium text-gray-500">
+                    <div className="md:text-sm text-xs font-medium text-gray-500">
                       Order ID:
                     </div>
-                    <div className="ml-2 font-bold">
+                    <div className="ml-2 text-xs sm:text-base font-bold">
                       {order.orderID ||
                         (order._id ? order._id.substring(0, 8) : "N/A")}
                     </div>
@@ -151,7 +151,7 @@ export default function Orders() {
                   ) : null}
 
                   <div className="flex items-center space-x-4">
-                    <div className="flex items-center text-sm">
+                    <div className="flex items-center text-xs md:text-sm">
                       <Calendar size={14} className="mr-1 text-gray-500" />
                       <span className="text-gray-600">
                         {new Date(order.createdAt).toLocaleDateString("en-US", {
@@ -208,17 +208,17 @@ export default function Orders() {
                       <div className="ml-6 flex-grow">
                         <div className="flex justify-between items-start">
                           <div>
-                            <h3 className="font-medium text-lg">
+                            <h3 className="font-medium text-xs md:text-base">
                               {productName}
                             </h3>
-                            <p className="text-gray-500 text-sm mt-1">
+                            <p className="text-gray-500 hidden sm:block md:text-sm mt-1">
                               Customer:{" "}
                               {order.address && order.address.fullName
                                 ? order.address.fullName
                                 : "N/A"}
                             </p>
                           </div>
-                          <span className={getStatusBadge(item.status)}>
+                          <span className={getStatusBadge(item.status) }>
                             {item.status}
                           </span>
                         </div>
@@ -228,7 +228,7 @@ export default function Orders() {
                             onClick={() =>
                               handleViewDetails(order, item, selectedVariant)
                             }
-                            className="flex items-center px-4 py-2 bg-black text-white rounded hover:bg-gray-800 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black"
+                            className="flex text-xs md:text-base  items-center py-1 px-1 sm:px-4 sm:py-2 bg-black text-white rounded hover:bg-gray-800 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black"
                           >
                             View Details
                             <ChevronRight size={16} className="ml-1" />

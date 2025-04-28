@@ -415,78 +415,78 @@ const EditProduct = ({ setShowEditProduct }) => {
 
   return (
     <div className="w-full max-w-6xl mx-auto bg-gray-50 rounded-lg shadow-md overflow-hidden">
-      <div className="bg-black px-6 py-3 flex justify-between items-center">
-        <h1 className="text-xl font-bold text-white">Edit Product</h1>
+      <div className="bg-black px-4 sm:px-6 lg:px-8 py-3 sm:py-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 sm:gap-0">
+        <h1 className="text-lg sm:text-xl md:text-2xl font-bold text-white">
+          Edit Product
+        </h1>
         <button
           onClick={() => {
             setShowEditProduct(false);
             localStorage.removeItem("productId");
           }}
-          className="text-white hover:bg-gray-700 rounded-full p-1 transition-colors"
+          className="text-white hover:bg-gray-700 rounded-full p-1 transition-colors self-end"
         >
           <X size={20} />
         </button>
       </div>
 
       {/* Content */}
-      <div className="p-6">
+      <div className="p-4 sm:p-6 lg:p-8">
         {loading && (
-          <div className="mb-4 p-2 bg-blue-100 text-blue-700 rounded text-sm">
+          <div className="mb-4 p-2 bg-blue-100 text-blue-700 rounded text-xs sm:text-sm">
             Uploading images... Please wait.
           </div>
         )}
 
         <form onSubmit={handleSubmit}>
           {/* Basic Product Information */}
-          <div className="grid grid-cols-1 gap-6 mb-6">
+          <div className="grid grid-cols-1 gap-4 sm:gap-6 mb-6">
+            <h2 className="text-base sm:text-lg font-semibold text-gray-800 border-b pb-1 mb-3">
+              Product Information
+            </h2>
             <div>
-              <h2 className="text-lg font-semibold text-gray-800 border-b pb-1 mb-3">
-                Product Information
-              </h2>
-              <div className="mb-4">
-                <label className="block text-gray-700 text-sm font-medium mb-1">
-                  Product Name <span className="text-red-500">*</span>
-                </label>
-                <input
-                  className="w-full px-3 py-2 border border-gray-500 rounded focus:outline-none focus:ring-1 focus:ring-indigo-400 text-sm"
-                  type="text"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                />
-              </div>
-              <div className="mb-4">
-                <label className="block text-gray-700 text-sm font-medium mb-1">
-                  Product Description <span className="text-red-500">*</span>
-                </label>
-                <textarea
-                  className="w-full px-3 py-2 border border-gray-500 rounded focus:outline-none focus:ring-1 focus:ring-indigo-400 text-sm"
-                  rows="4"
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                ></textarea>
-              </div>
-              <div className="mb-4">
-                <label className="block text-gray-700 text-sm font-medium mb-1">
-                  Brand <span className="text-red-500">*</span>
-                </label>
-                <input
-                  className="w-full px-3 py-2 border border-gray-500 rounded focus:outline-none focus:ring-1 focus:ring-indigo-400 text-sm"
-                  type="text"
-                  value={brand}
-                  onChange={(e) => setBrand(e.target.value)}
-                />
-              </div>
+              <label className="block text-gray-700 text-xs sm:text-sm font-medium mb-1">
+                Product Name <span className="text-red-500">*</span>
+              </label>
+              <input
+                className="w-full px-3 py-2 text-xs sm:text-sm border border-gray-500 rounded focus:outline-none focus:ring-1 focus:ring-indigo-400"
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
+            </div>
+            <div>
+              <label className="block text-gray-700 text-xs sm:text-sm font-medium mb-1">
+                Product Description <span className="text-red-500">*</span>
+              </label>
+              <textarea
+                className="w-full px-3 py-2 text-xs sm:text-sm border border-gray-500 rounded focus:outline-none focus:ring-1 focus:ring-indigo-400"
+                rows="4"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+              ></textarea>
+            </div>
+            <div>
+              <label className="block text-gray-700 text-xs sm:text-sm font-medium mb-1">
+                Brand <span className="text-red-500">*</span>
+              </label>
+              <input
+                className="w-full px-3 py-2 text-xs sm:text-sm border border-gray-500 rounded focus:outline-none focus:ring-1 focus:ring-indigo-400"
+                type="text"
+                value={brand}
+                onChange={(e) => setBrand(e.target.value)}
+              />
             </div>
           </div>
 
           {/* Category Selection */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 mb-6">
             <div>
-              <label className="block text-gray-700 text-sm font-medium mb-1">
+              <label className="block text-gray-700 text-xs sm:text-sm font-medium mb-1">
                 Category <span className="text-red-500">*</span>
               </label>
               <select
-                className="w-full px-3 py-2 border border-gray-500 rounded focus:outline-none text-sm"
+                className="w-full px-3 py-2 text-xs sm:text-sm border border-gray-500 rounded focus:outline-none focus:ring-1 focus:ring-indigo-400"
                 value={category}
                 onChange={(e) => {
                   setCategory(e.target.value);
@@ -502,30 +502,30 @@ const EditProduct = ({ setShowEditProduct }) => {
               </select>
             </div>
             <div>
-              <label className="block text-gray-700 text-sm font-medium mb-1">
+              <label className="block text-gray-700 text-xs sm:text-sm font-medium mb-1">
                 Subcategory <span className="text-red-500">*</span>
               </label>
               <select
-                className="w-full px-3 py-2 border border-gray-500 rounded focus:outline-none text-sm"
+                className="w-full px-3 py-2 text-xs sm:text-sm border border-gray-500 rounded focus:outline-none focus:ring-1 focus:ring-indigo-400"
                 value={subCategory}
                 onChange={(e) => setSubCategory(e.target.value)}
               >
                 <option value="">Select Subcategory</option>
                 {categories
                   .find((cat) => cat._id === category)
-                  ?.subCategories.map((subCat, index) => (
-                    <option key={index} value={subCat}>
+                  ?.subCategories.map((subCat, i) => (
+                    <option key={i} value={subCat}>
                       {subCat}
                     </option>
                   ))}
               </select>
             </div>
             <div className="lg:col-span-2">
-              <label className="block text-gray-700 text-sm font-medium mb-1">
+              <label className="block text-gray-700 text-xs sm:text-sm font-medium mb-1">
                 Owner <span className="text-red-500">*</span>
               </label>
               <input
-                className="w-full px-3 py-2 border border-gray-500 rounded focus:outline-none focus:ring-1 focus:ring-indigo-400 text-sm"
+                className="w-full px-3 py-2 text-xs sm:text-sm border border-gray-500 rounded focus:outline-none focus:ring-1 focus:ring-indigo-400"
                 type="text"
                 value={owner}
                 onChange={(e) => setOwner(e.target.value)}
@@ -536,175 +536,126 @@ const EditProduct = ({ setShowEditProduct }) => {
           {/* Current Variants */}
           {variants.length > 0 && (
             <div className="mb-6">
-              <h2 className="text-lg font-semibold text-gray-800 border-b pb-1 mb-3">
+              <h2 className="text-base sm:text-lg font-semibold text-gray-800 border-b pb-1 mb-3">
                 Product Variants ({variants.length})
               </h2>
               <div className="space-y-4">
-                {variants.map((variant, variantIndex) => (
+                {variants.map((variant, idx) => (
                   <div
-                    key={variantIndex}
-                    className="bg-white p-4 rounded shadow-sm border border-gray-200"
+                    key={idx}
+                    className="bg-white p-4 sm:p-6 rounded shadow-sm border border-gray-200"
                   >
                     <div className="grid grid-cols-1 lg:grid-cols-5 gap-4 mb-4">
-                      <div>
-                        <label className="block text-gray-700 text-sm font-medium mb-1">
-                          Color <span className="text-red-500">*</span>
-                        </label>
-                        <select
-                          value={variant.color}
-                          onChange={(e) =>
-                            handleVariantChange(
-                              variantIndex,
-                              "color",
-                              e.target.value
-                            )
-                          }
-                          className="w-full px-3 py-2 rounded border border-gray-500 focus:outline-none text-sm"
-                        >
-                          <option value="">Select Color</option>
-                          {colors.map((col) => (
-                            <option key={col} value={col}>
-                              {col.charAt(0).toUpperCase() + col.slice(1)}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-                      <div>
-                        <label className="block text-gray-700 text-sm font-medium mb-1">
-                          Size <span className="text-red-500">*</span>
-                        </label>
-                        <select
-                          value={variant.size}
-                          onChange={(e) =>
-                            handleVariantChange(
-                              variantIndex,
-                              "size",
-                              e.target.value
-                            )
-                          }
-                          className="w-full px-3 py-2 rounded border border-gray-500 focus:outline-none text-sm"
-                        >
-                          <option value="">Select Size</option>
-                          {sizes.map((s) => (
-                            <option key={s} value={s}>
-                              {s}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-                      <div>
-                        <label className="block text-gray-700 text-sm font-medium mb-1">
-                          Base Price <span className="text-red-500">*</span>
-                        </label>
-                        <div className="relative">
-                          <span className="absolute inset-y-0 left-0 flex items-center pl-2 text-gray-500 text-sm">
-                            ₹
-                          </span>
-                          <input
-                            type="number"
-                            value={variant.base_price}
+                      {/** Color / Size / Prices / Stock */}
+                      {["color", "size"].map((field, i) => (
+                        <div key={i}>
+                          <label className="block text-gray-700 text-xs sm:text-sm font-medium mb-1">
+                            {field.charAt(0).toUpperCase() + field.slice(1)}{" "}
+                            <span className="text-red-500">*</span>
+                          </label>
+                          <select
+                            value={variant[field]}
                             onChange={(e) =>
-                              handleVariantChange(
-                                variantIndex,
-                                "base_price",
-                                e.target.value
-                              )
+                              handleVariantChange(idx, field, e.target.value)
                             }
-                            className="w-full pl-7 pr-2 py-2 border border-gray-500 rounded focus:outline-none focus:ring-1 focus:ring-indigo-400 text-sm"
-                          />
+                            className="w-full px-2 sm:px-3 py-2 text-xs sm:text-sm rounded border border-gray-500 focus:outline-none focus:ring-1 focus:ring-indigo-400"
+                          >
+                            <option value="">Select {field}</option>
+                            {(field === "color" ? colors : sizes).map((opt) => (
+                              <option key={opt} value={opt}>
+                                {field === "color"
+                                  ? opt.charAt(0).toUpperCase() + opt.slice(1)
+                                  : opt}
+                              </option>
+                            ))}
+                          </select>
                         </div>
-                      </div>
-                      <div>
-                        <label className="block text-gray-700 text-sm font-medium mb-1">
-                          Discount Price <span className="text-red-500">*</span>
-                        </label>
-                        <div className="relative">
-                          <span className="absolute inset-y-0 left-0 flex items-center pl-2 text-gray-500 text-sm">
-                            ₹
-                          </span>
-                          <input
-                            type="number"
-                            value={variant.discount_price}
-                            onChange={(e) =>
-                              handleVariantChange(
-                                variantIndex,
-                                "discount_price",
-                                e.target.value
-                              )
-                            }
-                            className="w-full pl-7 pr-2 py-2 border border-gray-500 rounded focus:outline-none focus:ring-1 focus:ring-indigo-400 text-sm"
-                          />
-                        </div>
-                      </div>
-                      <div>
-                        <label className="block text-gray-700 text-sm font-medium mb-1">
-                          Stock <span className="text-red-500">*</span>
-                        </label>
-                        <input
-                          type="number"
-                          value={variant.stock}
-                          onChange={(e) =>
-                            handleVariantChange(
-                              variantIndex,
-                              "stock",
-                              e.target.value
-                            )
-                          }
-                          className="w-full px-3 py-2 border border-gray-500 rounded focus:outline-none focus:ring-1 focus:ring-indigo-400 text-sm"
-                        />
-                      </div>
+                      ))}
+                      {["base_price", "discount_price", "stock"].map(
+                        (field, i) => (
+                          <div key={i}>
+                            <label className="block text-gray-700 text-xs sm:text-sm font-medium mb-1">
+                              {field
+                                .replace("_", " ")
+                                .replace(/\b\w/g, (c) => c.toUpperCase())}{" "}
+                              <span className="text-red-500">*</span>
+                            </label>
+                            <div
+                              className={field !== "stock" ? "relative" : ""}
+                            >
+                              {field !== "stock" && (
+                                <span className="absolute inset-y-0 left-0 flex items-center pl-2 text-gray-500 text-xs sm:text-sm">
+                                  ₹
+                                </span>
+                              )}
+                              <input
+                                type="number"
+                                value={variant[field]}
+                                onChange={(e) =>
+                                  handleVariantChange(
+                                    idx,
+                                    field,
+                                    e.target.value
+                                  )
+                                }
+                                className={`w-full px-${
+                                  field !== "stock"
+                                    ? field === "stock"
+                                      ? "3"
+                                      : "7"
+                                    : "3"
+                                } py-2 text-xs sm:text-sm border border-gray-500 rounded focus:outline-none focus:ring-1 focus:ring-indigo-400`}
+                              />
+                            </div>
+                          </div>
+                        )
+                      )}
                     </div>
 
                     {/* Variant Images */}
                     <div className="mb-4">
-                      <label className="block text-gray-700 text-sm font-medium mb-1">
+                      <label className="block text-gray-700 text-xs sm:text-sm font-medium mb-1">
                         Variant Images <span className="text-red-500">*</span>
                       </label>
                       <div className="flex flex-wrap gap-3">
-                        {variant.productImages &&
-                          variant.productImages.map((img, imgIndex) => (
-                            <div
-                              key={imgIndex}
-                              className="relative border-2 border-indigo-500 rounded overflow-hidden group"
-                              style={{ width: "8rem", height: "8rem" }}
-                            >
-                              <img
-                                src={img}
-                                alt={`Variant ${variantIndex}-${imgIndex}`}
-                                className="w-full h-full object-cover"
-                              />
-                              <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                                <button
-                                  type="button"
-                                  onClick={() =>
-                                    removeVariantImage(variantIndex, imgIndex)
-                                  }
-                                  className="bg-red-500 text-white rounded-full p-1 hover:bg-red-600 transition-colors"
-                                >
-                                  <Trash2 size={16} />
-                                </button>
-                              </div>
+                        {variant.productImages?.map((img, j) => (
+                          <div
+                            key={j}
+                            className="relative border-2 border-indigo-500 rounded overflow-hidden group w-24 h-24 sm:w-32 sm:h-32"
+                          >
+                            <img
+                              src={img}
+                              alt={`Variant ${idx}-${j}`}
+                              className="w-full h-full object-cover"
+                            />
+                            <div className="absolute inset-0 w-full h-full bg-black bg-opacity-50 opacity-100 lg:opacity-0 sm:group-hover:opacity-100 flex items-center justify-center transition-opacity">
+
+                              <button
+                                type="button"
+                                onClick={() => removeVariantImage(idx, j)}
+                                className="bg-red-500 text-white rounded-full p-1 hover:bg-red-600"
+                              >
+                                <Trash2 size={16} />
+                              </button>
                             </div>
-                          ))}
-                        {/* Add Variant Image */}
-                        <div className="w-32 h-32 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center cursor-pointer hover:shadow-sm">
+                          </div>
+                        ))}
+                        <div className="w-24 h-24 sm:w-32 sm:h-32 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center cursor-pointer hover:shadow-sm">
                           <input
-                            id={`addVariantImage-${variantIndex}`}
+                            id={`addVariantImage-${idx}`}
                             type="file"
                             accept="image/*"
                             className="hidden"
-                            onChange={(e) => addVariantImage(variantIndex, e)}
+                            onChange={(e) => addVariantImage(idx, e)}
                           />
                           <button
                             type="button"
                             onClick={() =>
                               document
-                                .getElementById(
-                                  `addVariantImage-${variantIndex}`
-                                )
+                                .getElementById(`addVariantImage-${idx}`)
                                 .click()
                             }
-                            className="text-gray-600 text-sm"
+                            className="text-gray-600 text-xs sm:text-sm"
                           >
                             {loading ? "Uploading..." : "Add Image"}
                           </button>
@@ -715,11 +666,11 @@ const EditProduct = ({ setShowEditProduct }) => {
                     <div className="flex justify-end">
                       <button
                         type="button"
-                        onClick={() => removeVariant(variantIndex)}
-                        className="px-4 py-2 bg-red-500 hover:bg-red-600 rounded text-white text-sm font-medium transition-colors flex items-center"
+                        onClick={() => removeVariant(idx)}
+                        className="px-3 sm:px-4 py-2 bg-red-500 hover:bg-red-600 rounded text-white text-xs sm:text-sm font-medium flex items-center transition-colors"
                       >
-                        <Trash2 size={16} />
-                        <span className="ml-1">Remove Variant</span>
+                        <Trash2 size={14} className="mr-1" />
+                        <span>Remove Variant</span>
                       </button>
                     </div>
                   </div>
@@ -730,141 +681,129 @@ const EditProduct = ({ setShowEditProduct }) => {
 
           {/* Add New Variant */}
           <div className="mb-6">
-            <h2 className="text-lg font-semibold text-gray-800 border-b pb-1 mb-3">
+            <h2 className="text-base sm:text-lg font-semibold text-gray-800 border-b pb-1 mb-3">
               Add New Variant
             </h2>
-            <div className="p-4 bg-white rounded border border-gray-200">
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-4">
-                <div>
-                  <label className="block text-gray-700 text-sm font-medium mb-1">
-                    Color <span className="text-red-500">*</span>
-                  </label>
-                  <select
-                    value={selectedColor}
-                    onChange={(e) => setSelectedColor(e.target.value)}
-                    className="w-full px-3 py-2 rounded border border-gray-500 focus:outline-none text-sm"
-                  >
-                    <option value="">Select Color</option>
-                    {colors.map((col) => (
-                      <option key={col} value={col}>
-                        {col.charAt(0).toUpperCase() + col.slice(1)}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                <div>
-                  <label className="block text-gray-700 text-sm font-medium mb-1">
-                    Size <span className="text-red-500">*</span>
-                  </label>
-                  <select
-                    value={selectedSize}
-                    onChange={(e) => setSelectedSize(e.target.value)}
-                    className="w-full px-3 py-2 rounded border border-gray-500 focus:outline-none text-sm"
-                  >
-                    <option value="">Select Size</option>
-                    {sizes.map((s) => (
-                      <option key={s} value={s}>
-                        {s}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                <div>
-                  <label className="block text-gray-700 text-sm font-medium mb-1">
-                    Base Price <span className="text-red-500">*</span>
-                  </label>
-                  <div className="relative">
-                    <span className="absolute inset-y-0 left-0 flex items-center pl-2 text-gray-500 text-sm">
-                      ₹
-                    </span>
-                    <input
-                      type="number"
-                      placeholder="Min 5000"
-                      value={basePrice}
-                      onChange={(e) => setBasePrice(e.target.value)}
-                      className="w-full pl-7 pr-2 py-2 border border-gray-500 rounded focus:outline-none focus:ring-1 focus:ring-indigo-400 text-sm"
-                    />
+            <div className="p-4 sm:p-6 bg-white rounded border border-gray-200">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 mb-4">
+                {["Color", "Size"].map((field, i) => (
+                  <div key={i}>
+                    <label className="block text-gray-700 text-xs sm:text-sm font-medium mb-1">
+                      {field} <span className="text-red-500">*</span>
+                    </label>
+                    <select
+                      value={field === "Color" ? selectedColor : selectedSize}
+                      onChange={(e) =>
+                        field === "Color"
+                          ? setSelectedColor(e.target.value)
+                          : setSelectedSize(e.target.value)
+                      }
+                      className="w-full px-3 py-2 text-xs sm:text-sm rounded border border-gray-500 focus:outline-none focus:ring-1 focus:ring-indigo-400"
+                    >
+                      <option value="">Select {field}</option>
+                      {(field === "Color" ? colors : sizes).map((opt) => (
+                        <option key={opt} value={opt}>
+                          {field === "Color"
+                            ? opt.charAt(0).toUpperCase() + opt.slice(1)
+                            : opt}
+                        </option>
+                      ))}
+                    </select>
                   </div>
-                </div>
-                <div>
-                  <label className="block text-gray-700 text-sm font-medium mb-1">
-                    Discount Price <span className="text-red-500">*</span>
-                  </label>
-                  <div className="relative">
-                    <span className="absolute inset-y-0 left-0 flex items-center pl-2 text-gray-500 text-sm">
-                      ₹
-                    </span>
-                    <input
-                      type="number"
-                      placeholder="Enter discount price"
-                      value={discountPrice}
-                      onChange={(e) => setDiscountPrice(e.target.value)}
-                      className="w-full pl-7 pr-2 py-2 border border-gray-500 rounded focus:outline-none focus:ring-1 focus:ring-indigo-400 text-sm"
-                    />
+                ))}
+                {["basePrice", "discountPrice", "stock"].map((field, i) => (
+                  <div key={i}>
+                    <label className="block text-gray-700 text-xs sm:text-sm font-medium mb-1">
+                      {field.replace(/([A-Z])/g, " $1")}{" "}
+                      <span className="text-red-500">*</span>
+                    </label>
+                    <div className={field !== "stock" ? "relative" : ""}>
+                      {field !== "stock" && (
+                        <span className="absolute inset-y-0 left-0 flex items-center pl-2 text-gray-500 text-xs sm:text-sm">
+                          ₹
+                        </span>
+                      )}
+                      <input
+                        type="number"
+                        placeholder={
+                          field === "basePrice"
+                            ? "Min 5000"
+                            : field === "discountPrice"
+                            ? "Enter discount price"
+                            : "Enter stock"
+                        }
+                        value={
+                          field === "basePrice"
+                            ? basePrice
+                            : field === "discountPrice"
+                            ? discountPrice
+                            : stock
+                        }
+                        onChange={(e) =>
+                          field === "basePrice"
+                            ? setBasePrice(e.target.value)
+                            : field === "discountPrice"
+                            ? setDiscountPrice(e.target.value)
+                            : setStock(e.target.value)
+                        }
+                        className={`w-full px-${
+                          field !== "stock"
+                            ? field === "stock"
+                              ? "3"
+                              : "7"
+                            : "3"
+                        } py-2 text-xs sm:text-sm border border-gray-500 rounded focus:outline-none focus:ring-1 focus:ring-indigo-400`}
+                      />
+                    </div>
                   </div>
-                </div>
-                <div>
-                  <label className="block text-gray-700 text-sm font-medium mb-1">
-                    Stock <span className="text-red-500">*</span>
-                  </label>
-                  <input
-                    type="number"
-                    placeholder="Enter stock"
-                    value={stock}
-                    onChange={(e) => setStock(e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-500 rounded focus:outline-none focus:ring-1 focus:ring-indigo-400 text-sm"
-                  />
-                </div>
+                ))}
               </div>
 
               {/* New Variant Images */}
               <div className="mb-4">
-                <label className="block text-gray-700 text-sm font-medium mb-1">
+                <label className="block text-gray-700 text-xs sm:text-sm font-medium mb-1">
                   Variant Images <span className="text-red-500">*</span>
                 </label>
                 <div className="flex flex-wrap gap-3">
-                  {variantImages.map((img, index) => (
+                  {variantImages.map((img, i) => (
                     <div
-                      key={index}
-                      className="relative border-2 border-dashed border-gray-300 rounded overflow-hidden group"
-                      style={{ width: "8rem", height: "8rem" }}
-                    >
+                      key={i}
+                      className="relative border-2 border-dashed border-gray-300 rounded overflow-hidden group w-24 h-24 sm:w-32 sm:h-32"
+                      >
                       {img ? (
                         <>
                           <img
                             src={img}
-                            alt={`New Variant ${index}`}
+                            alt={`New Variant ${i}`}
                             className="w-full h-full object-cover"
                           />
-                          <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                            <button
+<div className="absolute inset-0 bg-black bg-opacity-50 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 flex items-center justify-center transition-opacity">
+<button
                               type="button"
-                              onClick={() => removeNewVariantImage(index)}
-                              className="bg-red-500 text-white rounded-full p-1 hover:bg-red-600 transition-colors"
-                            >
+                              onClick={() => removeNewVariantImage(i)}
+                              className="bg-red-500 text-white rounded-full p-1 hover:bg-red-600"
+                              >
                               <Trash2 size={16} />
                             </button>
                           </div>
                         </>
                       ) : (
                         <div
-                          className="w-full h-full flex items-center justify-center cursor-pointer bg-gray-50 hover:bg-gray-100 transition-colors p-2"
+                          className="w-full h-full flex items-center justify-center cursor-pointer bg-gray-50 hover:bg-gray-100 transition-colors p-2 text-xs sm:text-sm"
                           onClick={() =>
                             document
-                              .getElementById(`newVariantImage-${index}`)
+                              .getElementById(`newVariantImage-${i}`)
                               .click()
                           }
                         >
                           <input
-                            id={`newVariantImage-${index}`}
+                            id={`newVariantImage-${i}`}
                             type="file"
                             accept="image/*"
                             className="hidden"
-                            onChange={(e) => handleProductImageChange(index, e)}
+                            onChange={(e) => handleProductImageChange(i, e)}
                           />
-                          <span className="text-gray-600 text-xs">
-                            {loading ? "Uploading..." : "Add Image"}
-                          </span>
+                          {loading ? "Uploading..." : "Add Image"}
                         </div>
                       )}
                     </div>
@@ -876,7 +815,7 @@ const EditProduct = ({ setShowEditProduct }) => {
                 <button
                   type="button"
                   onClick={addVariant}
-                  className="px-4 py-2 bg-black hover:bg-gray-800 rounded text-white text-sm font-medium transition-colors flex items-center"
+                  className="px-3 sm:px-4 py-2 bg-black hover:bg-gray-800 rounded text-white text-xs sm:text-sm font-medium transition-colors flex items-center"
                   disabled={loading}
                 >
                   <Plus size={16} className="mr-1" /> Add Variant
@@ -884,24 +823,27 @@ const EditProduct = ({ setShowEditProduct }) => {
               </div>
             </div>
           </div>
-          {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
+
+          {error && (
+            <p className="text-red-500 text-xs sm:text-sm mt-2">{error}</p>
+          )}
 
           {/* Form Actions */}
-          <div className="flex justify-end space-x-4">
+          <div className="flex flex-col sm:flex-row justify-end sm:space-x-4 space-y-2 sm:space-y-0 mt-4">
             <button
               type="button"
               onClick={() => {
                 setShowEditProduct(false);
                 localStorage.removeItem("productId");
               }}
-              className="px-4 py-2 bg-white border border-gray-400 rounded text-gray-700 text-sm font-medium hover:bg-gray-100 transition-colors"
+              className="w-full sm:w-auto px-4 py-2 bg-white border border-gray-400 rounded text-gray-700 text-xs sm:text-sm font-medium hover:bg-gray-100 transition-colors"
               disabled={loading}
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="px-4 py-2 bg-black hover:bg-gray-800 rounded text-white text-sm font-medium transition-colors flex items-center"
+              className="w-full sm:w-auto px-4 py-2 bg-black hover:bg-gray-800 rounded text-white text-xs sm:text-sm font-medium transition-colors flex items-center justify-center"
               disabled={loading}
             >
               <CheckCircle size={16} className="mr-1" /> Save Changes

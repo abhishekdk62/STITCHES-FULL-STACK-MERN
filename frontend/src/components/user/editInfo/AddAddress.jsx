@@ -127,12 +127,12 @@ export default function AddAddress() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.4 }}
-      className=" w-4xl p-8 bg-white  rounded-xl"
+      className=" w-full pt-4 md:p-6 bg-white  rounded-xl"
     >
       <div className="flex justify-between items-center border-b pb-4 mb-6">
         <div className="flex items-center gap-3">
           <MapPin className="w-5 h-5 text-black" />
-          <h2 className="text-xl font-bold text-black tracking-tight">Add New Address</h2>
+          <h2 className="md:text-xl text-base font-bold text-black tracking-tight">Add New Address</h2>
         </div>
       </div>
 
@@ -142,7 +142,7 @@ export default function AddAddress() {
           animate={{ opacity: 1, y: 0 }}
           className="bg-red-50 border-l-4 border-red-500 p-4 mb-6 rounded-md"
         >
-          <p className="text-red-600 text-sm flex items-center">
+          <p className="text-red-600 text-xs md:text-sm flex items-center">
             <X size={16} className="mr-2" />
             {error}
           </p>
@@ -159,34 +159,34 @@ export default function AddAddress() {
         <div className="bg-gray-50 p-6 rounded-lg border border-gray-100">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
-              <label className="text-sm text-gray-500">Full Name</label>
+              <label className="text-xs md:text-sm text-gray-500">Full Name</label>
               <input
                 type="text"
                 placeholder="Enter your full name"
                 value={fullName}
                 onChange={(e) => setFullName(e.target.value)}
-                className="w-full p-3 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-black"
+                className="w-full p-3 border border-gray-300 rounded-md text-xs md:text-sm focus:outline-none focus:ring-2 focus:ring-black"
               />
             </div>
 
             <div className="space-y-2">
-              <label className="text-sm text-gray-500">Phone Number</label>
+              <label className="text-xs md:text-sm text-gray-500">Phone Number</label>
               <input
                 type="tel"
                 placeholder="Enter your phone number"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
-                className="w-full p-3 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-black"
+                className="w-full p-3 border border-gray-300 rounded-md text-xs md:text-sm focus:outline-none focus:ring-2 focus:ring-black"
               />
             </div>
 
             <div className="space-y-2">
-              <label className="text-sm text-gray-500">Country</label>
+              <label className="text-xs md:text-sm text-gray-500">Country</label>
               <select
                 id="country"
                 value={country}
                 onChange={(e) => setCountry(e.target.value)}
-                className="w-full p-3 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-black"
+                className="w-full p-3 border border-gray-300 rounded-md text-xs md:text-sm focus:outline-none focus:ring-2 focus:ring-black"
               >
                 <option value="">Select a country</option>
                 {countries.map((c) => (
@@ -198,55 +198,55 @@ export default function AddAddress() {
             </div>
 
             <div className="space-y-2">
-              <label className="text-sm text-gray-500">State/Province</label>
+              <label className="text-xs md:text-sm text-gray-500">State/Province</label>
               <input
                 placeholder="Enter your state"
                 id="State"
                 value={state}
                 onChange={(e) => setState(e.target.value)}
-                className="w-full p-3 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-black"
+                className="w-full p-3 border border-gray-300 rounded-md text-xs md:text-sm focus:outline-none focus:ring-2 focus:ring-black"
               />
             </div>
 
             <div className="space-y-2">
-              <label className="text-sm text-gray-500">City</label>
+              <label className="text-xs md:text-sm text-gray-500">City</label>
               <input
                 type="text"
                 placeholder="Enter your city"
                 value={city}
                 onChange={(e) => setCity(e.target.value)}
-                className="w-full p-3 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-black"
+                className="w-full p-3 border border-gray-300 rounded-md text-xs md:text-sm focus:outline-none focus:ring-2 focus:ring-black"
               />
             </div>
 
             <div className="space-y-2">
-              <label className="text-sm text-gray-500">ZIP/Postal Code</label>
+              <label className="text-xs md:text-sm text-gray-500">ZIP/Postal Code</label>
               <input
                 type="text"
                 placeholder="Enter zip code"
                 value={zip}
                 onChange={(e) => setZip(e.target.value)}
-                className="w-full p-3 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-black"
+                className="w-full p-3 border border-gray-300 rounded-md text-xs md:text-sm focus:outline-none focus:ring-2 focus:ring-black"
               />
             </div>
 
             <div className="space-y-2 md:col-span-2">
-              <label className="text-sm text-gray-500">Street Address</label>
+              <label className="text-xs md:text-sm text-gray-500">Street Address</label>
               <input
                 type="text"
                 placeholder="Enter your street address"
                 value={street}
                 onChange={(e) => setStreet(e.target.value)}
-                className="w-full p-3 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-black"
+                className="w-full p-3 border border-gray-300 rounded-md text-xs md:text-sm focus:outline-none focus:ring-2 focus:ring-black"
               />
             </div>
 
             <div className="space-y-2">
-              <label className="text-sm text-gray-500">Address Type</label>
+              <label className="text-xs md:text-sm text-gray-500">Address Type</label>
               <select
                 value={addressType}
                 onChange={(e) => setAddressType(e.target.value)}
-                className="w-full p-3 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-black"
+                className="w-full p-3 border border-gray-300 rounded-md text-xs md:text-sm focus:outline-none focus:ring-2 focus:ring-black"
               >
                 <option value="Home">Home</option>
                 <option value="Office">Office</option>
@@ -265,19 +265,19 @@ export default function AddAddress() {
                 <span className={`w-5 h-5 mr-2 border flex items-center justify-center ${defaultBilling ? 'bg-black border-black' : 'border-gray-300'}`}>
                   {defaultBilling && <Check size={14} className="text-white" />}
                 </span>
-                <span className="text-sm">Set as default billing address</span>
+                <span className="text-xs md:text-sm">Set as default billing address</span>
               </label>
             </div>
           </div>
         </div>
 
-        <div className="flex justify-between items-center pt-4">
+        <div className="flex justify-between items-center pt-0 md:pt-4">
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             type="button"
             onClick={() => dispatch(setSelectedTab("editinfo"))}
-            className="px-6 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors duration-300"
+            className="md:px-6 md:py-2 py-1 px-3 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors duration-300"
           >
             Cancel
           </motion.button>
@@ -286,7 +286,7 @@ export default function AddAddress() {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             type="submit"
-            className="px-6 py-2 rounded-md bg-black text-white hover:bg-white hover:text-black border border-black transition-colors duration-300"
+            className="md:px-6 md:py-2 py-1 px-3 rounded-md bg-black text-white hover:bg-white hover:text-black border border-black transition-colors duration-300"
           >
             Save Address
           </motion.button>

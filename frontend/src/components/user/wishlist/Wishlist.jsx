@@ -153,11 +153,11 @@ const Wishlist = () => {
   }
 
   return (
-    <div className="p-8 bg-white min-h-screen w-4xl mx-auto rounded-xl">
+    <div className=" bg-white min-h-screen w-full mx-auto rounded-xl">
       <div className="flex items-center justify-between mb-8 border-b pb-4">
-        <div className="flex items-center gap-3">
-          <Heart className="w-8 h-8 text-black" />
-          <h1 className="text-3xl font-bold text-black tracking-tight">
+        <div className="flex pt-5 items-center gap-3">
+          <Heart className="md:w-8 md:h-8 w-6 h-6 text-black" />
+          <h1 className="text-base sm:text-lg  md:text-2xl  font-bold text-black tracking-tight">
             My Wishlist
           </h1>
         </div>
@@ -178,7 +178,7 @@ const Wishlist = () => {
             <div className="flex items-stretch">
               <div
                 onClick={() => handleProductView(item.productId)}
-                className="relative w-32 h-50 cursor-pointer overflow-hidden bg-gray-100"
+                className="relative md:w-32 md:h-50 w-30 h-38 cursor-pointer overflow-hidden bg-gray-100"
               >
                 <img
                   src={item.selectedVariant.productImages[0]}
@@ -193,24 +193,24 @@ const Wishlist = () => {
                     onClick={() => handleProductView(item.productId)}
                     className="cursor-pointer"
                   >
-                    <h3 className="text-lg font-semibold text-gray-900 group-hover:text-black transition-colors">
+                    <h3 className="md:text-lg text-base   font-semibold text-gray-900 group-hover:text-black transition-colors">
                       {item.productId.name}
                     </h3>
-                    <p className="text-gray-500 text-sm mt-1">
+                    <p className="text-gray-500 text-xs  md:text-sm mt-1">
                       {item.productId.brand}
                     </p>
                     <div className="mt-2 space-y-1">
-                      <p className="text-sm text-gray-600">
+                      <p className="md:text-sm text-[0.7rem] text-gray-600">
                         <span className="font-medium">Color:</span>{" "}
                         {item.selectedVariant.color}
                       </p>
-                      <div className="mt-2">
+                      <div className="md:mt-2 px-2 py-4 md:text-sm text-[0.7rem]">
                         {item.selectedVariant.stock > 0 ? (
-                          <span className="text-xs bg-white border border-gray-700 bg-opacity-10 text-green-600 font-medium px-2 py-1 rounded">
+                          <span className=" bg-white border border-green-700 bg-opacity-10 text-green-600 font-medium  rounded">
                             In Stock
                           </span>
                         ) : (
-                          <span className="text-sm bg-red-50 text-red-500 font-medium px-2 py-1 rounded flex items-center gap-1">
+                          <span className=" bg-red-50 text-red-500 font-medium border-red-600  rounded flex items-center gap-1">
                             <AlertCircle className="w-3 h-3" /> Out of Stock
                           </span>
                         )}
@@ -227,24 +227,24 @@ const Wishlist = () => {
                       className="p-2 rounded-full hover:bg-gray-100 transition-colors"
                       aria-label="Remove from wishlist"
                     >
-                      <X className="h-5 w-5 text-gray-400 hover:text-red-500" />
+                      <X className="h-5 w-5 text-gray-700 hover:text-red-500" />
                     </button>
                   </div>
                 </div>
 
-                <div className="mt-4 flex items-center justify-end gap-3">
+                <div className="md:mt-4 flex items-center md:justify-end gap-3">
                   <button
                     onClick={() =>
                       addToCart(item.productId._id, item.selectedVariant._id)
                     }
                     disabled={item.selectedVariant.stock <= 0}
-                    className={`flex items-center gap-2 px-5 py-2 rounded-md font-medium transition-all duration-300 ${
+                    className={`flex items-center text-sm md:text-base gap-2 px-3 py-1 md:px-5 md:py-2 rounded-md font-medium transition-all duration-300 ${
                       item.selectedVariant.stock <= 0
                         ? "bg-gray-200 text-gray-500 cursor-not-allowed"
                         : "bg-black text-white hover:bg-gray-800"
                     }`}
                   >
-                    <ShoppingCart className="w-4 h-4" />
+                    <ShoppingCart className="w-4  h-4" />
                     Add to Cart
                   </button>
                 </div>

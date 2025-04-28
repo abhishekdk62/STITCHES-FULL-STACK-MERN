@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { BadgeDollarSign, ChartBarStacked } from "lucide-react";
+import { BadgeDollarSign, ChartBarStacked, Package, CircleArrowLeft } from "lucide-react";
 import { toast } from "react-hot-toast";
 import { applyCatOffer } from "../../../../services/offerServices"
 import { fetchCategoriesAdmin } from "../../../../services/categoryService";
@@ -9,7 +9,7 @@ const Main = ({ setTab, setSelectedCatId }) => {
   const [categories, setCategories] = useState([]);
   const [catId, setCatId] = useState();
   const [listOpen, setListOpen] = useState(false);
-  const [modalOpen, setModalOpen] = useState(false);
+  const [modal, setModal] = useState(false);
   const [offer, setOffer] = useState("");
   const [err, setErr] = useState("");
 
@@ -41,13 +41,13 @@ const Main = ({ setTab, setSelectedCatId }) => {
       console.log(error);
       toast.error(error.response?.data || "Failed to apply offer");
     }
-    setModalOpen(false);
+    setModal(false);
   };
 
   return (
     <div className="bg-gray-50 min-h-screen">
       <AnimatePresence>
-        {modalOpen && (
+        {modal && (
           <motion.div
             initial={{ opacity: 0, y: -50 }}
             animate={{ opacity: 1, y: 0 }}
@@ -55,33 +55,31 @@ const Main = ({ setTab, setSelectedCatId }) => {
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
             className="fixed inset-0 z-50 flex items-center justify-center bg-black/10 bg-opacity-50"
           >
-            <div className="bg-white text-black w-80 rounded-lg p-6 shadow-lg border border-gray-700">
-              <h2 className="text-lg font-bold mb-4 text-center">
+            <div className="bg-white text-black w-72 sm:w-80 rounded-lg p-4 sm:p-6 shadow-lg border border-gray-700">
+              <h2 className="text-base sm:text-lg font-bold mb-3 sm:mb-4 text-center">
                 Set Offer Percentage
               </h2>
-
               <input
                 type="number"
                 placeholder="Enter %"
                 value={offer}
                 onChange={(e) => setOffer(e.target.value)}
-                className="w-full px-3 py-2 border rounded-md text-black font-semibold focus:outline-none focus:ring-2 focus:ring-gray-300"
+                className="w-full px-2 sm:px-3 py-1 sm:py-2 border rounded-md text-sm sm:text-base font-semibold focus:outline-none focus:ring-2 focus:ring-gray-300"
               />
-
-              {err && <p className="text-red-500 text-sm text-center">{err}</p>}
-              <div className="mt-6 flex justify-end gap-3">
+              {err && <p className="text-red-500 text-xs sm:text-sm text-center">{err}</p>}
+              <div className="mt-4 sm:mt-6 flex justify-end gap-2 sm:gap-3">
                 <button
                   onClick={() => {
                     setErr("");
-                    setModalOpen(false);
+                    setModal(false);
                   }}
-                  className="px-4 py-2 rounded-md bg-white text-black font-semibold hover:bg-gray-200 transition"
+                  className="px-3 sm:px-4 py-1 sm:py-2 rounded-md bg-white text-black font-semibold hover:bg-gray-200 transition text-xs sm:text-sm"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={applyOffers}
-                  className="px-4 py-2 rounded-md bg-white text-black font-semibold hover:bg-gray-200 transition"
+                  className="px-3 sm:px-4 py-1 sm:py-2 rounded-md bg-white text-black font-semibold hover:bg-gray-200 transition text-xs sm:text-sm"
                 >
                   Apply
                 </button>
@@ -91,12 +89,17 @@ const Main = ({ setTab, setSelectedCatId }) => {
         )}
       </AnimatePresence>
 
-      <div className="max-w-7xl mx-auto p-6 pb-20">
-        <div className="mb-8 flex items-center">
-          <div className="bg-black text-white p-3 rounded-full mr-4">
-            <BadgeDollarSign size={24} />
+      <div className="max-w-7xl mx-auto p-4 sm:p-6 pb-16 sm:pb-20">
+        <div className="mb-6 sm:mb-8 flex justify-between">
+          <div className="flex items-center">
+            <div className="bg-black text-white p-2 sm:p-3 rounded-full mr-3 sm:mr-4">
+              <Package size={20} sm:size={24} />
+            </div>
+            <h1 className="text-lg sm:text-2xl font-bold">Products Management</h1>
           </div>
-          <h1 className="text-3xl font-bold">Offers Management</h1>
+          <button onClick={() => setTab("main")}>
+            <CircleArrowLeft size={28} sm:size={32} className="cursor-pointer" />
+          </button>
         </div>
 
         <div className="bg-white rounded-lg shadow-md overflow-hidden">
@@ -136,7 +139,7 @@ const Main = ({ setTab, setSelectedCatId }) => {
                     <button
                       onClick={() => {
                         setCatId(category._id);
-                        setModalOpen(true);
+                        setModal(true);
                       }}
                       className="text-xs bg-green-400 text-white p-2 rounded-md hover:bg-green-500 transition-colors"
                     >

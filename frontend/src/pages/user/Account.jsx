@@ -23,10 +23,10 @@ const Account = () => {
     const [selectedCategory, setSelectedCategory] = useState(null);
 
   return ( 
-    <div>
+    <div className="max-w-7xl mx-auto overflow-x-hidden"> 
       <PromotionalBanner />
       <Header selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} />
-      <div className="px-6 md:px-12 lg:px-20 py-8">
+      <div className="px-6 md:px-12 lg:px-20 ">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-8">
           <Sidebar />
           {selectedTab === "myinfo" ? (
