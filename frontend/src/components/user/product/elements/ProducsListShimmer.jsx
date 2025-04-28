@@ -7,7 +7,6 @@ const ProducsListShimmer = () => {
           <div className="flex items-center justify-center">
             <div className="w-100 h-100 relative">
               <div className="absolute ml-63 mt-2">
-                <div className="bg-gray-300 h-5 w-10 rounded animate-pulse"></div>
               </div>
               
               <div className="w-full h-100 bg-gray-200 relative overflow-hidden">

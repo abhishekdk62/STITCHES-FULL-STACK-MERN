@@ -1,6 +1,7 @@
 import React from "react";
-
+import { useNavigate } from "react-router-dom";
 const Promotions = () => {
+  const navigate = useNavigate();
   return (
     <div className="">
       <section className="container mx-auto px-4 py-8">
@@ -9,7 +10,17 @@ const Promotions = () => {
             <h3 className="md:text-sm">Premium Denim</h3>
             <h2 className="md:text-2xl font-bold">Ultimate Comfort & Style</h2>
             <p className="mt-2">UP TO 50% OFF on Jeans & Pants</p>
-            <button className="mt-4 bg-white/80 cursor-pointer text-black px-2 py-1 md:px-4 md:py-2 rounded-full hover:bg-white/40">
+            <button 
+            
+            onClick={() => {
+              navigate("/products");
+              setTimeout(() => {
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }, 0);
+            }}
+
+            
+            className="mt-4 bg-white/80 cursor-pointer text-black px-2 py-1 md:px-4 md:py-2 rounded-full hover:bg-white/40">
               Shop Now
             </button>
           </div>

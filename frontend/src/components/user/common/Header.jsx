@@ -234,7 +234,7 @@ const Header = ({ selectedCategory, setSelectedCategory }) => {
   
 
   return (
-    <div className="relative bg-white">
+    <div className="relative shadow-2xs bg-white">
       {/* Mobile layout (below md breakpoint) */}
       <div className="[@media(min-width:450px)]:hidden">
         <nav className="flex items-center p-1 md:p-2 relative">
@@ -319,31 +319,35 @@ const Header = ({ selectedCategory, setSelectedCategory }) => {
           </div>
 
           {showSearch && (
-            <div className="absolute top-11 left-0 w-full bg-white px-4 z-50">
-              <div className="relative">
-                <input
-                  type="text"
-                  value={searchTerm}
-                  onChange={(e) => {
-                    dispatch(setSearchTerm(e.target.value));
-                    navigate("/products");
-                  }}
-                  placeholder="Search"
-                  className="w-full text-sm pl-10 pr-10 py-2 border-b border-gray-300 focus:outline-none focus:border-black bg-white transition-all duration-200 placeholder:tracking-tight"
-                />
-                <Search className="w-4 h-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" />
-                <button
-                    ref={searchRef}
+  <div className="absolute top-11 left-0 w-full bg-white px-4 z-50" ref={searchRef}>
+    <div className="relative">
+      <input
+        type="text"
+        value={searchTerm}
+        onChange={(e) => {
+          dispatch(setSearchTerm(e.target.value));
+          navigate("/products");
+        }}
+        placeholder="Search"
+        className="w-full text-sm pl-10 pr-10 py-2 border-b border-gray-300 focus:outline-none focus:border-black bg-white transition-all duration-200 placeholder:tracking-tight"
+      />
+      <Search className="w-4 h-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" />
+      {searchTerm && (
+        <button
+          type="button"
+          onClick={(e) => {
+            e.stopPropagation(); // Prevent event bubbling
+            dispatch(setSearchTerm(""));
+          }}
+          className="absolute right-3 w-4 h-4 top-1/2 transform cursor-pointer -translate-y-1/2 text-gray-500 hover:text-black transition-colors duration-200"
+        >
+          &#x2715;
+        </button>
+      )}
+    </div>
+  </div>
+)}
 
-                  type="button"
-                  onClick={() => setShowSearch(false)}
-                  className="absolute right-3 w-4 h-4  top-1/2 transform cursor-pointer -translate-y-1/2 text-gray-500 hover:text-black transition-colors duration-200"
-                >
-                  &#x2715;
-                </button>
-              </div>
-            </div>
-          )}
         </nav>
       </div>
 

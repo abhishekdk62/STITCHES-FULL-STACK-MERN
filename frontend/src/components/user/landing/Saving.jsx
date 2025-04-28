@@ -115,6 +115,12 @@ const Saving = () => {
                 {item.description}
               </p>
               <button
+               onClick={() => {
+                navigate("/products");
+                setTimeout(() => {
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }, 0);
+              }}
                 className="mt-3 sm:mt-4 text-xs sm:text-sm md:text-base px-3 sm:px-4 py-1 sm:py-2 border rounded-full hover:bg-gray-500/20"
                 style={{ color: item.textcolor, borderColor: item.textcolor }}
               >

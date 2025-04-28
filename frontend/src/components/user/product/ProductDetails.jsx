@@ -3,6 +3,7 @@ import axios from "axios";
 import { addToCartApi } from "../../../services/userService";
 import { addToWishlist } from "../../../services/wishlistService";
 import { useParams } from "react-router-dom";
+import ProductImageGallery from './elements/ProductImageGallery'
 import {
   BadgeDollarSign,
   Ruler,
@@ -14,7 +15,6 @@ import {
 } from "lucide-react";
 import { Heart } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import ReactImageMagnify from "react-image-magnify";
 import { toast } from "react-hot-toast";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -32,6 +32,7 @@ import {
 } from "../../../services/productService";
 
 import { setSelectedTab } from "../../../../slices/selectedTabSlice";
+import ProductShimmer from "./elements/ProductShimmer";
 
 const ProductDetails = () => {
   const userDetails = useSelector((state) => state.auth.user);
@@ -86,7 +87,7 @@ const ProductDetails = () => {
   };
 
   const [reviews, setReviews] = useState([
-    { id: 1, name: "John Doe", rating: 4, text: "Great product!" },
+    
   ]);
   const [newReview, setNewReview] = useState({ rating: 3, text: "" });
   const navigate = useNavigate();
@@ -174,16 +175,16 @@ const ProductDetails = () => {
       console.log(error);
     }
   };
+  const [load,setLoad]=useState(false)
 
   const handleAddReview = async () => {
     if (productDetails && userId) {
       try {
         if (!newReview.text) {
           setErr(true);
-
           return;
         }
-
+        setLoad(true)
         const response = await addReview(
           newReview,
           productDetails?._id,
@@ -212,6 +213,8 @@ const ProductDetails = () => {
             },
           });
         }
+        setErr(false);
+
         fetchReviews();
         setNewReview((prevReview) => ({ ...prevReview, text: "" }));
       } catch (error) {
@@ -236,9 +239,14 @@ const ProductDetails = () => {
             },
           });
         }
+        setErr(false);
+
         setNewReview((prevReview) => ({ ...prevReview, text: "" }));
 
         console.log(error);
+      }
+      finally{
+        setLoad(false)
       }
     }
   };
@@ -484,11 +492,7 @@ const ProductDetails = () => {
   }, [selectedColor, selectedSize, variantsByColor]);
 
   if (!productDetails) {
-    return <div>Loading...</div>;
-  }
-  // Return a loading state until productDetails is available
-  if (!productDetails) {
-    return <ProductDetailShimmer />;
+    return <ProductShimmer />;
   }
 
   const stockColors = {
@@ -535,60 +539,18 @@ const ProductDetails = () => {
 
       {/* Product Main Section */}
       <div className="flex flex-col lg:flex-row bg-white rounded-lg shadow-sm overflow-hidden border border-gray-100">
-        {/* Product Images - Keeping original positioning and functionality */}
-        <div className="flex flex-col gap-4 items-center lg:w-1/2 p-6 bg-gray-50">
-          <div className="h-100 w-95 relative">
-            <ReactImageMagnify
-              {...{
-                smallImage: {
-                  alt: "Main product image",
-                  height: 400,
-                  width: 309,
-                  src:
-                    selectedImage ||
-                    productDetails?.variants[0]?.productImages[0],
-                },
-                largeImage: {
-                  src:
-                    selectedImage ||
-                    productDetails?.variants[0]?.productImages[0],
-                  width: 1200,
-                  height: 1200,
-                },
-                enlargedImageContainerDimensions: {
-                  width: "270%",
-                  height: "150%",
-                },
-                lensStyle: { backgroundColor: "rgba(0,0,0,0.2)" },
-              }}
-            />
-          </div>
-
-          <div className="flex gap-3">
-            {selectedVariant?.productImages?.map((productImage, index) => (
-              <div
-                key={index}
-                onClick={() => setSelectedImage(productImage)}
-                className={`cursor-pointer transition-all ${
-                  selectedImage === productImage ? "ring-1 ring-black" : ""
-                }`}
-              >
-                <img
-                  alt={`Product view ${index + 1}`}
-                  className="w-16 h-16 object-cover rounded-sm"
-                  src={productImage}
-                />
-              </div>
-            ))}
-          </div>
-        </div>
+     
+      <ProductImageGallery 
+        productDetails={productDetails}
+        selectedVariant={selectedVariant}
+      />
 
         <div className="lg:w-1/2 p-6">
           <motion.h1
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ type: "spring", stiffness: 100, damping: 10 }}
-            className="md:text-3xl font-semibold mb-2 text-gray-900"
+            className="lg:text-3xl md:text-2xl font-semibold mb-2 text-gray-900"
           >
             {productDetails?.name}
           </motion.h1>
@@ -659,10 +621,10 @@ const ProductDetails = () => {
             }}
             className="flex pt-2 items-end gap-2 mb-3"
           >
-            <span className="md:text-3xl font-bold text-black">
+            <span className="lg:text-3xl md:text-2xl font-bold text-black">
               Rs.{selectedVariant?.discount_price}
             </span>
-            <span className="md:text-2xl text-gray-400 line-through">
+            <span className="lg:text-3xl md:text-2xl text-gray-400 line-through">
               Rs.{selectedVariant?.base_price}
             </span>
             <motion.span
@@ -864,15 +826,7 @@ const ProductDetails = () => {
               </motion.span>
             </motion.button>
           </motion.div>
-          <p
-            style={{
-              fontFamily: "'Cambay', sans-serif",
-              fontWeight: 400,
-            }}
-            className=" normal-case text-gray-700"
-          >
-            {productDetails.description}
-          </p>
+         
 
           {/* Product Features */}
           <div className="grid grid-cols-2  gap-y-2 gap-x-4 border-t pt-6 pb-3 border-gray-200">
@@ -1005,7 +959,7 @@ const ProductDetails = () => {
                         {review.comment}
                       </p>
                       <div className="flex justify-between items-center text-xxs text-gray-500">
-                        <p>{review.userId.email}</p>
+                        <p>{review?.userId?.email}</p>
                         <p>{review.updatedAt.split("T")[0]}</p>
                       </div>
                     </div>
@@ -1071,7 +1025,7 @@ const ProductDetails = () => {
                   className="mt-3 md:px-4 md:py-3 py-1 px-2 bg-black text-white text-sm font-medium rounded-md hover:bg-gray-800 transition-colors"
                   onClick={handleSubmitReview}
                 >
-                  Submit Review
+                  {load?"Submiting...":"Submit Review"}
                 </button>
               </div>
             </div>
@@ -1099,8 +1053,8 @@ const ProductDetails = () => {
         {loading ? (
           <SimilarProductsShimmer />
         ) : (
-          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {similarProducts.map((product, index) => (
+          <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-4 gap-4">
+            {similarProducts.slice(0,4).map((product, index) => (
               <div
                 key={index}
                 onClick={() => handleProductView(product)}

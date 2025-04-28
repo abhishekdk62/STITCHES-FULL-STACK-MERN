@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect,useRef, useState } from "react";
 import { useSelector } from "react-redux";
+import { motion, AnimatePresence } from "framer-motion";
+
 import axios from "axios";
-import { Heart, X, Filter } from "lucide-react";
+import { Heart, X, ListFilter,ArrowUpAZ   } from "lucide-react";
 import { toast } from "react-hot-toast";
 import { useDebounce } from "../../../../utils/useDebounce";
 import { useNavigate } from "react-router-dom";
@@ -24,6 +26,7 @@ const ListProducts = ({ selectedCategory, setSelectedCategory }) => {
   const [loading, setLoading] = useState(false);
   const [categoryList, setCategoryList] = useState([]);
   const [error, setError] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
 
   const navigate = useNavigate();
 
@@ -32,6 +35,27 @@ const ListProducts = ({ selectedCategory, setSelectedCategory }) => {
   const [ratings, setRatings] = useState([]);
 
   const dedbouncedValue = useDebounce(searchTerm, 500);
+  const handlePriceChange = ([min, max]) => {
+    setMinPrice(min);
+    setMaxPrice(max);
+  };
+  const dropdownRef = useRef(null);
+
+  // Handle clicking outside the dropdown to close it
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    }
+    
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+
 
   const getProducts = async (search) => {
     try {
@@ -90,6 +114,15 @@ const ListProducts = ({ selectedCategory, setSelectedCategory }) => {
     };
     fetchRatings();
   }, []);
+  const getSortLabel = (value) => {
+    switch(value) {
+      case "priceAsc": return "Lowest Price";
+      case "priceDesc": return "Highest Price";
+      case "nameAsc": return "A-Z";
+      case "nameDesc": return "Z-A";
+      default: return "Sort By";
+    }
+  };
 
   // Fetch categories for filter sidebar on component mount
   useEffect(() => {
@@ -108,6 +141,10 @@ const ListProducts = ({ selectedCategory, setSelectedCategory }) => {
   const handleProductView = (product) => {
     localStorage.setItem("productInfo", JSON.stringify(product));
     navigate(`/product/${product._id}`);
+  };
+  const handleSortChange = (value) => {
+    setSortBy(value);
+    setIsOpen(false);
   };
 
   const handleWishlist = async (pid, selectedVariant) => {
@@ -188,14 +225,15 @@ const ListProducts = ({ selectedCategory, setSelectedCategory }) => {
   // Filter sidebar content - reused in both desktop and mobile views
   const FiltersContent = () => (
     <>
-      <h2 className="text-xl tracking-widest text-gray-800 mb-3">Filters</h2>
+          <h2 className="text-xl hidden lg:block font-bold tracking-widest text-gray-800 mb-3">Filters</h2>
+
       <hr className="mb-4 text-gray-200" />
 
       <div className="mb-6">
-        <h3 className="text-base text-gray-800 font-semibold mb-3">
+        <h3 className="text-xs lg:text-[1rem] sm:text-[0.9rem]  text-gray-800 font-semibold mb-3">
           Categories
         </h3>
-        <ul className="space-y-1">
+        <ul className="  sm:space-y-1">
           {categoryList.map((category, indx) => (
             <li
               key={indx}
@@ -203,7 +241,7 @@ const ListProducts = ({ selectedCategory, setSelectedCategory }) => {
                 setSelectedCategory(category._id);
                 if (window.innerWidth < 1024) setShowFilters(false);
               }}
-              className={`py-1 px-2 rounded-md cursor-pointer transition-colors hover:bg-gray-100 ${
+              className={`py-1 px-2  rounded-md cursor-pointer transition-colors hover:bg-gray-100 ${
                 category._id === selectedCategory
                   ? "bg-gray-100 font-medium"
                   : ""
@@ -211,7 +249,7 @@ const ListProducts = ({ selectedCategory, setSelectedCategory }) => {
             >
               <span
                 style={{ fontWeight: 400 }}
-                className="text-sm text-gray-700"
+                className="text-[0.7rem] lg:text-[0.8rem]  text-gray-700"
               >
                 {category.name}
               </span>
@@ -222,37 +260,24 @@ const ListProducts = ({ selectedCategory, setSelectedCategory }) => {
       <hr className="mb-4 text-gray-200" />
 
       <div className="mb-6">
-        <h3 className="text-base font-semibold mb-3">Price Range</h3>
-        <div className="flex items-center justify-between mb-2">
-          <span className="text-sm font-medium">₹{minPrice}</span>
-          <span className="text-sm font-medium">₹{maxPrice}</span>
-        </div>
-        <ReactSlider
-          value={[minPrice, maxPrice]}
-          min={200}
-          step={1000}
-          max={50000}
-          onChange={(values) => {
-            setMinPrice(values[0]);
-            setMaxPrice(values[1]);
-          }}
-          className="w-full mt-2"
-          thumbClassName="h-4 w-4 bg-gray-400 border-2 border-white shadow-md rounded-full cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary/50"
-          trackClassName="h-1.5 rounded-full bg-gray-400"
-          pearling
-          minDistance={10}
-        />
+
+        <PriceRangeSlider
+      initialMin={minPrice}
+      initialMax={maxPrice}
+      onChange={handlePriceChange}
+    />
+
       </div>
       <hr className="mb-4 text-gray-200" />
 
       <div className="mb-6">
-        <h3 className="text-base font-semibold mb-3">Size</h3>
-        <div className="grid grid-cols-3 gap-2">
+        <h3 className="text-xs sm:text-[0.9rem] lg:text-[1rem] font-semibold mb-3">Size</h3>
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
           {["XXS", "XS", "S", "M", "L", "XL", "XXL", "3XL", "4XL"].map(
             (size) => (
               <button
                 key={size}
-                className="border border-gray-300 rounded-lg py-1 text-xs hover:bg-gray-100 transition-colors font-medium"
+                className="border border-gray-300 rounded-lg py-1 text-[0.6rem] lg:text-[0.7rem] hover:bg-gray-100 transition-colors font-medium"
               >
                 {size}
               </button>
@@ -262,30 +287,6 @@ const ListProducts = ({ selectedCategory, setSelectedCategory }) => {
       </div>
       <hr className="mb-4 text-gray-200" />
 
-      <div className="mb-6">
-        <h3 className="text-base font-semibold mb-3">Colors</h3>
-        <div className="grid grid-cols-3 gap-4">
-          {[
-            "purple-500",
-            "black",
-            "red-500",
-            "orange-500",
-            "blue-500",
-            "green-500",
-            "yellow-500",
-            "gray-500",
-            "pink-500",
-            "blue-500",
-            "green-500",
-            "blue-500",
-          ].map((color, indx) => (
-            <div
-              key={indx}
-              className={`w-6 h-6 bg-${color} rounded-full cursor-pointer border border-gray-200 hover:scale-110 transition-transform shadow-sm`}
-            ></div>
-          ))}
-        </div>
-      </div>
     </>
   );
 
@@ -300,34 +301,47 @@ const ListProducts = ({ selectedCategory, setSelectedCategory }) => {
           onClick={() => setShowFilters(true)}
           className="flex items-center gap-2 py-1 px-2 sm:px-3 sm:py-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
         >
-          <Filter className="w-3 h-3 sm:w-4 sm:h-4" />
+          <ListFilter  className="w-3 h-3 sm:w-4 sm:h-4" />
           <span className="text-xs sm:text-sm  font-medium">Filters</span>
         </button>
       </div>
 
-      {/* Mobile Filter Sidebar (Slide-in from left) */}
-      {showFilters && (
-        <div className="lg:hidden fixed inset-0 z-50 overflow-hidden">
-          <div
-            className="absolute inset-0 bg-black/20 bg-opacity-50"
-            onClick={() => setShowFilters(false)}
-          ></div>
-          <div className="absolute inset-y-0 left-0 max-w-xs w-full bg-white shadow-xl transform transition-transform duration-300 ease-in-out">
-            <div className="p-4 h-full overflow-y-auto">
-              <div className="flex justify-between items-center mb-4">
-                <h2 className="text-xl font-semibold">Filters</h2>
-                <button
-                  onClick={() => setShowFilters(false)}
-                  className="p-2 hover:bg-gray-100 rounded-full"
-                >
-                  <X className="w-5 h-5" />
-                </button>
+      <AnimatePresence>
+        {showFilters && (
+          <div className="lg:hidden fixed inset-0 z-50 overflow-hidden">
+            <motion.div
+              className="absolute inset-0 bg-black/20 bg-opacity-50"
+              onClick={() => setShowFilters(false)}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+            />
+            <motion.div
+              className="absolute inset-y-0 left-0 sm:max-w-xs max-w-[50vw] w-full bg-white shadow-xl"
+              initial={{ x: "-100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "-100%" }}
+              transition={{ type: "spring", stiffness: 300, damping: 30 }}
+            >
+              <div className="p-4 h-full overflow-y-auto">
+                <div className="flex justify-between items-center mb-4">
+                  <h2 className="text-base sm:text-lg  font-semibold">
+                    Filters
+                  </h2>
+                  <button
+                    onClick={() => setShowFilters(false)}
+                    className="p-2 hover:bg-gray-100 rounded-full"
+                  >
+                    <X className="w-5 h-5" />
+                  </button>
+                </div>
+                <FiltersContent />
               </div>
-              <FiltersContent />
-            </div>
+            </motion.div>
           </div>
-        </div>
-      )}
+        )}
+      </AnimatePresence>
 
       <div className="flex flex-col lg:flex-row gap-6">
         {/* Desktop Sidebar - visible only on lg and above */}
@@ -346,16 +360,66 @@ const ListProducts = ({ selectedCategory, setSelectedCategory }) => {
               {error && (
                 <p className="text-red-500 text-xs font-medium">{error}</p>
               )}
-              <select
-                onChange={(e) => setSortBy(e.target.value)}
-                className="border border-gray-300 rounded-lg md:py-1.5 md:px-3 py-0.5 px-1 text-xs md:text-sm bg-white focus:outline-none focus:ring-2 focus:ring-primary/50 cursor-pointer w-full sm:w-auto"
-              >
-                <option className="text-xs sm:text-sm" value="">Sort By</option>
-                <option value="priceAsc">Price: Low to High</option>
-                <option value="priceDesc">Price: High to Low</option>
-                <option value="nameAsc">A-Z</option>
-                <option value="nameDesc">Z-A</option>
-              </select>
+                 <div className="hidden lg:block w-full sm:w-auto">
+        <select
+          value={sortBy}
+          onChange={(e) => setSortBy(e.target.value)}
+          className="border border-gray-300 rounded-lg md:py-1.5 md:px-3 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-primary/50 cursor-pointer w-full sm:w-auto"
+        >
+          <option value="">Sort By</option>
+          <option value="priceAsc">Price: Low to High</option>
+          <option value="priceDesc">Price: High to Low</option>
+          <option value="nameAsc">A-Z</option>
+          <option value="nameDesc">Z-A</option>
+        </select>
+      </div>
+      
+      {/* Icon with dropdown for smaller screens */}
+      <div className="lg:hidden relative" ref={dropdownRef}>
+        <div 
+          className="flex items-center gap-1 cursor-pointer border border-gray-300 rounded-lg py-1.5 px-3 text-sm"
+          onClick={() => setIsOpen(!isOpen)}
+        >
+          <span className="text-xs md:text-sm">{getSortLabel(sortBy)}</span>
+          <ArrowUpAZ size={16} />
+        </div>
+        
+        {isOpen && (
+          <div className="absolute top-full left-0 mt-1 w-48 bg-white border border-gray-300 rounded-lg shadow-lg z-10">
+            <div 
+              className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-xs md:text-sm"
+              onClick={() => handleSortChange("")}
+            >
+              Sort By
+            </div>
+            <div 
+              className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-xs md:text-sm"
+              onClick={() => handleSortChange("priceAsc")}
+            >
+              Lowest Price
+            </div>
+            <div 
+              className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-xs md:text-sm"
+              onClick={() => handleSortChange("priceDesc")}
+            >
+              Highest Price
+            </div>
+            <div 
+              className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-xs md:text-sm"
+              onClick={() => handleSortChange("nameAsc")}
+            >
+              A-Z
+            </div>
+            <div 
+              className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-xs md:text-sm"
+              onClick={() => handleSortChange("nameDesc")}
+            >
+              Z-A
+            </div>
+          </div>
+        )}
+      </div>
+
             </div>
           </div>
 
@@ -530,3 +594,67 @@ const ListProducts = ({ selectedCategory, setSelectedCategory }) => {
 };
 
 export default ListProducts;
+
+
+import { Range } from 'react-range';
+
+const PriceRangeSlider = ({ initialMin = 200, initialMax = 50000, onChange }) => {
+  const [values, setValues] = useState([initialMin, initialMax]);
+  
+  useEffect(() => {
+    if (onChange) {
+      onChange(values);
+    }
+  }, [values, onChange]);
+
+  return (
+    <div className="mb-6">
+      <h3 className="text-xs sm:text-[0.9rem] lg:text-[1rem] font-semibold mb-3">Price Range</h3>
+      <div className="flex items-center justify-between mb-2">
+        <span className="text-[0.7rem] sm:text-[0.8rem] lg:text-[0.9rem] font-medium">₹{values[0]}</span>
+        <span className="text-[0.7rem] sm:text-[0.8rem] lg:text-[0.9rem] font-medium">₹{values[1]}</span>
+      </div>
+      <div className="py-4">
+        <Range
+          step={1000}
+          min={200}
+          max={50000}
+          values={values}
+          onChange={(newValues) => setValues(newValues)}
+          renderTrack={({ props, children }) => (
+            <div
+              {...props}
+              className="w-full h-1.5 rounded-full bg-gray-300"
+              style={{
+                ...props.style,
+              }}
+            >
+              <div
+                className="h-full rounded-full bg-gray-400"
+                style={{
+                  position: 'absolute',
+                  left: `${props.style.left || 0}px`,
+                  width: `${props.style.width || 0}px`
+                }}
+              />
+              {children}
+            </div>
+          )}
+          renderThumb={({ props }) => (
+            <div
+              {...props}
+              className="h-4 w-4 bg-gray-400 border-2 border-white shadow-md rounded-full cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary/50"
+              style={{
+                ...props.style,
+                boxShadow: '0 1px 3px rgba(0,0,0,0.3)',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center'
+              }}
+            />
+          )}
+        />
+      </div>
+    </div>
+  );
+};
