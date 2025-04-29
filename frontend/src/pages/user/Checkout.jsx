@@ -4,7 +4,6 @@ import Payment from '../../components/user/order/Payment';
 import OrderSummary from '../../components/user/order/OrderSummary';
 import AddaddressCheckout from '../../components/user/editInfo/AddAddressCheckout';
 import React from 'react'
-import React from 'react'
 
 import DeliveryAddress from '../../components/user/editinfo/DeliveryAddress';
 
