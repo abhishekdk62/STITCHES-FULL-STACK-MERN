@@ -1,7 +1,7 @@
-import React from "react";
-import Header from "../../components/user/common/Header";
-import Footer from "../../components/user/common/Footer";
-import Confirmed from "../../components/user/order/Confirmed";
+import React from 'react';
+import Header from '../../components/user/common/Header';
+import Footer from '../../components/user/common/Footer';
+import Confirmed from '../../components/user/order/Confirmed';
 
 const OrderConfirmed = () => {
   return (

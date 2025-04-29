@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import LoginForm from "../../components/common/auth/LoginForm";
-import ForgotPassword from "../../components/common/auth/ForgotPassword";
-import Header from "../../components/common/utils/Header";
+import React, { useState } from 'react';
+import LoginForm from '../../components/common/auth/LoginForm';
+import ForgotPassword from '../../components/common/auth/ForgotPassword';
+import Header from '../../components/common/utils/Header';
 
 const Login = () => {
   const [forgotPassword, setForgotPassword] = useState(false);

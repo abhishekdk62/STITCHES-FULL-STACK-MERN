@@ -1,10 +1,12 @@
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { createOrder } from "../../../services/orderServices";
-import { createPaypalOrder } from "../../../services/paypalService";
-import PayPalButton from "../../../../utils/PaypalButton";
-import { useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { createOrder } from '../../../services/orderServices';
+import { createPaypalOrder } from '../../../services/paypalService';
+import React from 'react'
+
+import PayPalButton from '../../../../utils/PaypalButton';
+import { useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import {
   Wallet,
   CreditCard,
@@ -14,7 +16,7 @@ import {
   DollarSign,
   ChevronLeft,
   ChevronRight,
-} from "lucide-react";
+} from 'lucide-react';
 
 const PaymentSuccessComponent = () => (
   <motion.div
@@ -43,9 +45,9 @@ const PaymentErrorComponent = ({ error }) => (
 );
 
 export default function Payment({ setStep, couponData }) {
-  const [paymentMethod, setPaymentMethod] = useState("wallet");
-  const [successMessage, setSuccessMessage] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
+  const [paymentMethod, setPaymentMethod] = useState('wallet');
+  const [successMessage, setSuccessMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
   const address = useSelector((state) => state.checkout.shippingAddress);
   const cartItems = useSelector((state) => state.checkout.cart);
   const userDetails = useSelector((state) => state.auth.user);
@@ -59,7 +61,7 @@ export default function Payment({ setStep, couponData }) {
     cartItems?.shippingPrice -
     discount;
   useEffect(() => {
-    if (paymentMethod == "cod" && grandTotal >= 1000) {
+    if (paymentMethod == 'cod' && grandTotal >= 1000) {
       setDisableCod(true);
     }
   }, [paymentMethod, grandTotal]);
@@ -68,11 +70,11 @@ export default function Payment({ setStep, couponData }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setErrorMessage("");
-    setSuccessMessage("");
+    setErrorMessage('');
+    setSuccessMessage('');
     if (disableCod) {
       return setErrorMessage(
-        "Cash on delivery cant be applied for products with price more than 1000"
+        'Cash on delivery cant be applied for products with price more than 1000'
       );
     }
     try {
@@ -88,20 +90,20 @@ export default function Payment({ setStep, couponData }) {
         discount,
         couponData || {}
       );
-      setSuccessMessage("Order placed successfully!");
+      setSuccessMessage('Order placed successfully!');
 
-      navigate("/order/confirmed");
+      navigate('/order/confirmed');
     } catch (error) {
       console.log(error);
       setErrorMessage(
-        "There was an error processing your order. Please try again."
+        'There was an error processing your order. Please try again.'
       );
     }
   };
 
   const handleWalletPayment = async () => {
-    setErrorMessage("");
-    setSuccessMessage("");
+    setErrorMessage('');
+    setSuccessMessage('');
     try {
       const response = await createOrder(
         cartItems._id,
@@ -115,35 +117,35 @@ export default function Payment({ setStep, couponData }) {
         discount,
         couponData || {}
       );
-      setSuccessMessage("Order placed successfully!");
+      setSuccessMessage('Order placed successfully!');
 
-      navigate("/order/confirmed");
+      navigate('/order/confirmed');
     } catch (error) {
       console.log(error);
       setErrorMessage(
-        "There was an error processing your order. Please try again."
+        'There was an error processing your order. Please try again.'
       );
     }
   };
 
   const paymentOptions = [
     {
-      id: "wallet",
-      name: "Wallet",
+      id: 'wallet',
+      name: 'Wallet',
       icon: <Wallet className="w-5 h-5" />,
-      description: "Pay using your account balance",
+      description: 'Pay using your account balance',
     },
     {
-      id: "paypal",
-      name: "PayPal",
+      id: 'paypal',
+      name: 'PayPal',
       icon: <DollarSign className="w-5 h-5" />,
-      description: "Safe online payment",
+      description: 'Safe online payment',
     },
     {
-      id: "cod",
-      name: "Cash on Delivery",
+      id: 'cod',
+      name: 'Cash on Delivery',
       icon: <Truck className="w-5 h-5" />,
-      description: "Pay when you receive your order",
+      description: 'Pay when you receive your order',
     },
   ];
 
@@ -182,14 +184,16 @@ export default function Payment({ setStep, couponData }) {
                 whileTap={{ scale: 0.98 }}
                 className={`flex flex-col p-2 sm:p-5 border rounded-lg cursor-pointer transition-all duration-200 ${
                   paymentMethod === option.id
-                    ? "border-black bg-gray-50 shadow-sm"
-                    : "border-gray-200 hover:border-gray-300"
+                    ? 'border-black bg-gray-50 shadow-sm'
+                    : 'border-gray-200 hover:border-gray-300'
                 }`}
               >
                 <div className="flex items-center justify-between sm:mb-2">
                   <div className="flex items-center flex-col sm:flex-row gap-3">
                     {option.icon}
-                    <span className=" sm:text-md text-sm font-medium">{option.name}</span>
+                    <span className=" sm:text-md text-sm font-medium">
+                      {option.name}
+                    </span>
                   </div>
                   <input
                     type="radio"
@@ -208,7 +212,7 @@ export default function Payment({ setStep, couponData }) {
           </div>
         </motion.div>
 
-        {paymentMethod === "wallet" && (
+        {paymentMethod === 'wallet' && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -217,8 +221,12 @@ export default function Payment({ setStep, couponData }) {
           >
             <div className="flex justify-between items-center mb-6">
               <div>
-                <h3 className="sm:text-md text-sm font-semibold mb-1">Your Balance</h3>
-                <p className="text-gray-500 sm:text-md text-sm">Current wallet balance</p>
+                <h3 className="sm:text-md text-sm font-semibold mb-1">
+                  Your Balance
+                </h3>
+                <p className="text-gray-500 sm:text-md text-sm">
+                  Current wallet balance
+                </p>
               </div>
               <div className="text-right">
                 <p className="sm:text-lg text-base font-bold">
@@ -229,11 +237,17 @@ export default function Payment({ setStep, couponData }) {
 
             <div className="flex justify-between items-center pt-4 border-t border-gray-200">
               <div>
-                <h3 className="sm:text-md text-sm font-medium mb-1">Amount to Pay</h3>
-                <p className="text-gray-500 sm:text-md text-sm">Total order amount</p>
+                <h3 className="sm:text-md text-sm font-medium mb-1">
+                  Amount to Pay
+                </h3>
+                <p className="text-gray-500 sm:text-md text-sm">
+                  Total order amount
+                </p>
               </div>
               <div className="text-right">
-                <p className="sm:text-lg text-base font-bold">₹{grandTotal?.toFixed(2)}</p>
+                <p className="sm:text-lg text-base font-bold">
+                  ₹{grandTotal?.toFixed(2)}
+                </p>
               </div>
             </div>
 
@@ -245,7 +259,9 @@ export default function Payment({ setStep, couponData }) {
               >
                 <div className="flex items-center gap-2">
                   <AlertCircle className="w-5 h-5" />
-                  <p className="sm:text-md text-sm font-medium">Insufficient balance</p>
+                  <p className="sm:text-md text-sm font-medium">
+                    Insufficient balance
+                  </p>
                 </div>
                 <p className=" sm:text-md text-sm mt-1 pl-7">
                   Please select another payment method.
@@ -255,7 +271,7 @@ export default function Payment({ setStep, couponData }) {
           </motion.div>
         )}
 
-        {paymentMethod === "paypal" && (
+        {paymentMethod === 'paypal' && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -267,7 +283,9 @@ export default function Payment({ setStep, couponData }) {
                 <DollarSign className="sm:w-7 w-5 g-5  sm:h-7 text-blue-600" />
               </div>
             </div>
-            <h3 className="sm:text-md text-sm font-semibold mb-2">PayPal Checkout</h3>
+            <h3 className="sm:text-md text-sm font-semibold mb-2">
+              PayPal Checkout
+            </h3>
             <p className="text-gray-600 sm:text-md text-sm mb-4">
               You will be redirected to PayPal to complete your payment
               securely.
@@ -278,7 +296,7 @@ export default function Payment({ setStep, couponData }) {
           </motion.div>
         )}
 
-        {paymentMethod === "cod" && (
+        {paymentMethod === 'cod' && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -297,7 +315,9 @@ export default function Payment({ setStep, couponData }) {
                 <ul className="space-y-2 sm:text-sm text-xs text-gray-600">
                   <li className="flex items-center gap-2">
                     <CheckCircle className="w-4 h-4 text-green-600" />
-                    <span className="sm:text-sm text-xs">No advance payment required</span>
+                    <span className="sm:text-sm text-xs">
+                      No advance payment required
+                    </span>
                   </li>
                   <li className="flex items-center sm:text-sm text-xs gap-2">
                     <CheckCircle className="w-4 h-4 text-green-600" />
@@ -329,14 +349,14 @@ export default function Payment({ setStep, couponData }) {
             Back to Summary
           </motion.button>
 
-          {paymentMethod === "paypal" ? (
+          {paymentMethod === 'paypal' ? (
             <PayPalButton
               couponData={couponData}
               discount={discount}
               grandTotal={grandTotal}
               paymentMethod={paymentMethod}
             />
-          ) : paymentMethod === "wallet" ? (
+          ) : paymentMethod === 'wallet' ? (
             <motion.button
               whileHover={{
                 scale: userDetails?.balance >= grandTotal ? 1.02 : 1,
@@ -349,8 +369,8 @@ export default function Payment({ setStep, couponData }) {
               onClick={handleWalletPayment}
               className={` py-sm:px-8 px-4 py-1 sm:py-3 3 sm:text-base text-sm flex items-center gap-2 rounded ${
                 userDetails?.balance < grandTotal
-                  ? "bg-gray-200 text-gray-500 cursor-not-allowed"
-                  : "bg-black text-white border border-black hover:bg-white hover:text-black transition-all duration-300"
+                  ? 'bg-gray-200 text-gray-500 cursor-not-allowed'
+                  : 'bg-black text-white border border-black hover:bg-white hover:text-black transition-all duration-300'
               }`}
             >
               Pay and Place Order
@@ -362,7 +382,7 @@ export default function Payment({ setStep, couponData }) {
               whileTap={{ scale: 0.98 }}
               type="submit"
               className={`sm:px-8 px-4 py-1 sm:py-3 flex sm:text-base text-sm items-center gap-2 bg-black ${
-                disableCod ? "cursor-not-allowed" : null
+                disableCod ? 'cursor-not-allowed' : null
               } text-white border border-black hover:bg-white hover:text-black transition-all duration-300 rounded`}
             >
               Place Order

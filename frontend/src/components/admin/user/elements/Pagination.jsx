@@ -1,5 +1,5 @@
-import React from "react";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import React from 'react';
+import { ArrowLeft, ArrowRight } from 'lucide-react';
 
 const Pagination = ({
   currentPage,

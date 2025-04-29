@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { motion } from "framer-motion";
-import { setSelectedTab } from "../../../../slices/selectedTabSlice";
-import { useNavigate } from "react-router-dom";
-const Particle = ({ index, color = "black" }) => {
+import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { motion } from 'framer-motion';
+import { setSelectedTab } from '../../../../slices/selectedTabSlice';
+import { useNavigate } from 'react-router-dom';
+const Particle = ({ index, color = 'black' }) => {
   const angle = Math.random() * Math.PI * 2;
   const radius = 40 + Math.random() * 60;
   const size = 6 + Math.random() * 6;
@@ -35,7 +35,7 @@ const Particle = ({ index, color = "black" }) => {
       transition={{
         duration: duration,
         delay: delay,
-        ease: "easeOut",
+        ease: 'easeOut',
       }}
     />
   );
@@ -60,11 +60,11 @@ const Confirmed = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const continueShoping = () => {
-    navigate("/user/home");
+    navigate('/user/home');
   };
   const viewOrder = () => {
-    dispatch(setSelectedTab("orders"));
-    navigate("/user/account");
+    dispatch(setSelectedTab('orders'));
+    navigate('/user/account');
   };
   return (
     <div className="flex items-center w-full  justify-center h-130 bg-gray-100">
@@ -77,7 +77,7 @@ const Confirmed = () => {
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
                 transition={{
-                  type: "spring",
+                  type: 'spring',
                   stiffness: 260,
                   damping: 20,
                   delay: 0.1,

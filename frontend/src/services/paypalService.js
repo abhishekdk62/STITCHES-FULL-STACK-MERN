@@ -11,42 +11,46 @@ export const createPaypalOrder = async (orderDetails) => {
       grandTotal: orderDetails.grandTotal,
       amount: orderDetails.grandTotal,
       uid: orderDetails.userId,
-      returnUrl: orderDetails.returnUrl, 
+      returnUrl: orderDetails.returnUrl,
       cancelUrl: orderDetails.cancelUrl,
       couponData: orderDetails.couponData,
       discount: orderDetails.discount,
     };
 
     const response = await fetch(
-      "http://localhost:5000/api/paypal/create-order",
+      'http://localhost:5000/api/paypal/create-order',
       {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
       }
     );
 
     return await response.json();
   } catch (error) {
-    console.log("❌ Error creating PayPal order:", error);
+    console.log('❌ Error creating PayPal order:', error);
     throw error;
   }
 };
 
-export const capturePaypalOrder = async (orderID, orderDetails,couponDetails) => {
+export const capturePaypalOrder = async (
+  orderID,
+  orderDetails,
+  couponDetails
+) => {
   try {
     const response = await fetch(
       `http://localhost:5000/api/paypal/capture-order/${orderID}`,
       {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(orderDetails,couponDetails), // Send order details along with order ID
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(orderDetails, couponDetails), // Send order details along with order ID
       }
     );
 
     return await response.json();
   } catch (error) {
-    console.error("❌ Error capturing PayPal order:", error);
+    console.error('❌ Error capturing PayPal order:', error);
     throw error;
   }
 };

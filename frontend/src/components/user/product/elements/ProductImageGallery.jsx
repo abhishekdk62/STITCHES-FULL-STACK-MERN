@@ -3,7 +3,7 @@ import ReactImageMagnify from 'react-image-magnify';
 
 const ProductImageGallery = ({ productDetails, selectedVariant }) => {
   const [selectedImage, setSelectedImage] = useState('');
-  
+
   useEffect(() => {
     // Set initial image when component mounts or variant changes
     if (productDetails?.variants[0]?.productImages[0]) {
@@ -24,25 +24,23 @@ const ProductImageGallery = ({ productDetails, selectedVariant }) => {
         <ReactImageMagnify
           {...{
             smallImage: {
-              alt: "Main product image",
+              alt: 'Main product image',
               height: 400,
               width: 309,
               src:
-                selectedImage ||
-                productDetails?.variants[0]?.productImages[0],
+                selectedImage || productDetails?.variants[0]?.productImages[0],
             },
             largeImage: {
               src:
-                selectedImage ||
-                productDetails?.variants[0]?.productImages[0],
+                selectedImage || productDetails?.variants[0]?.productImages[0],
               width: 1200,
               height: 1200,
             },
             enlargedImageContainerDimensions: {
-              width: "270%",
-              height: "150%",
+              width: '270%',
+              height: '150%',
             },
-            lensStyle: { backgroundColor: "rgba(0,0,0,0.2)" },
+            lensStyle: { backgroundColor: 'rgba(0,0,0,0.2)' },
             isHintEnabled: true,
             shouldHideHintAfterFirstActivation: false,
             hintTextMouse: 'Hover to zoom',
@@ -54,19 +52,19 @@ const ProductImageGallery = ({ productDetails, selectedVariant }) => {
               borderRadius: '4px',
               padding: '2px 6px',
               fontSize: '8px',
-              boxShadow: '0 1px 3px rgba(0,0,0,0.12)'
-            }
+              boxShadow: '0 1px 3px rgba(0,0,0,0.12)',
+            },
           }}
         />
       </div>
-      
+
       <div className="flex gap-3">
         {selectedVariant?.productImages?.map((productImage, index) => (
           <div
             key={index}
             onClick={() => setSelectedImage(productImage)}
             className={`cursor-pointer transition-all ${
-              selectedImage === productImage ? "ring-1 ring-black" : ""
+              selectedImage === productImage ? 'ring-1 ring-black' : ''
             }`}
           >
             <img

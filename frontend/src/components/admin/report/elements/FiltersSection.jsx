@@ -1,6 +1,6 @@
-import React from "react";
-import { Filter, ChevronDown } from "lucide-react";
-import { motion } from "framer-motion";
+import React from 'react';
+import { Filter, ChevronDown } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 const FiltersSection = ({
   dateRange,
@@ -26,7 +26,7 @@ const FiltersSection = ({
           <ChevronDown
             size={15}
             className={`transition-transform ${
-              showFilters ? "rotate-180" : ""
+              showFilters ? 'rotate-180' : ''
             }`}
           />
         </motion.button>
@@ -34,7 +34,7 @@ const FiltersSection = ({
       <motion.div
         initial={{ height: 0, opacity: 0 }}
         animate={{
-          height: showFilters ? "auto" : 0,
+          height: showFilters ? 'auto' : 0,
           opacity: showFilters ? 1 : 0,
         }}
         transition={{ duration: 0.3 }}
@@ -60,7 +60,7 @@ const FiltersSection = ({
                 <option value="custom">Custom Range</option>
               </select>
             </div>
-            {dateRange === "custom" && (
+            {dateRange === 'custom' && (
               <>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">

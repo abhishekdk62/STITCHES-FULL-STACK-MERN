@@ -1,10 +1,15 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback } from 'react';
 
-import { useSelector } from "react-redux";
-import { createPaypalOrder } from "../src/services/paypalService";
+import { useSelector } from 'react-redux';
+import { createPaypalOrder } from '../src/services/paypalService';
 
-export default function PayPalButton({ grandTotal, paymentMethod,couponData,discount }) {
-  const [errorMessage, setErrorMessage] = useState("");
+export default function PayPalButton({
+  grandTotal,
+  paymentMethod,
+  couponData,
+  discount,
+}) {
+  const [errorMessage, setErrorMessage] = useState('');
   const [sdkLoaded, setSdkLoaded] = useState(false);
 
   const userDetails = useSelector((state) => state.auth.user);
@@ -13,30 +18,30 @@ export default function PayPalButton({ grandTotal, paymentMethod,couponData,disc
 
   useEffect(() => {
     const loadPaypalScript = () => {
-      if (document.getElementById("paypal-sdk")) {
+      if (document.getElementById('paypal-sdk')) {
         setSdkLoaded(true);
         return;
       }
 
       const PAYPAL_CLIENT_ID = import.meta.env.VITE_PAYPAL_CLIENT_ID;
       if (!PAYPAL_CLIENT_ID) {
-        console.error("❌ Missing PayPal Client ID.");
-        setErrorMessage("Missing PayPal Client ID.");
+        console.error('❌ Missing PayPal Client ID.');
+        setErrorMessage('Missing PayPal Client ID.');
         return;
       }
 
-      console.log("ℹ️ Loading PayPal SDK...");
-      const script = document.createElement("script");
+      console.log('ℹ️ Loading PayPal SDK...');
+      const script = document.createElement('script');
       script.src = `https://www.paypal.com/sdk/js?client-id=${PAYPAL_CLIENT_ID}`;
-      script.id = "paypal-sdk";
+      script.id = 'paypal-sdk';
       script.async = true;
       script.onload = () => {
-        console.log("✅ PayPal SDK Loaded");
+        console.log('✅ PayPal SDK Loaded');
         setSdkLoaded(true);
       };
       script.onerror = () => {
-        console.error("❌ Failed to load PayPal SDK.");
-        setErrorMessage("Failed to load PayPal SDK.");
+        console.error('❌ Failed to load PayPal SDK.');
+        setErrorMessage('Failed to load PayPal SDK.');
       };
 
       document.body.appendChild(script);
@@ -46,17 +51,17 @@ export default function PayPalButton({ grandTotal, paymentMethod,couponData,disc
   }, []);
 
   const handlePaypalPayment = useCallback(async () => {
-    setErrorMessage("");
-  
+    setErrorMessage('');
+
     if (!cartItems || !cartItems.items || cartItems.items.length === 0) {
-      setErrorMessage("Cart is empty. Add items before proceeding.");
+      setErrorMessage('Cart is empty. Add items before proceeding.');
       return;
     }
-  
+
     try {
       const returnUrl = `${window.location.origin}/payment/success`;
       const cancelUrl = `${window.location.origin}/payment/failure`;
-  
+
       const orderDetails = {
         cid: cartItems._id,
         items: cartItems.items.map((item) => ({
@@ -75,29 +80,31 @@ export default function PayPalButton({ grandTotal, paymentMethod,couponData,disc
         returnUrl,
         cancelUrl,
         couponData,
-        discount
+        discount,
       };
-  
-      console.log("💾 Storing Order Details in Local Storage:", orderDetails);
-      localStorage.setItem("orderDetails", JSON.stringify(orderDetails)); 
-      localStorage.setItem("coupon", JSON.stringify({ couponData, discount }));
-  
+
+      console.log('💾 Storing Order Details in Local Storage:', orderDetails);
+      localStorage.setItem('orderDetails', JSON.stringify(orderDetails));
+      localStorage.setItem('coupon', JSON.stringify({ couponData, discount }));
+
       const data = await createPaypalOrder(orderDetails);
-      console.log("🔍 PayPal Order Response:", data);
-  
+      console.log('🔍 PayPal Order Response:', data);
+
       if (!data.approvalUrl) {
-        setErrorMessage("No approval URL returned. Please try again.");
+        setErrorMessage('No approval URL returned. Please try again.');
         return;
       }
-  
-      console.log("✅ Redirecting to PayPal:", data.approvalUrl);
+
+      console.log('✅ Redirecting to PayPal:', data.approvalUrl);
       window.location.href = data.approvalUrl;
     } catch (error) {
-      console.error("❌ PayPal Payment Error:", error);
-      setErrorMessage("There was an error initiating PayPal payment. Please try again.");
+      console.error('❌ PayPal Payment Error:', error);
+      setErrorMessage(
+        'There was an error initiating PayPal payment. Please try again.'
+      );
     }
   }, [cartItems, address, paymentMethod, grandTotal, userDetails]);
-  
+
   return (
     <div className="text-center">
       {errorMessage && <p className="text-red-600">{errorMessage}</p>}
@@ -106,8 +113,8 @@ export default function PayPalButton({ grandTotal, paymentMethod,couponData,disc
         onClick={handlePaypalPayment}
         className={`${
           sdkLoaded
-            ? "flex items-center justify-center bg-yellow-400 px-3 py-2 hover:bg-yellow-500 text-white font-semibold rounded transition-colors"
-            : "bg-gray-400 text-gray-700 flex items-center cursor-not-allowed font-semibold py-2 px-6 rounded shadow-md transition-colors"
+            ? 'flex items-center justify-center bg-yellow-400 px-3 py-2 hover:bg-yellow-500 text-white font-semibold rounded transition-colors'
+            : 'bg-gray-400 text-gray-700 flex items-center cursor-not-allowed font-semibold py-2 px-6 rounded shadow-md transition-colors'
         }`}
         disabled={!sdkLoaded}
       >

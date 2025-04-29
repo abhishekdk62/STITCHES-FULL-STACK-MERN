@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import CategorySlideShimmer from "./CategorySlideShimmer";
-import { useNavigate } from "react-router-dom";
-import { fetchWomenProducts } from "../../../services/productService";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+import CategorySlideShimmer from './CategorySlideShimmer';
+import { useNavigate } from 'react-router-dom';
+import { fetchWomenProducts } from '../../../services/productService';
 
 const CategoryWomen = () => {
   const [women, setWomen] = useState([]);
@@ -13,7 +13,7 @@ const CategoryWomen = () => {
   const navigate = useNavigate();
 
   const handleProductView = (product) => {
-    localStorage.setItem("productInfo", JSON.stringify(product));
+    localStorage.setItem('productInfo', JSON.stringify(product));
     navigate(`/product/${product._id}`);
   };
 
@@ -24,7 +24,7 @@ const CategoryWomen = () => {
         const womenData = await fetchWomenProducts();
         setWomen(womenData);
       } catch (error) {
-        console.error("Error fetching Women products:", error);
+        console.error('Error fetching Women products:', error);
       } finally {
         setLoading(false);
       }
@@ -33,15 +33,14 @@ const CategoryWomen = () => {
     fetchWomen();
   }, []);
 
-
   const sliderSettings = {
     dots: true,
     infinite: true,
     speed: 500,
     slidesToShow: 5, // Same as NewArrivals
     slidesToScroll: 1,
-    draggable: true,      // Enables mouse/touch dragging
-    swipeToSlide: true,   // Allows swiping directly to a slide
+    draggable: true, // Enables mouse/touch dragging
+    swipeToSlide: true, // Allows swiping directly to a slide
     responsive: [
       {
         breakpoint: 1024,
@@ -88,8 +87,6 @@ const CategoryWomen = () => {
       {loading ? (
         <CategorySlideShimmer />
       ) : (
-
-        
         <Slider {...sliderSettings}>
           {women.map((product) => (
             <div

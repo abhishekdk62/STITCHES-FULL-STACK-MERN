@@ -1,8 +1,8 @@
-import apiClient from "./apiClient";
+import apiClient from './apiClient';
 
 export const addCoupon = async (couponData) => {
   try {
-    const response = await apiClient.post("/admin/addcoupon", couponData);
+    const response = await apiClient.post('/admin/addcoupon', couponData);
     return response.data;
   } catch (error) {
     throw error;
@@ -44,7 +44,7 @@ export const editCoupon = async (couponId, updateData) => {
   }
 };
 
-export const fetchDeletedCoupons = async (searchQuery = "", page = 1) => {
+export const fetchDeletedCoupons = async (searchQuery = '', page = 1) => {
   try {
     const limit = 10;
     const response = await apiClient.get(
@@ -69,16 +69,19 @@ export const restoreCoupon = async (id) => {
 
 export const getCoupons = async () => {
   try {
-    const response = await apiClient.get("/user/coupons");
+    const response = await apiClient.get('/user/coupons');
     return response.data;
   } catch (error) {
     throw error;
   }
 };
 
-export const appllyCouponApi = async (couponCode,finalTotal) => {
+export const appllyCouponApi = async (couponCode, finalTotal) => {
   try {
-    const response = await apiClient.post("/user/coupon", { couponCode,finalTotal });
+    const response = await apiClient.post('/user/coupon', {
+      couponCode,
+      finalTotal,
+    });
 
     return response.data;
   } catch (error) {

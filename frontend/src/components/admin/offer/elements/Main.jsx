@@ -1,17 +1,22 @@
-import React, { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { BadgeDollarSign, ChartBarStacked, Package, CircleArrowLeft } from "lucide-react";
-import { toast } from "react-hot-toast";
-import { applyCatOffer } from "../../../../services/offerServices"
-import { fetchCategoriesAdmin } from "../../../../services/categoryService";
+import React, { useEffect, useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import {
+  BadgeDollarSign,
+  ChartBarStacked,
+  Package,
+  CircleArrowLeft,
+} from 'lucide-react';
+import { toast } from 'react-hot-toast';
+import { applyCatOffer } from '../../../../services/offerServices';
+import { fetchCategoriesAdmin } from '../../../../services/categoryService';
 
 const Main = ({ setTab, setSelectedCatId }) => {
   const [categories, setCategories] = useState([]);
   const [catId, setCatId] = useState();
   const [listOpen, setListOpen] = useState(false);
   const [modal, setModal] = useState(false);
-  const [offer, setOffer] = useState("");
-  const [err, setErr] = useState("");
+  const [offer, setOffer] = useState('');
+  const [err, setErr] = useState('');
 
   const getCategories = async () => {
     try {
@@ -28,18 +33,18 @@ const Main = ({ setTab, setSelectedCatId }) => {
 
   const applyOffers = async () => {
     if (offer <= 0 || offer >= 100) {
-      setErr("Please enter a valid offer value");
+      setErr('Please enter a valid offer value');
       return;
     }
     try {
       await applyCatOffer(catId, offer);
-      toast.success("Offer applied successfully!");
-      setErr("");
-      setOffer("");
+      toast.success('Offer applied successfully!');
+      setErr('');
+      setOffer('');
       getCategories();
     } catch (error) {
       console.log(error);
-      toast.error(error.response?.data || "Failed to apply offer");
+      toast.error(error.response?.data || 'Failed to apply offer');
     }
     setModal(false);
   };
@@ -52,7 +57,7 @@ const Main = ({ setTab, setSelectedCatId }) => {
             initial={{ opacity: 0, y: -50 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -50 }}
-            transition={{ type: "spring", stiffness: 300, damping: 30 }}
+            transition={{ type: 'spring', stiffness: 300, damping: 30 }}
             className="fixed inset-0 z-50 flex items-center justify-center bg-black/10 bg-opacity-50"
           >
             <div className="bg-white text-black w-72 sm:w-80 rounded-lg p-4 sm:p-6 shadow-lg border border-gray-700">
@@ -66,11 +71,15 @@ const Main = ({ setTab, setSelectedCatId }) => {
                 onChange={(e) => setOffer(e.target.value)}
                 className="w-full px-2 sm:px-3 py-1 sm:py-2 border rounded-md text-sm sm:text-base font-semibold focus:outline-none focus:ring-2 focus:ring-gray-300"
               />
-              {err && <p className="text-red-500 text-xs sm:text-sm text-center">{err}</p>}
+              {err && (
+                <p className="text-red-500 text-xs sm:text-sm text-center">
+                  {err}
+                </p>
+              )}
               <div className="mt-4 sm:mt-6 flex justify-end gap-2 sm:gap-3">
                 <button
                   onClick={() => {
-                    setErr("");
+                    setErr('');
                     setModal(false);
                   }}
                   className="px-3 sm:px-4 py-1 sm:py-2 rounded-md bg-white text-black font-semibold hover:bg-gray-200 transition text-xs sm:text-sm"
@@ -95,10 +104,16 @@ const Main = ({ setTab, setSelectedCatId }) => {
             <div className="bg-black text-white p-2 sm:p-3 rounded-full mr-3 sm:mr-4">
               <Package size={20} sm:size={24} />
             </div>
-            <h1 className="text-lg sm:text-2xl font-bold">Products Management</h1>
+            <h1 className="text-lg sm:text-2xl font-bold">
+              Products Management
+            </h1>
           </div>
-          <button onClick={() => setTab("main")}>
-            <CircleArrowLeft size={28} sm:size={32} className="cursor-pointer" />
+          <button onClick={() => setTab('main')}>
+            <CircleArrowLeft
+              size={28}
+              sm:size={32}
+              className="cursor-pointer"
+            />
           </button>
         </div>
 
@@ -119,8 +134,12 @@ const Main = ({ setTab, setSelectedCatId }) => {
                       <ChartBarStacked size={16} />
                     </div>
                     <div>
-                      <h3 className="font-medium text-gray-900">{category.name}</h3>
-                      <p className="text-sm text-gray-500">ID: {category._id}</p>
+                      <h3 className="font-medium text-gray-900">
+                        {category.name}
+                      </h3>
+                      <p className="text-sm text-gray-500">
+                        ID: {category._id}
+                      </p>
                       <p className="text-xs text-gray-500">
                         Discount Percentage: {category.discount}
                       </p>
@@ -130,7 +149,7 @@ const Main = ({ setTab, setSelectedCatId }) => {
                     <button
                       onClick={() => {
                         setSelectedCatId(category._id);
-                        setTab("prods");
+                        setTab('prods');
                       }}
                       className="text-xs bg-yellow-400 text-white p-2 rounded-md hover:bg-yellow-500 transition-colors"
                     >

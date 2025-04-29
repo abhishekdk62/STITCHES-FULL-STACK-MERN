@@ -1,9 +1,10 @@
-import { useState } from "react";
-import { X } from "lucide-react";
+import { useState } from 'react';
+import { X } from 'lucide-react';
+import React from 'react'
 
 export default function AlertDialog({
-  title = "Notification",
-  message = "Your action has been processed successfully. The changes have been saved.",
+  title = 'Notification',
+  message = 'Your action has been processed successfully. The changes have been saved.',
   onClose,
 }) {
   const [isOpen, setIsOpen] = useState(true);
@@ -35,7 +36,9 @@ export default function AlertDialog({
           </h2>
         </div>
         <div className="px-8 flex flex-col  justify-center py-6">
-          <p className="text-gray-600 font-light text-center leading-relaxed">{message}</p>
+          <p className="text-gray-600 font-light text-center leading-relaxed">
+            {message}
+          </p>
         </div>
       </div>
     </div>

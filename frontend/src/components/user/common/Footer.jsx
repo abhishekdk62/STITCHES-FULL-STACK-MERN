@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from "react";
-import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin } from "react-icons/fa";
+import React, { useState, useEffect } from 'react';
+import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin } from 'react-icons/fa';
 import {
   FaCreditCard,
   FaPaypal,
   FaApplePay,
   FaGooglePay,
-} from "react-icons/fa";
-import { SiVisa, SiMastercard } from "react-icons/si";
-import { FaChevronDown, FaChevronUp } from "react-icons/fa";
+} from 'react-icons/fa';
+import { SiVisa, SiMastercard } from 'react-icons/si';
+import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
 
 const Footer = () => {
   const [openSection, setOpenSection] = useState(null);
@@ -18,15 +18,15 @@ const Footer = () => {
     const checkScreenSize = () => {
       setIsMobile(window.innerWidth < 768); // md breakpoint is typically 768px
     };
-    
+
     // Initial check
     checkScreenSize();
-    
+
     // Add event listener
-    window.addEventListener("resize", checkScreenSize);
-    
+    window.addEventListener('resize', checkScreenSize);
+
     // Cleanup
-    return () => window.removeEventListener("resize", checkScreenSize);
+    return () => window.removeEventListener('resize', checkScreenSize);
   }, []);
 
   const toggleSection = (section) => {
@@ -65,9 +65,9 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
           {/* Company Section */}
           <div>
-            {renderSectionHeader("company", "Company")}
+            {renderSectionHeader('company', 'Company')}
             {renderSectionContent(
-              "company",
+              'company',
               <ul className="space-y-2">
                 <li>
                   <a
@@ -115,9 +115,9 @@ const Footer = () => {
 
           {/* Support Section */}
           <div>
-            {renderSectionHeader("support", "Support")}
+            {renderSectionHeader('support', 'Support')}
             {renderSectionContent(
-              "support",
+              'support',
               <ul className="space-y-2">
                 <li>
                   <a
@@ -165,9 +165,9 @@ const Footer = () => {
 
           {/* More From COSTUMES Section */}
           <div>
-            {renderSectionHeader("more", "More From COSTUMES")}
+            {renderSectionHeader('more', 'More From COSTUMES')}
             {renderSectionContent(
-              "more",
+              'more',
               <ul className="space-y-2">
                 <li>
                   <a
@@ -233,9 +233,9 @@ const Footer = () => {
 
           {/* Customer Care Section */}
           <div>
-            {renderSectionHeader("customerCare", "Customer Care")}
+            {renderSectionHeader('customerCare', 'Customer Care')}
             {renderSectionContent(
-              "customerCare",
+              'customerCare',
               <ul className="space-y-2">
                 <li>
                   <a

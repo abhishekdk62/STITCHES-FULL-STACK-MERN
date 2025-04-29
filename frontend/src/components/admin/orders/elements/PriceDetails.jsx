@@ -1,7 +1,13 @@
-import React from "react";
-import { CreditCard } from "lucide-react";
+import React from 'react';
+import { CreditCard } from 'lucide-react';
 
-const PriceDetails = ({ basePrice, discountPrice, quantity, shippingPrice, grandTotal }) => {
+const PriceDetails = ({
+  basePrice,
+  discountPrice,
+  quantity,
+  shippingPrice,
+  grandTotal,
+}) => {
   const itemSubtotal = (discountPrice || 0) * (quantity || 0);
   const tax = quantity * discountPrice * 0.12;
 
@@ -14,11 +20,15 @@ const PriceDetails = ({ basePrice, discountPrice, quantity, shippingPrice, grand
       <div className="space-y-3">
         <div className="flex justify-between pb-2">
           <span className="text-gray-600">Base Price</span>
-          <span className="font-medium">₹{basePrice?.toFixed(2) || "0.00"}</span>
+          <span className="font-medium">
+            ₹{basePrice?.toFixed(2) || '0.00'}
+          </span>
         </div>
         <div className="flex justify-between pb-2">
           <span className="text-gray-600">Discount Price</span>
-          <span className="font-medium">₹{discountPrice?.toFixed(2) || "0.00"}</span>
+          <span className="font-medium">
+            ₹{discountPrice?.toFixed(2) || '0.00'}
+          </span>
         </div>
         <div className="flex justify-between pb-2">
           <span className="text-gray-600">Quantity</span>
@@ -34,7 +44,9 @@ const PriceDetails = ({ basePrice, discountPrice, quantity, shippingPrice, grand
         </div>
         <div className="flex justify-between pb-2">
           <span className="text-gray-600">Shipping</span>
-          <span className="font-medium">₹{shippingPrice?.toFixed(2) || "0.00"}</span>
+          <span className="font-medium">
+            ₹{shippingPrice?.toFixed(2) || '0.00'}
+          </span>
         </div>
         <div className="border-t pt-3 mt-2 flex justify-between">
           <span className="font-semibold text-black">Grand Total</span>

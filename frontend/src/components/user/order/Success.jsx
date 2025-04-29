@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { motion } from "framer-motion";
-import { Check } from "lucide-react";
-import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { setSelectedTab } from "../../../../slices/selectedTabSlice";
+import React, { useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
+import { Check } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { setSelectedTab } from '../../../../slices/selectedTabSlice';
 
-const Particle = ({ index, color = "black" }) => {
+const Particle = ({ index, color = 'black' }) => {
   const angle = Math.random() * Math.PI * 2;
   const radius = 40 + Math.random() * 60;
   const size = 6 + Math.random() * 6;
@@ -37,7 +37,7 @@ const Particle = ({ index, color = "black" }) => {
       transition={{
         duration: duration,
         delay: delay,
-        ease: "easeOut",
+        ease: 'easeOut',
       }}
     />
   );
@@ -62,11 +62,11 @@ export default function Success() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const continueShoping = () => {
-    navigate("/user/home");
+    navigate('/user/home');
   };
   const viewOrder = () => {
-    dispatch(setSelectedTab("orders"));
-    navigate("/user/account");
+    dispatch(setSelectedTab('orders'));
+    navigate('/user/account');
   };
 
   return (
@@ -80,17 +80,17 @@ export default function Success() {
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
                 transition={{
-                  type: "spring",
+                  type: 'spring',
                   stiffness: 260,
                   damping: 20,
                   delay: 0.1,
                 }}
               >
-                 <img
-                className="h-17 w-17"
-                src="https://static.thenounproject.com/png/626032-200.png"
-                alt=""
-              />
+                <img
+                  className="h-17 w-17"
+                  src="https://static.thenounproject.com/png/626032-200.png"
+                  alt=""
+                />
                 {/* <Check className="w-8 h-8 text-white" /> */}
               </motion.div>
             </div>

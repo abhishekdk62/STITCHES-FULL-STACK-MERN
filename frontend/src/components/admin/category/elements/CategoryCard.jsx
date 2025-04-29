@@ -1,14 +1,12 @@
-import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { toast } from 'react-hot-toast';
 
+import { TagIcon, Edit, Trash2, CheckCircle } from 'lucide-react';
 import {
-  TagIcon,
-  Edit,
-  Trash2,
-  CheckCircle,
-} from "lucide-react";
-import { deleteCategory, restoreCategory } from "../../../../services/categoryService";
+  deleteCategory,
+  restoreCategory,
+} from '../../../../services/categoryService';
 
 const CategoryCard = ({
   id,
@@ -24,20 +22,22 @@ const CategoryCard = ({
     try {
       const data = await deleteCategory(id);
       toast.success(data.message);
-      fetchCategories("");
+      fetchCategories('');
     } catch (error) {
-      toast.error(error?.response?.data?.message || "Failed to delete category");
+      toast.error(
+        error?.response?.data?.message || 'Failed to delete category'
+      );
     }
     setIsOpen(false);
   };
 
   const handleEdit = () => {
-    localStorage.setItem("categoryId", id);
+    localStorage.setItem('categoryId', id);
     setEditCategory(true);
   };
 
   const getCategoryColor = () => {
-    const colors = ["bg-black"];
+    const colors = ['bg-black'];
     const index = name.charCodeAt(0) % colors.length;
     return colors[index];
   };
@@ -46,11 +46,11 @@ const CategoryCard = ({
     try {
       const response = await restoreCategory(id);
       if (response.status === 200) {
-        toast.success("Category restored!");
+        toast.success('Category restored!');
       }
       fetchCategoriesHandler();
     } catch (error) {
-      console.error("Failed to restore category:", error);
+      console.error('Failed to restore category:', error);
     }
   };
 
@@ -63,7 +63,9 @@ const CategoryCard = ({
           >
             <TagIcon size={16} sm:size={18} className="text-white" />
           </div>
-          <span className="font-medium text-sm sm:text-base text-gray-800">{name}</span>
+          <span className="font-medium text-sm sm:text-base text-gray-800">
+            {name}
+          </span>
         </div>
       </td>
       <td className="py-3 sm:py-4 px-4 sm:px-6">
@@ -101,7 +103,7 @@ const CategoryCard = ({
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -50 }}
             transition={{
-              type: "spring",
+              type: 'spring',
               stiffness: 300,
               damping: 30,
             }}
@@ -113,7 +115,7 @@ const CategoryCard = ({
                   className="h-6 sm:h-8 w-6 sm:w-8 animate-bounce"
                   src="https://static.thenounproject.com/png/16960-200.png"
                   alt=""
-                  style={{ filter: "invert(1)" }}
+                  style={{ filter: 'invert(1)' }}
                 />
                 <p className="text-white font-bold text-xs sm:text-sm">
                   Do you want to delete this category?

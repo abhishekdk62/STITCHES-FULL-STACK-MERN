@@ -1,20 +1,27 @@
-import React, { useState, useEffect } from "react";
-import { Save, Plus, X } from "lucide-react";
-import { editCategories, getCategoryService } from "../../../../services/categoryService";
+import React, { useState, useEffect } from 'react';
+import { Save, Plus, X } from 'lucide-react';
+import {
+  editCategories,
+  getCategoryService,
+} from '../../../../services/categoryService';
 
 const EditCategory = ({ setEditCategory }) => {
-  const [categoryId, setCategoryId] = useState("");
-  const [categoryName, setCategoryName] = useState("");
-  const [description, setDescription] = useState("");
-  const [visibilityStatus, setVisibilityStatus] = useState("Active");
-  const [discount, setDiscount] = useState("");
+  const [categoryId, setCategoryId] = useState('');
+  const [categoryName, setCategoryName] = useState('');
+  const [description, setDescription] = useState('');
+  const [visibilityStatus, setVisibilityStatus] = useState('Active');
+  const [discount, setDiscount] = useState('');
   const [subCategories, setSubCategories] = useState([]);
-  const [newSubCategory, setNewSubCategory] = useState("");
-  const [notification, setNotification] = useState({ show: false, message: "", type: "" });
+  const [newSubCategory, setNewSubCategory] = useState('');
+  const [notification, setNotification] = useState({
+    show: false,
+    message: '',
+    type: '',
+  });
 
   useEffect(() => {
     const fetchCategory = async () => {
-      const id = localStorage.getItem("categoryId");
+      const id = localStorage.getItem('categoryId');
       setCategoryId(id);
       if (!id) return;
 
@@ -25,7 +32,7 @@ const EditCategory = ({ setEditCategory }) => {
         setSubCategories(category?.subCategories || []);
         setDiscount(category.discount);
       } catch (error) {
-        showNotification("Error fetching category: " + error.message, "error");
+        showNotification('Error fetching category: ' + error.message, 'error');
       }
     };
 
@@ -34,13 +41,23 @@ const EditCategory = ({ setEditCategory }) => {
 
   const showNotification = (message, type) => {
     setNotification({ show: true, message, type });
-    setTimeout(() => setNotification({ show: false, message: "", type: "" }), 3000);
+    setTimeout(
+      () => setNotification({ show: false, message: '', type: '' }),
+      3000
+    );
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!categoryId || !categoryName || !description || !subCategories || !discount || !visibilityStatus) {
-      showNotification("All fields are required!", "error");
+    if (
+      !categoryId ||
+      !categoryName ||
+      !description ||
+      !subCategories ||
+      !discount ||
+      !visibilityStatus
+    ) {
+      showNotification('All fields are required!', 'error');
       return;
     }
     try {
@@ -52,9 +69,15 @@ const EditCategory = ({ setEditCategory }) => {
         discount,
         visibilityStatus,
       });
-      showNotification(data.message || "Category updated successfully", "success");
+      showNotification(
+        data.message || 'Category updated successfully',
+        'success'
+      );
     } catch (error) {
-      showNotification(error.response?.data?.message || "Update failed", "error");
+      showNotification(
+        error.response?.data?.message || 'Update failed',
+        'error'
+      );
     }
   };
 
@@ -103,7 +126,7 @@ const EditCategory = ({ setEditCategory }) => {
         </div>
         <button
           onClick={() => {
-            localStorage.removeItem("categoryId");
+            localStorage.removeItem('categoryId');
             setEditCategory(false);
           }}
           className="text-gray-400 hover:text-gray-700 transition-colors"
@@ -116,13 +139,17 @@ const EditCategory = ({ setEditCategory }) => {
       {notification.show && (
         <div
           className={`mb-4 p-3 sm:p-4 rounded-md flex items-center ${
-            notification.type === "error"
-              ? "bg-red-50 text-red-700"
-              : "bg-green-50 text-green-700"
+            notification.type === 'error'
+              ? 'bg-red-50 text-red-700'
+              : 'bg-green-50 text-green-700'
           }`}
         >
-          {notification.type === "error" ? (
-            <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+          {notification.type === 'error' ? (
+            <svg
+              className="w-5 h-5 mr-2"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+            >
               <path
                 fillRule="evenodd"
                 d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
@@ -130,7 +157,11 @@ const EditCategory = ({ setEditCategory }) => {
               />
             </svg>
           ) : (
-            <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+            <svg
+              className="w-5 h-5 mr-2"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+            >
               <path
                 fillRule="evenodd"
                 d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
@@ -176,12 +207,12 @@ const EditCategory = ({ setEditCategory }) => {
               onChange={(e) => setNewSubCategory(e.target.value)}
               className="flex-grow px-3 sm:px-4 py-2 sm:py-3 border border-gray-300 rounded-l-lg text-sm sm:text-base"
               onKeyPress={(e) => {
-                if (e.key === "Enter") {
+                if (e.key === 'Enter') {
                   e.preventDefault();
                   const trimmed = newSubCategory.trim();
                   if (trimmed && !subCategories.includes(trimmed)) {
                     setSubCategories([...subCategories, trimmed]);
-                    setNewSubCategory("");
+                    setNewSubCategory('');
                   }
                 }
               }}
@@ -192,7 +223,7 @@ const EditCategory = ({ setEditCategory }) => {
                 const trimmed = newSubCategory.trim();
                 if (trimmed && !subCategories.includes(trimmed)) {
                   setSubCategories([...subCategories, trimmed]);
-                  setNewSubCategory("");
+                  setNewSubCategory('');
                 }
               }}
               className="bg-black text-white px-4 sm:px-6 py-2 sm:py-3 rounded-r-lg text-sm sm:text-base"
@@ -233,7 +264,7 @@ const EditCategory = ({ setEditCategory }) => {
           <button
             type="button"
             onClick={() => {
-              localStorage.removeItem("categoryId");
+              localStorage.removeItem('categoryId');
               setEditCategory(false);
             }}
             className="px-3 sm:px-4 py-2 sm:py-3 border border-gray-300 rounded-lg text-sm sm:text-base"

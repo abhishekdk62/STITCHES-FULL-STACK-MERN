@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   LineChart,
   Line,
@@ -8,7 +8,7 @@ import {
   Tooltip,
   Legend,
   ResponsiveContainer,
-} from "recharts";
+} from 'recharts';
 
 const SalesTrendChart = ({ salesData, showDiscount }) => {
   // Prepare data for the chart
@@ -16,15 +16,13 @@ const SalesTrendChart = ({ salesData, showDiscount }) => {
     const hasCoupon = item.coupon && item.coupon.value > 0;
     const itemPriceWithTax =
       item.quantity * item.price + item.quantity * item.price * 0.12;
-    const sales =
-      hasCoupon
-        ? itemPriceWithTax - (item.coupon.value * itemPriceWithTax) / 100
-        : itemPriceWithTax;
-    const discount =
-      (itemPriceWithTax * (item.coupon?.value || 0)) / 100;
+    const sales = hasCoupon
+      ? itemPriceWithTax - (item.coupon.value * itemPriceWithTax) / 100
+      : itemPriceWithTax;
+    const discount = (itemPriceWithTax * (item.coupon?.value || 0)) / 100;
 
     return {
-      date: item.createdAt.split("T")[0], // Format the date as YYYY-MM-DD
+      date: item.createdAt.split('T')[0], // Format the date as YYYY-MM-DD
       sales: sales.toFixed(2),
       discount: discount.toFixed(2),
     };
@@ -32,7 +30,10 @@ const SalesTrendChart = ({ salesData, showDiscount }) => {
 
   return (
     <ResponsiveContainer width="100%" height="100%">
-      <LineChart data={chartData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+      <LineChart
+        data={chartData}
+        margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+      >
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="date" />
         <YAxis />

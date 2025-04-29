@@ -1,24 +1,24 @@
-import React, { useState, useEffect } from "react";
-import CategoryList from "./elements/CategoryList";
-import AddCategory from "./elements/AddCategory";
-import EditCategory from "./elements/EditCategory";
-import RemovedCategory from "./elements/RemovedCategory";
+import React, { useState, useEffect } from 'react';
+import CategoryList from './elements/CategoryList';
+import AddCategory from './elements/AddCategory';
+import EditCategory from './elements/EditCategory';
+import RemovedCategory from './elements/RemovedCategory';
 
 const Category = () => {
   const [showAddCategory, setShowAddCategory] = useState(
-    localStorage.getItem("showAddCategory") === "true"
+    localStorage.getItem('showAddCategory') === 'true'
   );
   const [editCategory, setEditCategory] = useState(
-    localStorage.getItem("editCategory") === "true"
+    localStorage.getItem('editCategory') === 'true'
   );
   const [showRemovedCategory, setShowRemovedCategory] = useState(
-    localStorage.getItem("showRemovedCategory") === "true"
+    localStorage.getItem('showRemovedCategory') === 'true'
   );
 
   useEffect(() => {
-    localStorage.setItem("showAddCategory", showAddCategory);
-    localStorage.setItem("editCategory", editCategory);
-    localStorage.setItem("showRemovedCategory", showRemovedCategory);
+    localStorage.setItem('showAddCategory', showAddCategory);
+    localStorage.setItem('editCategory', editCategory);
+    localStorage.setItem('showRemovedCategory', showRemovedCategory);
   }, [showAddCategory, editCategory, showRemovedCategory]);
 
   return editCategory ? (

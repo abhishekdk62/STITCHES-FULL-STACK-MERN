@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useDebugValue } from "react";
+import React, { useState, useEffect, useDebugValue } from 'react';
 import {
   Trash2,
   Eye,
@@ -9,32 +9,32 @@ import {
   Lightbulb,
   ArrowLeft,
   ArrowRight,
-} from "lucide-react";
-import toast from "react-hot-toast";
+} from 'lucide-react';
+import toast from 'react-hot-toast';
 import {
   fetchDeletedCoupons,
   restoreCoupon,
-} from "../../../../services/couponService";
-import { useDebounce } from "../../../../../utils/useDebounce";
+} from '../../../../services/couponService';
+import { useDebounce } from '../../../../../utils/useDebounce';
 
 const RemovedCoupons = ({ setSelectedTab }) => {
   const [coupons, setCoupons] = useState([]);
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
   const debouncedValue = useDebounce(search, 500);
 
-  const fetchCoupon = async (searchQuery = "", page = 1) => {
+  const fetchCoupon = async (searchQuery = '', page = 1) => {
     try {
       setLoading(true);
       const data = await fetchDeletedCoupons(searchQuery, page);
       setCoupons(data);
       setTotalPages(data.totalPages);
-      setError("");
+      setError('');
     } catch (error) {
-      setError("Failed to load removed coupons");
+      setError('Failed to load removed coupons');
       console.log(error);
     } finally {
       setLoading(false);
@@ -42,7 +42,7 @@ const RemovedCoupons = ({ setSelectedTab }) => {
   };
 
   useEffect(() => {
-    fetchCoupon("");
+    fetchCoupon('');
   }, []);
 
   useEffect(() => {
@@ -52,31 +52,31 @@ const RemovedCoupons = ({ setSelectedTab }) => {
   const handleRestore = async (id) => {
     try {
       const data = await restoreCoupon(id);
-      toast.success("Coupon restored!", {
+      toast.success('Coupon restored!', {
         icon: (
           <img
             src="https://static.thenounproject.com/png/412945-200.png"
             className="animate-bounce"
-            style={{ filter: "invert(1)" }}
+            style={{ filter: 'invert(1)' }}
             alt="Success Icon"
             width="30"
             height="30"
           />
         ),
         style: {
-          border: "1px solid #0f5132",
-          padding: "16px",
-          color: "white",
-          background: "black",
-          fontSize: "14px",
-          fontWeight: "bold",
+          border: '1px solid #0f5132',
+          padding: '16px',
+          color: 'white',
+          background: 'black',
+          fontSize: '14px',
+          fontWeight: 'bold',
         },
       });
 
-      fetchCoupon("");
+      fetchCoupon('');
     } catch (error) {
       console.log(
-        error.response?.data || "An error occurred during restoration"
+        error.response?.data || 'An error occurred during restoration'
       );
     }
   };
@@ -110,8 +110,8 @@ const RemovedCoupons = ({ setSelectedTab }) => {
                 {search && (
                   <button
                     onClick={() => {
-                      setSearch("");
-                      fetchCoupon("", 1);
+                      setSearch('');
+                      fetchCoupon('', 1);
                     }}
                     className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
                   >
@@ -122,14 +122,14 @@ const RemovedCoupons = ({ setSelectedTab }) => {
             </div>
             <div className="flex gap-4">
               <button
-                onClick={() => setSelectedTab("add")}
+                onClick={() => setSelectedTab('add')}
                 className="bg-black text-white px-4 py-2 rounded-md flex items-center transition-all hover:bg-gray-800"
               >
                 <Plus size={18} className="mr-2" />
                 <span>New Coupon</span>
               </button>
               <button
-                onClick={() => setSelectedTab("view")}
+                onClick={() => setSelectedTab('view')}
                 className="bg-green-500 text-white px-4 py-2 rounded-md flex items-center transition-all hover:bg-green-600"
               >
                 <Eye size={18} className="mr-2" />

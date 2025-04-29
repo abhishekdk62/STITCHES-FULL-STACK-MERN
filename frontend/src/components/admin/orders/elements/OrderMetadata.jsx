@@ -1,5 +1,5 @@
-import React from "react";
-import { Calendar, CreditCard } from "lucide-react";
+import React from 'react';
+import { Calendar, CreditCard } from 'lucide-react';
 
 const OrderMetadata = ({ createdAt, paymentMethod }) => {
   return (
@@ -10,9 +10,7 @@ const OrderMetadata = ({ createdAt, paymentMethod }) => {
             Order Date:
           </span>
           <span className="ml-2 font-medium text-xs sm:text-sm md:text-[0.7rem]">
-            {createdAt
-              ? new Date(createdAt).toLocaleDateString()
-              : "N/A"}
+            {createdAt ? new Date(createdAt).toLocaleDateString() : 'N/A'}
           </span>
         </div>
         <div>
@@ -20,13 +18,12 @@ const OrderMetadata = ({ createdAt, paymentMethod }) => {
             Payment Method:
           </span>
           <span className="ml-2 font-medium text-xs sm:text-sm md:text-[0.7rem]">
-            {paymentMethod || "N/A"}
+            {paymentMethod || 'N/A'}
           </span>
         </div>
       </div>
     </div>
   );
-  
 };
 
 export default OrderMetadata;

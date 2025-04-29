@@ -1,21 +1,21 @@
-import React from "react";
+import React from 'react';
 
 const CustomerList = ({ userList, handleUpdateStatus }) => {
   const getStatusColor = (status) => {
     switch (status) {
-      case "Active":
-        return "bg-green-100 text-green-800 border-green-200";
-      case "Blocked":
-        return "bg-red-100 text-red-800 border-red-200";
-      case "Inactive":
-        return "bg-yellow-100 text-yellow-800 border-yellow-200";
+      case 'Active':
+        return 'bg-green-100 text-green-800 border-green-200';
+      case 'Blocked':
+        return 'bg-red-100 text-red-800 border-red-200';
+      case 'Inactive':
+        return 'bg-yellow-100 text-yellow-800 border-yellow-200';
       default:
-        return "bg-gray-100 text-gray-800 border-gray-200";
+        return 'bg-gray-100 text-gray-800 border-gray-200';
     }
   };
 
   const getInitials = (name) => {
-    return name ? name.charAt(0).toUpperCase() : "U";
+    return name ? name.charAt(0).toUpperCase() : 'U';
   };
 
   return (
@@ -29,7 +29,7 @@ const CustomerList = ({ userList, handleUpdateStatus }) => {
               </div>
               <div>
                 <h3 className="font-medium text-gray-900">
-                  {customer.firstname} {customer.lastname || ""}
+                  {customer.firstname} {customer.lastname || ''}
                 </h3>
                 <p className="text-sm text-gray-500">{customer.email}</p>
               </div>
@@ -47,23 +47,23 @@ const CustomerList = ({ userList, handleUpdateStatus }) => {
                 onClick={() => {
                   const confirmChange = window.confirm(
                     `Are you sure you want to ${
-                      customer.status === "Active" ? "Block" : "Unblock"
+                      customer.status === 'Active' ? 'Block' : 'Unblock'
                     } ${customer.firstname}?`
                   );
                   if (confirmChange) {
                     handleUpdateStatus(
                       customer._id,
-                      customer.status === "Active" ? "Blocked" : "Active"
+                      customer.status === 'Active' ? 'Blocked' : 'Active'
                     );
                   }
                 }}
                 className={`px-3 py-1 rounded-md text-white text-sm font-medium ${
-                  customer.status === "Active"
-                    ? "bg-red-500 hover:bg-red-600"
-                    : "bg-green-500 hover:bg-green-600"
+                  customer.status === 'Active'
+                    ? 'bg-red-500 hover:bg-red-600'
+                    : 'bg-green-500 hover:bg-green-600'
                 }`}
               >
-                {customer.status === "Active" ? "Block" : "Unblock"}
+                {customer.status === 'Active' ? 'Block' : 'Unblock'}
               </button>
             </div>
           </div>

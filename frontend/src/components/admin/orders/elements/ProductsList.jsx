@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
   X,
   Search,
@@ -10,27 +10,30 @@ import {
   ArrowLeft,
   ArrowRight,
   Package,
-} from "lucide-react";
+} from 'lucide-react';
 
-import toast from "react-hot-toast";
-import { fetchProductsService, softDeleteProductService } from "../../../../services/productService";
-import Pagination from "../../../common/utils/Pagination";
-import { useDebounce } from "../../../../../utils/useDebounce";
+import toast from 'react-hot-toast';
+import {
+  fetchProductsService,
+  softDeleteProductService,
+} from '../../../../services/productService';
+import Pagination from '../../../common/utils/Pagination';
+import { useDebounce } from '../../../../../utils/useDebounce';
 const ProductsList = ({
   setShowAddProduct,
   setShowEditProduct,
   setShowRemoved,
 }) => {
-  const [searchInput, setSearchInput] = useState("");
+  const [searchInput, setSearchInput] = useState('');
   const [productsList, setProductsList] = useState([]);
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [isOpen, setIsOpen] = useState(false);
-  const debouncedValue=useDebounce(searchInput.trim(),500)
+  const debouncedValue = useDebounce(searchInput.trim(), 500);
 
-  const fetchProducts = async (query = "", page = 1) => {
+  const fetchProducts = async (query = '', page = 1) => {
     try {
       setLoading(true);
       const data = await fetchProductsService(query, page);
@@ -38,100 +41,97 @@ const ProductsList = ({
 
       setCurrentPage(data.page);
       setTotalPages(data.totalPages);
-      setError("");
+      setError('');
     } catch (err) {
-      setError("Failed to fetch products. Please try again.");
-      console.error("Error fetching products:", err);
+      setError('Failed to fetch products. Please try again.');
+      console.error('Error fetching products:', err);
     } finally {
       setLoading(false);
     }
   };
 
-
   const [deleteProdId, setDeleteProdId] = useState();
 
   useEffect(() => {
-    fetchProducts("", 1);
+    fetchProducts('', 1);
   }, []);
 
   useEffect(() => {
     fetchProducts(searchInput.trim(), currentPage);
   }, [currentPage]);
 
-
-
-  useEffect(()=>{
-fetchProducts(debouncedValue)
-  },[debouncedValue])
+  useEffect(() => {
+    fetchProducts(debouncedValue);
+  }, [debouncedValue]);
 
   const softDelete = async () => {
     try {
       const response = await softDeleteProductService(deleteProdId);
       if (response.status === 200) {
-        toast.success("Product deleted!", {
+        toast.success('Product deleted!', {
           icon: (
             <img
               src="https://static.thenounproject.com/png/412945-200.png"
               className="animate-bounce"
-              style={{ filter: "invert(1)" }}
+              style={{ filter: 'invert(1)' }}
               alt="Success Icon"
               width="30"
               height="30"
             />
           ),
           style: {
-            border: "1px solid #0f5132",
-            padding: "16px",
-            color: "white",
-            background: "black",
-            fontSize: "14px",
-            fontWeight: "bold",
+            border: '1px solid #0f5132',
+            padding: '16px',
+            color: 'white',
+            background: 'black',
+            fontSize: '14px',
+            fontWeight: 'bold',
           },
         });
         setIsOpen(false);
 
         await fetchProducts(searchInput.trim(), currentPage);
       } else {
-        toast.error("Failed to delete", {
+        toast.error('Failed to delete', {
           icon: (
             <img
               src="https://static.thenounproject.com/png/3941-200.png"
               className="animate-bounce"
-              style={{ filter: "invert(1)" }}
+              style={{ filter: 'invert(1)' }}
               alt="Success Icon"
               width="30"
               height="30"
             />
           ),
           style: {
-            padding: "16px",
-            color: "white",
-            background: "#ff6666",
-            fontSize: "14px",
-            fontWeight: "bold",
+            padding: '16px',
+            color: 'white',
+            background: '#ff6666',
+            fontSize: '14px',
+            fontWeight: 'bold',
           },
         });
       }
     } catch (err) {
-      console.error("Error deleting product:", err);
+      console.error('Error deleting product:', err);
 
-      toast.error(err?.response?.data?.message || "Something went wrong", {
+      toast.error(err?.response?.data?.message || 'Something went wrong', {
         icon: (
           <img
             src="https://static.thenounproject.com/png/3941-200.png"
             className="animate-bounce"
-            style={{ filter: "invert(1)" }}
+            style={{ filter: 'invert(1)' }}
             alt="Success Icon"
             width="30"
             height="30"
           />
         ),
         style: {
-          padding: "16px",
-          color: "white",
-          background: "#ff6666",
-          fontSize: "14px",
-          fontWeight: "bold",
+          padding: '16px',
+          color: 'white',
+          background: '#ff6666',
+          fontSize: '14px',
+          fontWeight: 'bold',
         },
       });
     }
@@ -146,7 +146,7 @@ fetchProducts(debouncedValue)
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -50 }}
             transition={{
-              type: "spring",
+              type: 'spring',
               stiffness: 300,
               damping: 30,
             }}
@@ -162,7 +162,7 @@ fetchProducts(debouncedValue)
                   className="h-8 w-8 animate-bounce"
                   src="https://static.thenounproject.com/png/16960-200.png"
                   alt=""
-                  style={{ filter: "invert(1)" }}
+                  style={{ filter: 'invert(1)' }}
                 />
                 <p className="text-white font-bold text-sm">
                   Do you want to remove this product?
@@ -215,8 +215,8 @@ fetchProducts(debouncedValue)
                 {searchInput && (
                   <button
                     onClick={() => {
-                      setSearchInput("");
-                      fetchProducts("", 1);
+                      setSearchInput('');
+                      fetchProducts('', 1);
                     }}
                     className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
                   >
@@ -224,9 +224,8 @@ fetchProducts(debouncedValue)
                   </button>
                 )}
               </div>
-         
             </div>
-        <div className="flex lg:flex md:flex-col lg:flex-row gap-4 w-full md:w-auto">
+            <div className="flex lg:flex md:flex-col lg:flex-row gap-4 w-full md:w-auto">
               <button
                 onClick={() => setShowAddProduct(true)}
                 className="bg-black md:text-[0.7rem] sm:text-sm text-white px-2 py-1 sm:py-2 sm:px-3 rounded-md flex items-center transition-all hover:bg-gray-800 w-full md:w-auto justify-center"
@@ -300,20 +299,20 @@ fetchProducts(debouncedValue)
                           {product.name}
                         </h3>
                         <p className="text-sm text-gray-500">
-                          ID:{" "}
-                          {product._id ? product._id.substring(0, 8) : "N/A"}
+                          ID:{' '}
+                          {product._id ? product._id.substring(0, 8) : 'N/A'}
                         </p>
                       </div>
                     </div>
                     <div className="flex items-center gap-3">
                       <div className="text-sm text-gray-600">
-                        Brand: {product.brand || "N/A"}
+                        Brand: {product.brand || 'N/A'}
                       </div>
                       <div className="flex gap-2">
                         <button
                           onClick={() => {
                             setShowEditProduct(true);
-                            localStorage.setItem("productId", product._id);
+                            localStorage.setItem('productId', product._id);
                           }}
                           className="p-2 bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200 transition-colors"
                           title="Edit Product"
@@ -358,13 +357,12 @@ fetchProducts(debouncedValue)
         </div>
 
         <div className="fixed bottom-0 left-0 right-0 p-3 bg-white shadow-lg border-t border-gray-200">
-  <Pagination
-    currentPage={currentPage}
-    totalPages={totalPages}
-    setCurrentPage={setCurrentPage}
-  />
-</div>
-
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            setCurrentPage={setCurrentPage}
+          />
+        </div>
       </div>
     </div>
   );

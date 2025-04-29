@@ -5,34 +5,35 @@ const ProductShimmer = () => {
   // Define the shimmer animation with Framer Motion
   const shimmerVariants = {
     initial: {
-      backgroundPosition: "-200% 0",
+      backgroundPosition: '-200% 0',
     },
     animate: {
-      backgroundPosition: "200% 0",
+      backgroundPosition: '200% 0',
       transition: {
         repeat: Infinity,
-        repeatType: "mirror",
+        repeatType: 'mirror',
         duration: 1.5,
-        ease: "linear",
+        ease: 'linear',
       },
     },
   };
 
   // Common shimmer styles
-  const shimmerClass = "bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 bg-[length:200%_100%] animate-pulse";
+  const shimmerClass =
+    'bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 bg-[length:200%_100%] animate-pulse';
 
   return (
     <div className="flex flex-col lg:flex-row bg-white rounded-lg shadow-sm overflow-hidden border border-gray-100">
       {/* Product Image Gallery Shimmer */}
       <div className="flex flex-col gap-4 items-center lg:w-1/2 p-6 bg-gray-50">
-        <motion.div 
+        <motion.div
           className={`relative ${shimmerClass} rounded-md`}
           style={{ height: '400px', width: '309px' }}
           variants={shimmerVariants}
           initial="initial"
           animate="animate"
         />
-        
+
         {/* Thumbnails Shimmer */}
         <div className="flex gap-3">
           {[1, 2, 3, 4].map((item) => (

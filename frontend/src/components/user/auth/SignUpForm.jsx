@@ -1,18 +1,18 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { motion } from "framer-motion";
-import { FaGoogle, FaEye, FaEyeSlash } from "react-icons/fa";
-import PhoneInput from "react-phone-input-2";
-import "react-phone-input-2/lib/style.css";
-import { useNavigate, useSearchParams } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import toast from "react-hot-toast";
-import { login } from "../../../../slices/authSlice"; // Redux action for login
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { motion } from 'framer-motion';
+import { FaGoogle, FaEye, FaEyeSlash } from 'react-icons/fa';
+import PhoneInput from 'react-phone-input-2';
+import 'react-phone-input-2/lib/style.css';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import toast from 'react-hot-toast';
+import { login } from '../../../../slices/authSlice'; // Redux action for login
 import {
   completeSignup,
   sendSignupOTP,
   verifySignupOTP,
-} from "../../../services/userService";
+} from '../../../services/userService';
 import {
   UserPlus,
   User,
@@ -23,20 +23,20 @@ import {
   EyeOff,
   Eye,
   Gift,
-} from "lucide-react";
-import SplitText from "../../common/utils/SplitText";
+} from 'lucide-react';
+import SplitText from '../../common/utils/SplitText';
 
 const LoginForm = () => {
   const [step, setStep] = useState(1);
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [referralCode, setReferralCode] = useState("");
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [referralCode, setReferralCode] = useState('');
 
-  const [otp, setOtp] = useState("");
-  const [phone, setPhone] = useState("");
-  const [password, setPassword] = useState("");
+  const [otp, setOtp] = useState('');
+  const [phone, setPhone] = useState('');
+  const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const [signUpError, setSognUpError] = useState(false);
@@ -65,8 +65,8 @@ const LoginForm = () => {
   const formatTimer = (sec) => {
     const m = Math.floor(sec / 60)
       .toString()
-      .padStart(2, "0");
-    const s = (sec % 60).toString().padStart(2, "0");
+      .padStart(2, '0');
+    const s = (sec % 60).toString().padStart(2, '0');
     return `${m}:${s}`;
   };
   const handleClick = () => {
@@ -74,67 +74,66 @@ const LoginForm = () => {
   };
   const [searchParams] = useSearchParams();
   useEffect(() => {
-    const oauthError = searchParams.get("error");
+    const oauthError = searchParams.get('error');
     if (oauthError) {
       setError(decodeURIComponent(oauthError));
       const url = new URL(window.location.href);
-      url.searchParams.delete("error");
-      window.history.replaceState({}, "", url);
+      url.searchParams.delete('error');
+      window.history.replaceState({}, '', url);
     }
   }, [searchParams]);
 
   // Step 1: Send OTP using Name & Email
   const handleSendOTP = async (e) => {
     e.preventDefault();
-    setError("");
+    setError('');
 
     if (!name) {
-      setSognUpError("Name is required");
+      setSognUpError('Name is required');
       return;
     }
     // Email validation using regex
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     if (!email) {
-      setSognUpError("Email address is required");
+      setSognUpError('Email address is required');
       return;
     }
     if (!emailRegex.test(email)) {
-      setSognUpError("Please enter a valid email address");
+      setSognUpError('Please enter a valid email address');
 
       return;
     }
 
     setLoading(true);
     try {
-      setOtpSent(false)
+      setOtpSent(false);
       const res = await sendSignupOTP(email);
       setOtpSent(true);
       setStep(2);
 
-      toast.success("OTP has been sent to your email address!", {
+      toast.success('OTP has been sent to your email address!', {
         icon: (
           <img
             src="https://static.thenounproject.com/png/412945-200.png"
             className="animate-bounce"
-            style={{ filter: "invert(1)" }}
+            style={{ filter: 'invert(1)' }}
             alt="Success Icon"
             width="30"
             height="30"
           />
         ),
         style: {
-          border: "1px solid #0f5132",
-          padding: "16px",
-          color: "white",
-          background: "black",
-          fontSize: "14px",
-          fontWeight: "bold",
+          border: '1px solid #0f5132',
+          padding: '16px',
+          color: 'white',
+          background: 'black',
+          fontSize: '14px',
+          fontWeight: 'bold',
         },
       });
-      setSognUpError("")
-      
+      setSognUpError('');
     } catch (err) {
-      setError(err.response?.data?.message || "Failed to send OTP");
+      setError(err.response?.data?.message || 'Failed to send OTP');
     } finally {
       setLoading(false);
     }
@@ -143,21 +142,21 @@ const LoginForm = () => {
   // Step 2: Verify OTP
   const handleVerifyOTP = async (e) => {
     e.preventDefault();
-    setError("");
+    setError('');
     setVerify(true);
     try {
-      if(!otp) {
-        setError("OTP is required");
+      if (!otp) {
+        setError('OTP is required');
         return;
       }
       const res = await verifySignupOTP(email, otp);
-      console.log("OTP verified:", res);
+      console.log('OTP verified:', res);
       setStep(3);
     } catch (err) {
-      setError(err.response?.data?.message || "OTP verification failed");
+      setError(err.response?.data?.message || 'OTP verification failed');
       console.log(err.response?.data);
     } finally {
-      setError("")
+      setError('');
       setVerify(false);
     }
   };
@@ -165,7 +164,7 @@ const LoginForm = () => {
   // Step 3: Complete Signup with Phone & Password
   const handleCompleteSignup = async (e) => {
     e.preventDefault();
-    setError("");
+    setError('');
     setLoading(true);
     try {
       const signupData = {
@@ -178,27 +177,27 @@ const LoginForm = () => {
       const res = await completeSignup(signupData);
       const { userId, role } = res; // Expecting userId and role from backend
       dispatch(login({ userId, role }));
-      navigate(role === "admin" ? "/admin/dashboard" : "/user/home");
+      navigate(role === 'admin' ? '/admin/dashboard' : '/user/home');
     } catch (err) {
       console.log(err);
 
-      setError(err.response?.data || "Signup failed");
+      setError(err.response?.data || 'Signup failed');
     } finally {
       setLoading(false);
     }
   };
 
   const handleGoogleSignup = () => {
-    window.location.href = "http://localhost:5000/auth/google";
+    window.location.href = 'http://localhost:5000/auth/google';
   };
 
   return (
     <div
       className="flex bg-gray-200 min-h-full p-4 sm:p-6 w-full justify-center items-center"
       style={{
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
       }}
     >
       <motion.div
@@ -300,7 +299,7 @@ const LoginForm = () => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.5 }}
                 >
-                  {loading ? "Sending OTP..." : "Send OTP"}
+                  {loading ? 'Sending OTP...' : 'Send OTP'}
                 </motion.button>
               </motion.form>
             )}
@@ -360,7 +359,11 @@ const LoginForm = () => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.4 }}
                 >
-                  {verify ? "Verifying OTP..." :loading?"Sending OTP...": "Verify OTP"}
+                  {verify
+                    ? 'Verifying OTP...'
+                    : loading
+                      ? 'Sending OTP...'
+                      : 'Verify OTP'}
                 </motion.button>
               </motion.form>
             )}
@@ -386,25 +389,25 @@ const LoginForm = () => {
                     Phone
                   </label>
                   <PhoneInput
-                    country={"in"}
+                    country={'in'}
                     value={phone}
                     onChange={(value) => setPhone(value)}
                     inputProps={{
-                      id: "phone",
+                      id: 'phone',
                       className:
-                        "w-full rounded-md border border-gray-300 px-3 sm:px-4 py-2 sm:py-3 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent text-xs sm:text-sm",
+                        'w-full rounded-md border border-gray-300 px-3 sm:px-4 py-2 sm:py-3 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent text-xs sm:text-sm',
                     }}
                     containerClass="w-full"
                     buttonStyle={{
-                      backgroundColor: "transparent",
-                      border: "none",
-                      padding: "0 8px",
+                      backgroundColor: 'transparent',
+                      border: 'none',
+                      padding: '0 8px',
                     }}
                     dropdownClass="bg-white shadow-lg rounded-lg"
                     inputStyle={{
-                      width: "100%",
-                      height: "100%",
-                      paddingLeft: "48px",
+                      width: '100%',
+                      height: '100%',
+                      paddingLeft: '48px',
                     }}
                   />
                 </motion.div>
@@ -425,7 +428,7 @@ const LoginForm = () => {
                   <div className="relative">
                     <input
                       id="password"
-                      type={showPassword ? "text" : "password"}
+                      type={showPassword ? 'text' : 'password'}
                       placeholder="Enter your password"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
@@ -465,7 +468,7 @@ const LoginForm = () => {
                       htmlFor="referralCode"
                     >
                       <Gift className="w-4 sm:w-5 h-4 sm:h-5 text-gray-600 mr-2" />
-                      Referral Code{" "}
+                      Referral Code{' '}
                       <span className="ml-1 text-sm text-gray-400"></span>
                     </label>
 
@@ -493,7 +496,7 @@ const LoginForm = () => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.5 }}
                 >
-                  {loading ? "Signing Up..." : "Sign Up"}
+                  {loading ? 'Signing Up...' : 'Sign Up'}
                 </motion.button>
               </motion.form>
             )}
@@ -504,10 +507,10 @@ const LoginForm = () => {
               transition={{ delay: 0.6 }}
               className="mt-4 sm:mt-6 text-center text-gray-500 text-xs sm:text-sm"
             >
-              Already have an account?{" "}
+              Already have an account?{' '}
               <motion.span
-                whileHover={{ scale: 1.05, color: "#000" }}
-                onClick={() => navigate("/")}
+                whileHover={{ scale: 1.05, color: '#000' }}
+                onClick={() => navigate('/')}
                 className="text-black font-medium hover:underline cursor-pointer transition-all"
               >
                 Sign in

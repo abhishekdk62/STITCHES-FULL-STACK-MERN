@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 import {
   Tag,
   Search,
@@ -9,35 +9,35 @@ import {
   Edit2,
   ArrowLeft,
   ArrowRight,
-} from "lucide-react";
-import toast from "react-hot-toast";
-import { motion, AnimatePresence } from "framer-motion";
+} from 'lucide-react';
+import toast from 'react-hot-toast';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
   fetchCouponsService,
   softDeleteCouponService,
-} from "../../../../services/couponService";
-import { useDebounce } from "../../../../../utils/useDebounce";
+} from '../../../../services/couponService';
+import { useDebounce } from '../../../../../utils/useDebounce';
 
 const Coupon = ({ setSelectedTab }) => {
   const [coupons, setCoupons] = useState([]);
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(false);
   const [deleteCatId, setDeleteCatId] = useState();
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
   const debouncedValue = useDebounce(search.trim(), 500);
 
   const [isOpen, setIsOpen] = useState(false);
-  const fetchCoupon = async (searchQuery = "", page = 1) => {
+  const fetchCoupon = async (searchQuery = '', page = 1) => {
     try {
       setLoading(true);
       const data = await fetchCouponsService(searchQuery, page);
       setCoupons(data.coupon);
       setTotalPages(data.totalPages);
-      setError("");
+      setError('');
     } catch (error) {
-      setError("Failed to load coupons");
+      setError('Failed to load coupons');
       console.log(error);
     } finally {
       setLoading(false);
@@ -45,7 +45,7 @@ const Coupon = ({ setSelectedTab }) => {
   };
 
   useEffect(() => {
-    fetchCoupon("");
+    fetchCoupon('');
   }, []);
 
   useEffect(() => {
@@ -56,32 +56,32 @@ const Coupon = ({ setSelectedTab }) => {
     try {
       const data = await softDeleteCouponService(deleteCatId);
       console.log(data);
-      toast.success("Coupon deleted", {
+      toast.success('Coupon deleted', {
         icon: (
           <img
             src="https://static.thenounproject.com/png/247537-200.png"
             className="animate-spin"
-            style={{ filter: "invert(1)" }}
+            style={{ filter: 'invert(1)' }}
             alt="Success Icon"
             width="30"
             height="30"
           />
         ),
         style: {
-          border: "1px solid #0f5132",
-          padding: "16px",
-          color: "white",
-          background: "black",
-          fontSize: "14px",
-          fontWeight: "bold",
+          border: '1px solid #0f5132',
+          padding: '16px',
+          color: 'white',
+          background: 'black',
+          fontSize: '14px',
+          fontWeight: 'bold',
         },
         autoClose: 5000,
       });
       setIsOpen(false);
 
-      fetchCoupon("");
+      fetchCoupon('');
     } catch (error) {
-      console.log(error?.response?.data || "Something went wrong");
+      console.log(error?.response?.data || 'Something went wrong');
     }
   };
 
@@ -95,7 +95,7 @@ const Coupon = ({ setSelectedTab }) => {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -50 }}
               transition={{
-                type: "spring",
+                type: 'spring',
                 stiffness: 300,
                 damping: 30,
               }}
@@ -111,7 +111,7 @@ const Coupon = ({ setSelectedTab }) => {
                     className="h-8 w-8 animate-bounce"
                     src="https://static.thenounproject.com/png/16960-200.png"
                     alt=""
-                    style={{ filter: "invert(1)" }}
+                    style={{ filter: 'invert(1)' }}
                   />
                   <p className="text-white font-bold text-sm">
                     Do you want to remove this coupon?
@@ -166,8 +166,8 @@ const Coupon = ({ setSelectedTab }) => {
                 {search && (
                   <button
                     onClick={() => {
-                      setSearch("");
-                      fetchCoupon("", 1);
+                      setSearch('');
+                      fetchCoupon('', 1);
                     }}
                     className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
                   >
@@ -178,14 +178,14 @@ const Coupon = ({ setSelectedTab }) => {
             </div>
             <div className="flex gap-4">
               <button
-                onClick={() => setSelectedTab("add")}
+                onClick={() => setSelectedTab('add')}
                 className="bg-black text-white px-4 py-2 rounded-md flex items-center transition-all hover:bg-gray-800"
               >
                 <Plus size={18} className="mr-2" />
                 <span>New Coupon</span>
               </button>
               <button
-                onClick={() => setSelectedTab("removed")}
+                onClick={() => setSelectedTab('removed')}
                 className="bg-red-500 text-white px-4 py-2 rounded-md flex items-center transition-all hover:bg-red-600"
               >
                 <Trash2 size={18} className="mr-2" />
@@ -278,10 +278,10 @@ const Coupon = ({ setSelectedTab }) => {
                         <button
                           onClick={() => {
                             localStorage.setItem(
-                              "coupon",
+                              'coupon',
                               JSON.stringify(coupon)
                             );
-                            setSelectedTab("edit");
+                            setSelectedTab('edit');
                           }}
                           className="p-1.5 text-gray-500 hover:text-blue-500 hover:bg-blue-50 rounded-md"
                           title="Edit"

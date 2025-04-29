@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 import {
   Tag,
   Search,
@@ -8,20 +8,20 @@ import {
   Trash2,
   ArrowLeft,
   ArrowRight,
-} from "lucide-react";
-import CategoryCard from "./CategoryCard";
-import { fetchCategoriesService } from "../../../../services/categoryService";
-import { CategoryCardShimmer } from "./CategoryCard";
-import Pagination from "../../../common/utils/Pagination";
-import { useDebounce } from "../../../../../utils/useDebounce";
-import toast from "react-hot-toast";
+} from 'lucide-react';
+import CategoryCard from './CategoryCard';
+import { fetchCategoriesService } from '../../../../services/categoryService';
+import { CategoryCardShimmer } from './CategoryCard';
+import Pagination from '../../../common/utils/Pagination';
+import { useDebounce } from '../../../../../utils/useDebounce';
+import toast from 'react-hot-toast';
 
 const CategoryList = ({
   setShowAddCategory,
   setEditCategory,
   setShowRemovedCategory,
 }) => {
-  const [searchInput, setSearchInput] = useState("");
+  const [searchInput, setSearchInput] = useState('');
   const [categorieList, setCategoryList] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -31,7 +31,7 @@ const CategoryList = ({
 
   const debouncedValue = useDebounce(searchInput.trim(), 500);
 
-  const fetchCategories = async (query = "", page = 1) => {
+  const fetchCategories = async (query = '', page = 1) => {
     try {
       setLoading(true);
       setError(null);
@@ -40,8 +40,8 @@ const CategoryList = ({
       setTotalPages(data.totalPages);
       setCurrentPage(data.page);
     } catch (err) {
-      setError("Failed to fetch categories. Please try again.");
-      console.error("Error fetching categories:", err);
+      setError('Failed to fetch categories. Please try again.');
+      console.error('Error fetching categories:', err);
     } finally {
       setLoading(false);
     }
@@ -58,7 +58,7 @@ const CategoryList = ({
   useEffect(() => {
     setCurrentPage(1);
 
-    fetchCategories("", 1);
+    fetchCategories('', 1);
   }, []);
 
   useEffect(() => {
@@ -72,7 +72,7 @@ const CategoryList = ({
   };
 
   const handleKeyPress = (e) => {
-    if (e.key === "Enter") {
+    if (e.key === 'Enter') {
       handleSearch();
     }
   };
@@ -80,7 +80,6 @@ const CategoryList = ({
   return (
     <div className="mx-auto bg-gray-50 w-full min-h-screen">
       <div className="">
-    
         <div className="mb-6 sm:mb-8 flex items-center">
           <div className="bg-black text-white p-2 sm:p-3 rounded-full mr-3 sm:mr-4">
             <Tag size={20} sm:size={24} />
@@ -107,9 +106,9 @@ const CategoryList = ({
                 {searchInput && (
                   <button
                     onClick={() => {
-                      setSearchInput("");
+                      setSearchInput('');
                       setCurrentPage(1);
-                      fetchCategories("", 1);
+                      fetchCategories('', 1);
                     }}
                     className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
                   >
@@ -117,11 +116,9 @@ const CategoryList = ({
                   </button>
                 )}
               </div>
-       
-          
             </div>
             <div className="flex gap-3 sm:gap-4">
-            <button
+              <button
                 onClick={() => setShowAddCategory(true)}
                 className="bg-black text-white px-3 sm:px-4 py-1 sm:py-2 rounded-md flex items-center transition-all hover:bg-gray-800 text-sm sm:text-base"
               >
@@ -171,40 +168,38 @@ const CategoryList = ({
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200 bg-white">
-              {loading
-                ? Array.from({ length: 5 }).map((_, index) => (
-                    <CategoryCardShimmer key={index} />
-                  ))
-                : categorieList.length > 0 ? (
-                    categorieList.map((category) => (
-                      <CategoryCard
-                        key={category._id}
-                        id={category._id}
-                        name={category.name}
-                        fetchCategories={fetchCategories}
-                        fetchCategoriesHandler={refreshData}
-                        setEditCategory={setEditCategory}
-                        showRemovedCategory={false}
-                      />
-                    ))
-                  ) : (
-                    <tr>
-                      <td
-                        colSpan="2"
-                        className="py-8 px-6 text-center text-gray-500"
-                      >
-                        <div className="flex flex-col items-center justify-center">
-                          <Tag size={40} className="text-gray-300 mb-3" />
-                          <p className="text-lg font-medium">
-                            No categories found
-                          </p>
-                          <p className="text-sm text-gray-500 mt-1">
-                            Try adjusting your search or add a new category
-                          </p>
-                        </div>
-                      </td>
-                    </tr>
-                  )}
+              {loading ? (
+                Array.from({ length: 5 }).map((_, index) => (
+                  <CategoryCardShimmer key={index} />
+                ))
+              ) : categorieList.length > 0 ? (
+                categorieList.map((category) => (
+                  <CategoryCard
+                    key={category._id}
+                    id={category._id}
+                    name={category.name}
+                    fetchCategories={fetchCategories}
+                    fetchCategoriesHandler={refreshData}
+                    setEditCategory={setEditCategory}
+                    showRemovedCategory={false}
+                  />
+                ))
+              ) : (
+                <tr>
+                  <td
+                    colSpan="2"
+                    className="py-8 px-6 text-center text-gray-500"
+                  >
+                    <div className="flex flex-col items-center justify-center">
+                      <Tag size={40} className="text-gray-300 mb-3" />
+                      <p className="text-lg font-medium">No categories found</p>
+                      <p className="text-sm text-gray-500 mt-1">
+                        Try adjusting your search or add a new category
+                      </p>
+                    </div>
+                  </td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>

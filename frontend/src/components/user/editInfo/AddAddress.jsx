@@ -1,27 +1,27 @@
-import React, { useEffect, useState } from "react";
-import { addAddress } from "../../../services/userService";
-import { getCountries } from "../../../services/countiesService";
-import { setSelectedTab } from "../../../../slices/selectedTabSlice";
+import React, { useEffect, useState } from 'react';
+import { addAddress } from '../../../services/userService';
+import { getCountries } from '../../../services/countiesService';
+import { setSelectedTab } from '../../../../slices/selectedTabSlice';
 import { toast } from 'react-hot-toast';
-import { motion } from "framer-motion";
-import { MapPin, Home, X, Check } from "lucide-react";
-import { useDispatch } from "react-redux";
+import { motion } from 'framer-motion';
+import { MapPin, Home, X, Check } from 'lucide-react';
+import { useDispatch } from 'react-redux';
 
 export default function AddAddress() {
-  const [fullName, setFullName] = useState("");
-  const [country, setCountry] = useState("");
-  const [street, setStreet] = useState("");
-  const [city, setCity] = useState("");
-  const [state, setState] = useState("");
-  const [phone, setPhone] = useState("");
-  const [zip, setZip] = useState("");
+  const [fullName, setFullName] = useState('');
+  const [country, setCountry] = useState('');
+  const [street, setStreet] = useState('');
+  const [city, setCity] = useState('');
+  const [state, setState] = useState('');
+  const [phone, setPhone] = useState('');
+  const [zip, setZip] = useState('');
   const [defaultShipping, setDefaultShipping] = useState(false);
   const [defaultBilling, setDefaultBilling] = useState(false);
-  const [addressType, setAddressType] = useState("Home");
+  const [addressType, setAddressType] = useState('Home');
   const [countries, setCountries] = useState([]);
   const [states, setStates] = useState([]);
   const [error, setError] = useState(null);
-  
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -29,7 +29,6 @@ export default function AddAddress() {
       try {
         const response = await getCountries();
         setCountries(response);
-        
       } catch (error) {
         console.log(error);
       }
@@ -39,42 +38,35 @@ export default function AddAddress() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if(!fullName)
-      {
-        setError("Please enter the Fullname")
-        return
-      }
-      if(!country)
-      {
-        setError("Please select the Country")
-        return
-      }
-      if(!street)
-      {
-        setError("Please enter the Street")
-        return
-      }
-      if(!city)
-      {
-        setError("Please enter the City")
-        return
-      }
-      if(!state)
-      {
-        setError("Please enter the State")
-        return
-      }
-      if(!phone)
-      {
-        setError("Please enter the Phone Number")
-        return
-      }
-      if(!zip)
-      {
-        setError("Please enter the Zip Code")
-        return
-      }
-    
+    if (!fullName) {
+      setError('Please enter the Fullname');
+      return;
+    }
+    if (!country) {
+      setError('Please select the Country');
+      return;
+    }
+    if (!street) {
+      setError('Please enter the Street');
+      return;
+    }
+    if (!city) {
+      setError('Please enter the City');
+      return;
+    }
+    if (!state) {
+      setError('Please enter the State');
+      return;
+    }
+    if (!phone) {
+      setError('Please enter the Phone Number');
+      return;
+    }
+    if (!zip) {
+      setError('Please enter the Zip Code');
+      return;
+    }
+
     try {
       const addressData = {
         fullName,
@@ -88,42 +80,55 @@ export default function AddAddress() {
         addressType,
       };
       const response = await addAddress(addressData);
-      toast.success("Address Added!", {
-        icon: <img src="https://static.thenounproject.com/png/29520-200.png" className="animate-bounce"
-        style={{ filter: "invert(1)" }}
-        alt="Success Icon" width="30" height="30" />,
+      toast.success('Address Added!', {
+        icon: (
+          <img
+            src="https://static.thenounproject.com/png/29520-200.png"
+            className="animate-bounce"
+            style={{ filter: 'invert(1)' }}
+            alt="Success Icon"
+            width="30"
+            height="30"
+          />
+        ),
         style: {
-          border: "1px solid #0f5132",
-          padding: "16px",
-          color: "white",
-          background: "black",
-          fontSize: "14px",
-          fontWeight: "bold",
+          border: '1px solid #0f5132',
+          padding: '16px',
+          color: 'white',
+          background: 'black',
+          fontSize: '14px',
+          fontWeight: 'bold',
         },
       });
 
-      dispatch(setSelectedTab("editinfo"))
-
+      dispatch(setSelectedTab('editinfo'));
     } catch (error) {
-      console.error("Error saving address:", error);
-      toast.error("Something went wrong", {
-        icon: <img src="https://static.thenounproject.com/png/29520-200.png" className="animate-bounce"
-        style={{ filter: "invert(1)" }}
-        alt="Success Icon" width="30" height="30" />,
+      console.error('Error saving address:', error);
+      toast.error('Something went wrong', {
+        icon: (
+          <img
+            src="https://static.thenounproject.com/png/29520-200.png"
+            className="animate-bounce"
+            style={{ filter: 'invert(1)' }}
+            alt="Success Icon"
+            width="30"
+            height="30"
+          />
+        ),
         style: {
-          border: "1px solid #0f5132",
-          padding: "16px",
-          color: "white",
-          background: "red",
-          fontSize: "14px",
-          fontWeight: "bold",
+          border: '1px solid #0f5132',
+          padding: '16px',
+          color: 'white',
+          background: 'red',
+          fontSize: '14px',
+          fontWeight: 'bold',
         },
       });
     }
   };
 
   return (
-    <motion.div 
+    <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.4 }}
@@ -132,7 +137,9 @@ export default function AddAddress() {
       <div className="flex justify-between items-center border-b pb-4 mb-6">
         <div className="flex items-center gap-3">
           <MapPin className="w-5 h-5 text-black" />
-          <h2 className="md:text-xl text-base font-bold text-black tracking-tight">Add New Address</h2>
+          <h2 className="md:text-xl text-base font-bold text-black tracking-tight">
+            Add New Address
+          </h2>
         </div>
       </div>
 
@@ -149,8 +156,8 @@ export default function AddAddress() {
         </motion.div>
       )}
 
-      <motion.form 
-        onSubmit={handleSubmit} 
+      <motion.form
+        onSubmit={handleSubmit}
         className="space-y-6"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -159,7 +166,9 @@ export default function AddAddress() {
         <div className="bg-gray-50 p-6 rounded-lg border border-gray-100">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
-              <label className="text-xs md:text-sm text-gray-500">Full Name</label>
+              <label className="text-xs md:text-sm text-gray-500">
+                Full Name
+              </label>
               <input
                 type="text"
                 placeholder="Enter your full name"
@@ -170,7 +179,9 @@ export default function AddAddress() {
             </div>
 
             <div className="space-y-2">
-              <label className="text-xs md:text-sm text-gray-500">Phone Number</label>
+              <label className="text-xs md:text-sm text-gray-500">
+                Phone Number
+              </label>
               <input
                 type="tel"
                 placeholder="Enter your phone number"
@@ -181,7 +192,9 @@ export default function AddAddress() {
             </div>
 
             <div className="space-y-2">
-              <label className="text-xs md:text-sm text-gray-500">Country</label>
+              <label className="text-xs md:text-sm text-gray-500">
+                Country
+              </label>
               <select
                 id="country"
                 value={country}
@@ -198,7 +211,9 @@ export default function AddAddress() {
             </div>
 
             <div className="space-y-2">
-              <label className="text-xs md:text-sm text-gray-500">State/Province</label>
+              <label className="text-xs md:text-sm text-gray-500">
+                State/Province
+              </label>
               <input
                 placeholder="Enter your state"
                 id="State"
@@ -220,7 +235,9 @@ export default function AddAddress() {
             </div>
 
             <div className="space-y-2">
-              <label className="text-xs md:text-sm text-gray-500">ZIP/Postal Code</label>
+              <label className="text-xs md:text-sm text-gray-500">
+                ZIP/Postal Code
+              </label>
               <input
                 type="text"
                 placeholder="Enter zip code"
@@ -231,7 +248,9 @@ export default function AddAddress() {
             </div>
 
             <div className="space-y-2 md:col-span-2">
-              <label className="text-xs md:text-sm text-gray-500">Street Address</label>
+              <label className="text-xs md:text-sm text-gray-500">
+                Street Address
+              </label>
               <input
                 type="text"
                 placeholder="Enter your street address"
@@ -242,7 +261,9 @@ export default function AddAddress() {
             </div>
 
             <div className="space-y-2">
-              <label className="text-xs md:text-sm text-gray-500">Address Type</label>
+              <label className="text-xs md:text-sm text-gray-500">
+                Address Type
+              </label>
               <select
                 value={addressType}
                 onChange={(e) => setAddressType(e.target.value)}
@@ -262,10 +283,14 @@ export default function AddAddress() {
                   onChange={(e) => setDefaultBilling(e.target.checked)}
                   className="sr-only"
                 />
-                <span className={`w-5 h-5 mr-2 border flex items-center justify-center ${defaultBilling ? 'bg-black border-black' : 'border-gray-300'}`}>
+                <span
+                  className={`w-5 h-5 mr-2 border flex items-center justify-center ${defaultBilling ? 'bg-black border-black' : 'border-gray-300'}`}
+                >
                   {defaultBilling && <Check size={14} className="text-white" />}
                 </span>
-                <span className="text-xs md:text-sm">Set as default billing address</span>
+                <span className="text-xs md:text-sm">
+                  Set as default billing address
+                </span>
               </label>
             </div>
           </div>
@@ -276,12 +301,12 @@ export default function AddAddress() {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             type="button"
-            onClick={() => dispatch(setSelectedTab("editinfo"))}
+            onClick={() => dispatch(setSelectedTab('editinfo'))}
             className="md:px-6 md:py-2 py-1 px-3 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors duration-300"
           >
             Cancel
           </motion.button>
-          
+
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}

@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 
-
-const  Table = ({ columns, rows }) => (
+const Table = ({ columns, rows }) => (
   <div className="overflow-x-auto">
     <table className="min-w-full divide-y divide-gray-200">
       <thead className="bg-gray-50">
@@ -34,6 +33,4 @@ const  Table = ({ columns, rows }) => (
   </div>
 );
 
-
-
-export default Table
+export default Table;

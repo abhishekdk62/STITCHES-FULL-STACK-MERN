@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { Trash } from "lucide-react";
-import CategoryCard, { CategoryCardShimmer } from "./CategoryCard";
-import { fetchCategories } from "../../../../services/categoryService";
+import React, { useEffect, useState } from 'react';
+import { Trash } from 'lucide-react';
+import CategoryCard, { CategoryCardShimmer } from './CategoryCard';
+import { fetchCategories } from '../../../../services/categoryService';
 
 const RemovedCategory = ({ setShowRemovedCategory, showRemovedCategory }) => {
   const [loading, setLoading] = useState(true);
   const [categorieList, setCategoryList] = useState([]);
-  
 
   const fetchCategoriesHandler = async () => {
     try {
@@ -14,7 +13,7 @@ const RemovedCategory = ({ setShowRemovedCategory, showRemovedCategory }) => {
       const data = await fetchCategories();
       setCategoryList(data);
     } catch (error) {
-      console.error("Error fetching removed categories:", error);
+      console.error('Error fetching removed categories:', error);
     } finally {
       setLoading(false);
     }
@@ -33,7 +32,9 @@ const RemovedCategory = ({ setShowRemovedCategory, showRemovedCategory }) => {
             <div className="bg-black text-white p-2 sm:p-3 rounded-full mr-3 sm:mr-4">
               <Trash size={20} sm:size={24} />
             </div>
-            <h1 className="text-lg sm:text-2xl font-bold">Removed Categories</h1>
+            <h1 className="text-lg sm:text-2xl font-bold">
+              Removed Categories
+            </h1>
           </div>
           <button
             onClick={() => setShowRemovedCategory(false)}

@@ -1,53 +1,58 @@
-import React, { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { setSelectedTab } from "../../../slices/selectedTabSlice";
+import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { setSelectedTab } from '../../../slices/selectedTabSlice';
 
-import MyInfo from "../../components/user/editInfo/MyInfo";
-import Sidebar from "../../components/user/Sidebar";
-import Header from "../../components/user/common/Header";
-import Wishlist from "../../components/user/wishlist/Wishlist";
-import EditInfo from "../../components/user/editInfo/EditInfo";
-import Cart from "../../components/user/cart/Cart";
-import Coupon from "../../components/user/coupon/Coupon";
-import Orders from "../../components/user/order/Orders";
-import OrderInfo from "../../components/user/order/OrderInfo";
-import Wallet from "../../components/user/wallet/Wallet";
-import EditAddress from '../../components/user/editInfo/EditAddress'
-import PromotionalBanner from "../../components/user/common/PromotionalBanner";
-import AddAddress from '../../components/user/editInfo/AddAddress'
+import MyInfo from '../../components/user/editInfo/MyInfo';
+import Sidebar from '../../components/user/Sidebar';
+import Header from '../../components/user/common/Header';
+import Wishlist from '../../components/user/wishlist/Wishlist';
+import EditInfo from '../../components/user/editInfo/EditInfo';
+import Cart from '../../components/user/cart/Cart';
+import Coupon from '../../components/user/coupon/Coupon';
+import Orders from '../../components/user/order/Orders';
+import OrderInfo from '../../components/user/order/OrderInfo';
+import Wallet from '../../components/user/wallet/Wallet';
+import EditAddress from '../../components/user/editInfo/EditAddress';
+import PromotionalBanner from '../../components/user/common/PromotionalBanner';
+import AddAddress from '../../components/user/editInfo/AddAddress';
 
 const Account = () => {
   const dispatch = useDispatch();
   const selectedTab = useSelector((state) => state.selectedTab.selectedTab);
   const [address, setAddress] = useState();
-    const [selectedCategory, setSelectedCategory] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState(null);
 
-  return ( 
-    <div className="max-w-7xl mx-auto overflow-x-hidden"> 
+  return (
+    <div className="max-w-7xl mx-auto overflow-x-hidden">
       <PromotionalBanner />
-      <Header selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} />
+      <Header
+        selectedCategory={selectedCategory}
+        setSelectedCategory={setSelectedCategory}
+      />
       <div className="px-6 md:px-12 lg:px-20 ">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-8">
           <Sidebar />
-          {selectedTab === "myinfo" ? (
+          {selectedTab === 'myinfo' ? (
             <MyInfo />
-          ) : selectedTab === "wishlist" ? (
+          ) : selectedTab === 'wishlist' ? (
             <Wishlist />
-          ) : selectedTab === "editinfo" ? (
+          ) : selectedTab === 'editinfo' ? (
             <EditInfo setAddress={setAddress} />
-          ) : selectedTab === "cart" ? (
+          ) : selectedTab === 'cart' ? (
             <Cart />
-          ) : selectedTab === "coupons" ? (
+          ) : selectedTab === 'coupons' ? (
             <Coupon />
-          ) : selectedTab === "orders" ? (
+          ) : selectedTab === 'orders' ? (
             <Orders />
-          ) : selectedTab === "address" ? (
+          ) : selectedTab === 'address' ? (
             <AddAddress />
-          ) : selectedTab === "editaddress" ? (
+          ) : selectedTab === 'editaddress' ? (
             <EditAddress address={address} />
-          ): selectedTab === "wallet" ? (
+          ) : selectedTab === 'wallet' ? (
             <Wallet />
-          ):selectedTab === "orderinfo"?<OrderInfo />: null}
+          ) : selectedTab === 'orderinfo' ? (
+            <OrderInfo />
+          ) : null}
         </div>
       </div>
     </div>

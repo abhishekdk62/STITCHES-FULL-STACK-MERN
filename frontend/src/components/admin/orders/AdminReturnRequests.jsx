@@ -1,12 +1,16 @@
-import React, { useEffect, useState } from "react";
-import { toast } from "react-hot-toast";
-import { fetchReturnReqAPI, approveReturnAPI, rejectReturnAPI } from "../../../services/orderServices";
-import ReturnRequestList from "./elements/ReturnRequestList";
+import React, { useEffect, useState } from 'react';
+import { toast } from 'react-hot-toast';
+import {
+  fetchReturnReqAPI,
+  approveReturnAPI,
+  rejectReturnAPI,
+} from '../../../services/orderServices';
+import ReturnRequestList from './elements/ReturnRequestList';
 
 const AdminReturnRequests = () => {
   const [returnRequests, setReturnRequests] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
 
   useEffect(() => {
     const fetchReturnRequests = async () => {
@@ -15,7 +19,7 @@ const AdminReturnRequests = () => {
         const response = await fetchReturnReqAPI();
         setReturnRequests(response);
       } catch (err) {
-        setError("Failed to fetch return requests.");
+        setError('Failed to fetch return requests.');
       } finally {
         setLoading(false);
       }
@@ -34,9 +38,9 @@ const AdminReturnRequests = () => {
     try {
       await approveReturnAPI(requestId, userId, rate, quantity, pid, vid);
       setReturnRequests((prev) => prev.filter((req) => req._id !== requestId));
-      toast.success("Return approved.");
+      toast.success('Return approved.');
     } catch (err) {
-      console.error("Error approving return request:", err);
+      console.error('Error approving return request:', err);
     }
   };
 
@@ -44,9 +48,9 @@ const AdminReturnRequests = () => {
     try {
       await rejectReturnAPI(requestId);
       setReturnRequests((prev) => prev.filter((req) => req._id !== requestId));
-      toast.success("Return rejected.");
+      toast.success('Return rejected.');
     } catch (err) {
-      console.error("Error rejecting return request:", err);
+      console.error('Error rejecting return request:', err);
     }
   };
 

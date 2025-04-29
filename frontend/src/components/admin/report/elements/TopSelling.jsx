@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
-import { getTopSellersApi } from "../../../../services/salesReportService";
-import Table from "./Table";
-
+import React, { useEffect, useState } from 'react';
+import { getTopSellersApi } from '../../../../services/salesReportService';
+import Table from './Table';
 
 const TopSelling = () => {
   const [topProducts, setTopProducts] = useState({});
@@ -17,9 +16,8 @@ const TopSelling = () => {
         setTopBrands(data.topBrands || {});
       }
       console.log(data);
-      
     } catch (error) {
-      console.error("Error fetching top sellers:", error);
+      console.error('Error fetching top sellers:', error);
     }
   };
 
@@ -34,9 +32,9 @@ const TopSelling = () => {
       .map(([key, value]) => ({ key, value }));
 
   const formatCurrency = (amount) =>
-    new Intl.NumberFormat("en-US", {
-      style: "currency",
-      currency: "INR",
+    new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'INR',
     }).format(amount);
 
   // Prepare rows for each table
@@ -57,7 +55,11 @@ const TopSelling = () => {
           columns={[
             { key: 'rank', label: '#', render: (_, idx) => idx + 1 },
             { key: 'product', label: 'Product Name', render: (row) => row.key },
-            { key: 'orders', label: 'Total Orders', render: (row) => row.value },
+            {
+              key: 'orders',
+              label: 'Total Orders',
+              render: (row) => row.value,
+            },
           ]}
           rows={productRows}
         />
@@ -74,7 +76,11 @@ const TopSelling = () => {
           columns={[
             { key: 'rank', label: '#', render: (_, idx) => idx + 1 },
             { key: 'category', label: 'Category', render: (row) => row.key },
-            { key: 'sold', label: 'Total Products Sold', render: (row) => row.value },
+            {
+              key: 'sold',
+              label: 'Total Products Sold',
+              render: (row) => row.value,
+            },
           ]}
           rows={categoryRows}
         />

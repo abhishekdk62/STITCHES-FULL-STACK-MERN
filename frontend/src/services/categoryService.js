@@ -1,9 +1,9 @@
-import apiClient from "./apiClient";
+import apiClient from './apiClient';
 
 export const restoreCategory = async (id) => {
   try {
-    const response = await apiClient.put("/admin/restorecat", { id });
-  
+    const response = await apiClient.put('/admin/restorecat', { id });
+
     return response;
   } catch (error) {
     console.log(error);
@@ -18,7 +18,7 @@ export const addCategory = async ({
   discount,
 }) => {
   try {
-    const response = await apiClient.post("/admin/addcategorys", {
+    const response = await apiClient.post('/admin/addcategorys', {
       categoryName,
       description,
       subCategories,
@@ -38,9 +38,8 @@ export const editCategories = async ({
   discount,
   visibilityStatus,
 }) => {
-  
   try {
-    const response = await apiClient.post("/admin/editcategories", {
+    const response = await apiClient.post('/admin/editcategories', {
       id: categoryId,
       name: categoryName,
       description,
@@ -56,7 +55,7 @@ export const editCategories = async ({
 
 export const fetchCategories = async () => {
   try {
-    const response = await apiClient.get("/admin/searchdeletedcat");
+    const response = await apiClient.get('/admin/searchdeletedcat');
     return response.data;
   } catch (error) {
     throw error;
@@ -65,7 +64,7 @@ export const fetchCategories = async () => {
 
 export const fetchCategoriesAdmin = async () => {
   try {
-    const response = await apiClient.get("/admin/searchcategories?q=");
+    const response = await apiClient.get('/admin/searchcategories?q=');
     return response.data.categories;
   } catch (error) {
     throw error;
@@ -84,7 +83,7 @@ export const deleteCategory = async (id) => {
   }
 };
 
-export const fetchCategoriesService = async (query = "", page = 1) => {
+export const fetchCategoriesService = async (query = '', page = 1) => {
   try {
     const response = await apiClient.get(
       `/admin/searchcategories?q=${query}&page=${page}&limit=10`

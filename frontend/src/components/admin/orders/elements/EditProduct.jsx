@@ -1,50 +1,50 @@
-import React, { useState, useEffect } from "react";
-import { X, Trash2, CheckCircle, Plus } from "lucide-react";
-import toast from "react-hot-toast";
-import { fetchCategoriesAdmin } from "../../../../services/categoryService";
+import React, { useState, useEffect } from 'react';
+import { X, Trash2, CheckCircle, Plus } from 'lucide-react';
+import toast from 'react-hot-toast';
+import { fetchCategoriesAdmin } from '../../../../services/categoryService';
 import {
   editProductService,
   fetchProduct,
-} from "../../../../services/productService";
+} from '../../../../services/productService';
 const EditProduct = ({ setShowEditProduct }) => {
   const [productDetails, setProductDetails] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-  const [brand, setBrand] = useState("");
-  const [category, setCategory] = useState("");
-  const [subCategory, setSubCategory] = useState("");
-  const [owner, setOwner] = useState("");
+  const [name, setName] = useState('');
+  const [description, setDescription] = useState('');
+  const [brand, setBrand] = useState('');
+  const [category, setCategory] = useState('');
+  const [subCategory, setSubCategory] = useState('');
+  const [owner, setOwner] = useState('');
   const [productImages, setProductImages] = useState([]);
   const [categories, setCategories] = useState([]);
   const [variants, setVariants] = useState([]);
-  const [selectedColor, setSelectedColor] = useState("");
-  const [selectedSize, setSelectedSize] = useState("");
-  const [basePrice, setBasePrice] = useState("");
-  const [discountPrice, setDiscountPrice] = useState("");
-  const [stock, setStock] = useState("");
-  const [variantImages, setVariantImages] = useState([""]);
-  const sizes = ["SM", "M", "L", "XL"];
+  const [selectedColor, setSelectedColor] = useState('');
+  const [selectedSize, setSelectedSize] = useState('');
+  const [basePrice, setBasePrice] = useState('');
+  const [discountPrice, setDiscountPrice] = useState('');
+  const [stock, setStock] = useState('');
+  const [variantImages, setVariantImages] = useState(['']);
+  const sizes = ['SM', 'M', 'L', 'XL'];
   const colors = [
-    "red",
-    "blue",
-    "white",
-    "black",
-    "green",
-    "yellow",
-    "purple",
-    "orange",
-    "gray",
+    'red',
+    'blue',
+    'white',
+    'black',
+    'green',
+    'yellow',
+    'purple',
+    'orange',
+    'gray',
   ];
   useEffect(() => {
-    const id = localStorage.getItem("productId");
+    const id = localStorage.getItem('productId');
     const getProductData = async () => {
       try {
         const productData = await fetchProduct(id);
         setProductDetails(productData);
-        console.log("Product data:", productData);
+        console.log('Product data:', productData);
       } catch (error) {
-        console.error("Error fetching product:", error);
+        console.error('Error fetching product:', error);
       }
     };
 
@@ -53,7 +53,7 @@ const EditProduct = ({ setShowEditProduct }) => {
         const cats = await fetchCategoriesAdmin();
         setCategories(cats);
       } catch (error) {
-        console.error("Error fetching categories:", error);
+        console.error('Error fetching categories:', error);
       }
     };
     getProductData();
@@ -61,19 +61,19 @@ const EditProduct = ({ setShowEditProduct }) => {
   }, []);
   useEffect(() => {
     if (productDetails) {
-      setName(productDetails.name || "");
-      setDescription(productDetails.description || "");
-      setBrand(productDetails.brand || "");
-      setCategory(productDetails.category || "");
-      setSubCategory(productDetails.subCategory || "");
-      setOwner(productDetails.owner || "");
+      setName(productDetails.name || '');
+      setDescription(productDetails.description || '');
+      setBrand(productDetails.brand || '');
+      setCategory(productDetails.category || '');
+      setSubCategory(productDetails.subCategory || '');
+      setOwner(productDetails.owner || '');
       if (
         productDetails.productImages &&
         productDetails.productImages.length > 0
       ) {
         setProductImages(
           productDetails.productImages.filter(
-            (img) => img && (img.startsWith("http") || img.startsWith("https"))
+            (img) => img && (img.startsWith('http') || img.startsWith('https'))
           )
         );
       } else {
@@ -94,14 +94,14 @@ const EditProduct = ({ setShowEditProduct }) => {
 
     setLoading(true);
     const formData = new FormData();
-    formData.append("file", file);
-    formData.append("upload_preset", "COSTUMES");
+    formData.append('file', file);
+    formData.append('upload_preset', 'COSTUMES');
 
     try {
       const res = await fetch(
-        "https://api.cloudinary.com/v1_1/dv8xenucq/image/upload",
+        'https://api.cloudinary.com/v1_1/dv8xenucq/image/upload',
         {
-          method: "POST",
+          method: 'POST',
           body: formData,
         }
       );
@@ -109,7 +109,7 @@ const EditProduct = ({ setShowEditProduct }) => {
       setLoading(false);
       return data.secure_url;
     } catch (error) {
-      console.error("Error uploading image:", error);
+      console.error('Error uploading image:', error);
       setLoading(false);
       return null;
     }
@@ -125,7 +125,7 @@ const EditProduct = ({ setShowEditProduct }) => {
       setProductImages([...productImages, imageUrl]);
     }
   };
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
   const handleVariantImageUpload = async (variantIndex, file) => {
     if (!file) return null;
 
@@ -145,7 +145,7 @@ const EditProduct = ({ setShowEditProduct }) => {
       }
       setLoading(false);
     } catch (error) {
-      console.error("Error uploading variant image:", error);
+      console.error('Error uploading variant image:', error);
       setLoading(false);
     }
   };
@@ -167,7 +167,7 @@ const EditProduct = ({ setShowEditProduct }) => {
       setVariantImages(newImages);
 
       if (index === newImages.length - 1) {
-        setVariantImages([...newImages, ""]);
+        setVariantImages([...newImages, '']);
       }
     };
     reader.readAsDataURL(file);
@@ -175,16 +175,16 @@ const EditProduct = ({ setShowEditProduct }) => {
 
   const uploadVariantImages = async () => {
     const uploadedUrls = [];
-    const filledImages = variantImages.filter((img) => img && img !== "");
+    const filledImages = variantImages.filter((img) => img && img !== '');
     if (filledImages.length === 0) return [];
 
     setLoading(true);
     for (const imageData of filledImages) {
-      if (imageData.startsWith("http")) {
+      if (imageData.startsWith('http')) {
         uploadedUrls.push(imageData);
         continue;
       }
-      const file = await dataURLtoFile(imageData, "variant-image.jpg");
+      const file = await dataURLtoFile(imageData, 'variant-image.jpg');
       const uploadedUrl = await handleImageUpload(file);
       if (uploadedUrl) {
         uploadedUrls.push(uploadedUrl);
@@ -196,7 +196,7 @@ const EditProduct = ({ setShowEditProduct }) => {
 
   const dataURLtoFile = (dataurl, filename) => {
     return new Promise((resolve) => {
-      const arr = dataurl.split(",");
+      const arr = dataurl.split(',');
       const mime = arr[0].match(/:(.*?);/)[1];
       const bstr = atob(arr[1]);
       let n = bstr.length;
@@ -218,23 +218,23 @@ const EditProduct = ({ setShowEditProduct }) => {
   const removeVariantImage = (variantIndex, imageIndex) => {
     const updatedVariants = [...variants];
     if (updatedVariants[variantIndex].productImages.length <= 2) {
-      toast.error("Each variant must have at least 2 images.", {
+      toast.error('Each variant must have at least 2 images.', {
         icon: (
           <img
             src="https://static.thenounproject.com/png/3941-200.png"
             className="animate-bounce"
-            style={{ filter: "invert(1)" }}
+            style={{ filter: 'invert(1)' }}
             alt="Success Icon"
             width="30"
             height="30"
           />
         ),
         style: {
-          padding: "16px",
-          color: "white",
-          background: "#ff6666",
-          fontSize: "14px",
-          fontWeight: "bold",
+          padding: '16px',
+          color: 'white',
+          background: '#ff6666',
+          fontSize: '14px',
+          fontWeight: 'bold',
         },
       });
 
@@ -260,13 +260,13 @@ const EditProduct = ({ setShowEditProduct }) => {
   const addVariant = async () => {
     const uploadedImages = await uploadVariantImages();
     if (uploadedImages.length < 2) {
-      setError("Add at least two product images");
+      setError('Add at least two product images');
       return;
     }
     if (
       !(selectedColor && selectedSize && basePrice && discountPrice && stock)
     ) {
-      setError("Please fill in all variant fields");
+      setError('Please fill in all variant fields');
       return;
     }
     setLoading(true);
@@ -279,13 +279,13 @@ const EditProduct = ({ setShowEditProduct }) => {
       productImages: uploadedImages,
     };
     setVariants([...variants, newVariant]);
-    setSelectedColor("");
-    setSelectedSize("");
-    setBasePrice("");
-    setDiscountPrice("");
-    setStock("");
-    setVariantImages([""]);
-    setError("");
+    setSelectedColor('');
+    setSelectedSize('');
+    setBasePrice('');
+    setDiscountPrice('');
+    setStock('');
+    setVariantImages(['']);
+    setError('');
     setLoading(false);
   };
 
@@ -296,38 +296,38 @@ const EditProduct = ({ setShowEditProduct }) => {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError("");
+    setError('');
 
     if (loading) {
-      setError("Please wait for images to finish uploading");
+      setError('Please wait for images to finish uploading');
       return;
     }
     if (!name.trim()) {
-      setError("Error: Product name is required");
+      setError('Error: Product name is required');
       return;
     }
     if (!description.trim()) {
-      setError("Error: Product description is required");
+      setError('Error: Product description is required');
       return;
     }
     if (!brand.trim()) {
-      setError("Error: Brand is required");
+      setError('Error: Brand is required');
       return;
     }
     if (!category) {
-      setError("Error: Category is required");
+      setError('Error: Category is required');
       return;
     }
     if (!subCategory) {
-      setError("Error: Subcategory is required");
+      setError('Error: Subcategory is required');
       return;
     }
     if (!owner.trim()) {
-      setError("Error: Owner is required");
+      setError('Error: Owner is required');
       return;
     }
     if (variants.length === 0) {
-      setError("Error: Please add at least one variant");
+      setError('Error: Please add at least one variant');
       return;
     }
 
@@ -356,7 +356,7 @@ const EditProduct = ({ setShowEditProduct }) => {
         return;
       }
       const variantImgs = variant.productImages || [];
-      if (variantImgs.filter((img) => img && img.trim() !== "").length < 2) {
+      if (variantImgs.filter((img) => img && img.trim() !== '').length < 2) {
         setError(
           `Error: Variant ${i + 1} (${variant.color}, ${
             variant.size
@@ -393,12 +393,12 @@ const EditProduct = ({ setShowEditProduct }) => {
       };
 
       const data = await editProductService(productDetails._id, payload);
-      setError(""); // Clear error on success
+      setError(''); // Clear error on success
       // Optionally display a success message elsewhere
       setShowEditProduct(false);
-      localStorage.removeItem("productId");
+      localStorage.removeItem('productId');
     } catch (error) {
-      console.log("Error updating product:", error);
+      console.log('Error updating product:', error);
       setError(
         `Error updating product: ${
           error.response?.data?.message || error.message
@@ -409,7 +409,7 @@ const EditProduct = ({ setShowEditProduct }) => {
 
   useEffect(() => {
     if (productDetails) {
-      setCategory(productDetails.category ? productDetails.category._id : "");
+      setCategory(productDetails.category ? productDetails.category._id : '');
     }
   }, [productDetails]);
 
@@ -422,7 +422,7 @@ const EditProduct = ({ setShowEditProduct }) => {
         <button
           onClick={() => {
             setShowEditProduct(false);
-            localStorage.removeItem("productId");
+            localStorage.removeItem('productId');
           }}
           className="text-white hover:bg-gray-700 rounded-full p-1 transition-colors self-end"
         >
@@ -490,7 +490,7 @@ const EditProduct = ({ setShowEditProduct }) => {
                 value={category}
                 onChange={(e) => {
                   setCategory(e.target.value);
-                  setSubCategory("");
+                  setSubCategory('');
                 }}
               >
                 <option value="">Select Category</option>
@@ -547,10 +547,10 @@ const EditProduct = ({ setShowEditProduct }) => {
                   >
                     <div className="grid grid-cols-1 lg:grid-cols-5 gap-4 mb-4">
                       {/** Color / Size / Prices / Stock */}
-                      {["color", "size"].map((field, i) => (
+                      {['color', 'size'].map((field, i) => (
                         <div key={i}>
                           <label className="block text-gray-700 text-xs sm:text-sm font-medium mb-1">
-                            {field.charAt(0).toUpperCase() + field.slice(1)}{" "}
+                            {field.charAt(0).toUpperCase() + field.slice(1)}{' '}
                             <span className="text-red-500">*</span>
                           </label>
                           <select
@@ -561,9 +561,9 @@ const EditProduct = ({ setShowEditProduct }) => {
                             className="w-full px-2 sm:px-3 py-2 text-xs sm:text-sm rounded border border-gray-500 focus:outline-none focus:ring-1 focus:ring-indigo-400"
                           >
                             <option value="">Select {field}</option>
-                            {(field === "color" ? colors : sizes).map((opt) => (
+                            {(field === 'color' ? colors : sizes).map((opt) => (
                               <option key={opt} value={opt}>
-                                {field === "color"
+                                {field === 'color'
                                   ? opt.charAt(0).toUpperCase() + opt.slice(1)
                                   : opt}
                               </option>
@@ -571,19 +571,19 @@ const EditProduct = ({ setShowEditProduct }) => {
                           </select>
                         </div>
                       ))}
-                      {["base_price", "discount_price", "stock"].map(
+                      {['base_price', 'discount_price', 'stock'].map(
                         (field, i) => (
                           <div key={i}>
                             <label className="block text-gray-700 text-xs sm:text-sm font-medium mb-1">
                               {field
-                                .replace("_", " ")
-                                .replace(/\b\w/g, (c) => c.toUpperCase())}{" "}
+                                .replace('_', ' ')
+                                .replace(/\b\w/g, (c) => c.toUpperCase())}{' '}
                               <span className="text-red-500">*</span>
                             </label>
                             <div
-                              className={field !== "stock" ? "relative" : ""}
+                              className={field !== 'stock' ? 'relative' : ''}
                             >
-                              {field !== "stock" && (
+                              {field !== 'stock' && (
                                 <span className="absolute inset-y-0 left-0 flex items-center pl-2 text-gray-500 text-xs sm:text-sm">
                                   ₹
                                 </span>
@@ -599,11 +599,11 @@ const EditProduct = ({ setShowEditProduct }) => {
                                   )
                                 }
                                 className={`w-full px-${
-                                  field !== "stock"
-                                    ? field === "stock"
-                                      ? "3"
-                                      : "7"
-                                    : "3"
+                                  field !== 'stock'
+                                    ? field === 'stock'
+                                      ? '3'
+                                      : '7'
+                                    : '3'
                                 } py-2 text-xs sm:text-sm border border-gray-500 rounded focus:outline-none focus:ring-1 focus:ring-indigo-400`}
                               />
                             </div>
@@ -629,7 +629,6 @@ const EditProduct = ({ setShowEditProduct }) => {
                               className="w-full h-full object-cover"
                             />
                             <div className="absolute inset-0 w-full h-full bg-black bg-opacity-50 opacity-100 lg:opacity-0 sm:group-hover:opacity-100 flex items-center justify-center transition-opacity">
-
                               <button
                                 type="button"
                                 onClick={() => removeVariantImage(idx, j)}
@@ -657,7 +656,7 @@ const EditProduct = ({ setShowEditProduct }) => {
                             }
                             className="text-gray-600 text-xs sm:text-sm"
                           >
-                            {loading ? "Uploading..." : "Add Image"}
+                            {loading ? 'Uploading...' : 'Add Image'}
                           </button>
                         </div>
                       </div>
@@ -686,24 +685,24 @@ const EditProduct = ({ setShowEditProduct }) => {
             </h2>
             <div className="p-4 sm:p-6 bg-white rounded border border-gray-200">
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 mb-4">
-                {["Color", "Size"].map((field, i) => (
+                {['Color', 'Size'].map((field, i) => (
                   <div key={i}>
                     <label className="block text-gray-700 text-xs sm:text-sm font-medium mb-1">
                       {field} <span className="text-red-500">*</span>
                     </label>
                     <select
-                      value={field === "Color" ? selectedColor : selectedSize}
+                      value={field === 'Color' ? selectedColor : selectedSize}
                       onChange={(e) =>
-                        field === "Color"
+                        field === 'Color'
                           ? setSelectedColor(e.target.value)
                           : setSelectedSize(e.target.value)
                       }
                       className="w-full px-3 py-2 text-xs sm:text-sm rounded border border-gray-500 focus:outline-none focus:ring-1 focus:ring-indigo-400"
                     >
                       <option value="">Select {field}</option>
-                      {(field === "Color" ? colors : sizes).map((opt) => (
+                      {(field === 'Color' ? colors : sizes).map((opt) => (
                         <option key={opt} value={opt}>
-                          {field === "Color"
+                          {field === 'Color'
                             ? opt.charAt(0).toUpperCase() + opt.slice(1)
                             : opt}
                         </option>
@@ -711,14 +710,14 @@ const EditProduct = ({ setShowEditProduct }) => {
                     </select>
                   </div>
                 ))}
-                {["basePrice", "discountPrice", "stock"].map((field, i) => (
+                {['basePrice', 'discountPrice', 'stock'].map((field, i) => (
                   <div key={i}>
                     <label className="block text-gray-700 text-xs sm:text-sm font-medium mb-1">
-                      {field.replace(/([A-Z])/g, " $1")}{" "}
+                      {field.replace(/([A-Z])/g, ' $1')}{' '}
                       <span className="text-red-500">*</span>
                     </label>
-                    <div className={field !== "stock" ? "relative" : ""}>
-                      {field !== "stock" && (
+                    <div className={field !== 'stock' ? 'relative' : ''}>
+                      {field !== 'stock' && (
                         <span className="absolute inset-y-0 left-0 flex items-center pl-2 text-gray-500 text-xs sm:text-sm">
                           ₹
                         </span>
@@ -726,32 +725,32 @@ const EditProduct = ({ setShowEditProduct }) => {
                       <input
                         type="number"
                         placeholder={
-                          field === "basePrice"
-                            ? "Min 5000"
-                            : field === "discountPrice"
-                            ? "Enter discount price"
-                            : "Enter stock"
+                          field === 'basePrice'
+                            ? 'Min 5000'
+                            : field === 'discountPrice'
+                              ? 'Enter discount price'
+                              : 'Enter stock'
                         }
                         value={
-                          field === "basePrice"
+                          field === 'basePrice'
                             ? basePrice
-                            : field === "discountPrice"
-                            ? discountPrice
-                            : stock
+                            : field === 'discountPrice'
+                              ? discountPrice
+                              : stock
                         }
                         onChange={(e) =>
-                          field === "basePrice"
+                          field === 'basePrice'
                             ? setBasePrice(e.target.value)
-                            : field === "discountPrice"
-                            ? setDiscountPrice(e.target.value)
-                            : setStock(e.target.value)
+                            : field === 'discountPrice'
+                              ? setDiscountPrice(e.target.value)
+                              : setStock(e.target.value)
                         }
                         className={`w-full px-${
-                          field !== "stock"
-                            ? field === "stock"
-                              ? "3"
-                              : "7"
-                            : "3"
+                          field !== 'stock'
+                            ? field === 'stock'
+                              ? '3'
+                              : '7'
+                            : '3'
                         } py-2 text-xs sm:text-sm border border-gray-500 rounded focus:outline-none focus:ring-1 focus:ring-indigo-400`}
                       />
                     </div>
@@ -769,7 +768,7 @@ const EditProduct = ({ setShowEditProduct }) => {
                     <div
                       key={i}
                       className="relative border-2 border-dashed border-gray-300 rounded overflow-hidden group w-24 h-24 sm:w-32 sm:h-32"
-                      >
+                    >
                       {img ? (
                         <>
                           <img
@@ -777,12 +776,12 @@ const EditProduct = ({ setShowEditProduct }) => {
                             alt={`New Variant ${i}`}
                             className="w-full h-full object-cover"
                           />
-<div className="absolute inset-0 bg-black bg-opacity-50 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 flex items-center justify-center transition-opacity">
-<button
+                          <div className="absolute inset-0 bg-black bg-opacity-50 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 flex items-center justify-center transition-opacity">
+                            <button
                               type="button"
                               onClick={() => removeNewVariantImage(i)}
                               className="bg-red-500 text-white rounded-full p-1 hover:bg-red-600"
-                              >
+                            >
                               <Trash2 size={16} />
                             </button>
                           </div>
@@ -803,7 +802,7 @@ const EditProduct = ({ setShowEditProduct }) => {
                             className="hidden"
                             onChange={(e) => handleProductImageChange(i, e)}
                           />
-                          {loading ? "Uploading..." : "Add Image"}
+                          {loading ? 'Uploading...' : 'Add Image'}
                         </div>
                       )}
                     </div>
@@ -834,7 +833,7 @@ const EditProduct = ({ setShowEditProduct }) => {
               type="button"
               onClick={() => {
                 setShowEditProduct(false);
-                localStorage.removeItem("productId");
+                localStorage.removeItem('productId');
               }}
               className="w-full sm:w-auto px-4 py-2 bg-white border border-gray-400 rounded text-gray-700 text-xs sm:text-sm font-medium hover:bg-gray-100 transition-colors"
               disabled={loading}

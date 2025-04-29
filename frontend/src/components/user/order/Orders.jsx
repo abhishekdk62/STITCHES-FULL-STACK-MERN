@@ -1,19 +1,20 @@
-import { useState, useEffect } from "react";
-import { fetchOrders } from "../../../services/orderServices";
-import { useDispatch, useSelector } from "react-redux";
-import { setSelectedTab } from "../../../../slices/selectedTabSlice";
-import { motion } from "framer-motion";
+import { useState, useEffect } from 'react';
+import { fetchOrders } from '../../../services/orderServices';
+import { useDispatch, useSelector } from 'react-redux';
+import { setSelectedTab } from '../../../../slices/selectedTabSlice';
+import { motion } from 'framer-motion';
+import React from 'react'
 
-import { Package, Search, Calendar, ChevronRight } from "lucide-react";
-import { setOrderDetail } from "../../../../slices/orderSlice";
-import Notification from "../common/Notification";
+import { Package, Search, Calendar, ChevronRight } from 'lucide-react';
+import { setOrderDetail } from '../../../../slices/orderSlice';
+import Notification from '../common/Notification';
 
 export default function Orders() {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [sortBy, setSortBy] = useState("newest");
+  const [searchTerm, setSearchTerm] = useState('');
+  const [sortBy, setSortBy] = useState('newest');
 
   const dispatch = useDispatch();
 
@@ -26,8 +27,8 @@ export default function Orders() {
         const fetchedOrders = await fetchOrders();
         setOrders(fetchedOrders);
       } catch (err) {
-        console.error("Error fetching orders:", err);
-        setError("Failed to load orders.");
+        console.error('Error fetching orders:', err);
+        setError('Failed to load orders.');
       } finally {
         setLoading(false);
       }
@@ -37,7 +38,7 @@ export default function Orders() {
 
   const handleViewDetails = (order, item, selectedVariant) => {
     dispatch(setOrderDetail({ order, item, selectedVariant }));
-    dispatch(setSelectedTab("orderinfo"));
+    dispatch(setSelectedTab('orderinfo'));
   };
 
   const filteredOrders = orders.filter((order) => {
@@ -52,21 +53,25 @@ export default function Orders() {
       ?.toLowerCase()
       .includes(searchTerm.toLowerCase());
 
-    return searchTerm === "" || orderIdMatch || customerMatch;
+    return searchTerm === '' || orderIdMatch || customerMatch;
   });
 
   const getStatusBadge = (status) => {
     const statusStyles = {
-      Pending: "bg-yellow-100 text-sm text-yellow-800 hidden sm:block  border-yellow-200",
-      Processing: "bg-blue-100 text-blue-800 hidden sm:block border-blue-200",
-      Shipped: "bg-purple-100 text-purple-800 hidden sm:block border-purple-200",
-      Delivered: "bg-green-100 text-green-800 hidden sm:block border-green-200",
-      Returned: "bg-orange-100 text-orange-800 hidden sm:block border-orange-200",
-      Cancelled: "bg-red-100 text-xs text-red-800 hidden sm:block border-red-200",
+      Pending:
+        'bg-yellow-100 text-sm text-yellow-800 hidden sm:block  border-yellow-200',
+      Processing: 'bg-blue-100 text-blue-800 hidden sm:block border-blue-200',
+      Shipped:
+        'bg-purple-100 text-purple-800 hidden sm:block border-purple-200',
+      Delivered: 'bg-green-100 text-green-800 hidden sm:block border-green-200',
+      Returned:
+        'bg-orange-100 text-orange-800 hidden sm:block border-orange-200',
+      Cancelled:
+        'bg-red-100 text-xs text-red-800 hidden sm:block border-red-200',
     };
 
     return `${
-      statusStyles[status] || "bg-gray-100 text-gray-800 border-gray-200"
+      statusStyles[status] || 'bg-gray-100 text-gray-800 border-gray-200'
     } px-2 py-1 rounded-full text-xs font-medium border`;
   };
   const containerVariants = {
@@ -83,16 +88,16 @@ export default function Orders() {
   if (!userDetails) {
     return (
       <Notification
-        p1={"You’re not signed in"}
-        p2={"Please log in to view your Cart."}
+        p1={'You’re not signed in'}
+        p2={'Please log in to view your Cart.'}
         icon={<Package size={80} className="text-gray-300" />}
       />
     );
   }
-  if (filteredOrders.length===0) {
+  if (filteredOrders.length === 0) {
     return (
       <Notification
-        p1={"No Orders Found"}
+        p1={'No Orders Found'}
         icon={<Package size={80} className="text-gray-300" />}
       />
     );
@@ -142,7 +147,7 @@ export default function Orders() {
                     </div>
                     <div className="ml-2 text-xs sm:text-base font-bold">
                       {order.orderID ||
-                        (order._id ? order._id.substring(0, 8) : "N/A")}
+                        (order._id ? order._id.substring(0, 8) : 'N/A')}
                     </div>
                   </div>
 
@@ -154,10 +159,10 @@ export default function Orders() {
                     <div className="flex items-center text-xs md:text-sm">
                       <Calendar size={14} className="mr-1 text-gray-500" />
                       <span className="text-gray-600">
-                        {new Date(order.createdAt).toLocaleDateString("en-US", {
-                          month: "short",
-                          day: "numeric",
-                          year: "numeric",
+                        {new Date(order.createdAt).toLocaleDateString('en-US', {
+                          month: 'short',
+                          day: 'numeric',
+                          year: 'numeric',
                         })}
                       </span>
                     </div>
@@ -176,25 +181,25 @@ export default function Orders() {
                     );
 
                   const productName =
-                    typeof item.product === "object" && item?.product?.name
+                    typeof item.product === 'object' && item?.product?.name
                       ? item?.product?.name
-                      : "N/A";
+                      : 'N/A';
 
                   const productImage =
-                    typeof item.product === "object" &&
+                    typeof item.product === 'object' &&
                     selectedVariant &&
                     selectedVariant.productImages &&
                     selectedVariant.productImages.length > 0
                       ? selectedVariant.productImages[0]
-                      : "/placeholder.svg?height=80&width=80";
+                      : '/placeholder.svg?height=80&width=80';
 
                   return (
                     <div
                       key={index}
                       className={`flex items-center p-6 ${
                         index !== order.items.length - 1
-                          ? "border-b border-gray-100"
-                          : ""
+                          ? 'border-b border-gray-100'
+                          : ''
                       }`}
                     >
                       <div className="w-20 h-20 flex-shrink-0 bg-gray-50 rounded overflow-hidden">
@@ -212,13 +217,13 @@ export default function Orders() {
                               {productName}
                             </h3>
                             <p className="text-gray-500 hidden sm:block md:text-sm mt-1">
-                              Customer:{" "}
+                              Customer:{' '}
                               {order.address && order.address.fullName
                                 ? order.address.fullName
-                                : "N/A"}
+                                : 'N/A'}
                             </p>
                           </div>
-                          <span className={getStatusBadge(item.status) }>
+                          <span className={getStatusBadge(item.status)}>
                             {item.status}
                           </span>
                         </div>

@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { User, Menu } from "lucide-react";
-import { logout } from "../../../../slices/authSlice";
-import { logoutAdmin } from "../../../services/userService";
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { User, Menu } from 'lucide-react';
+import { logout } from '../../../../slices/authSlice';
+import { logoutAdmin } from '../../../services/userService';
 
 const Header = () => {
   const navigate = useNavigate();
@@ -15,16 +15,15 @@ const Header = () => {
     try {
       await logoutAdmin();
       dispatch(logout());
-      navigate("/");
+      navigate('/');
     } catch (err) {
       console.error(err);
     }
   };
 
   return (
-<header className="w-full max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-8 xl:px-10 2xl:px-12 bg-white text-black p-4 sm:p-6 md:p-6 lg:p-6 xl:p-6 2xl:p-7">
-
-<nav className="flex items-center justify-between">
+    <header className="w-full max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-8 xl:px-10 2xl:px-12 bg-white text-black p-4 sm:p-6 md:p-6 lg:p-6 xl:p-6 2xl:p-7">
+      <nav className="flex items-center justify-between">
         {/* Logo */}
         <div className="flex items-center space-x-2">
           <h3
@@ -54,7 +53,8 @@ const Header = () => {
         </div>
 
         {/* ── Full nav on ≥md (≥768px) ── */}
-        <div className="
+        <div
+          className="
           hidden md:flex 
           items-center 
           space-x-2      /* base */
@@ -62,7 +62,8 @@ const Header = () => {
           lg:space-x-6   /* ≥1024px */
           xl:space-x-8   /* ≥1280px */
           2xl:space-x-10 /* ≥1536px */
-        ">
+        "
+        >
           {isAuthenticated ? (
             <>
               <span className="flex items-center gap-2">
@@ -83,19 +84,19 @@ const Header = () => {
           ) : (
             <>
               <button
-                onClick={() => navigate("/")}
+                onClick={() => navigate('/')}
                 className="px-4 py-2 bg-black text-white rounded-full hover:bg-white hover:text-black border transition-colors"
               >
                 Log In
               </button>
               <button
-                onClick={() => navigate("/signup")}
+                onClick={() => navigate('/signup')}
                 className="px-4 py-2 bg-white text-black rounded-full hover:bg-black hover:text-white border transition-colors"
               >
                 Sign Up
               </button>
               <button
-                onClick={() => navigate("/user/home")}
+                onClick={() => navigate('/user/home')}
                 className="px-4 py-2 bg-black text-white rounded-full hover:bg-white hover:text-black border transition-colors"
               >
                 Guest
@@ -131,19 +132,19 @@ const Header = () => {
           ) : (
             <>
               <button
-                onClick={() => navigate("/")}
+                onClick={() => navigate('/')}
                 className="w-11/12 sm:w-3/4 px-4 py-2 bg-black text-white rounded-full hover:bg-white hover:text-black border transition-colors"
               >
                 Log In
               </button>
               <button
-                onClick={() => navigate("/signup")}
+                onClick={() => navigate('/signup')}
                 className="w-11/12 sm:w-3/4 px-4 py-2 bg-white text-black rounded-full hover:bg-black hover:text-white border transition-colors"
               >
                 Sign Up
               </button>
               <button
-                onClick={() => navigate("/user/home")}
+                onClick={() => navigate('/user/home')}
                 className="w-11/12 sm:w-3/4 px-4 py-2 bg-black text-white rounded-full hover:bg-white hover:text-black border transition-colors"
               >
                 Guest
@@ -152,7 +153,7 @@ const Header = () => {
           )}
         </div>
       )}
-            <hr className="mt-8 border-gray-700" />
+      <hr className="mt-8 border-gray-700" />
     </header>
   );
 };

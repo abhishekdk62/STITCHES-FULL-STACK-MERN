@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import React, { useEffect, useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 import {
   ArrowLeft,
@@ -20,28 +20,28 @@ import {
   MapPinCheckInside,
   Package,
   Undo2,
-} from "lucide-react";
-import { toast } from "react-hot-toast";
-import { addDays } from "date-fns";
+} from 'lucide-react';
+import { toast } from 'react-hot-toast';
+import { addDays } from 'date-fns';
 
-import { useDispatch, useSelector } from "react-redux";
-import { format } from "date-fns";
+import { useDispatch, useSelector } from 'react-redux';
+import { format } from 'date-fns';
 import {
   cancelOrder,
   returnRequest,
   checkForReturn,
-} from "../../../services/orderServices";
+} from '../../../services/orderServices';
 
-import { generatePDFInvoice } from "../../../../utils/generateInvoice";
-import { setOrderDetail } from "../../../../slices/orderSlice";
-import { setSelectedTab } from "../../../../slices/selectedTabSlice";
+import { generatePDFInvoice } from '../../../../utils/generateInvoice';
+import { setOrderDetail } from '../../../../slices/orderSlice';
+import { setSelectedTab } from '../../../../slices/selectedTabSlice';
 export default function OrderInfo() {
   const orderDetail = useSelector((state) => state.order.orderDetail);
   const [isOpen, setIsOpen] = useState(false);
   const [cancelLoading, setCancelLoading] = useState(false);
   const [cancelError, setCancelError] = useState(null);
   const [orderCancelled, setOrderCancelled] = useState(false);
-  const [reason, setReason] = useState("");
+  const [reason, setReason] = useState('');
   const [showReturnModal, setShowReturnModal] = useState(false);
   const [status, setStatus] = useState();
   const [error, setError] = useState(false);
@@ -67,9 +67,9 @@ export default function OrderInfo() {
     try {
       const date = new Date(dateString);
       const newDate = addDays(date, 5);
-      return format(newDate, "d MMMM yyyy h:mm a");
+      return format(newDate, 'd MMMM yyyy h:mm a');
     } catch (error) {
-      return dateString || "N/A";
+      return dateString || 'N/A';
     }
   };
   // order.createdAt.
@@ -78,28 +78,28 @@ export default function OrderInfo() {
   useEffect(() => {
     const today = new Date();
     const createdDate = new Date(order?.createdAt);
-    
+
     const diffInTime = today.getTime() - createdDate.getTime();
     const diffInDays = diffInTime / (1000 * 3600 * 24);
-  
+
     if (diffInDays > 4) {
       setReturnDisabled(true);
     } else {
       setReturnDisabled(false);
     }
   }, [order?.createdAt]);
-  
+
   const formatDate = (dateString) => {
     try {
       const date = new Date(dateString);
-      return format(date, "d MMMM yyyy h:mm a");
+      return format(date, 'd MMMM yyyy h:mm a');
     } catch (error) {
-      return dateString || "N/A";
+      return dateString || 'N/A';
     }
   };
 
   React.useEffect(() => {
-    if (item.status === "Cancelled") {
+    if (item.status === 'Cancelled') {
       setOrderCancelled(true);
     }
   }, [item.status]);
@@ -122,24 +122,24 @@ export default function OrderInfo() {
         order.paymentMethod,
         grandTotal
       );
-      toast.success("Order cancelled", {
+      toast.success('Order cancelled', {
         icon: <CheckCircle2 className="text-white" size={18} />,
         style: {
-          border: "1px solid #000",
-          padding: "16px",
-          color: "white",
-          background: "#000",
-          fontSize: "14px",
-          fontWeight: "bold",
+          border: '1px solid #000',
+          padding: '16px',
+          color: 'white',
+          background: '#000',
+          fontSize: '14px',
+          fontWeight: 'bold',
         },
         autoClose: 5000,
       });
 
-      updateaStatus("Cancelled");
+      updateaStatus('Cancelled');
       setIsOpen(false);
     } catch (error) {
-      console.error("Error cancelling order:", error);
-      setCancelError("Failed to cancel order. Please try again.");
+      console.error('Error cancelling order:', error);
+      setCancelError('Failed to cancel order. Please try again.');
     } finally {
       setCancelLoading(false);
     }
@@ -155,7 +155,7 @@ export default function OrderInfo() {
 
   const closeReturnModal = () => {
     setShowReturnModal(false);
-    setReason("");
+    setReason('');
   };
   const handleReturnOrder = async () => {
     if (!reason.trim()) {
@@ -170,15 +170,15 @@ export default function OrderInfo() {
         reason,
         item?.quantity
       );
-      toast.success("Return requested", {
+      toast.success('Return requested', {
         icon: <CheckCircle2 className="text-white" size={18} />,
         style: {
-          border: "1px solid #000",
-          padding: "16px",
-          color: "white",
-          background: "#000",
-          fontSize: "14px",
-          fontWeight: "bold",
+          border: '1px solid #000',
+          padding: '16px',
+          color: 'white',
+          background: '#000',
+          fontSize: '14px',
+          fontWeight: 'bold',
         },
         autoClose: 5000,
       });
@@ -190,7 +190,7 @@ export default function OrderInfo() {
         checkReturnStatus();
       }
     } catch (error) {
-      console.error("Error processing return:", error);
+      console.error('Error processing return:', error);
     }
   };
 
@@ -219,17 +219,17 @@ export default function OrderInfo() {
 
   const getOrderProgress = () => {
     switch (item.status) {
-      case "Pending":
+      case 'Pending':
         return 8;
-      case "Processing":
+      case 'Processing':
         return 40;
-      case "Shipped":
+      case 'Shipped':
         return 68;
-      case "Delivered":
+      case 'Delivered':
         return 100;
-      case "Cancelled":
+      case 'Cancelled':
         return 100;
-      case "Returned":
+      case 'Returned':
         return 100;
       default:
         return 10;
@@ -239,17 +239,17 @@ export default function OrderInfo() {
   // Get status icon based on order status
   const getStatusIcon = (status) => {
     switch (status) {
-      case "Delivered":
+      case 'Delivered':
         return <CheckCircle2 size={16} className="text-green-600" />;
-      case "Processing":
+      case 'Processing':
         return <Clock size={16} className="text-blue-600" />;
-      case "Shipped":
+      case 'Shipped':
         return <Truck size={16} className="text-indigo-600" />;
-      case "Cancelled":
+      case 'Cancelled':
         return <XCircle size={16} className="text-red-600" />;
-      case "Returned":
+      case 'Returned':
         return <RotateCcw size={16} className="text-amber-600" />;
-      case "Out for Delivery":
+      case 'Out for Delivery':
         return <Truck size={16} className="text-purple-600" />;
       default:
         return <Clock size={16} className="text-gray-600" />;
@@ -355,11 +355,15 @@ export default function OrderInfo() {
       <div className="flex items-center justify-between mb-4 md:mb-8 pb-4 md:pb-6 border-b border-gray-200">
         <div className="flex items-center gap-2 md:gap-4">
           <button className="p-1 md:p-2 text-gray-600 hover:bg-gray-100 rounded-full transition-colors">
-            <ArrowLeft size={16} onClick={()=>dispatch(setSelectedTab("orders"))} className="md:w-5 md:h-5" />
+            <ArrowLeft
+              size={16}
+              onClick={() => dispatch(setSelectedTab('orders'))}
+              className="md:w-5 md:h-5"
+            />
           </button>
           <div>
             <h1 className="text-sm md:text-xl  text-gray-900">
-              Order #{order.orderID || "Unknown"}
+              Order #{order.orderID || 'Unknown'}
             </h1>
             <div className="flex items-center gap-1 md:gap-2 mt-1 text-xs md:text-sm text-gray-600">
               <Calendar size={14} className="md:w-4 md:h-4" />
@@ -367,15 +371,21 @@ export default function OrderInfo() {
             </div>
           </div>
         </div>
-        
+
         <div className="flex items-center gap-2 md:gap-3">
           <button
             onClick={handleGenerateInvoice}
-            disabled={item.status === "Returned" || item.status === "Cancelled" || orderCancelled}
+            disabled={
+              item.status === 'Returned' ||
+              item.status === 'Cancelled' ||
+              orderCancelled
+            }
             className={`flex items-center gap-1 md:gap-2 px-2 md:px-3 py-1.5 md:py-2 rounded-lg transition-colors text-xs md:text-sm font-medium ${
-              item.status === "Returned" || item.status === "Cancelled" || orderCancelled
-                ? "bg-gray-100 text-gray-400 cursor-not-allowed"
-                : "bg-gray-800 text-white hover:bg-gray-700"
+              item.status === 'Returned' ||
+              item.status === 'Cancelled' ||
+              orderCancelled
+                ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                : 'bg-gray-800 text-white hover:bg-gray-700'
             }`}
           >
             <Printer size={14} className="md:w-4 md:h-4" />
@@ -393,12 +403,12 @@ export default function OrderInfo() {
               <Truck className="text-gray-700 w-4 h-4 md:w-5 md:h-5" />
               Order Status
             </h2>
-            
+
             <div className="text-xs md:text-sm">
-              {item.status === "Cancelled" || item.status === "Returned" ? (
+              {item.status === 'Cancelled' || item.status === 'Returned' ? (
                 <div className="flex items-center justify-center p-4 bg-gray-50 rounded-lg border border-gray-200">
                   <div className="flex items-center gap-2 text-gray-700">
-                    {item.status === "Cancelled" || orderCancelled == true ? (
+                    {item.status === 'Cancelled' || orderCancelled == true ? (
                       <>
                         <XCircle size={20} className="text-red-500" />
                         <div>
@@ -444,8 +454,8 @@ export default function OrderInfo() {
                       <span
                         className={
                           getOrderProgress() >= 25
-                            ? "text-gray-900"
-                            : "text-gray-400"
+                            ? 'text-gray-900'
+                            : 'text-gray-400'
                         }
                       >
                         Processing
@@ -463,8 +473,8 @@ export default function OrderInfo() {
                       <span
                         className={
                           getOrderProgress() >= 50
-                            ? "text-gray-900"
-                            : "text-gray-400"
+                            ? 'text-gray-900'
+                            : 'text-gray-400'
                         }
                       >
                         Shipped
@@ -482,8 +492,8 @@ export default function OrderInfo() {
                       <span
                         className={
                           getOrderProgress() >= 100
-                            ? "text-gray-900"
-                            : "text-gray-400"
+                            ? 'text-gray-900'
+                            : 'text-gray-400'
                         }
                       >
                         Delivered
@@ -499,9 +509,9 @@ export default function OrderInfo() {
                 </>
               )}
             </div>
-            {item.status == "Cancelled" && null}
+            {item.status == 'Cancelled' && null}
 
-            {item.status == "Delivered" && (
+            {item.status == 'Delivered' && (
               <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
                 <div className="flex items-center gap-3">
                   <div className="p-2 bg-gray-300 text-green-400 rounded-full">
@@ -516,9 +526,9 @@ export default function OrderInfo() {
                 </div>
               </div>
             )}
-            {item.status !== "Cancelled" &&
-              item.status !== "Returned" &&
-              item.status !== "Delivered" && (
+            {item.status !== 'Cancelled' &&
+              item.status !== 'Returned' &&
+              item.status !== 'Delivered' && (
                 <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
                   <div className="flex items-center gap-3">
                     <div className="p-2 bg-gray-800 text-white rounded-full">
@@ -552,42 +562,41 @@ export default function OrderInfo() {
                         selectedVariant.productImages &&
                         selectedVariant.productImages.length > 0 &&
                         selectedVariant.productImages[0]) ||
-                      "/api/placeholder/96/96"
+                      '/api/placeholder/96/96'
                     }
-                    alt={item?.product?.name || "Product"}
+                    alt={item?.product?.name || 'Product'}
                     className="object-cover w-full h-full"
                   />
                 </div>
                 <div className="flex-1">
                   <div className="flex justify-between">
                     <h3 className="text-sm md:text-lg font-semibold text-gray-900">
-                      {item?.product?.name || "Product Name"}
+                      {item?.product?.name || 'Product Name'}
                     </h3>
                     <p className="text-sm md:text-lg font-bold text-gray-900">
-                    ₹{item?.price ? item.price.toFixed(0) : "0.00"}
+                      ₹{item?.price ? item.price.toFixed(0) : '0.00'}
                     </p>
                   </div>
                   <div className="flex flex-wrap gap-2 md:gap-4 mt-2">
                     <p className="text-xs md:text-sm text-gray-600 px-2 py-1 bg-gray-100 rounded-full">
-                      Color:{" "}
+                      Color:{' '}
                       <span className="text-gray-900 font-medium">
-                        {(selectedVariant && selectedVariant.color) || "N/A"}
+                        {(selectedVariant && selectedVariant.color) || 'N/A'}
                       </span>
                     </p>
                     <p className="text-xs md:text-sm text-gray-600 px-2 py-1 bg-gray-100 rounded-full">
-                      Size:{" "}
+                      Size:{' '}
                       <span className="text-gray-900 font-medium">
-                        {(selectedVariant && selectedVariant.size) || "N/A"}
+                        {(selectedVariant && selectedVariant.size) || 'N/A'}
                       </span>
                     </p>
                     <p className="text-xs md:text-sm text-gray-600 px-2 py-1 bg-gray-100 rounded-full">
-                      Qty:{" "}
+                      Qty:{' '}
                       <span className="text-gray-900 font-medium">
                         {item?.quantity || 0}
                       </span>
                     </p>
                   </div>
-            
                 </div>
               </div>
             </div>
@@ -597,22 +606,22 @@ export default function OrderInfo() {
           <div className="bg-white flex justify-center">
             <div className="flex flex-wrap gap-4">
               {/* Return/Cancel Status Displays */}
-              {status === "Requested" ? (
+              {status === 'Requested' ? (
                 <div className="flex items-center gap-2 px-4 py-2 bg-amber-50 text-amber-700 rounded-lg border border-amber-200 font-medium">
                   <Clock size={18} />
                   Return Requested
                 </div>
-              ) : status === "Rejected" ? (
+              ) : status === 'Rejected' ? (
                 <div className="flex items-center gap-2 px-4 py-2 bg-red-50 text-red-700 rounded-lg border border-red-200 font-medium">
                   <XCircle size={18} />
                   Return Rejected
                 </div>
-              ) : item.status === "Returned" ? null : item.status ===
-                "Delivered" ? (
+              ) : item.status === 'Returned' ? null : item.status ===
+                'Delivered' ? (
                 <button
-                disabled={returnDisabled}
+                  disabled={returnDisabled}
                   onClick={() => setReturnModal(true)}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-lg ${returnDisabled?"bg-gray-200 cursor-not-allowed text-gray-600":"bg-gray-800 text-white hover:bg-gray-700"}  transition-colors font-medium1`}
+                  className={`flex items-center gap-2 px-4 py-2 rounded-lg ${returnDisabled ? 'bg-gray-200 cursor-not-allowed text-gray-600' : 'bg-gray-800 text-white hover:bg-gray-700'}  transition-colors font-medium1`}
                 >
                   <RotateCcw size={18} />
                   Return Item
@@ -621,7 +630,7 @@ export default function OrderInfo() {
                 <>
                   {orderCancelled
                     ? null
-                    : item.status !== "Delivered" && (
+                    : item.status !== 'Delivered' && (
                         <motion.button
                           initial={{ opacity: 0, y: 20 }}
                           animate={{ opacity: 1, y: 0 }}
@@ -665,7 +674,7 @@ export default function OrderInfo() {
                   <span className="text-gray-700">Payment Method</span>
                 </div>
                 <span className="font-medium text-gray-900">
-                  {order.paymentMethod || "Not specified"}
+                  {order.paymentMethod || 'Not specified'}
                 </span>
               </div>
 
@@ -673,19 +682,19 @@ export default function OrderInfo() {
                 <div className="flex justify-between">
                   <span className="text-gray-600">Subtotal</span>
                   <span className="text-gray-900 font-medium">
-                  ₹{subtotal.toFixed(2)}
+                    ₹{subtotal.toFixed(2)}
                   </span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-600">Shipping</span>
                   <span className="text-gray-900 font-medium">
-                  ₹{shipping.toFixed(2)}
+                    ₹{shipping.toFixed(2)}
                   </span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-600">Tax (12%)</span>
                   <span className="text-gray-900 font-medium">
-                  ₹{tax.toFixed(2)}
+                    ₹{tax.toFixed(2)}
                   </span>
                 </div>
                 {discount > 0 && (
@@ -699,7 +708,7 @@ export default function OrderInfo() {
                     Grand Total
                   </span>
                   <span className="md:text-lg text-base font-bold text-gray-900">
-                  ₹{grandTotal.toFixed(2)}
+                    ₹{grandTotal.toFixed(2)}
                   </span>
                 </div>
               </div>
@@ -729,7 +738,7 @@ export default function OrderInfo() {
                 <div className="text-gray-700">
                   <p>{order.address.street}</p>
                   <p>
-                    {order.address.city}, {order.address.state} -{" "}
+                    {order.address.city}, {order.address.state} -{' '}
                     {order.address.zipCode}
                   </p>
                   <p>{order.address.country}</p>
@@ -752,7 +761,7 @@ export default function OrderInfo() {
               <button
                 onClick={() => {
                   setShowReturnModal(false);
-                  setReason("");
+                  setReason('');
                   setReturnModal(false);
                 }}
                 className="p-1 hover:bg-gray-100 rounded-full transition-colors"
@@ -789,7 +798,7 @@ export default function OrderInfo() {
               <button
                 onClick={() => {
                   setShowReturnModal(false);
-                  setReason("");
+                  setReason('');
                   setReturnModal(false);
                 }}
                 className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors text-gray-700"
@@ -797,9 +806,9 @@ export default function OrderInfo() {
                 Cancel
               </button>
               <button
-              disabled={returnDisabled}
+                disabled={returnDisabled}
                 onClick={handleReturnOrder}
-                className={`px-4 py-2 ${returnDisabled?"cursor-not-allowed bg-gray-800 text-white hover:bg-gray-700":"bg-gray-300 text-gray-700"}   rounded-lg  transition-colors`}
+                className={`px-4 py-2 ${returnDisabled ? 'cursor-not-allowed bg-gray-800 text-white hover:bg-gray-700' : 'bg-gray-300 text-gray-700'}   rounded-lg  transition-colors`}
               >
                 Submit Return
               </button>

@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import CategorySlideShimmer from "../category/CategorySlideShimmer";
-import { useNavigate } from "react-router-dom";
-import { fetchNewArrivalsService } from "../../../services/productService";
-import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+import CategorySlideShimmer from '../category/CategorySlideShimmer';
+import { useNavigate } from 'react-router-dom';
+import { fetchNewArrivalsService } from '../../../services/productService';
+import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 
 const NewArrivals = () => {
   const [newArrivals, setNewArrivals] = useState([]);
@@ -23,7 +23,7 @@ const NewArrivals = () => {
         const data = await fetchNewArrivalsService();
         setNewArrivals(data);
       } catch (error) {
-        console.error("Error fetching new arrivals:", error);
+        console.error('Error fetching new arrivals:', error);
       } finally {
         setLoading(false);
       }

@@ -1,11 +1,11 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  selectedTab: "myinfo",
+  selectedTab: 'myinfo',
 };
 
 const selectedTabSlice = createSlice({
-  name: "selectedTab",
+  name: 'selectedTab',
   initialState,
   reducers: {
     setSelectedTab: (state, action) => {

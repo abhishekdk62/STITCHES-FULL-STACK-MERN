@@ -1,24 +1,26 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { editAddress } from "../../../services/userService";
-import { getCountries } from "../../../services/countiesService";
-import { toast } from "react-hot-toast";
-import { motion } from "framer-motion";
-import { Check, MapPin, Save } from "lucide-react";
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { editAddress } from '../../../services/userService';
+import { getCountries } from '../../../services/countiesService';
+import { toast } from 'react-hot-toast';
+import { motion } from 'framer-motion';
+import { Check, MapPin, Save, X } from 'lucide-react';
 
 export default function CheckoutEditAddress({ setShowCheckEditAddress }) {
   const dispatch = useDispatch();
   const address = useSelector((state) => state.checkout.shippingAddressEdit);
-  
-  const [fullName, setFullName] = useState(address?.fullName || "");
-  const [country, setCountry] = useState(address?.country || "");
-  const [street, setStreet] = useState(address?.street || "");
-  const [city, setCity] = useState(address?.city || "");
-  const [state, setState] = useState(address?.state || "");
-  const [phone, setPhone] = useState(address?.phone || "");
-  const [zip, setZip] = useState(address?.zipCode || "");
+
+  const [fullName, setFullName] = useState(address?.fullName || '');
+  const [country, setCountry] = useState(address?.country || '');
+  const [street, setStreet] = useState(address?.street || '');
+  const [city, setCity] = useState(address?.city || '');
+  const [state, setState] = useState(address?.state || '');
+  const [phone, setPhone] = useState(address?.phone || '');
+  const [zip, setZip] = useState(address?.zipCode || '');
   const [defaultBilling, setDefaultBilling] = useState(false);
-  const [addressType, setAddressType] = useState(address?.addressType || "Home");
+  const [addressType, setAddressType] = useState(
+    address?.addressType || 'Home'
+  );
   const [countries, setCountries] = useState([]);
   const [error, setError] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -29,13 +31,13 @@ export default function CheckoutEditAddress({ setShowCheckEditAddress }) {
         const response = await getCountries();
         setCountries(response);
       } catch (error) {
-        console.error("Error fetching countries:", error);
-        toast.error("Failed to load countries", {
-          icon: "🌍",
+        console.error('Error fetching countries:', error);
+        toast.error('Failed to load countries', {
+          icon: '🌍',
           style: {
-            background: "#ff0000",
-            color: "#fff"
-          }
+            background: '#ff0000',
+            color: '#fff',
+          },
         });
       }
     };
@@ -47,37 +49,37 @@ export default function CheckoutEditAddress({ setShowCheckEditAddress }) {
     setIsSubmitting(true);
 
     if (!fullName) {
-      setError("Please enter the Fullname");
+      setError('Please enter the Fullname');
       setIsSubmitting(false);
       return;
     }
     if (!country) {
-      setError("Please select the Country");
+      setError('Please select the Country');
       setIsSubmitting(false);
       return;
     }
     if (!street) {
-      setError("Please enter the Street");
+      setError('Please enter the Street');
       setIsSubmitting(false);
       return;
     }
     if (!city) {
-      setError("Please enter the City");
+      setError('Please enter the City');
       setIsSubmitting(false);
       return;
     }
     if (!state) {
-      setError("Please enter the State");
+      setError('Please enter the State');
       setIsSubmitting(false);
       return;
     }
     if (!phone) {
-      setError("Please enter the Phone Number");
+      setError('Please enter the Phone Number');
       setIsSubmitting(false);
       return;
     }
     if (!zip) {
-      setError("Please enter the Zip Code");
+      setError('Please enter the Zip Code');
       setIsSubmitting(false);
       return;
     }
@@ -96,50 +98,49 @@ export default function CheckoutEditAddress({ setShowCheckEditAddress }) {
       };
 
       await editAddress(addressData, address._id);
-      
-      toast.success("Address updated!", {
+
+      toast.success('Address updated!', {
         icon: (
-          <img 
-            src="https://static.thenounproject.com/png/29520-200.png" 
+          <img
+            src="https://static.thenounproject.com/png/29520-200.png"
             className="animate-bounce"
-            style={{ filter: "invert(1)" }}
-            alt="Success Icon" 
-            width="30" 
-            height="30" 
+            style={{ filter: 'invert(1)' }}
+            alt="Success Icon"
+            width="30"
+            height="30"
           />
         ),
         style: {
-          border: "1px solid #0f5132",
-          padding: "16px",
-          color: "white",
-          background: "black",
-          fontSize: "14px",
-          fontWeight: "bold",
+          border: '1px solid #0f5132',
+          padding: '16px',
+          color: 'white',
+          background: 'black',
+          fontSize: '14px',
+          fontWeight: 'bold',
         },
       });
 
-      setShowCheckEditAddress("showaddress");
-      
+      setShowCheckEditAddress('showaddress');
     } catch (error) {
-      console.error("Error saving address:", error);
-      toast.error("Something went wrong", {
+      console.error('Error saving address:', error);
+      toast.error('Something went wrong', {
         icon: (
-          <img 
-            src="https://static.thenounproject.com/png/29520-200.png" 
+          <img
+            src="https://static.thenounproject.com/png/29520-200.png"
             className="animate-bounce"
-            style={{ filter: "invert(1)" }}
-            alt="Error Icon" 
-            width="30" 
-            height="30" 
+            style={{ filter: 'invert(1)' }}
+            alt="Error Icon"
+            width="30"
+            height="30"
           />
         ),
         style: {
-          border: "1px solid #0f5132",
-          padding: "16px",
-          color: "white",
-          background: "red",
-          fontSize: "14px",
-          fontWeight: "bold",
+          border: '1px solid #0f5132',
+          padding: '16px',
+          color: 'white',
+          background: 'red',
+          fontSize: '14px',
+          fontWeight: 'bold',
         },
       });
     } finally {
@@ -148,7 +149,7 @@ export default function CheckoutEditAddress({ setShowCheckEditAddress }) {
   };
 
   return (
-    <motion.div 
+    <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.4 }}
@@ -157,7 +158,9 @@ export default function CheckoutEditAddress({ setShowCheckEditAddress }) {
       <div className="flex justify-between items-center border-b pb-4 mb-6">
         <div className="flex items-center gap-3">
           <MapPin className="w-5 h-5 text-black" />
-          <h2 className="text-xl font-bold text-black tracking-tight">Edit Address</h2>
+          <h2 className="text-xl font-bold text-black tracking-tight">
+            Edit Address
+          </h2>
         </div>
       </div>
 
@@ -174,8 +177,8 @@ export default function CheckoutEditAddress({ setShowCheckEditAddress }) {
         </motion.div>
       )}
 
-      <motion.form 
-        onSubmit={handleSubmit} 
+      <motion.form
+        onSubmit={handleSubmit}
         className="space-y-6"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -184,7 +187,9 @@ export default function CheckoutEditAddress({ setShowCheckEditAddress }) {
         <div className="bg-gray-50 p-6 rounded-lg border border-gray-100">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
-              <label className="sm:text-sm text-[0.85rem] text-gray-500">Full Name</label>
+              <label className="sm:text-sm text-[0.85rem] text-gray-500">
+                Full Name
+              </label>
               <input
                 type="text"
                 placeholder="Enter your full name"
@@ -195,7 +200,9 @@ export default function CheckoutEditAddress({ setShowCheckEditAddress }) {
             </div>
 
             <div className="space-y-2">
-              <label className="sm:text-sm text-[0.85rem] text-gray-500">Phone Number</label>
+              <label className="sm:text-sm text-[0.85rem] text-gray-500">
+                Phone Number
+              </label>
               <input
                 type="tel"
                 placeholder="Enter your phone number"
@@ -206,7 +213,9 @@ export default function CheckoutEditAddress({ setShowCheckEditAddress }) {
             </div>
 
             <div className="space-y-2">
-              <label className="sm:text-sm text-[0.85rem] text-gray-500">Country</label>
+              <label className="sm:text-sm text-[0.85rem] text-gray-500">
+                Country
+              </label>
               <select
                 id="country"
                 value={country}
@@ -223,7 +232,9 @@ export default function CheckoutEditAddress({ setShowCheckEditAddress }) {
             </div>
 
             <div className="space-y-2">
-              <label className="sm:text-sm text-[0.85rem] text-gray-500">State/Province</label>
+              <label className="sm:text-sm text-[0.85rem] text-gray-500">
+                State/Province
+              </label>
               <input
                 placeholder="Enter your state"
                 id="State"
@@ -234,7 +245,9 @@ export default function CheckoutEditAddress({ setShowCheckEditAddress }) {
             </div>
 
             <div className="space-y-2">
-              <label className="sm:text-sm text-[0.85rem] text-gray-500">City</label>
+              <label className="sm:text-sm text-[0.85rem] text-gray-500">
+                City
+              </label>
               <input
                 type="text"
                 placeholder="Enter your city"
@@ -245,7 +258,9 @@ export default function CheckoutEditAddress({ setShowCheckEditAddress }) {
             </div>
 
             <div className="space-y-2">
-              <label className="sm:text-sm text-[0.85rem] text-gray-500">ZIP/Postal Code</label>
+              <label className="sm:text-sm text-[0.85rem] text-gray-500">
+                ZIP/Postal Code
+              </label>
               <input
                 type="text"
                 placeholder="Enter zip code"
@@ -256,7 +271,9 @@ export default function CheckoutEditAddress({ setShowCheckEditAddress }) {
             </div>
 
             <div className="space-y-2 md:col-span-2">
-              <label className="sm:text-sm text-[0.85rem] text-gray-500">Street Address</label>
+              <label className="sm:text-sm text-[0.85rem] text-gray-500">
+                Street Address
+              </label>
               <input
                 type="text"
                 placeholder="Enter your street address"
@@ -267,7 +284,9 @@ export default function CheckoutEditAddress({ setShowCheckEditAddress }) {
             </div>
 
             <div className="space-y-2">
-              <label className="sm:text-sm text-[0.85rem] text-gray-500">Address Type</label>
+              <label className="sm:text-sm text-[0.85rem] text-gray-500">
+                Address Type
+              </label>
               <select
                 value={addressType}
                 onChange={(e) => setAddressType(e.target.value)}
@@ -288,10 +307,14 @@ export default function CheckoutEditAddress({ setShowCheckEditAddress }) {
                   onChange={(e) => setDefaultBilling(e.target.checked)}
                   className="sr-only"
                 />
-                <span className={`w-5 h-5 mr-2 border flex items-center justify-center ${defaultBilling ? 'bg-black border-black' : 'border-gray-300'}`}>
+                <span
+                  className={`w-5 h-5 mr-2 border flex items-center justify-center ${defaultBilling ? 'bg-black border-black' : 'border-gray-300'}`}
+                >
                   {defaultBilling && <Check size={14} className="text-white" />}
                 </span>
-                <span className="sm:text-sm text-[0.85rem]">Set as default billing address</span>
+                <span className="sm:text-sm text-[0.85rem]">
+                  Set as default billing address
+                </span>
               </label>
             </div>
           </div>
@@ -302,12 +325,12 @@ export default function CheckoutEditAddress({ setShowCheckEditAddress }) {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             type="button"
-            onClick={() => setShowCheckEditAddress("showaddress")}
+            onClick={() => setShowCheckEditAddress('showaddress')}
             className="sm:px-6 px-3 py-1 text-sm sm:py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors duration-300"
           >
             Cancel
           </motion.button>
-          
+
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
@@ -315,7 +338,7 @@ export default function CheckoutEditAddress({ setShowCheckEditAddress }) {
             disabled={isSubmitting}
             className="sm:px-6 px-3 py-1 text-sm sm:py-2 rounded-md bg-black text-white hover:bg-white hover:text-black border border-black transition-colors duration-300 flex items-center gap-2"
           >
-            {isSubmitting ? "Saving..." : "Save"} <Save size={15} />
+            {isSubmitting ? 'Saving...' : 'Save'} <Save size={15} />
           </motion.button>
         </div>
       </motion.form>

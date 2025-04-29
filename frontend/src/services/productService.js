@@ -1,9 +1,9 @@
-import apiClient from "./apiClient";
-import { debounce } from 'lodash'; 
+import apiClient from './apiClient';
+import { debounce } from 'lodash';
 
 export const addProduct = async (productData) => {
   try {
-    const response = await apiClient.post("/admin/addProduct", productData);
+    const response = await apiClient.post('/admin/addProduct', productData);
     return response.data;
   } catch (error) {
     throw error;
@@ -21,7 +21,7 @@ export const fetchProduct = async (id) => {
 
 export const fetchProducts = async () => {
   try {
-    const response = await apiClient.get("/admin/searchdeletedproducts");
+    const response = await apiClient.get('/admin/searchdeletedproducts');
     return response;
   } catch (error) {
     throw error;
@@ -31,7 +31,7 @@ export const fetchProducts = async () => {
 // Function to restore a product
 export const restoreProduct = async (id) => {
   try {
-    const response = await apiClient.put("/admin/restoreprod", { id });
+    const response = await apiClient.put('/admin/restoreprod', { id });
     return response;
   } catch (error) {
     throw error;
@@ -40,8 +40,8 @@ export const restoreProduct = async (id) => {
 
 export const fetchMensProducts = async () => {
   try {
-    const response = await apiClient.post("/user/categoryWiseProducs", {
-      catName: "Men",
+    const response = await apiClient.post('/user/categoryWiseProducs', {
+      catName: 'Men',
     });
     return response.data.data || [];
   } catch (error) {
@@ -50,8 +50,8 @@ export const fetchMensProducts = async () => {
 };
 export const fetchWomenProducts = async () => {
   try {
-    const response = await apiClient.post("/user/categoryWiseProducs", {
-      catName: "Women",
+    const response = await apiClient.post('/user/categoryWiseProducs', {
+      catName: 'Women',
     });
     return response.data.data || [];
   } catch (error) {
@@ -61,14 +61,14 @@ export const fetchWomenProducts = async () => {
 
 export const getProductsService = async (requestBody) => {
   try {
-    const response = await apiClient.post("/user/products", requestBody);
+    const response = await apiClient.post('/user/products', requestBody);
     return response.data;
   } catch (error) {
     throw error;
   }
 };
 
-export const fetchProductsService = async (query = "", page = 1) => {
+export const fetchProductsService = async (query = '', page = 1) => {
   try {
     const response = await apiClient.get(
       `/admin/searchproducts?q=${query}&page=${page}&limit=8`
@@ -84,7 +84,6 @@ export const debouncedFetchProductsService = debounce(
   fetchProductsService,
   500 // Adjust the debounce delay (500ms)
 );
-
 
 // Soft delete a product by ID.
 export const softDeleteProductService = async (id) => {
@@ -106,7 +105,7 @@ export const editProductService = async (productId, payload) => {
   } catch (error) {
     throw error;
   }
-};  
+};
 
 export const getProductById = async (id) => {
   try {
@@ -120,7 +119,7 @@ export const getProductById = async (id) => {
 // Fetch reviews for a product
 export const fetchProductReviews = async (productId) => {
   try {
-    const response = await apiClient.post("/user/reviews", { productId });
+    const response = await apiClient.post('/user/reviews', { productId });
     return response.data.data;
   } catch (error) {
     throw error;
@@ -130,7 +129,7 @@ export const fetchProductReviews = async (productId) => {
 // Add a review for a product
 export const addReview = async (newReview, productId, userId) => {
   try {
-    const response = await apiClient.post("/user/review", {
+    const response = await apiClient.post('/user/review', {
       newReview,
       productId,
       userId,
@@ -144,7 +143,7 @@ export const addReview = async (newReview, productId, userId) => {
 // Fetch category name by ID
 export const getCategoryName = async (categoryId) => {
   try {
-    const response = await apiClient.post("/user/getcategoryname", {
+    const response = await apiClient.post('/user/getcategoryname', {
       id: categoryId,
     });
     return response.data;
@@ -156,7 +155,7 @@ export const getCategoryName = async (categoryId) => {
 // Fetch similar products based on category ID
 export const getSimilarProducts = async (categoryId) => {
   try {
-    const response = await apiClient.post("/user/getsimilarproducts", {
+    const response = await apiClient.post('/user/getsimilarproducts', {
       categoryId,
     });
     return response.data.data;
@@ -168,7 +167,7 @@ export const getSimilarProducts = async (categoryId) => {
 // Fetch product rating
 export const getProductRating = async (productId) => {
   try {
-    const response = await apiClient.post("/user/rating", {
+    const response = await apiClient.post('/user/rating', {
       id: productId,
     });
     return response.data;
@@ -179,16 +178,16 @@ export const getProductRating = async (productId) => {
 
 export const fetchNewArrivalsService = async () => {
   try {
-    const response = await apiClient.get("/user/new-arrivals");
+    const response = await apiClient.get('/user/new-arrivals');
     // Adjust based on your response structure
     return response.data.data || response.data;
   } catch (error) {
     throw error;
   }
 };
-export const checkInCartApi = async (pid,vid) => {
+export const checkInCartApi = async (pid, vid) => {
   try {
-    const response = await apiClient.post("/user/checkincart",{pid,vid});
+    const response = await apiClient.post('/user/checkincart', { pid, vid });
     // Adjust based on your response structure
     return response.data;
   } catch (error) {
@@ -196,12 +195,11 @@ export const checkInCartApi = async (pid,vid) => {
   }
 };
 
-
-export const getProductsByCatApi=async(cid)=>{
+export const getProductsByCatApi = async (cid) => {
   try {
-    const response=await apiClient.get(`/admin/productsbycat/${cid}`)
-    return response.data
+    const response = await apiClient.get(`/admin/productsbycat/${cid}`);
+    return response.data;
   } catch (error) {
-    throw error
+    throw error;
   }
-}
+};

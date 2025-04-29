@@ -1,55 +1,55 @@
-import React, { useState, useEffect } from "react";
-import { User } from "lucide-react";
-import { fetchUsers, updateStatus } from "../../../services/userService";
-import SearchBar from "./elements/SearchBar";
-import CustomerList from "./elements/CustomerList";
-import Pagination from "./elements/Pagination";
-import ShimmerUI from "./elements/ShimmerUI";
-import { useDebounce } from "../../../../utils/useDebounce";
+import React, { useState, useEffect } from 'react';
+import { User } from 'lucide-react';
+import { fetchUsers, updateStatus } from '../../../services/userService';
+import SearchBar from './elements/SearchBar';
+import CustomerList from './elements/CustomerList';
+import Pagination from './elements/Pagination';
+import ShimmerUI from './elements/ShimmerUI';
+import { useDebounce } from '../../../../utils/useDebounce';
 
 const UserList = () => {
   const [userList, setUserList] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [searchInput, setSearchInput] = useState("");
-  const [error, setError] = useState("");
+  const [searchInput, setSearchInput] = useState('');
+  const [error, setError] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const debouncedValue=useDebounce(searchInput,500)
+  const debouncedValue = useDebounce(searchInput, 500);
 
-  const getUsers = async (searchQuery = "", page = 1) => {
+  const getUsers = async (searchQuery = '', page = 1) => {
     setLoading(true);
     try {
       const data = await fetchUsers(searchQuery, page);
       setUserList(data.users);
       setCurrentPage(data.page);
       setTotalPages(data.totalPages);
-      setError("");
+      setError('');
     } catch (err) {
       if (err.response) {
         if (err.response.status === 404) {
-          setError("No users found");
+          setError('No users found');
           setUserList([]);
         } else {
-          setError(err.response.data.message || "Server error");
+          setError(err.response.data.message || 'Server error');
         }
       } else if (err.request) {
-        setError("No response from server");
+        setError('No response from server');
       } else {
-        setError("Error fetching users");
+        setError('Error fetching users');
       }
-      console.error("Error fetching users:", err);
+      console.error('Error fetching users:', err);
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    getUsers("", 1);
+    getUsers('', 1);
   }, []);
 
-useEffect(()=>{
-getUsers(debouncedValue)
-},[debouncedValue])
+  useEffect(() => {
+    getUsers(debouncedValue);
+  }, [debouncedValue]);
 
   const handleUpdateStatus = async (id, status) => {
     try {
@@ -61,7 +61,7 @@ getUsers(debouncedValue)
       );
     } catch (err) {
       console.error(
-        "Error updating status:",
+        'Error updating status:',
         err.response?.data?.message || err.message
       );
     }
@@ -75,7 +75,9 @@ getUsers(debouncedValue)
           <div className="md:text-xl text-sm font-bold text-black tracking-tight">
             <User size={24} />
           </div>
-          <h1 className="md:text-2xl sm:text-xl font-bold">Customer Management</h1>
+          <h1 className="md:text-2xl sm:text-xl font-bold">
+            Customer Management
+          </h1>
         </div>
 
         {/* Search Bar */}

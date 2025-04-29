@@ -1,21 +1,33 @@
-import React, { useState ,useEffect } from "react";
-import axios from "axios";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { sendOTP, updatePassword, verifyOTP } from "../../../services/userService";
-import { motion } from "framer-motion";
-import { KeyRound, Mail, Shield, EyeOff, CheckCircle, Lock, Eye } from "lucide-react";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import {
+  sendOTP,
+  updatePassword,
+  verifyOTP,
+} from '../../../services/userService';
+import { motion } from 'framer-motion';
+import {
+  KeyRound,
+  Mail,
+  Shield,
+  EyeOff,
+  CheckCircle,
+  Lock,
+  Eye,
+} from 'lucide-react';
 
 const ForgotPassword = ({ setForgotPassword }) => {
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState('');
   const [otpSent, setOtpSent] = useState(false);
-  const [otp, setOtp] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [otp, setOtp] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [message, setMessage] = useState("");
-  const[loading, setLoading] = useState(false);
-  const [info, setInfo] = useState("");
+  const [message, setMessage] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [info, setInfo] = useState('');
   const [otpVerified, setOtpVerified] = useState(false);
   const [secondsLeft, setSecondsLeft] = useState(0);
 
@@ -35,60 +47,57 @@ const ForgotPassword = ({ setForgotPassword }) => {
     }
     return () => clearInterval(intervalId);
   }, [otpSent]);
-  
+
   const formatTimer = (sec) => {
     const m = Math.floor(sec / 60)
       .toString()
-      .padStart(2, "0");
-    const s = (sec % 60).toString().padStart(2, "0");
+      .padStart(2, '0');
+    const s = (sec % 60).toString().padStart(2, '0');
     return `${m}:${s}`;
   };
   const handleSendOTP = async () => {
-    if(!email){
-      return setMessage("Please enter your email address.");  
+    if (!email) {
+      return setMessage('Please enter your email address.');
     }
     try {
       setLoading(true);
       await sendOTP(email);
       setOtpSent(true);
-      setInfo("OTP sent successfully. Check your email.");
+      setInfo('OTP sent successfully. Check your email.');
       setSecondsLeft(300);
       setLoading(false);
       setMessage(null);
-
     } catch (error) {
-      setMessage(error.response?.data?.message || "Error sending OTP");
+      setMessage(error.response?.data?.message || 'Error sending OTP');
       setLoading(false);
-
     }
   };
 
   const handleVerifyOTP = async () => {
     try {
-      if(!otp){
-        return setMessage("Please enter the OTP sent to your email.");
-
+      if (!otp) {
+        return setMessage('Please enter the OTP sent to your email.');
       }
       const data = await verifyOTP(email, otp);
       if (data.success) {
         setOtpVerified(true);
         setMessage(null);
-        setInfo("OTP verified successfully.");
+        setInfo('OTP verified successfully.');
       } else {
         setInfo(null);
-        setMessage("Invalid OTP. Please try again.");
+        setMessage('Invalid OTP. Please try again.');
       }
     } catch (error) {
       console.log(error);
       setInfo(null);
-      setMessage(error.response?.data?.message || "Error verifying OTP");
+      setMessage(error.response?.data?.message || 'Error verifying OTP');
     }
   };
 
   const handleResetPassword = async () => {
     if (password !== confirmPassword) {
       setInfo(null);
-      setMessage("Passwords do not match!");
+      setMessage('Passwords do not match!');
       return;
     }
     try {
@@ -100,7 +109,7 @@ const ForgotPassword = ({ setForgotPassword }) => {
       }, 2000);
     } catch (error) {
       setInfo(null);
-      setMessage(error.response?.data?.message || "Error updating password");
+      setMessage(error.response?.data?.message || 'Error updating password');
     }
   };
 
@@ -181,7 +190,7 @@ const ForgotPassword = ({ setForgotPassword }) => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.5 }}
               >
-                {loading?"Sending...":"Send OTP"}
+                {loading ? 'Sending...' : 'Send OTP'}
               </motion.button>
             </motion.div>
 
@@ -201,27 +210,27 @@ const ForgotPassword = ({ setForgotPassword }) => {
                     Enter OTP
                   </label>
                   <input
-  id="otp"
-  type="text"
-  placeholder="Enter OTP"
-  value={otp}
-  onChange={(e) => setOtp(e.target.value)}
-  className="w-full rounded-md border border-gray-300 px-3 sm:px-4 py-2 sm:py-3 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent text-xs sm:text-sm"
-/>
-<div className="flex justify-end mt-1">
-  <p className="text-xs text-gray-500">
-    {secondsLeft > 0 ? (
-      <>Resend in {formatTimer(secondsLeft)}</>
-    ) : (
-      <span 
-        onClick={handleSendOTP} 
-        className="text-blue-500 cursor-pointer hover:underline"
-      >
-        Resend OTP
-      </span>
-    )}
-  </p>
-</div>
+                    id="otp"
+                    type="text"
+                    placeholder="Enter OTP"
+                    value={otp}
+                    onChange={(e) => setOtp(e.target.value)}
+                    className="w-full rounded-md border border-gray-300 px-3 sm:px-4 py-2 sm:py-3 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent text-xs sm:text-sm"
+                  />
+                  <div className="flex justify-end mt-1">
+                    <p className="text-xs text-gray-500">
+                      {secondsLeft > 0 ? (
+                        <>Resend in {formatTimer(secondsLeft)}</>
+                      ) : (
+                        <span
+                          onClick={handleSendOTP}
+                          className="text-blue-500 cursor-pointer hover:underline"
+                        >
+                          Resend OTP
+                        </span>
+                      )}
+                    </p>
+                  </div>
                 </div>
 
                 <motion.button
@@ -263,7 +272,7 @@ const ForgotPassword = ({ setForgotPassword }) => {
                   <div className="relative">
                     <input
                       id="password"
-                      type={showPassword ? "text" : "password"}
+                      type={showPassword ? 'text' : 'password'}
                       placeholder="Enter new password"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
@@ -295,7 +304,7 @@ const ForgotPassword = ({ setForgotPassword }) => {
                   <div className="relative">
                     <input
                       id="confirmPassword"
-                      type={showConfirmPassword ? "text" : "password"}
+                      type={showConfirmPassword ? 'text' : 'password'}
                       placeholder="Confirm new password"
                       value={confirmPassword}
                       onChange={(e) => setConfirmPassword(e.target.value)}
@@ -304,7 +313,9 @@ const ForgotPassword = ({ setForgotPassword }) => {
                     <motion.span
                       whileHover={{ scale: 1.1 }}
                       whileTap={{ scale: 0.9 }}
-                      onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                      onClick={() =>
+                        setShowConfirmPassword(!showConfirmPassword)
+                      }
                       className="absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 text-gray-500 cursor-pointer"
                     >
                       {showConfirmPassword ? (
@@ -333,9 +344,9 @@ const ForgotPassword = ({ setForgotPassword }) => {
               transition={{ delay: 0.6 }}
               className="mt-4 sm:mt-6 text-center text-gray-500 text-xs sm:text-sm"
             >
-              Remembered your password?{" "}
+              Remembered your password?{' '}
               <motion.span
-                whileHover={{ scale: 1.05, color: "#000" }}
+                whileHover={{ scale: 1.05, color: '#000' }}
                 onClick={() => setForgotPassword(false)}
                 className="text-black font-medium hover:underline cursor-pointer transition-all"
               >

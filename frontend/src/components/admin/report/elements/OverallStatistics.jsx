@@ -1,7 +1,7 @@
-import React from "react";
-import { DollarSign, Tag, ShoppingCart } from "lucide-react";
-import { motion } from "framer-motion";
-import StatisticCard from "./StatisticCard";
+import React from 'react';
+import { DollarSign, Tag, ShoppingCart } from 'lucide-react';
+import { motion } from 'framer-motion';
+import StatisticCard from './StatisticCard';
 
 const OverallStatistics = ({ salesReportData, formatCurrency }) => {
   return (

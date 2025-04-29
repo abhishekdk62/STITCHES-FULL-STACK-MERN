@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useRef } from "react";
-import { getCoupons } from "../../../services/couponService";
-import { Calendar, Copy, Clock, Ticket } from "lucide-react";
-import { motion } from "framer-motion";
-import { useSelector } from "react-redux";
-import Notification from "../common/Notification";
+import React, { useState, useEffect, useRef } from 'react';
+import { getCoupons } from '../../../services/couponService';
+import { Calendar, Copy, Clock, Ticket } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { useSelector } from 'react-redux';
+import Notification from '../common/Notification';
 
 const Coupon = () => {
   const [coupons, setCoupons] = useState([]);
@@ -23,7 +23,7 @@ const Coupon = () => {
       setLoading(false);
     } catch (error) {
       console.log(error);
-      setError("Failed to fetch coupons");
+      setError('Failed to fetch coupons');
       setLoading(false);
     }
   };
@@ -34,10 +34,10 @@ const Coupon = () => {
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
+    return date.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
     });
   };
 
@@ -59,7 +59,7 @@ const Coupon = () => {
     setShowAll(true);
     // after state updates, scroll to the list
     setTimeout(() => {
-      listRef.current?.scrollIntoView({ behavior: "smooth" });
+      listRef.current?.scrollIntoView({ behavior: 'smooth' });
     }, 0);
   };
 
@@ -80,7 +80,7 @@ const Coupon = () => {
       opacity: 1,
       y: 0,
       transition: {
-        type: "spring",
+        type: 'spring',
         stiffness: 100,
         damping: 12,
       },
@@ -100,8 +100,8 @@ const Coupon = () => {
   if (!userDetails) {
     return (
       <Notification
-        p1={"You’re not signed in"}
-        p2={"Please log in to access your coupons."}
+        p1={'You’re not signed in'}
+        p2={'Please log in to access your coupons.'}
         icon={<Ticket size={80} className="text-gray-300" />}
       />
     );
@@ -110,8 +110,8 @@ const Coupon = () => {
   if (coupons.length <= 0) {
     return (
       <Notification
-        p1={"No coupons available"}
-        p2={"You don’t have any coupons yet."}
+        p1={'No coupons available'}
+        p2={'You don’t have any coupons yet.'}
         icon={<Ticket size={80} className="text-gray-300" />}
       />
     );
@@ -166,7 +166,7 @@ const Coupon = () => {
                 variants={itemVariants}
                 whileHover={{
                   scale: 1.02,
-                  boxShadow: "0 10px 20px rgba(0,0,0,0.1)",
+                  boxShadow: '0 10px 20px rgba(0,0,0,0.1)',
                   transition: { duration: 0.2 },
                 }}
                 className="border border-gray-200 rounded-lg overflow-hidden bg-gradient-to-r from-orange-100 to-pink-300 h-full hover:border-white transition-all duration-300 group"
@@ -185,14 +185,14 @@ const Coupon = () => {
 
                     <div className="mt-4 flex items-center">
                       <div className="md:text-3xl text-sm font-bold text-black">
-                        {coupon.discountType === "percentage"
+                        {coupon.discountType === 'percentage'
                           ? `${coupon.discountValue}%`
                           : `₹${coupon.discountValue}`}
                       </div>
                       <div className="ml-2 md:text-base text-sm text-black font-medium">
-                        {coupon.discountType === "percentage"
-                          ? "OFF"
-                          : "FLAT OFF"}
+                        {coupon.discountType === 'percentage'
+                          ? 'OFF'
+                          : 'FLAT OFF'}
                       </div>
                     </div>
 
@@ -233,7 +233,7 @@ const Coupon = () => {
                         className="flex items-center justify-center bg-white text-black py-2 px-4 rounded hover:bg-gray-200 transition-colors w-full"
                       >
                         <Copy size={14} className="mr-2" />
-                        {copiedCode === coupon.code ? "Copied!" : "Copy Code"}
+                        {copiedCode === coupon.code ? 'Copied!' : 'Copy Code'}
                       </motion.button>
                     </div>
                   </div>
@@ -246,7 +246,7 @@ const Coupon = () => {
                     animate={{
                       width: `${(coupon.usedCount / coupon.usageLimit) * 100}%`,
                     }}
-                    transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
+                    transition={{ duration: 0.8, delay: 0.3, ease: 'easeOut' }}
                     className="h-1 bg-white"
                   ></motion.div>
                 </div>
@@ -259,7 +259,7 @@ const Coupon = () => {
                 variants={itemVariants}
                 whileHover={{
                   scale: 1.02,
-                  boxShadow: "0 10px 20px rgba(0,0,0,0.1)",
+                  boxShadow: '0 10px 20px rgba(0,0,0,0.1)',
                   transition: { duration: 0.2 },
                 }}
                 className="border border-gray-200 rounded-lg overflow-hidden bg-gradient-to-r from-green-100 to-green-300 h-full hover:border-white transition-all duration-300 group"
@@ -278,21 +278,23 @@ const Coupon = () => {
 
                     <div className="mt-4 flex items-center">
                       <div className="md:text-3xl  text-xl font-bold text-black">
-                        {coupon.discountType === "percentage"
+                        {coupon.discountType === 'percentage'
                           ? `${coupon.discountValue}%`
                           : `₹${coupon.discountValue}`}
                       </div>
                       <div className="ml-2 md:text-base text-sm text-black font-medium">
-                        {coupon.discountType === "percentage"
-                          ? "OFF"
-                          : "FLAT OFF"}
+                        {coupon.discountType === 'percentage'
+                          ? 'OFF'
+                          : 'FLAT OFF'}
                       </div>
                     </div>
 
                     <div className="items text-black grid grid-cols-2 gap-4">
                       <div className="flex items-center text-black">
                         <Calendar size={16} className="mr-2" />
-                        <span className="text-sm md:text-base">Expires: {formatDate(coupon.expiryDate)}</span>
+                        <span className="text-sm md:text-base">
+                          Expires: {formatDate(coupon.expiryDate)}
+                        </span>
                       </div>
                       <div className="flex items-center text-gray-400">
                         <Clock size={16} className="mr-2" />
@@ -304,14 +306,12 @@ const Coupon = () => {
 
                     <div className="flex justify-between">
                       <div className="mt-4 text-black text-xs md:text-sm">
-                        Usage: {coupon.usedCount} used out of{" "}
+                        Usage: {coupon.usedCount} used out of{' '}
                         {coupon.usageLimit}
                       </div>
                       <div className="">
-                    
-
                         <div className=" flex justify-center mt-4 items-center text-black text-xs ">
-                        minimum Amount {coupon.minimumAmount}Rs
+                          minimum Amount {coupon.minimumAmount}Rs
                         </div>
                       </div>
                     </div>
@@ -320,7 +320,6 @@ const Coupon = () => {
                   {/* Coupon code section */}
                   <div className="bg-gray-400 flex flex-col justify-center items-center min-w-48">
                     <div className="text-center">
-                
                       <div className="text-xs uppercase tracking-wide text-gray-400 mb-2">
                         Coupon Code
                       </div>
@@ -337,7 +336,7 @@ const Coupon = () => {
                         className="flex items-center justify-center bg-white text-black md:py-2 py-1 px-2 md:px-4 rounded hover:bg-gray-200 transition-colors w-full"
                       >
                         <Copy size={14} className="mr-2" />
-                        {copiedCode === coupon.code ? "Copied!" : "Copy Code"}
+                        {copiedCode === coupon.code ? 'Copied!' : 'Copy Code'}
                       </motion.button>
                     </div>
                   </div>
@@ -350,7 +349,7 @@ const Coupon = () => {
                     animate={{
                       width: `${(coupon.usedCount / coupon.usageLimit) * 100}%`,
                     }}
-                    transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
+                    transition={{ duration: 0.8, delay: 0.3, ease: 'easeOut' }}
                     className="h-1 bg-white"
                   ></motion.div>
                 </div>

@@ -1,16 +1,16 @@
-import React from "react";
-import { motion } from "framer-motion";
-import { X } from "lucide-react";
-import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { setSelectedTab } from "../../../../slices/selectedTabSlice";
+import React from 'react';
+import { motion } from 'framer-motion';
+import { X } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { setSelectedTab } from '../../../../slices/selectedTabSlice';
 
 export default function Failure() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleTryAgain = () => {
-    navigate("/user/account");
-    dispatch(setSelectedTab("cart"));
+    navigate('/user/account');
+    dispatch(setSelectedTab('cart'));
   };
 
   return (
@@ -23,7 +23,7 @@ export default function Failure() {
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               transition={{
-                type: "spring",
+                type: 'spring',
                 stiffness: 260,
                 damping: 20,
                 delay: 0.1,
@@ -31,7 +31,9 @@ export default function Failure() {
             >
               <img
                 src="            
-              https://static.thenounproject.com/png/247536-200.png" alt=""/>
+              https://static.thenounproject.com/png/247536-200.png"
+                alt=""
+              />
               {/* <X className="w-8 h-8 text-white" /> */}
             </motion.div>
           </div>

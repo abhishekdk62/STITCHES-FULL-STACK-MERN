@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 const Banner = () => {
   const firstRowItems = [
@@ -34,11 +34,11 @@ const Banner = () => {
     //   imgSrc: "/images/Home/featured-4.webp",
     // },
     {
-      heading: "Essential wardrobe staples",
-      offerText: "",
-      description: "",
-      textcolor: "white",
-      imgSrc: "/images/Home/banner-2.avif",
+      heading: 'Essential wardrobe staples',
+      offerText: '',
+      description: '',
+      textcolor: 'white',
+      imgSrc: '/images/Home/banner-2.avif',
     },
     // {
     //   heading: "Oversized T-Shirts",
@@ -76,10 +76,16 @@ const Banner = () => {
               >
                 {item.heading}
               </h2>
-              <p className="mt-1 sm:mt-2 text-sm sm:text-base" style={{ color: item.textcolor }}>
+              <p
+                className="mt-1 sm:mt-2 text-sm sm:text-base"
+                style={{ color: item.textcolor }}
+              >
                 {item.description}
               </p>
-              <p className="mt-1 sm:mt-2 font-bold text-sm sm:text-base" style={{ color: item.textcolor }}>
+              <p
+                className="mt-1 sm:mt-2 font-bold text-sm sm:text-base"
+                style={{ color: item.textcolor }}
+              >
                 {item.offerText}
               </p>
             </div>
@@ -109,10 +115,16 @@ const Banner = () => {
               >
                 {item.heading}
               </h2>
-              <p className="text-sm sm:text-lg" style={{ color: item.textcolor }}>
+              <p
+                className="text-sm sm:text-lg"
+                style={{ color: item.textcolor }}
+              >
                 {item.description}
               </p>
-              <p className="mt-1 sm:mt-2 font-bold text-sm sm:text-base" style={{ color: item.textcolor }}>
+              <p
+                className="mt-1 sm:mt-2 font-bold text-sm sm:text-base"
+                style={{ color: item.textcolor }}
+              >
                 {item.offerText}
               </p>
               <button
@@ -121,8 +133,8 @@ const Banner = () => {
                   color: item.textcolor,
                   borderColor: item.textcolor,
                 }}
-              >SHOP
-                 NOW
+              >
+                SHOP NOW
               </button>
             </div>
           </div>

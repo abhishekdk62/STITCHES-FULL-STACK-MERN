@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from "react";
-import { motion } from "framer-motion";
-import { Eye, EyeOff, Mail, Lock } from "lucide-react";
-import { useNavigate, useSearchParams } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { login } from "../../../../slices/authSlice";
-import { loginUser } from "../../../services/userService";
-import SplitText from "../utils/SplitText";
+import React, { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
+import { Eye, EyeOff, Mail, Lock } from 'lucide-react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { login } from '../../../../slices/authSlice';
+import { loginUser } from '../../../services/userService';
+import SplitText from '../utils/SplitText';
 
 const LoginForm = ({ setForgotPassword }) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -18,17 +18,17 @@ const LoginForm = ({ setForgotPassword }) => {
   const [searchParams] = useSearchParams();
 
   const handleAnimationComplete = () => {
-    console.log("All letters have animated!");
+    console.log('All letters have animated!');
   };
 
   useEffect(() => {
-    const oauthError = searchParams.get("error");
+    const oauthError = searchParams.get('error');
     if (oauthError) {
       setError(decodeURIComponent(oauthError));
 
       const url = new URL(window.location.href);
-      url.searchParams.delete("error");
-      window.history.replaceState({}, "", url);
+      url.searchParams.delete('error');
+      window.history.replaceState({}, '', url);
     }
   }, [searchParams]);
 
@@ -38,19 +38,19 @@ const LoginForm = ({ setForgotPassword }) => {
 
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     if (!email) {
-      setError("Email address is required");
+      setError('Email address is required');
       return;
     }
     if (!emailRegex.test(email)) {
-      setError("Please enter a valid email address");
+      setError('Please enter a valid email address');
       return;
     }
     if (!password) {
-      setError("Password is required");
+      setError('Password is required');
       return;
     }
     if (password.length < 6) {
-      setError("Password must be at least 6 characters long");
+      setError('Password must be at least 6 characters long');
       return;
     }
     setLoading(true);
@@ -59,16 +59,16 @@ const LoginForm = ({ setForgotPassword }) => {
       console.log(res);
       const { userId, role } = res;
       dispatch(login({ userId, role }));
-      navigate(role === "admin" ? "/admin/dashboard" : "/user/home");
+      navigate(role === 'admin' ? '/admin/dashboard' : '/user/home');
     } catch (err) {
-      setError(err.response?.data?.message || "Login failed");
+      setError(err.response?.data?.message || 'Login failed');
     } finally {
       setLoading(false);
     }
   };
 
   const handleGoogleLogin = () => {
-    window.location.href = "http://localhost:5000/auth/google";
+    window.location.href = 'http://localhost:5000/auth/google';
   };
 
   return (
@@ -89,16 +89,16 @@ const LoginForm = ({ setForgotPassword }) => {
               <div className="text-center pb-4">
                 <h1 className="text-xl sm:text-2xl font-bold text-black">
                   <SplitText
-                    size={"2xl"}
+                    size={'2xl'}
                     text="Sign In"
                     delay={10}
                     animationFrom={{
                       opacity: 0,
-                      transform: "translate3d(0,50px,0)",
+                      transform: 'translate3d(0,50px,0)',
                     }}
                     animationTo={{
                       opacity: 1,
-                      transform: "translate3d(0,0,0)",
+                      transform: 'translate3d(0,0,0)',
                     }}
                     easing="easeOutCubic"
                     threshold={0.2}
@@ -160,7 +160,7 @@ const LoginForm = ({ setForgotPassword }) => {
                 <div className="relative">
                   <input
                     id="password"
-                    type={showPassword ? "text" : "password"}
+                    type={showPassword ? 'text' : 'password'}
                     placeholder="Enter your password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
@@ -188,7 +188,7 @@ const LoginForm = ({ setForgotPassword }) => {
                 transition={{ delay: 0.4 }}
               >
                 <motion.span
-                  whileHover={{ scale: 1.05, color: "#000" }}
+                  whileHover={{ scale: 1.05, color: '#000' }}
                   onClick={() => setForgotPassword(true)}
                   className="text-xs sm:text-sm cursor-pointer text-gray-500 hover:text-black transition-colors"
                 >
@@ -206,7 +206,7 @@ const LoginForm = ({ setForgotPassword }) => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.5 }}
               >
-                {loading ? "Signing In..." : "Sign In"}
+                {loading ? 'Signing In...' : 'Sign In'}
               </motion.button>
             </motion.form>
 
@@ -216,10 +216,10 @@ const LoginForm = ({ setForgotPassword }) => {
               transition={{ delay: 0.6 }}
               className="mt-4 sm:mt-6 text-center text-gray-500 text-xs sm:text-sm"
             >
-              Don't have an account?{" "}
+              Don't have an account?{' '}
               <motion.span
-                whileHover={{ scale: 1.05, color: "#000" }}
-                onClick={() => navigate("/signup")}
+                whileHover={{ scale: 1.05, color: '#000' }}
+                onClick={() => navigate('/signup')}
                 className="text-black font-medium hover:underline cursor-pointer transition-all"
               >
                 Sign up
@@ -233,7 +233,9 @@ const LoginForm = ({ setForgotPassword }) => {
               transition={{ delay: 0.7 }}
             >
               <hr className="flex-grow border-gray-300" />
-              <span className="mx-2 sm:mx-4 text-gray-500 text-xs sm:text-sm">OR</span>
+              <span className="mx-2 sm:mx-4 text-gray-500 text-xs sm:text-sm">
+                OR
+              </span>
               <hr className="flex-grow border-gray-300" />
             </motion.div>
 
@@ -255,7 +257,9 @@ const LoginForm = ({ setForgotPassword }) => {
                   width={20}
                   className="mr-2"
                 />
-                <span className="text-gray-700 font-medium">Continue With Google</span>
+                <span className="text-gray-700 font-medium">
+                  Continue With Google
+                </span>
               </motion.button>
             </motion.div>
           </div>

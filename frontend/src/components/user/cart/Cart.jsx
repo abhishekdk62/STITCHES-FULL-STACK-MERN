@@ -5,19 +5,21 @@ import {
   ChevronRight,
   MinusCircle,
   PlusCircle,
-} from "lucide-react";
+} from 'lucide-react';
+import React from 'react'
+
 import {
   getCartItems,
   changeQuantityApi,
   removeFromCart,
-} from "../../../services/userService";
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { setCart } from "../../../../slices/checkoutSlice";
-import { motion, AnimatePresence } from "framer-motion";
-import toast from "react-hot-toast";
-import Notification from "../common/Notification";
+} from '../../../services/userService';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { setCart } from '../../../../slices/checkoutSlice';
+import { motion, AnimatePresence } from 'framer-motion';
+import toast from 'react-hot-toast';
+import Notification from '../common/Notification';
 
 export default function ShoppingCart() {
   const dispatch = useDispatch();
@@ -34,7 +36,7 @@ export default function ShoppingCart() {
       dispatch(setCart(response));
     } catch (error) {
       console.log(error);
-      toast.error("Failed to load cart items");
+      toast.error('Failed to load cart items');
     } finally {
     }
   };
@@ -63,25 +65,25 @@ export default function ShoppingCart() {
       console.log(error.response?.data?.message);
 
       toast.error(
-        error.response?.data?.message || "Failed to update quantity",
+        error.response?.data?.message || 'Failed to update quantity',
         {
           icon: (
             <img
               src="https://static.thenounproject.com/png/217675-200.png"
               className="animate-pulse"
-              style={{ filter: "invert(1)" }}
+              style={{ filter: 'invert(1)' }}
               alt="Success Icon"
               width="30"
               height="30"
             />
           ),
           style: {
-            border: "1px solid #0f5132",
-            padding: "16px",
-            color: "white",
-            background: "#ff5252",
-            fontSize: "14px",
-            fontWeight: "bold",
+            border: '1px solid #0f5132',
+            padding: '16px',
+            color: 'white',
+            background: '#ff5252',
+            fontSize: '14px',
+            fontWeight: 'bold',
           },
         }
       );
@@ -93,35 +95,35 @@ export default function ShoppingCart() {
       await removeFromCart(removeCartId, cartItems._id);
       getCart();
       setIsOpen(false);
-      toast.success("Item removed from cart", {
+      toast.success('Item removed from cart', {
         icon: (
           <img
             src="https://static.thenounproject.com/png/247537-200.png"
             className="animate-spin"
-            style={{ filter: "invert(1)" }}
+            style={{ filter: 'invert(1)' }}
             alt="Success Icon"
             width="30"
             height="30"
           />
         ),
         style: {
-          border: "1px solid #0f5132",
-          padding: "16px",
-          color: "white",
-          background: "black",
-          fontSize: "14px",
-          fontWeight: "bold",
+          border: '1px solid #0f5132',
+          padding: '16px',
+          color: 'white',
+          background: 'black',
+          fontSize: '14px',
+          fontWeight: 'bold',
         },
         autoClose: 5000,
       });
     } catch (error) {
       console.log(error);
-      toast.error("Failed to remove item");
+      toast.error('Failed to remove item');
     }
   };
 
   const handleCheckout = () => {
-    navigate("/user/checkout");
+    navigate('/user/checkout');
   };
 
   const containerVariants = {
@@ -139,7 +141,7 @@ export default function ShoppingCart() {
       y: 0,
       opacity: 1,
       transition: {
-        type: "spring",
+        type: 'spring',
         stiffness: 300,
         damping: 24,
       },
@@ -150,7 +152,7 @@ export default function ShoppingCart() {
     hover: {
       scale: 1.05,
       transition: {
-        type: "spring",
+        type: 'spring',
         stiffness: 400,
         damping: 10,
       },
@@ -161,8 +163,8 @@ export default function ShoppingCart() {
   if (!userDetails) {
     return (
       <Notification
-        p1={"You’re not signed in"}
-        p2={"Please log in to view your Cart."}
+        p1={'You’re not signed in'}
+        p2={'Please log in to view your Cart.'}
         icon={<ShoppingBag size={80} className="text-gray-300" />}
       />
     );
@@ -176,7 +178,7 @@ export default function ShoppingCart() {
           transition={{
             repeat: Infinity,
             duration: 1,
-            ease: "linear",
+            ease: 'linear',
           }}
         >
           <ShoppingBag className="w-12 h-12 text-gray-400" />
@@ -188,7 +190,7 @@ export default function ShoppingCart() {
   if (!cartItems || !cartItems.items || cartItems.items.length === 0) {
     return (
       <Notification
-        p1={"Your cart is empty"}
+        p1={'Your cart is empty'}
         p2={"Looks like you haven't added any items to your cart yet."}
         icon={<ShoppingBag size={80} className="text-gray-300" />}
       />
@@ -269,10 +271,9 @@ export default function ShoppingCart() {
             <div className="flex gap-3 md:gap-6">
               <motion.div
                 whileHover={{ scale: 1.05 }}
-                transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                transition={{ type: 'spring', stiffness: 300, damping: 20 }}
                 className=""
               >
-
                 <img
                   src={
                     item?.productId.variants.find(
@@ -281,21 +282,20 @@ export default function ShoppingCart() {
                   }
                   className="h-30 w-20 md:w-40 md:h-full object-cover rounded-md shadow"
                 />
-
               </motion.div>
 
               <div className="p-1 md:p-3 h-full flex-1">
                 <div className="flex justify-between items-start">
                   <div>
-                  <h3 className="font-medium text-[0.6rem] md:text-lg mb-1">
-  {/* first word on small screens, full name on md+ */}
-  <span className="block md:hidden">
-    {item.productId.name.split(' ').slice(0.,2).join(" ")}
-  </span>
-  <span className="hidden md:block">
-    {item.productId.name}
-  </span>
-</h3>
+                    <h3 className="font-medium text-[0.6rem] md:text-lg mb-1">
+                      {/* first word on small screens, full name on md+ */}
+                      <span className="block md:hidden">
+                        {item.productId.name.split(' ').slice(0, 2).join(' ')}
+                      </span>
+                      <span className="hidden md:block">
+                        {item.productId.name}
+                      </span>
+                    </h3>
 
                     <p className="text-gray-500 text-[0.6rem] md:text-sm mb-1">
                       Color:
@@ -308,7 +308,7 @@ export default function ShoppingCart() {
                       </span>
                     </p>
                     <p className="text-gray-500 text-[0.6rem] md:text-sm mb-2 md:mb-3">
-                      Size:{" "}
+                      Size:{' '}
                       <span className=" text-[0.6rem] md:text-smfont-medium">
                         {
                           item?.productId.variants.find(
@@ -336,7 +336,9 @@ export default function ShoppingCart() {
                 <div className="flex flex-row md:flex-row md:items-center justify-between mt-2 md:mt-4">
                   {/* Price */}
                   <div className="mb-2 md:mb-0">
-                    <p className="text-gray-500 text-[0.5rem] md:text-sm">Price</p>
+                    <p className="text-gray-500 text-[0.5rem] md:text-sm">
+                      Price
+                    </p>
                     <p className="font-medium text-[0.6rem] md:text-base">
                       ₹{item.price}
                     </p>
@@ -352,9 +354,7 @@ export default function ShoppingCart() {
                         variants={buttonVariants}
                         whileHover="hover"
                         whileTap="tap"
-                        onClick={() =>
-                          changeQauntity(item, item.quantity - 1)
-                        }
+                        onClick={() => changeQauntity(item, item.quantity - 1)}
                         className="text-gray-600 hover:text-red-500"
                       >
                         <MinusCircle className="h-4 w-4 md:h-5 md:w-5" />
@@ -366,9 +366,7 @@ export default function ShoppingCart() {
                         variants={buttonVariants}
                         whileHover="hover"
                         whileTap="tap"
-                        onClick={() =>
-                          changeQauntity(item, item.quantity + 1)
-                        }
+                        onClick={() => changeQauntity(item, item.quantity + 1)}
                         className="text-gray-600 hover:text-green-500"
                       >
                         <PlusCircle className="h-4 w-4 md:h-5 md:w-5" />

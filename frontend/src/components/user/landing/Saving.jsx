@@ -1,38 +1,38 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Saving = () => {
   const firstRowItems = [
     {
-      heading: "Bridal",
-      offerText: "",
-      description: "Elegant Wedding Collection",
-      imgSrc: "/images/Home/featured-1.webp",
-      textcolor: "black",
+      heading: 'Bridal',
+      offerText: '',
+      description: 'Elegant Wedding Collection',
+      imgSrc: '/images/Home/featured-1.webp',
+      textcolor: 'black',
     },
     {
       heading: "Knitwear's",
-      offerText: "Perfect fittings",
-      description: "",
-      imgSrc: "/images/Home/featured-5.jpg",
-      textcolor: "black",
+      offerText: 'Perfect fittings',
+      description: '',
+      imgSrc: '/images/Home/featured-5.jpg',
+      textcolor: 'black',
     },
     {
       heading: "L'Étoile",
-      offerText: "",
-      description: "fw 24",
-      imgSrc: "/images/Home/featured-3.webp",
-      textcolor: "white",
+      offerText: '',
+      description: 'fw 24',
+      imgSrc: '/images/Home/featured-3.webp',
+      textcolor: 'white',
     },
   ];
 
   const secondRowItems = [
     {
-      heading: "",
-      offerText: "",
-      description: "",
-      textcolor: "black",
-      imgSrc: "/images/Home/title2.webp",
+      heading: '',
+      offerText: '',
+      description: '',
+      textcolor: 'black',
+      imgSrc: '/images/Home/title2.webp',
     },
   ];
   const navigate = useNavigate();
@@ -56,7 +56,10 @@ const Saving = () => {
             <div className="absolute inset-0 flex flex-col justify-center items-center text-center p-3 sm:p-4">
               <h2
                 className="text-2xl sm:text-3xl md:text-5xl font-bold"
-                style={{ fontFamily: "'EB Garamond', serif", color: item.textcolor }}
+                style={{
+                  fontFamily: "'EB Garamond', serif",
+                  color: item.textcolor,
+                }}
               >
                 {item.heading}
               </h2>
@@ -74,9 +77,9 @@ const Saving = () => {
               </p>
               <button
                 onClick={() => {
-                  navigate("/products");
+                  navigate('/products');
                   setTimeout(() => {
-                    window.scrollTo({ top: 0, behavior: "smooth" });
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
                   }, 0);
                 }}
                 className="mt-3 sm:mt-4 text-xs sm:text-sm md:text-xl cursor-pointer px-2 sm:px-4 py-1 sm:py-2 border rounded-full hover:bg-gray-500/20"
@@ -104,7 +107,10 @@ const Saving = () => {
             <div className="absolute inset-0 flex flex-col justify-center items-center text-center p-3 sm:p-4">
               <h2
                 className="text-xl sm:text-2xl md:text-4xl font-bold"
-                style={{ fontFamily: "'EB Garamond', serif", color: item.textcolor }}
+                style={{
+                  fontFamily: "'EB Garamond', serif",
+                  color: item.textcolor,
+                }}
               >
                 {item.heading}
               </h2>
@@ -115,12 +121,12 @@ const Saving = () => {
                 {item.description}
               </p>
               <button
-               onClick={() => {
-                navigate("/products");
-                setTimeout(() => {
-                  window.scrollTo({ top: 0, behavior: "smooth" });
-                }, 0);
-              }}
+                onClick={() => {
+                  navigate('/products');
+                  setTimeout(() => {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }, 0);
+                }}
                 className="mt-3 sm:mt-4 text-xs sm:text-sm md:text-base px-3 sm:px-4 py-1 sm:py-2 border rounded-full hover:bg-gray-500/20"
                 style={{ color: item.textcolor, borderColor: item.textcolor }}
               >

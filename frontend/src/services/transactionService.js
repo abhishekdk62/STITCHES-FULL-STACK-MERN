@@ -1,5 +1,5 @@
-import axios from "axios";
-import apiClient from "./apiClient";
+import axios from 'axios';
+import apiClient from './apiClient';
 
 export const getTransactionsApi = async () => {
   try {
@@ -12,39 +12,42 @@ export const getTransactionsApi = async () => {
 
 export const addMoneyPaypalApi = async (data) => {
   try {
-    const response = await axios.post("http://localhost:5000/api/paypal/add-money", data);
+    const response = await axios.post(
+      'http://localhost:5000/api/paypal/add-money',
+      data
+    );
 
-    return response.data; 
+    return response.data;
   } catch (error) {
-    console.error("Error creating PayPal order:", error);
+    console.error('Error creating PayPal order:', error);
     throw error;
   }
 };
 
-
-export const captureWalletPaymentApi = async ( orderID, userId ) => {
-    
-    try {
-      const response = await axios.post("http://localhost:5000/api/paypal/capture-wallet-payment", {
+export const captureWalletPaymentApi = async (orderID, userId) => {
+  try {
+    const response = await axios.post(
+      'http://localhost:5000/api/paypal/capture-wallet-payment',
+      {
         orderID,
         userId,
-      });
-  
-      return response.data;
-    } catch (error) {
-      console.error(error);
-      throw error;
-    }
-  };
-  
-  
+      }
+    );
 
- export const fetchTransactionsService=async(query,page,)=>{
-  try {
-    const response=await apiClient.get(`/admin/transactions?query=${query}&page=${page}`)
-    return response
+    return response.data;
   } catch (error) {
-    throw error
+    console.error(error);
+    throw error;
   }
+};
 
- }
+export const fetchTransactionsService = async (query, page) => {
+  try {
+    const response = await apiClient.get(
+      `/admin/transactions?query=${query}&page=${page}`
+    );
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};

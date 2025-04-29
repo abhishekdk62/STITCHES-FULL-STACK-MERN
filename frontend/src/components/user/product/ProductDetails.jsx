@@ -1,9 +1,9 @@
-import React, { useEffect, useMemo, useState } from "react";
-import axios from "axios";
-import { addToCartApi } from "../../../services/userService";
-import { addToWishlist } from "../../../services/wishlistService";
-import { useParams } from "react-router-dom";
-import ProductImageGallery from './elements/ProductImageGallery'
+import React, { useEffect, useMemo, useState } from 'react';
+import axios from 'axios';
+import { addToCartApi } from '../../../services/userService';
+import { addToWishlist } from '../../../services/wishlistService';
+import { useParams } from 'react-router-dom';
+import ProductImageGallery from './elements/ProductImageGallery';
 import {
   BadgeDollarSign,
   Ruler,
@@ -12,15 +12,15 @@ import {
   ShoppingCart,
   Truck,
   Undo2,
-} from "lucide-react";
-import { Heart } from "lucide-react";
-import { useNavigate } from "react-router-dom";
-import { toast } from "react-hot-toast";
-import { motion, AnimatePresence } from "framer-motion";
+} from 'lucide-react';
+import { Heart } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-hot-toast';
+import { motion, AnimatePresence } from 'framer-motion';
 
-import { Star } from "lucide-react";
-import { useDispatch, useSelector } from "react-redux";
-import AlertDialog from "../Popup";
+import { Star } from 'lucide-react';
+import { useDispatch, useSelector } from 'react-redux';
+import AlertDialog from '../Popup';
 import {
   addReview,
   checkInCartApi,
@@ -29,24 +29,24 @@ import {
   getProductById,
   getProductRating,
   getSimilarProducts,
-} from "../../../services/productService";
+} from '../../../services/productService';
 
-import { setSelectedTab } from "../../../../slices/selectedTabSlice";
-import ProductShimmer from "./elements/ProductShimmer";
+import { setSelectedTab } from '../../../../slices/selectedTabSlice';
+import ProductShimmer from './elements/ProductShimmer';
 
 const ProductDetails = () => {
   const userDetails = useSelector((state) => state.auth.user);
   const [showWishlistAlert, setShowWishlistAlert] = useState(false);
   const [productDetails, setProductDetails] = useState(null);
-  const [selectedTabSmall, setSelectedTabSmall] = useState("Description");
+  const [selectedTabSmall, setSelectedTabSmall] = useState('Description');
   const [userInfo, setUserInfo] = useState(null);
   const [similarProducts, setSimilarProducts] = useState([]);
   const [selectedSize, setSelectedSize] = useState(null);
   const [selectedColor, setSelectedColor] = useState();
   const [catDetails, setCatDetails] = useState();
   const [selectedImage, setSelectedImage] = useState(null);
-  const [stockMessage, setStockMessage] = useState("");
-  const [stockMessageColor, setStockMessageColor] = useState("");
+  const [stockMessage, setStockMessage] = useState('');
+  const [stockMessageColor, setStockMessageColor] = useState('');
   const [loading, setLoding] = useState(false);
   const [isCarted, setIsCarted] = useState(false);
   const [selectedVariant, setSelectedVariant] = useState(null);
@@ -55,7 +55,7 @@ const ProductDetails = () => {
     hover: {
       scale: 1.05,
       transition: {
-        type: "spring",
+        type: 'spring',
         stiffness: 400,
         damping: 10,
       },
@@ -67,7 +67,7 @@ const ProductDetails = () => {
     hover: {
       scale: 1.2,
       transition: {
-        type: "spring",
+        type: 'spring',
         stiffness: 400,
         damping: 10,
       },
@@ -79,17 +79,15 @@ const ProductDetails = () => {
     hover: {
       y: -2,
       transition: {
-        type: "spring",
+        type: 'spring',
         stiffness: 400,
         damping: 10,
       },
     },
   };
 
-  const [reviews, setReviews] = useState([
-    
-  ]);
-  const [newReview, setNewReview] = useState({ rating: 3, text: "" });
+  const [reviews, setReviews] = useState([]);
+  const [newReview, setNewReview] = useState({ rating: 3, text: '' });
   const navigate = useNavigate();
   const { id } = useParams();
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
@@ -101,8 +99,8 @@ const ProductDetails = () => {
       setProductDetails(product);
     } catch (error) {
       console.log(error);
-      if (error.response.data.message == "Product not found") {
-        navigate("/products");
+      if (error.response.data.message == 'Product not found') {
+        navigate('/products');
       }
     }
   };
@@ -119,19 +117,19 @@ const ProductDetails = () => {
           <img
             src="https://static.thenounproject.com/png/29520-200.png"
             className="animate-bounce"
-            style={{ filter: "invert(1)" }}
+            style={{ filter: 'invert(1)' }}
             alt="Success Icon"
             width="30"
             height="30"
           />
         ),
         style: {
-          border: "1px solid #0f5132",
-          padding: "16px",
-          color: "white",
-          background: "black",
-          fontSize: "14px",
-          fontWeight: "bold",
+          border: '1px solid #0f5132',
+          padding: '16px',
+          color: 'white',
+          background: 'black',
+          fontSize: '14px',
+          fontWeight: 'bold',
         },
       });
 
@@ -142,18 +140,18 @@ const ProductDetails = () => {
           <img
             src="https://static.thenounproject.com/png/3941-200.png"
             className="animate-bounce"
-            style={{ filter: "invert(1)" }}
+            style={{ filter: 'invert(1)' }}
             alt="Success Icon"
             width="30"
             height="30"
           />
         ),
         style: {
-          padding: "16px",
-          color: "white",
-          background: "#ff6666",
-          fontSize: "14px",
-          fontWeight: "bold",
+          padding: '16px',
+          color: 'white',
+          background: '#ff6666',
+          fontSize: '14px',
+          fontWeight: 'bold',
         },
       });
 
@@ -175,7 +173,7 @@ const ProductDetails = () => {
       console.log(error);
     }
   };
-  const [load,setLoad]=useState(false)
+  const [load, setLoad] = useState(false);
 
   const handleAddReview = async () => {
     if (productDetails && userId) {
@@ -184,7 +182,7 @@ const ProductDetails = () => {
           setErr(true);
           return;
         }
-        setLoad(true)
+        setLoad(true);
         const response = await addReview(
           newReview,
           productDetails?._id,
@@ -192,31 +190,31 @@ const ProductDetails = () => {
         );
 
         if (response.status === 200) {
-          toast.success("Review Added", {
+          toast.success('Review Added', {
             icon: (
               <img
                 src="https://static.thenounproject.com/png/29520-200.png"
                 className="animate-spin"
-                style={{ filter: "invert(1)" }}
+                style={{ filter: 'invert(1)' }}
                 alt="Success Icon"
                 width="30"
                 height="30"
               />
             ),
             style: {
-              border: "1px solid #0f5132",
-              padding: "16px",
-              color: "white",
-              background: "black",
-              fontSize: "14px",
-              fontWeight: "bold",
+              border: '1px solid #0f5132',
+              padding: '16px',
+              color: 'white',
+              background: 'black',
+              fontSize: '14px',
+              fontWeight: 'bold',
             },
           });
         }
         setErr(false);
 
         fetchReviews();
-        setNewReview((prevReview) => ({ ...prevReview, text: "" }));
+        setNewReview((prevReview) => ({ ...prevReview, text: '' }));
       } catch (error) {
         if (error.response.status == 409) {
           toast.error(error.response.data.message, {
@@ -224,29 +222,28 @@ const ProductDetails = () => {
               <img
                 src="https://static.thenounproject.com/png/3941-200.png"
                 className="animate-bounce"
-                style={{ filter: "invert(1)" }}
+                style={{ filter: 'invert(1)' }}
                 alt="Success Icon"
                 width="30"
                 height="30"
               />
             ),
             style: {
-              padding: "16px",
-              color: "white",
-              background: "#ff6666",
-              fontSize: "14px",
-              fontWeight: "bold",
+              padding: '16px',
+              color: 'white',
+              background: '#ff6666',
+              fontSize: '14px',
+              fontWeight: 'bold',
             },
           });
         }
         setErr(false);
 
-        setNewReview((prevReview) => ({ ...prevReview, text: "" }));
+        setNewReview((prevReview) => ({ ...prevReview, text: '' }));
 
         console.log(error);
-      }
-      finally{
-        setLoad(false)
+      } finally {
+        setLoad(false);
       }
     }
   };
@@ -274,7 +271,7 @@ const ProductDetails = () => {
 
   const handleProductView = (product) => {
     prodById(product._id);
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   useEffect(() => {
@@ -283,7 +280,7 @@ const ProductDetails = () => {
     setLoding(true);
 
     // Retrieve user info
-    const user = localStorage.getItem("user");
+    const user = localStorage.getItem('user');
     const parsedUser = JSON.parse(user);
     setUserInfo(parsedUser);
 
@@ -325,31 +322,31 @@ const ProductDetails = () => {
   }, [selectedVariant, productDetails]);
   const addToCart = async () => {
     if (!userDetails) {
-      toast.error("Please Login First", {
+      toast.error('Please Login First', {
         icon: (
           <img
             src="https://static.thenounproject.com/png/217675-200.png"
             className="animate-pulse"
-            style={{ filter: "invert(1)" }}
+            style={{ filter: 'invert(1)' }}
             alt="Success Icon"
             width="30"
             height="30"
           />
         ),
         style: {
-          border: "1px solid #0f5132",
-          padding: "16px",
-          color: "white",
-          background: "#ff5252",
-          fontSize: "14px",
-          fontWeight: "bold",
+          border: '1px solid #0f5132',
+          padding: '16px',
+          color: 'white',
+          background: '#ff5252',
+          fontSize: '14px',
+          fontWeight: 'bold',
         },
       });
       return;
     }
 
     if (!selectedVariant) {
-      alert("Please select a variant.");
+      alert('Please select a variant.');
       return;
     }
     // Assume quantity is 1 (or you can have an input for quantity)
@@ -361,24 +358,24 @@ const ProductDetails = () => {
         quantity
       );
       console.log(response.message);
-      toast.success("Added to Cart", {
+      toast.success('Added to Cart', {
         icon: (
           <img
             src="https://static.thenounproject.com/png/247537-200.png"
             className="animate-spin"
-            style={{ filter: "invert(1)" }}
+            style={{ filter: 'invert(1)' }}
             alt="Success Icon"
             width="30"
             height="30"
           />
         ),
         style: {
-          border: "1px solid #0f5132",
-          padding: "16px",
-          color: "white",
-          background: "black",
-          fontSize: "14px",
-          fontWeight: "bold",
+          border: '1px solid #0f5132',
+          padding: '16px',
+          color: 'white',
+          background: 'black',
+          fontSize: '14px',
+          fontWeight: 'bold',
         },
         autoClose: 5000,
       });
@@ -390,19 +387,19 @@ const ProductDetails = () => {
           <img
             src="https://static.thenounproject.com/png/217675-200.png"
             className="animate-pulse"
-            style={{ filter: "invert(1)" }}
+            style={{ filter: 'invert(1)' }}
             alt="Success Icon"
             width="30"
             height="30"
           />
         ),
         style: {
-          border: "1px solid #0f5132",
-          padding: "16px",
-          color: "white",
-          background: "#ff5252",
-          fontSize: "14px",
-          fontWeight: "bold",
+          border: '1px solid #0f5132',
+          padding: '16px',
+          color: 'white',
+          background: '#ff5252',
+          fontSize: '14px',
+          fontWeight: 'bold',
         },
       });
     }
@@ -430,16 +427,16 @@ const ProductDetails = () => {
 
       if (stockNumber === 0) {
         // Check for 0 first
-        setStockMessage("Out of Stock");
-        setStockMessageColor("red");
+        setStockMessage('Out of Stock');
+        setStockMessageColor('red');
         setIsOutOfStock(true);
       } else if (stockNumber < 5) {
-        setStockMessage("Only a few left, hurry up!");
-        setStockMessageColor("orange");
+        setStockMessage('Only a few left, hurry up!');
+        setStockMessageColor('orange');
         setIsOutOfStock(false);
       } else {
-        setStockMessage("In Stock");
-        setStockMessageColor("green");
+        setStockMessage('In Stock');
+        setStockMessageColor('green');
         setIsOutOfStock(false);
       }
     }
@@ -496,14 +493,14 @@ const ProductDetails = () => {
   }
 
   const stockColors = {
-    green: "text-green-500",
-    orange: "text-orange-500",
-    red: "text-red-500",
+    green: 'text-green-500',
+    orange: 'text-orange-500',
+    red: 'text-red-500',
   };
   const rat =
     rating.length > 0 && rating[0]?.averageRating
       ? rating[0].averageRating.toFixed(1)
-      : "N/A";
+      : 'N/A';
 
   const handleCrumbsByCat = () => {
     navigate(`/products?category=${encodeURIComponent(catDetails._id)}`);
@@ -521,7 +518,7 @@ const ProductDetails = () => {
       {/* Breadcrumb Navigation */}
       <nav className="flex items-center text-xs mb-4 text-gray-500">
         <a
-          onClick={() => navigate("/products")}
+          onClick={() => navigate('/products')}
           className="cursor-pointer hover:text-black transition-colors"
         >
           Shop
@@ -539,17 +536,16 @@ const ProductDetails = () => {
 
       {/* Product Main Section */}
       <div className="flex flex-col lg:flex-row bg-white rounded-lg shadow-sm overflow-hidden border border-gray-100">
-     
-      <ProductImageGallery 
-        productDetails={productDetails}
-        selectedVariant={selectedVariant}
-      />
+        <ProductImageGallery
+          productDetails={productDetails}
+          selectedVariant={selectedVariant}
+        />
 
         <div className="lg:w-1/2 p-6">
           <motion.h1
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ type: "spring", stiffness: 100, damping: 10 }}
+            transition={{ type: 'spring', stiffness: 100, damping: 10 }}
             className="lg:text-3xl md:text-2xl font-semibold mb-2 text-gray-900"
           >
             {productDetails?.name}
@@ -567,7 +563,7 @@ const ProductDetails = () => {
                       key={i}
                       whileHover={{ scale: 1.2 }}
                       transition={{
-                        type: "spring",
+                        type: 'spring',
                         stiffness: 400,
                         damping: 10,
                       }}
@@ -580,7 +576,7 @@ const ProductDetails = () => {
                       key={i}
                       whileHover={{ scale: 1.2 }}
                       transition={{
-                        type: "spring",
+                        type: 'spring',
                         stiffness: 400,
                         damping: 10,
                       }}
@@ -593,7 +589,7 @@ const ProductDetails = () => {
                       key={i}
                       whileHover={{ scale: 1.2 }}
                       transition={{
-                        type: "spring",
+                        type: 'spring',
                         stiffness: 400,
                         damping: 10,
                       }}
@@ -615,7 +611,7 @@ const ProductDetails = () => {
             animate={{ opacity: 1 }}
             transition={{
               delay: 0.2,
-              type: "spring",
+              type: 'spring',
               stiffness: 100,
               damping: 10,
             }}
@@ -629,7 +625,7 @@ const ProductDetails = () => {
             </span>
             <motion.span
               whileHover={{ scale: 1.05 }}
-              transition={{ type: "spring", stiffness: 400, damping: 10 }}
+              transition={{ type: 'spring', stiffness: 400, damping: 10 }}
               className="md:text-2xl text-xs font-medium text-red-400 ml-1"
             >
               ({selectedVariant?.discount_percentage}% OFF)
@@ -643,7 +639,7 @@ const ProductDetails = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{
                 delay: 0.3,
-                type: "spring",
+                type: 'spring',
                 stiffness: 100,
                 damping: 10,
               }}
@@ -657,7 +653,7 @@ const ProductDetails = () => {
                   whileTap="tap"
                   onClick={() =>
                     (window.location.href =
-                      "https://ethnicity.in/pages/size-guide?srsltid=AfmBOorPjaWy69YhspHJ4zkJ2pEw-9aVB_nhg59NdpZ3E02GbitXOzMg")
+                      'https://ethnicity.in/pages/size-guide?srsltid=AfmBOorPjaWy69YhspHJ4zkJ2pEw-9aVB_nhg59NdpZ3E02GbitXOzMg')
                   }
                   className="md:text-base text-xs text-gray-500 flex  underline hover:text-black"
                 >
@@ -678,8 +674,8 @@ const ProductDetails = () => {
                     onClick={() => setSelectedSize(size)}
                     className={`px-3 md:text-base text-xs py-1 text-md border transition-all ${
                       selectedSize === size
-                        ? "bg-black   text-white border-black"
-                        : "bg-white   text-black border-black"
+                        ? 'bg-black   text-white border-black'
+                        : 'bg-white   text-black border-black'
                     }`}
                   >
                     {size}
@@ -694,13 +690,15 @@ const ProductDetails = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{
               delay: 0.4,
-              type: "spring",
+              type: 'spring',
               stiffness: 100,
               damping: 10,
             }}
             className="mb-4"
           >
-            <h2 className="md:text-base text-xs font-medium mb-2">Select Color</h2>
+            <h2 className="md:text-base text-xs font-medium mb-2">
+              Select Color
+            </h2>
             <div className="flex flex-wrap gap-2">
               {Object.keys(variantsByColor).map((color) => (
                 <motion.button
@@ -723,8 +721,8 @@ const ProductDetails = () => {
                   }}
                   className={`w-6 h-6 md:w-8 md-h-8 rounded-full ${
                     selectedColor === color
-                      ? "ring-2 ring-offset-1 ring-black"
-                      : "border border-gray-300"
+                      ? 'ring-2 ring-offset-1 ring-black'
+                      : 'border border-gray-300'
                   }`}
                   style={{ backgroundColor: color }}
                   aria-label={color}
@@ -738,7 +736,7 @@ const ProductDetails = () => {
             animate={{ opacity: 1 }}
             transition={{
               delay: 0.5,
-              type: "spring",
+              type: 'spring',
               stiffness: 100,
               damping: 10,
             }}
@@ -753,7 +751,7 @@ const ProductDetails = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{
               delay: 0.6,
-              type: "spring",
+              type: 'spring',
               stiffness: 100,
               damping: 10,
             }}
@@ -766,13 +764,13 @@ const ProductDetails = () => {
                 whileTap="tap"
                 className="flex gap-2 items-center justify-center px-3 py-2  md:px-6 md:py-3 rounded-md bg-black text-white  font-medium hover:bg-gray-800 transition-colors"
                 onClick={() => {
-                  dispatch(setSelectedTab("cart"));
-                  navigate("/user/account");
+                  dispatch(setSelectedTab('cart'));
+                  navigate('/user/account');
                 }}
               >
                 <p className="md:text-xl text-xs"> View Cart</p>
                 <motion.span variants={iconVariants}>
-                  <ShoppingCart size={18} className="md:h-8 md:w-8"  />
+                  <ShoppingCart size={18} className="md:h-8 md:w-8" />
                 </motion.span>
               </motion.button>
             ) : (
@@ -784,8 +782,8 @@ const ProductDetails = () => {
                 disabled={isOutOfStock}
                 className={`flex items-center gap-2 justify-center px-3 py-2  md:px-6 md:py-3 rounded-md md:text-xl text-xs font-medium transition-colors ${
                   isOutOfStock
-                    ? "bg-gray-200 text-gray-500 cursor-not-allowed"
-                    : "bg-black hover:bg-gray-900 text-white"
+                    ? 'bg-gray-200 text-gray-500 cursor-not-allowed'
+                    : 'bg-black hover:bg-gray-900 text-white'
                 }`}
               >
                 Add to Cart
@@ -804,7 +802,11 @@ const ProductDetails = () => {
               aria-label="Add to wishlist"
             >
               <motion.span variants={iconVariants}>
-                <Heart style={{ fill: "none" }} size={18} className="md:h-6 md:w-6" />
+                <Heart
+                  style={{ fill: 'none' }}
+                  size={18}
+                  className="md:h-6 md:w-6"
+                />
               </motion.span>
             </motion.button>
 
@@ -815,18 +817,21 @@ const ProductDetails = () => {
               onClick={() => {
                 navigator.clipboard
                   .writeText(window.location.href)
-                  .then(() => toast("Product link copied!"))
-                  .catch((err) => console.error("Failed to copy: ", err));
+                  .then(() => toast('Product link copied!'))
+                  .catch((err) => console.error('Failed to copy: ', err));
               }}
               className="p-3 bg-red-50 text-red-500 rounded-full hover:bg-red-100 transition-colors"
               aria-label="Add to wishlist"
             >
               <motion.span variants={iconVariants}>
-                <Share2 style={{ fill: "none" }} size={18} className="md:h-6 md:w-6" />
+                <Share2
+                  style={{ fill: 'none' }}
+                  size={18}
+                  className="md:h-6 md:w-6"
+                />
               </motion.span>
             </motion.button>
           </motion.div>
-         
 
           {/* Product Features */}
           <div className="grid grid-cols-2  gap-y-2 gap-x-4 border-t pt-6 pb-3 border-gray-200">
@@ -870,14 +875,14 @@ const ProductDetails = () => {
       <div className="bg-white rounded-lg shadow-sm mt-6 overflow-hidden border border-gray-100">
         <div className="border-b border-gray-200">
           <div className="flex">
-            {["Description", "Reviews", "Question&Answer"].map((tab, indx) => (
+            {['Description', 'Reviews', 'Question&Answer'].map((tab, indx) => (
               <button
                 key={indx}
                 onClick={() => setSelectedTabSmall(tab)}
                 className={`py-3 px-4 text-sm font-medium transition-colors ${
                   tab === selectedTabSmall
-                    ? "text-black border-b-2 border-black"
-                    : "text-gray-500 hover:text-gray-800"
+                    ? 'text-black border-b-2 border-black'
+                    : 'text-gray-500 hover:text-gray-800'
                 }`}
               >
                 {tab}
@@ -888,7 +893,7 @@ const ProductDetails = () => {
 
         <div className="p-4">
           {/* Description Tab */}
-          {selectedTabSmall === "Description" && (
+          {selectedTabSmall === 'Description' && (
             <div className="text-sm text-gray-700">
               <p className="leading-relaxed">{productDetails.description}</p>
 
@@ -923,7 +928,7 @@ const ProductDetails = () => {
           )}
 
           {/* Reviews Tab */}
-          {selectedTabSmall === "Reviews" && (
+          {selectedTabSmall === 'Reviews' && (
             <div>
               <h2 className="text-base font-semibold mb-4">Customer Reviews</h2>
 
@@ -949,8 +954,8 @@ const ProductDetails = () => {
                             size={12}
                             className={
                               i < review.rating
-                                ? "text-yellow-500 fill-yellow-500"
-                                : "text-gray-300"
+                                ? 'text-yellow-500 fill-yellow-500'
+                                : 'text-gray-300'
                             }
                           />
                         ))}
@@ -960,7 +965,7 @@ const ProductDetails = () => {
                       </p>
                       <div className="flex justify-between items-center text-xxs text-gray-500">
                         <p>{review?.userId?.email}</p>
-                        <p>{review.updatedAt.split("T")[0]}</p>
+                        <p>{review.updatedAt.split('T')[0]}</p>
                       </div>
                     </div>
                   </div>
@@ -996,8 +1001,8 @@ const ProductDetails = () => {
                           size={16}
                           className={
                             i < newReview.rating
-                              ? "text-yellow-400 fill-yellow-400"
-                              : "text-gray-300 hover:text-gray-400"
+                              ? 'text-yellow-400 fill-yellow-400'
+                              : 'text-gray-300 hover:text-gray-400'
                           }
                         />
                       </button>
@@ -1025,14 +1030,14 @@ const ProductDetails = () => {
                   className="mt-3 md:px-4 md:py-3 py-1 px-2 bg-black text-white text-sm font-medium rounded-md hover:bg-gray-800 transition-colors"
                   onClick={handleSubmitReview}
                 >
-                  {load?"Submiting...":"Submit Review"}
+                  {load ? 'Submiting...' : 'Submit Review'}
                 </button>
               </div>
             </div>
           )}
 
           {/* Q&A Tab */}
-          {selectedTabSmall === "Question&Answer" && (
+          {selectedTabSmall === 'Question&Answer' && (
             <div className="py-4">
               <div className="flex flex-col items-center justify-center py-6 text-gray-600">
                 <i className="fas fa-comments text-3xl mb-3 text-gray-400"></i>
@@ -1054,7 +1059,7 @@ const ProductDetails = () => {
           <SimilarProductsShimmer />
         ) : (
           <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-4 gap-4">
-            {similarProducts.slice(0,4).map((product, index) => (
+            {similarProducts.slice(0, 4).map((product, index) => (
               <div
                 key={index}
                 onClick={() => handleProductView(product)}
@@ -1130,7 +1135,7 @@ const ProductDetailShimmer = () => {
           <div className="mb-4">
             <div className="h-5 bg-gray-200 rounded w-1/4 mb-2 animate-pulse"></div>
             <div className="flex space-x-2">
-              {["XS", "S", "M", "L", "XL"].map((_, index) => (
+              {['XS', 'S', 'M', 'L', 'XL'].map((_, index) => (
                 <div
                   key={index}
                   className="h-8 w-8 bg-gray-200 rounded animate-pulse"
@@ -1160,10 +1165,10 @@ const ProductDetailShimmer = () => {
           </div>
           <div className="flex flex-col space-y-2">
             {[
-              "Secure payment",
-              "Size & Fit",
-              "Free shipping",
-              "Free Shipping & Returns",
+              'Secure payment',
+              'Size & Fit',
+              'Free shipping',
+              'Free Shipping & Returns',
             ].map((item, index) => (
               <div key={index} className="flex items-center">
                 <div className="h-4 w-4 bg-gray-200 rounded-full animate-pulse mr-2"></div>
@@ -1177,7 +1182,7 @@ const ProductDetailShimmer = () => {
       <div className="bg-white p-6 rounded-lg shadow-md mt-6">
         <div className="h-6 bg-gray-200 rounded w-1/3 mb-4 animate-pulse"></div>
         <div className="flex space-x-4 mb-4">
-          {["Description", "Reviews", "Question & Answer"].map((tab, index) => (
+          {['Description', 'Reviews', 'Question & Answer'].map((tab, index) => (
             <div
               key={index}
               className="h-4 bg-gray-200 rounded w-20 animate-pulse"

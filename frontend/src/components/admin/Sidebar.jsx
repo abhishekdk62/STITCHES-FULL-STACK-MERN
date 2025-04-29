@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Menu, X } from "lucide-react";
+import React, { useState, useEffect, useRef } from 'react';
+import { Menu, X } from 'lucide-react';
 import {
   BadgeDollarSign,
   ShoppingCart,
@@ -9,18 +9,18 @@ import {
   Package,
   LineChart,
   Activity,
-} from "lucide-react";
+} from 'lucide-react';
 
 const Sidebar = ({ activeTab, setActiveTab }) => {
   const navItems = [
-    { key: "order",        label: "Order",         icon: <ShoppingCart /> },
-    { key: "products",     label: "Products",      icon: <Package /> },
-    { key: "report",       label: "Sales Report",  icon: <LineChart /> },
-    { key: "customer",     label: "Customer",      icon: <Users /> },
-    { key: "coupon",       label: "Coupon",        icon: <Tag /> },
-    { key: "category",     label: "Category",      icon: <ChartBarStacked /> },
-    { key: "offers",       label: "Offers",        icon: <BadgeDollarSign /> },
-    { key: "transactions", label: "Transactions",  icon: <Activity /> },
+    { key: 'order', label: 'Order', icon: <ShoppingCart /> },
+    { key: 'products', label: 'Products', icon: <Package /> },
+    { key: 'report', label: 'Sales Report', icon: <LineChart /> },
+    { key: 'customer', label: 'Customer', icon: <Users /> },
+    { key: 'coupon', label: 'Coupon', icon: <Tag /> },
+    { key: 'category', label: 'Category', icon: <ChartBarStacked /> },
+    { key: 'offers', label: 'Offers', icon: <BadgeDollarSign /> },
+    { key: 'transactions', label: 'Transactions', icon: <Activity /> },
   ];
 
   const [isOpen, setIsOpen] = useState(false);
@@ -31,9 +31,9 @@ const Sidebar = ({ activeTab, setActiveTab }) => {
     const onResize = () => {
       setIsOpen(window.innerWidth >= 768);
     };
-    window.addEventListener("resize", onResize);
+    window.addEventListener('resize', onResize);
     onResize();
-    return () => window.removeEventListener("resize", onResize);
+    return () => window.removeEventListener('resize', onResize);
   }, []);
 
   // close when clicking outside
@@ -47,8 +47,8 @@ const Sidebar = ({ activeTab, setActiveTab }) => {
         setIsOpen(false);
       }
     };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [isOpen]);
 
   return (
@@ -65,7 +65,7 @@ const Sidebar = ({ activeTab, setActiveTab }) => {
           fixed inset-y-0 left-0 z-50 flex flex-col 
           bg-white text-black shadow-lg
           transform transition-transform duration-200 ease-in-out
-          ${isOpen ? "translate-x-0" : "-translate-x-full"}
+          ${isOpen ? 'translate-x-0' : '-translate-x-full'}
           md:relative md:translate-x-0
           w-64
         `}
@@ -88,8 +88,8 @@ const Sidebar = ({ activeTab, setActiveTab }) => {
                 w-full flex items-center px-6 py-3 text-left transition-colors duration-200
                 ${
                   activeTab === item.key
-                    ? "bg-black text-white font-semibold"
-                    : "hover:bg-gray-900 hover:text-white"
+                    ? 'bg-black text-white font-semibold'
+                    : 'hover:bg-gray-900 hover:text-white'
                 }
               `}
             >

@@ -1,31 +1,31 @@
-import React, { useEffect,useRef, useState } from "react";
-import { useSelector } from "react-redux";
-import { motion, AnimatePresence } from "framer-motion";
+import React, { useEffect, useRef, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { motion, AnimatePresence } from 'framer-motion';
 
-import axios from "axios";
-import { Heart, X, ListFilter,ArrowUpAZ   } from "lucide-react";
-import { toast } from "react-hot-toast";
-import { useDebounce } from "../../../../utils/useDebounce";
-import { useNavigate } from "react-router-dom";
-import ReactSlider from "react-slider";
-import { ChevronLeft, Star, ChevronRight, Weight } from "lucide-react";
-import { getProductsService } from "../../../services/productService";
+import axios from 'axios';
+import { Heart, X, ListFilter, ArrowUpAZ } from 'lucide-react';
+import { toast } from 'react-hot-toast';
+import { useDebounce } from '../../../../utils/useDebounce';
+import { useNavigate } from 'react-router-dom';
+import ReactSlider from 'react-slider';
+import { ChevronLeft, Star, ChevronRight, Weight } from 'lucide-react';
+import { getProductsService } from '../../../services/productService';
 import {
   fetchCategoriesForFilter,
   getRatingsService,
-} from "../../../services/userService";
-import { addToWishlist } from "../../../services/wishlistService";
-import ProducsListShimmer from "./elements/ProducsListShimmer";
+} from '../../../services/userService';
+import { addToWishlist } from '../../../services/wishlistService';
+import ProducsListShimmer from './elements/ProducsListShimmer';
 
 const ListProducts = ({ selectedCategory, setSelectedCategory }) => {
   const searchTerm = useSelector((state) => state.search.searchTerm);
   const [products, setProducts] = useState([]);
   const [minPrice, setMinPrice] = useState(200);
   const [maxPrice, setMaxPrice] = useState(50000);
-  const [sortBy, setSortBy] = useState("");
+  const [sortBy, setSortBy] = useState('');
   const [loading, setLoading] = useState(false);
   const [categoryList, setCategoryList] = useState([]);
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
   const [isOpen, setIsOpen] = useState(false);
 
   const navigate = useNavigate();
@@ -48,20 +48,18 @@ const ListProducts = ({ selectedCategory, setSelectedCategory }) => {
         setIsOpen(false);
       }
     }
-    
-    document.addEventListener("mousedown", handleClickOutside);
+
+    document.addEventListener('mousedown', handleClickOutside);
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
-
-
 
   const getProducts = async (search) => {
     try {
       setLoading(true);
       const params = new URLSearchParams(location.search);
-      const categoryFromURL = params.get("category");
+      const categoryFromURL = params.get('category');
 
       const requestBody = {
         search,
@@ -79,10 +77,10 @@ const ListProducts = ({ selectedCategory, setSelectedCategory }) => {
 
       setCurrentPage(data.page);
       setTotalPages(data.totalPages);
-      setError("");
+      setError('');
     } catch (error) {
       console.error(error);
-      setError(error.message || "Error fetching products");
+      setError(error.message || 'Error fetching products');
     } finally {
       setLoading(false);
     }
@@ -109,18 +107,23 @@ const ListProducts = ({ selectedCategory, setSelectedCategory }) => {
         const data = await getRatingsService();
         setRatings(data);
       } catch (error) {
-        console.error("Error fetching ratings:", error);
+        console.error('Error fetching ratings:', error);
       }
     };
     fetchRatings();
   }, []);
   const getSortLabel = (value) => {
-    switch(value) {
-      case "priceAsc": return "Lowest Price";
-      case "priceDesc": return "Highest Price";
-      case "nameAsc": return "A-Z";
-      case "nameDesc": return "Z-A";
-      default: return "Sort By";
+    switch (value) {
+      case 'priceAsc':
+        return 'Lowest Price';
+      case 'priceDesc':
+        return 'Highest Price';
+      case 'nameAsc':
+        return 'A-Z';
+      case 'nameDesc':
+        return 'Z-A';
+      default:
+        return 'Sort By';
     }
   };
 
@@ -128,10 +131,10 @@ const ListProducts = ({ selectedCategory, setSelectedCategory }) => {
   useEffect(() => {
     const getCategories = async () => {
       try {
-        const data = await fetchCategoriesForFilter("");
+        const data = await fetchCategoriesForFilter('');
         setCategoryList(data);
       } catch (error) {
-        console.error("Failed to fetch categories. Please try again", error);
+        console.error('Failed to fetch categories. Please try again', error);
       }
     };
     getCategories();
@@ -139,7 +142,7 @@ const ListProducts = ({ selectedCategory, setSelectedCategory }) => {
 
   // Handle viewing a product
   const handleProductView = (product) => {
-    localStorage.setItem("productInfo", JSON.stringify(product));
+    localStorage.setItem('productInfo', JSON.stringify(product));
     navigate(`/product/${product._id}`);
   };
   const handleSortChange = (value) => {
@@ -149,24 +152,24 @@ const ListProducts = ({ selectedCategory, setSelectedCategory }) => {
 
   const handleWishlist = async (pid, selectedVariant) => {
     if (!userDetails) {
-      toast.success("Please login", {
+      toast.success('Please login', {
         icon: (
           <img
             src="https://static.thenounproject.com/png/3941-200.png"
             className="animate-pulse"
-            style={{ filter: "invert(1)" }}
+            style={{ filter: 'invert(1)' }}
             alt="Success Icon"
             width="30"
             height="30"
           />
         ),
         style: {
-          border: "1px solid #0f5132",
-          padding: "16px",
-          color: "white",
-          background: "black",
-          fontSize: "14px",
-          fontWeight: "bold",
+          border: '1px solid #0f5132',
+          padding: '16px',
+          color: 'white',
+          background: 'black',
+          fontSize: '14px',
+          fontWeight: 'bold',
         },
       });
       return;
@@ -179,19 +182,19 @@ const ListProducts = ({ selectedCategory, setSelectedCategory }) => {
           <img
             src="https://static.thenounproject.com/png/29520-200.png"
             className="animate-bounce"
-            style={{ filter: "invert(1)" }}
+            style={{ filter: 'invert(1)' }}
             alt="Success Icon"
             width="30"
             height="30"
           />
         ),
         style: {
-          border: "1px solid #0f5132",
-          padding: "16px",
-          color: "white",
-          background: "black",
-          fontSize: "14px",
-          fontWeight: "bold",
+          border: '1px solid #0f5132',
+          padding: '16px',
+          color: 'white',
+          background: 'black',
+          fontSize: '14px',
+          fontWeight: 'bold',
         },
       });
 
@@ -202,18 +205,18 @@ const ListProducts = ({ selectedCategory, setSelectedCategory }) => {
           <img
             src="https://static.thenounproject.com/png/3941-200.png"
             className="animate-bounce"
-            style={{ filter: "invert(1)" }}
+            style={{ filter: 'invert(1)' }}
             alt="Success Icon"
             width="30"
             height="30"
           />
         ),
         style: {
-          padding: "16px",
-          color: "white",
-          background: "#ff6666",
-          fontSize: "14px",
-          fontWeight: "bold",
+          padding: '16px',
+          color: 'white',
+          background: '#ff6666',
+          fontSize: '14px',
+          fontWeight: 'bold',
         },
       });
 
@@ -225,7 +228,9 @@ const ListProducts = ({ selectedCategory, setSelectedCategory }) => {
   // Filter sidebar content - reused in both desktop and mobile views
   const FiltersContent = () => (
     <>
-          <h2 className="text-xl hidden lg:block font-bold tracking-widest text-gray-800 mb-3">Filters</h2>
+      <h2 className="text-xl hidden lg:block font-bold tracking-widest text-gray-800 mb-3">
+        Filters
+      </h2>
 
       <hr className="mb-4 text-gray-200" />
 
@@ -243,8 +248,8 @@ const ListProducts = ({ selectedCategory, setSelectedCategory }) => {
               }}
               className={`py-1 px-2  rounded-md cursor-pointer transition-colors hover:bg-gray-100 ${
                 category._id === selectedCategory
-                  ? "bg-gray-100 font-medium"
-                  : ""
+                  ? 'bg-gray-100 font-medium'
+                  : ''
               }`}
             >
               <span
@@ -260,20 +265,20 @@ const ListProducts = ({ selectedCategory, setSelectedCategory }) => {
       <hr className="mb-4 text-gray-200" />
 
       <div className="mb-6">
-
         <PriceRangeSlider
-      initialMin={minPrice}
-      initialMax={maxPrice}
-      onChange={handlePriceChange}
-    />
-
+          initialMin={minPrice}
+          initialMax={maxPrice}
+          onChange={handlePriceChange}
+        />
       </div>
       <hr className="mb-4 text-gray-200" />
 
       <div className="mb-6">
-        <h3 className="text-xs sm:text-[0.9rem] lg:text-[1rem] font-semibold mb-3">Size</h3>
+        <h3 className="text-xs sm:text-[0.9rem] lg:text-[1rem] font-semibold mb-3">
+          Size
+        </h3>
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-          {["XXS", "XS", "S", "M", "L", "XL", "XXL", "3XL", "4XL"].map(
+          {['XXS', 'XS', 'S', 'M', 'L', 'XL', 'XXL', '3XL', '4XL'].map(
             (size) => (
               <button
                 key={size}
@@ -286,7 +291,6 @@ const ListProducts = ({ selectedCategory, setSelectedCategory }) => {
         </div>
       </div>
       <hr className="mb-4 text-gray-200" />
-
     </>
   );
 
@@ -301,7 +305,7 @@ const ListProducts = ({ selectedCategory, setSelectedCategory }) => {
           onClick={() => setShowFilters(true)}
           className="flex items-center gap-2 py-1 px-2 sm:px-3 sm:py-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
         >
-          <ListFilter  className="w-3 h-3 sm:w-4 sm:h-4" />
+          <ListFilter className="w-3 h-3 sm:w-4 sm:h-4" />
           <span className="text-xs sm:text-sm  font-medium">Filters</span>
         </button>
       </div>
@@ -319,10 +323,10 @@ const ListProducts = ({ selectedCategory, setSelectedCategory }) => {
             />
             <motion.div
               className="absolute inset-y-0 left-0 sm:max-w-xs max-w-[50vw] w-full bg-white shadow-xl"
-              initial={{ x: "-100%" }}
+              initial={{ x: '-100%' }}
               animate={{ x: 0 }}
-              exit={{ x: "-100%" }}
-              transition={{ type: "spring", stiffness: 300, damping: 30 }}
+              exit={{ x: '-100%' }}
+              transition={{ type: 'spring', stiffness: 300, damping: 30 }}
             >
               <div className="p-4 h-full overflow-y-auto">
                 <div className="flex justify-between items-center mb-4">
@@ -360,66 +364,67 @@ const ListProducts = ({ selectedCategory, setSelectedCategory }) => {
               {error && (
                 <p className="text-red-500 text-xs font-medium">{error}</p>
               )}
-                 <div className="hidden lg:block w-full sm:w-auto">
-        <select
-          value={sortBy}
-          onChange={(e) => setSortBy(e.target.value)}
-          className="border border-gray-300 rounded-lg md:py-1.5 md:px-3 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-primary/50 cursor-pointer w-full sm:w-auto"
-        >
-          <option value="">Sort By</option>
-          <option value="priceAsc">Price: Low to High</option>
-          <option value="priceDesc">Price: High to Low</option>
-          <option value="nameAsc">A-Z</option>
-          <option value="nameDesc">Z-A</option>
-        </select>
-      </div>
-      
-      {/* Icon with dropdown for smaller screens */}
-      <div className="lg:hidden relative" ref={dropdownRef}>
-        <div 
-          className="flex items-center gap-1 cursor-pointer border border-gray-300 rounded-lg py-1.5 px-3 text-sm"
-          onClick={() => setIsOpen(!isOpen)}
-        >
-          <span className="text-xs md:text-sm">{getSortLabel(sortBy)}</span>
-          <ArrowUpAZ size={16} />
-        </div>
-        
-        {isOpen && (
-          <div className="absolute top-full left-0 mt-1 w-48 bg-white border border-gray-300 rounded-lg shadow-lg z-10">
-            <div 
-              className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-xs md:text-sm"
-              onClick={() => handleSortChange("")}
-            >
-              Sort By
-            </div>
-            <div 
-              className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-xs md:text-sm"
-              onClick={() => handleSortChange("priceAsc")}
-            >
-              Lowest Price
-            </div>
-            <div 
-              className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-xs md:text-sm"
-              onClick={() => handleSortChange("priceDesc")}
-            >
-              Highest Price
-            </div>
-            <div 
-              className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-xs md:text-sm"
-              onClick={() => handleSortChange("nameAsc")}
-            >
-              A-Z
-            </div>
-            <div 
-              className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-xs md:text-sm"
-              onClick={() => handleSortChange("nameDesc")}
-            >
-              Z-A
-            </div>
-          </div>
-        )}
-      </div>
+              <div className="hidden lg:block w-full sm:w-auto">
+                <select
+                  value={sortBy}
+                  onChange={(e) => setSortBy(e.target.value)}
+                  className="border border-gray-300 rounded-lg md:py-1.5 md:px-3 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-primary/50 cursor-pointer w-full sm:w-auto"
+                >
+                  <option value="">Sort By</option>
+                  <option value="priceAsc">Price: Low to High</option>
+                  <option value="priceDesc">Price: High to Low</option>
+                  <option value="nameAsc">A-Z</option>
+                  <option value="nameDesc">Z-A</option>
+                </select>
+              </div>
 
+              {/* Icon with dropdown for smaller screens */}
+              <div className="lg:hidden relative" ref={dropdownRef}>
+                <div
+                  className="flex items-center gap-1 cursor-pointer border border-gray-300 rounded-lg py-1.5 px-3 text-sm"
+                  onClick={() => setIsOpen(!isOpen)}
+                >
+                  <span className="text-xs md:text-sm">
+                    {getSortLabel(sortBy)}
+                  </span>
+                  <ArrowUpAZ size={16} />
+                </div>
+
+                {isOpen && (
+                  <div className="absolute top-full left-0 mt-1 w-48 bg-white border border-gray-300 rounded-lg shadow-lg z-10">
+                    <div
+                      className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-xs md:text-sm"
+                      onClick={() => handleSortChange('')}
+                    >
+                      Sort By
+                    </div>
+                    <div
+                      className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-xs md:text-sm"
+                      onClick={() => handleSortChange('priceAsc')}
+                    >
+                      Lowest Price
+                    </div>
+                    <div
+                      className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-xs md:text-sm"
+                      onClick={() => handleSortChange('priceDesc')}
+                    >
+                      Highest Price
+                    </div>
+                    <div
+                      className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-xs md:text-sm"
+                      onClick={() => handleSortChange('nameAsc')}
+                    >
+                      A-Z
+                    </div>
+                    <div
+                      className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-xs md:text-sm"
+                      onClick={() => handleSortChange('nameDesc')}
+                    >
+                      Z-A
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
 
@@ -434,7 +439,7 @@ const ListProducts = ({ selectedCategory, setSelectedCategory }) => {
                   );
                   const averageRating = ratingData
                     ? ratingData.averageRating.toFixed(1)
-                    : "";
+                    : '';
                   const ratingDisplay = ratingData ? (
                     <div className="bg-[#0f8417] space-x-1 text-white px-1.5 py-0.5 rounded flex justify-center content-center items-center">
                       <span className="text-xs mr-0.5">{averageRating}</span>
@@ -503,9 +508,9 @@ const ListProducts = ({ selectedCategory, setSelectedCategory }) => {
                           {/* Mobile (<md): only first 3 words + ellipsis */}
                           <span className="block md:hidden">
                             {`${product.name} – ${product.brand}`
-                              .split(" ")
+                              .split(' ')
                               .slice(0, 3)
-                              .join(" ")}
+                              .join(' ')}
                             …
                           </span>
 
@@ -595,12 +600,15 @@ const ListProducts = ({ selectedCategory, setSelectedCategory }) => {
 
 export default ListProducts;
 
-
 import { Range } from 'react-range';
 
-const PriceRangeSlider = ({ initialMin = 200, initialMax = 50000, onChange }) => {
+const PriceRangeSlider = ({
+  initialMin = 200,
+  initialMax = 50000,
+  onChange,
+}) => {
   const [values, setValues] = useState([initialMin, initialMax]);
-  
+
   useEffect(() => {
     if (onChange) {
       onChange(values);
@@ -609,10 +617,16 @@ const PriceRangeSlider = ({ initialMin = 200, initialMax = 50000, onChange }) =>
 
   return (
     <div className="mb-6">
-      <h3 className="text-xs sm:text-[0.9rem] lg:text-[1rem] font-semibold mb-3">Price Range</h3>
+      <h3 className="text-xs sm:text-[0.9rem] lg:text-[1rem] font-semibold mb-3">
+        Price Range
+      </h3>
       <div className="flex items-center justify-between mb-2">
-        <span className="text-[0.7rem] sm:text-[0.8rem] lg:text-[0.9rem] font-medium">₹{values[0]}</span>
-        <span className="text-[0.7rem] sm:text-[0.8rem] lg:text-[0.9rem] font-medium">₹{values[1]}</span>
+        <span className="text-[0.7rem] sm:text-[0.8rem] lg:text-[0.9rem] font-medium">
+          ₹{values[0]}
+        </span>
+        <span className="text-[0.7rem] sm:text-[0.8rem] lg:text-[0.9rem] font-medium">
+          ₹{values[1]}
+        </span>
       </div>
       <div className="py-4">
         <Range
@@ -634,7 +648,7 @@ const PriceRangeSlider = ({ initialMin = 200, initialMax = 50000, onChange }) =>
                 style={{
                   position: 'absolute',
                   left: `${props.style.left || 0}px`,
-                  width: `${props.style.width || 0}px`
+                  width: `${props.style.width || 0}px`,
                 }}
               />
               {children}
@@ -649,7 +663,7 @@ const PriceRangeSlider = ({ initialMin = 200, initialMax = 50000, onChange }) =>
                 boxShadow: '0 1px 3px rgba(0,0,0,0.3)',
                 display: 'flex',
                 justifyContent: 'center',
-                alignItems: 'center'
+                alignItems: 'center',
               }}
             />
           )}

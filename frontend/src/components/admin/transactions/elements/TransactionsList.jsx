@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
   X,
   Search,
@@ -10,17 +10,17 @@ import {
   User,
   Info,
   Mail,
-} from "lucide-react";
+} from 'lucide-react';
 
-import toast from "react-hot-toast";
-import { fetchTransactionsService } from "../../../../services/transactionService";
-import Pagination from "../../../common/utils/Pagination";
-import { useDebounce } from "../../../../../utils/useDebounce";
+import toast from 'react-hot-toast';
+import { fetchTransactionsService } from '../../../../services/transactionService';
+import Pagination from '../../../common/utils/Pagination';
+import { useDebounce } from '../../../../../utils/useDebounce';
 
 const TransactionsList = ({ setShowTransactionDetails }) => {
-  const [searchInput, setSearchInput] = useState("");
+  const [searchInput, setSearchInput] = useState('');
   const [transactionsList, setTransactionsList] = useState([]);
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -29,41 +29,31 @@ const TransactionsList = ({ setShowTransactionDetails }) => {
 
   const debouncedValue = useDebounce(searchInput.trim(), 500);
 
-  const fetchTransactions = async (query = "", page = 1) => {
+  const fetchTransactions = async (query = '', page = 1) => {
     try {
       setLoading(true);
       const data = await fetchTransactionsService(query, page);
       setTransactionsList(data.data.data);
       console.log(data.data);
-      
-      
+
       setCurrentPage(page);
       setTotalPages(data.data.pagination.totalPages); // Assuming 10 items per page
-      setError("");
+      setError('');
     } catch (err) {
-      setError("Failed to fetch transactions. Please try again.");
-      console.error("Error fetching transactions:", err);
+      setError('Failed to fetch transactions. Please try again.');
+      console.error('Error fetching transactions:', err);
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-      fetchTransactions(debouncedValue, currentPage);
-    }, [currentPage]);
-    
-
+    fetchTransactions(debouncedValue, currentPage);
+  }, [currentPage]);
 
   useEffect(() => {
-    
     fetchTransactions(debouncedValue);
   }, [debouncedValue]);
-
-
-
-
-
-  
 
   const viewTransactionDetails = (transaction) => {
     setSelectedTransaction(transaction);
@@ -72,14 +62,14 @@ const TransactionsList = ({ setShowTransactionDetails }) => {
 
   const navigateToOrder = (orderId) => {
     // Implementation for navigating to order details page
-    toast.success("Navigating to order details...", {
+    toast.success('Navigating to order details...', {
       style: {
-        border: "1px solid #0f5132",
-        padding: "16px",
-        color: "white",
-        background: "black",
-        fontSize: "14px",
-        fontWeight: "bold",
+        border: '1px solid #0f5132',
+        padding: '16px',
+        color: 'white',
+        background: 'black',
+        fontSize: '14px',
+        fontWeight: 'bold',
       },
     });
     // Implement actual navigation logic here
@@ -88,28 +78,28 @@ const TransactionsList = ({ setShowTransactionDetails }) => {
   // Function to get transaction type badge
   const getTransactionTypeBadge = (type) => {
     switch (type?.toLowerCase()) {
-      case "credited":
+      case 'credited':
         return (
           <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
             <ArrowUpRight size={12} className="mr-1" />
             Credited
           </span>
         );
-      case "debited":
+      case 'debited':
         return (
           <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
             <ArrowDownLeft size={12} className="mr-1" />
             Debited
           </span>
         );
-      case "return":
+      case 'return':
         return (
           <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
             <ArrowUpRight size={12} className="mr-1" />
             Return
           </span>
         );
-      case "cancellation":
+      case 'cancellation':
         return (
           <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
             <ArrowUpRight size={12} className="mr-1" />
@@ -126,28 +116,28 @@ const TransactionsList = ({ setShowTransactionDetails }) => {
   };
 
   const formatDate = (dateString) => {
-    if (!dateString) return "N/A";
+    if (!dateString) return 'N/A';
     const date = new Date(dateString);
-    return date.toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
+    return date.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
     });
   };
 
   // Get the amount color based on transaction type
   const getAmountColorClass = (transactionType) => {
     switch (transactionType?.toLowerCase()) {
-      case "credited":
-      case "return":
-      case "cancellation":
-        return "text-green-600";
-      case "debited":
-        return "text-red-600";
+      case 'credited':
+      case 'return':
+      case 'cancellation':
+        return 'text-green-600';
+      case 'debited':
+        return 'text-red-600';
       default:
-        return "text-gray-900";
+        return 'text-gray-900';
     }
   };
 
@@ -160,7 +150,7 @@ const TransactionsList = ({ setShowTransactionDetails }) => {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -50 }}
             transition={{
-              type: "spring",
+              type: 'spring',
               stiffness: 300,
               damping: 30,
             }}
@@ -168,7 +158,9 @@ const TransactionsList = ({ setShowTransactionDetails }) => {
           >
             <div className="w-full max-w-md sm:max-w-lg bg-white rounded-lg shadow-lg overflow-hidden">
               <div className="bg-black text-white p-3 sm:p-4 flex justify-between items-center">
-                <h3 className="text-sm sm:text-base font-medium">Transaction Details</h3>
+                <h3 className="text-sm sm:text-base font-medium">
+                  Transaction Details
+                </h3>
                 <button
                   onClick={() => setIsDetailsOpen(false)}
                   className="text-white hover:text-gray-300 transition-colors"
@@ -181,44 +173,73 @@ const TransactionsList = ({ setShowTransactionDetails }) => {
                   <div className="flex items-center">
                     <User className="w-4 sm:w-5 h-4 sm:h-5 mr-2 text-gray-500" />
                     <div>
-                      <h4 className="text-xs sm:text-sm font-medium text-gray-500">Name</h4>
-                      <p className="font-medium text-xs sm:text-sm">{selectedTransaction.name || "N/A"}</p>
+                      <h4 className="text-xs sm:text-sm font-medium text-gray-500">
+                        Name
+                      </h4>
+                      <p className="font-medium text-xs sm:text-sm">
+                        {selectedTransaction.name || 'N/A'}
+                      </p>
                     </div>
                   </div>
                   <div className="flex items-center">
                     <Mail className="w-4 sm:w-5 h-4 sm:h-5 mr-2 text-gray-500" />
                     <div>
-                      <h4 className="text-xs sm:text-sm font-medium text-gray-500">Email</h4>
-                      <p className="font-medium text-xs sm:text-sm">{selectedTransaction.email || "N/A"}</p>
+                      <h4 className="text-xs sm:text-sm font-medium text-gray-500">
+                        Email
+                      </h4>
+                      <p className="font-medium text-xs sm:text-sm">
+                        {selectedTransaction.email || 'N/A'}
+                      </p>
                     </div>
                   </div>
                   <div className="flex items-center">
                     <Calendar className="w-4 sm:w-5 h-4 sm:h-5 mr-2 text-gray-500" />
                     <div>
-                      <h4 className="text-xs sm:text-sm font-medium text-gray-500">Date</h4>
-                      <p className="font-medium text-xs sm:text-sm">{formatDate(selectedTransaction.transactionDate)}</p>
+                      <h4 className="text-xs sm:text-sm font-medium text-gray-500">
+                        Date
+                      </h4>
+                      <p className="font-medium text-xs sm:text-sm">
+                        {formatDate(selectedTransaction.transactionDate)}
+                      </p>
                     </div>
                   </div>
                   <div className="flex items-center">
                     <Info className="w-4 sm:w-5 h-4 sm:h-5 mr-2 text-gray-500" />
                     <div>
-                      <h4 className="text-xs sm:text-sm font-medium text-gray-500">Transaction ID</h4>
-                      <p className="font-medium text-xs sm:text-sm">{selectedTransaction.transactionId}</p>
+                      <h4 className="text-xs sm:text-sm font-medium text-gray-500">
+                        Transaction ID
+                      </h4>
+                      <p className="font-medium text-xs sm:text-sm">
+                        {selectedTransaction.transactionId}
+                      </p>
                     </div>
                   </div>
                   <div className="flex items-center">
                     <Wallet className="w-4 sm:w-5 h-4 sm:h-5 mr-2 text-gray-500" />
                     <div>
-                      <h4 className="text-xs sm:text-sm font-medium text-gray-500">Type</h4>
-                      <div>{getTransactionTypeBadge(selectedTransaction.transactionType)}</div>
+                      <h4 className="text-xs sm:text-sm font-medium text-gray-500">
+                        Type
+                      </h4>
+                      <div>
+                        {getTransactionTypeBadge(
+                          selectedTransaction.transactionType
+                        )}
+                      </div>
                     </div>
                   </div>
                   <div className="flex items-center">
                     <ArrowUpRight className="w-4 sm:w-5 h-4 sm:h-5 mr-2 text-gray-500" />
                     <div>
-                      <h4 className="text-xs sm:text-sm font-medium text-gray-500">Amount</h4>
-                      <p className={`font-bold text-xs sm:text-sm ${getAmountColorClass(selectedTransaction.transactionType)}`}>
-                        ₹{selectedTransaction.amount ? selectedTransaction.amount.toFixed(2) : "N/A"}
+                      <h4 className="text-xs sm:text-sm font-medium text-gray-500">
+                        Amount
+                      </h4>
+                      <p
+                        className={`font-bold text-xs sm:text-sm ${getAmountColorClass(selectedTransaction.transactionType)}`}
+                      >
+                        ₹
+                        {selectedTransaction.amount
+                          ? selectedTransaction.amount.toFixed(2)
+                          : 'N/A'}
                       </p>
                     </div>
                   </div>
@@ -235,7 +256,9 @@ const TransactionsList = ({ setShowTransactionDetails }) => {
           <div className="bg-black text-white p-2 sm:p-3 rounded-full mr-2 sm:mr-3">
             <Wallet size={20} sm:size={24} />
           </div>
-          <h1 className="text-base sm:text-lg font-bold">Wallet Transactions</h1>
+          <h1 className="text-base sm:text-lg font-bold">
+            Wallet Transactions
+          </h1>
         </div>
 
         {/* Controls Bar */}
@@ -254,7 +277,7 @@ const TransactionsList = ({ setShowTransactionDetails }) => {
               />
               {searchInput && (
                 <button
-                  onClick={() => setSearchInput("")}
+                  onClick={() => setSearchInput('')}
                   className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
                 >
                   <X size={16} sm:size={18} />
@@ -285,7 +308,9 @@ const TransactionsList = ({ setShowTransactionDetails }) => {
         {/* Transactions Section */}
         <div className="bg-white rounded-lg shadow-md overflow-hidden">
           <div className="border-b border-gray-200 bg-gray-50 py-2 sm:py-3 px-3 sm:px-4">
-            <h2 className="font-semibold text-sm sm:text-base">Transactions List</h2>
+            <h2 className="font-semibold text-sm sm:text-base">
+              Transactions List
+            </h2>
           </div>
 
           {loading ? (
@@ -325,22 +350,34 @@ const TransactionsList = ({ setShowTransactionDetails }) => {
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
                   {transactionsList.map((transaction, index) => (
-                    <tr key={transaction.transactionId || index} className="hover:bg-gray-50 transition-colors">
+                    <tr
+                      key={transaction.transactionId || index}
+                      className="hover:bg-gray-50 transition-colors"
+                    >
                       <td className="px-4 sm:px-6 py-2 sm:py-3 text-xs sm:text-sm text-gray-900">
-                        {transaction.transactionId ? transaction.transactionId.substring(0, 8) : "N/A"}
+                        {transaction.transactionId
+                          ? transaction.transactionId.substring(0, 8)
+                          : 'N/A'}
                       </td>
                       <td className="px-4 sm:px-6 py-2 sm:py-3 text-xs sm:text-sm text-gray-500">
                         {formatDate(transaction.transactionDate)}
                       </td>
                       <td className="px-4 sm:px-6 py-2 sm:py-3 text-xs sm:text-sm text-gray-900">
-                        {transaction.name || "N/A"}
+                        {transaction.name || 'N/A'}
                       </td>
                       <td className="px-4 sm:px-6 py-2 sm:py-3 text-xs sm:text-sm">
                         {getTransactionTypeBadge(transaction.transactionType)}
                       </td>
                       <td className="px-4 sm:px-6 py-2 sm:py-3 text-xs sm:text-sm font-medium">
-                        <span className={getAmountColorClass(transaction.transactionType)}>
-                          ₹{transaction.amount ? transaction.amount.toFixed(2) : "N/A"}
+                        <span
+                          className={getAmountColorClass(
+                            transaction.transactionType
+                          )}
+                        >
+                          ₹
+                          {transaction.amount
+                            ? transaction.amount.toFixed(2)
+                            : 'N/A'}
                         </span>
                       </td>
                       <td className="px-4 sm:px-6 py-2 sm:py-3 text-xs sm:text-sm">

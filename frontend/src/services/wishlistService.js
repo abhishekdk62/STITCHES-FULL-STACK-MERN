@@ -1,8 +1,8 @@
-import apiClient from "./apiClient";
+import apiClient from './apiClient';
 
 export const getWishlistApi = async () => {
   try {
-    const respone = await apiClient.get("/user/wishlist");
+    const respone = await apiClient.get('/user/wishlist');
     return respone;
   } catch (error) {
     throw error;
@@ -10,7 +10,7 @@ export const getWishlistApi = async () => {
 };
 export const addToWishlist = async (pid, selectedVariant) => {
   try {
-    const response = apiClient.post("/user/wishlist", {
+    const response = apiClient.post('/user/wishlist', {
       productId: pid,
       selectedVariant,
     });

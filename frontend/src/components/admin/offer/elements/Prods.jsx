@@ -1,27 +1,27 @@
-import React, { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Package, CircleArrowLeft } from "lucide-react";
-import { toast } from "react-hot-toast";
-import { getProductsByCatApi } from "../../../../services/productService";
-import { applyProdOfferApi } from "../../../../services/offerServices";
+import React, { useEffect, useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Package, CircleArrowLeft } from 'lucide-react';
+import { toast } from 'react-hot-toast';
+import { getProductsByCatApi } from '../../../../services/productService';
+import { applyProdOfferApi } from '../../../../services/offerServices';
 const Prods = ({ setTab, selectedCatId }) => {
   const [modal, setModal] = useState(false);
-  const [selectedId, setSelectedId] = useState({ pid: "", vid: "" });
-  const [err, setErr] = useState("");
+  const [selectedId, setSelectedId] = useState({ pid: '', vid: '' });
+  const [err, setErr] = useState('');
   const [products, setProducts] = useState([]);
-  const [offer, setOffer] = useState("");
+  const [offer, setOffer] = useState('');
 
   const applyOffersP = async () => {
     if (offer <= 0 || offer >= 100) {
-      return setErr("Enter valid offer value");
+      return setErr('Enter valid offer value');
     }
     try {
       await applyProdOfferApi(offer, selectedId);
-      toast.success("Offer applied successfully!");
+      toast.success('Offer applied successfully!');
       getProductsByCat();
       setModal(false);
     } catch (error) {
-      toast.error(error.response?.data || "Failed to apply offer");
+      toast.error(error.response?.data || 'Failed to apply offer');
       setModal(false);
     }
   };
@@ -47,7 +47,7 @@ const Prods = ({ setTab, selectedCatId }) => {
             initial={{ opacity: 0, y: -50 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -50 }}
-            transition={{ type: "spring", stiffness: 300, damping: 30 }}
+            transition={{ type: 'spring', stiffness: 300, damping: 30 }}
             className="fixed inset-0 z-50 flex items-center justify-center bg-black/10 bg-opacity-50"
           >
             <div className="bg-white text-black w-72 sm:w-80 rounded-lg p-4 sm:p-6 shadow-lg border border-gray-700">
@@ -61,11 +61,15 @@ const Prods = ({ setTab, selectedCatId }) => {
                 onChange={(e) => setOffer(e.target.value)}
                 className="w-full px-2 sm:px-3 py-1 sm:py-2 border rounded-md text-xs sm:text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-gray-300"
               />
-              {err && <p className="text-red-500 text-xs sm:text-sm text-center">{err}</p>}
+              {err && (
+                <p className="text-red-500 text-xs sm:text-sm text-center">
+                  {err}
+                </p>
+              )}
               <div className="mt-3 sm:mt-4 flex justify-end gap-2 sm:gap-3">
                 <button
                   onClick={() => {
-                    setErr("");
+                    setErr('');
                     setModal(false);
                   }}
                   className="px-3 sm:px-4 py-1 sm:py-2 rounded-md bg-white text-black font-semibold hover:bg-gray-200 transition text-xs sm:text-sm"
@@ -90,10 +94,16 @@ const Prods = ({ setTab, selectedCatId }) => {
             <div className="bg-black text-white p-2 sm:p-3 rounded-full mr-2 sm:mr-3">
               <Package size={20} sm:size={24} />
             </div>
-            <h1 className="text-base sm:text-lg font-bold">Products Management</h1>
+            <h1 className="text-base sm:text-lg font-bold">
+              Products Management
+            </h1>
           </div>
-          <button onClick={() => setTab("main")}>
-            <CircleArrowLeft size={28} sm:size={32} className="cursor-pointer" />
+          <button onClick={() => setTab('main')}>
+            <CircleArrowLeft
+              size={28}
+              sm:size={32}
+              className="cursor-pointer"
+            />
           </button>
         </div>
 
@@ -126,7 +136,8 @@ const Prods = ({ setTab, selectedCatId }) => {
                           Color: {variant.color}, Size: {variant.size}
                         </p>
                         <p className="text-xs sm:text-sm text-gray-500">
-                          Current Offer: {variant.discount_percentage.toFixed(0)}%
+                          Current Offer:{' '}
+                          {variant.discount_percentage.toFixed(0)}%
                         </p>
                       </div>
                       <button

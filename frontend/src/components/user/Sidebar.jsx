@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { setSelectedTab } from "../../../slices/selectedTabSlice";
+import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { setSelectedTab } from '../../../slices/selectedTabSlice';
 import {
   User,
   Heart,
@@ -11,9 +11,9 @@ import {
   ChevronRight,
   Menu,
   X,
-} from "lucide-react";
-import { Wallet } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+} from 'lucide-react';
+import { Wallet } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const Sidebar = () => {
   const dispatch = useDispatch();
@@ -22,40 +22,40 @@ const Sidebar = () => {
 
   const menuItems = [
     {
-      id: "orders",
-      label: "My Orders",
+      id: 'orders',
+      label: 'My Orders',
       icon: <Package className="w-5 h-5 mr-3" />,
-      matchIds: ["orders"],
+      matchIds: ['orders'],
     },
     {
-      id: "wishlist",
-      label: "Wishlist",
+      id: 'wishlist',
+      label: 'Wishlist',
       icon: <Heart className="w-5 h-5 mr-3" />,
-      matchIds: ["wishlist"],
+      matchIds: ['wishlist'],
     },
     {
-      id: "myinfo",
-      label: "My Info",
+      id: 'myinfo',
+      label: 'My Info',
       icon: <User className="w-5 h-5 mr-3" />,
-      matchIds: ["myinfo", "editaddress", "address", "editinfo"],
+      matchIds: ['myinfo', 'editaddress', 'address', 'editinfo'],
     },
     {
-      id: "coupons",
-      label: "My Coupons",
+      id: 'coupons',
+      label: 'My Coupons',
       icon: <Ticket className="w-5 h-5 mr-3" />,
-      matchIds: ["coupons"],
+      matchIds: ['coupons'],
     },
     {
-      id: "cart",
-      label: "Cart",
+      id: 'cart',
+      label: 'Cart',
       icon: <ShoppingCart className="w-5 h-5 mr-3" />,
-      matchIds: ["cart"],
+      matchIds: ['cart'],
     },
     {
-      id: "wallet",
-      label: "Wallet",
+      id: 'wallet',
+      label: 'Wallet',
       icon: <Wallet className="w-5 h-5 mr-3" />,
-      matchIds: ["wallet"],
+      matchIds: ['wallet'],
     },
   ];
 
@@ -124,14 +124,14 @@ const Sidebar = () => {
                   }}
                   className={`flex cursor-pointer items-center justify-between w-full py-3 px-4 rounded-lg transition-all duration-300 ${
                     isSelected
-                      ? "bg-black text-white shadow-md"
-                      : "text-gray-700 hover:bg-gray-50"
+                      ? 'bg-black text-white shadow-md'
+                      : 'text-gray-700 hover:bg-gray-50'
                   }`}
                 >
                   <div className="flex items-center">
                     <motion.div
                       animate={{
-                        color: isSelected ? "#ffffff" : "#6b7280",
+                        color: isSelected ? '#ffffff' : '#6b7280',
                       }}
                     >
                       {item.icon}
@@ -171,17 +171,17 @@ const Sidebar = () => {
 
             {/* Mobile Sidebar */}
             <motion.div
-              initial={{ x: "-100%" }}
+              initial={{ x: '-100%' }}
               animate={{ x: 0 }}
-              exit={{ x: "-100%" }}
+              exit={{ x: '-100%' }}
               transition={{ duration: 0.3 }}
               className="lg:hidden fixed inset-y-0 left-0 z-40 w-[280px] bg-white shadow-xl"
             >
               <div className="h-full overflow-y-auto p-6">
                 <nav className="space-y-2">
-                <h2 className="text-2xl font-semibold bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent">
-              .
-            </h2>
+                  <h2 className="text-2xl font-semibold bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent">
+                    .
+                  </h2>
                   {menuItems.map((item, index) => {
                     const isSelected = item.matchIds.includes(selectedTab);
 
@@ -204,14 +204,14 @@ const Sidebar = () => {
                         }}
                         className={`flex cursor-pointer items-center justify-between w-full py-3 px-4 rounded-lg transition-all duration-300 ${
                           isSelected
-                            ? "bg-black text-white shadow-md"
-                            : "text-gray-700 hover:bg-gray-50"
+                            ? 'bg-black text-white shadow-md'
+                            : 'text-gray-700 hover:bg-gray-50'
                         }`}
                       >
                         <div className="flex items-center">
                           <motion.div
                             animate={{
-                              color: isSelected ? "#ffffff" : "#6b7280",
+                              color: isSelected ? '#ffffff' : '#6b7280',
                             }}
                           >
                             {item.icon}

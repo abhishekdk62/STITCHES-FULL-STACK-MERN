@@ -1,6 +1,6 @@
-import apiClient from "./apiClient";
+import apiClient from './apiClient';
 
-export const fetchUsers = async (searchQuery = "", page = 1) => {
+export const fetchUsers = async (searchQuery = '', page = 1) => {
   try {
     const queryString = searchQuery
       ? `?q=${searchQuery}&page=${page}&limit=10`
@@ -14,7 +14,7 @@ export const fetchUsers = async (searchQuery = "", page = 1) => {
 
 export const updateStatus = async (id, status) => {
   try {
-    const { data } = await apiClient.post("/user/update", { _id: id, status });
+    const { data } = await apiClient.post('/user/update', { _id: id, status });
     return data; // Expected to include updatedUser or a confirmation message
   } catch (error) {
     throw error;
@@ -23,7 +23,7 @@ export const updateStatus = async (id, status) => {
 
 export const sendOTP = async (email) => {
   try {
-    const response = await apiClient.post("/user/send-otp", { email });
+    const response = await apiClient.post('/user/send-otp', { email });
     return response.data;
   } catch (error) {
     throw error;
@@ -32,7 +32,7 @@ export const sendOTP = async (email) => {
 
 export const verifyOTP = async (email, otp) => {
   try {
-    const response = await apiClient.post("/user/verify-otp", { email, otp });
+    const response = await apiClient.post('/user/verify-otp', { email, otp });
     return response.data;
   } catch (error) {
     throw error;
@@ -41,7 +41,7 @@ export const verifyOTP = async (email, otp) => {
 
 export const updatePassword = async (email, password) => {
   try {
-    const response = await apiClient.post("/user/update-password", {
+    const response = await apiClient.post('/user/update-password', {
       email,
       password,
     });
@@ -55,17 +55,16 @@ export const logoutAdmin = async () => {
   try {
     // Since apiClient already has withCredentials and base URL configured,
     // you don't need to include them here.
-    const response = await apiClient.post("/user/logout");
+    const response = await apiClient.post('/user/logout');
     return response.data;
   } catch (error) {
     throw error;
   }
 };
 
-
 export const loginUser = async (email, password) => {
   try {
-    const response = await apiClient.post("/user/login", { email, password });
+    const response = await apiClient.post('/user/login', { email, password });
     return response.data; // Expected to include { userId, role }
   } catch (error) {
     throw error;
@@ -74,14 +73,14 @@ export const loginUser = async (email, password) => {
 
 export const getRatingsService = async () => {
   try {
-    const response = await apiClient.get("/user/ratings");
+    const response = await apiClient.get('/user/ratings');
     return response.data;
   } catch (error) {
     throw error;
   }
 };
 
-export const fetchCategoriesForFilter = async (query = "") => {
+export const fetchCategoriesForFilter = async (query = '') => {
   try {
     const response = await apiClient.get(
       `/user/searchcategoriestofilter?q=${query}`
@@ -94,7 +93,7 @@ export const fetchCategoriesForFilter = async (query = "") => {
 
 export const logoutUser = async () => {
   try {
-    const response = await apiClient.post("/user/logout");
+    const response = await apiClient.post('/user/logout');
     return response.data;
   } catch (error) {
     throw error;
@@ -103,7 +102,7 @@ export const logoutUser = async () => {
 
 export const sendSignupOTP = async (email) => {
   try {
-    const response = await apiClient.post("/user/signupotp", { email });
+    const response = await apiClient.post('/user/signupotp', { email });
     return response.data; // Expected to return OTP sending status/info
   } catch (error) {
     throw error;
@@ -112,7 +111,7 @@ export const sendSignupOTP = async (email) => {
 
 export const verifySignupOTP = async (email, otp) => {
   try {
-    const response = await apiClient.post("/user/verifysignupotp", {
+    const response = await apiClient.post('/user/verifysignupotp', {
       email,
       otp,
     });
@@ -124,10 +123,10 @@ export const verifySignupOTP = async (email, otp) => {
 
 export const completeSignup = async (signupData) => {
   try {
-    const response = await apiClient.post("/user/signup", signupData, {
+    const response = await apiClient.post('/user/signup', signupData, {
       withCredentials: true,
     });
-    return response.data; 
+    return response.data;
   } catch (error) {
     throw error;
   }
@@ -135,7 +134,7 @@ export const completeSignup = async (signupData) => {
 
 export const addAddress = async (addressData) => {
   try {
-    const respone = await apiClient.post("/user/address", addressData, {
+    const respone = await apiClient.post('/user/address', addressData, {
       withCredentials: true,
     });
 
@@ -170,7 +169,7 @@ export const deleteAddress = async (id) => {
 
 export const updateProfile = async (updatedData) => {
   try {
-    const respone = await apiClient.put("/user/userProfile", updatedData, {
+    const respone = await apiClient.put('/user/userProfile', updatedData, {
       withCredentials: true,
     });
 
@@ -183,7 +182,7 @@ export const updateProfile = async (updatedData) => {
 export const requestEmailChange = async (newEmail) => {
   try {
     const response = await apiClient.post(
-      "/user/email",
+      '/user/email',
       { newEmail }, // Ensure only newEmail is sent
       { withCredentials: true }
     );
@@ -191,7 +190,7 @@ export const requestEmailChange = async (newEmail) => {
     return response.data;
   } catch (error) {
     throw (
-      error.response?.data || { message: "Failed to request email change." }
+      error.response?.data || { message: 'Failed to request email change.' }
     );
   }
 };
@@ -199,7 +198,7 @@ export const requestEmailChange = async (newEmail) => {
 export const verifyEmailOTP = async (newEmail, otp) => {
   try {
     const response = await apiClient.post(
-      "/user/email/verify",
+      '/user/email/verify',
       { newEmail, otp },
       { withCredentials: true }
     );
@@ -212,7 +211,7 @@ export const verifyEmailOTP = async (newEmail, otp) => {
 export const changePassword = async (oldPassword, newPassword) => {
   try {
     const response = await apiClient.post(
-      "/user/password",
+      '/user/password',
       { oldPassword, newPassword },
       { withCredentials: true }
     );
@@ -225,7 +224,7 @@ export const changePassword = async (oldPassword, newPassword) => {
 export const addToCartApi = async (pid, vid, quantity) => {
   try {
     const response = await apiClient.post(
-      "/user/cart",
+      '/user/cart',
       { productId: pid, variantId: vid, quantity },
       { withCredentials: true }
     );
@@ -237,7 +236,7 @@ export const addToCartApi = async (pid, vid, quantity) => {
 
 export const getCartItems = async () => {
   try {
-    const respone = await apiClient.get("/user/cart");
+    const respone = await apiClient.get('/user/cart');
     return respone.data;
   } catch (error) {
     throw error;
@@ -246,7 +245,7 @@ export const getCartItems = async () => {
 
 export const changeQuantityApi = async (cid, pid, vid, quantity) => {
   try {
-    const respone = await apiClient.put("/user/cart", {
+    const respone = await apiClient.put('/user/cart', {
       cid,
       pid,
       vid,

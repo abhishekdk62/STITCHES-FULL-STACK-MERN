@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 import {
   LineChart,
   Line,
@@ -7,8 +7,8 @@ import {
   CartesianGrid,
   Tooltip,
   Legend,
-  ResponsiveContainer
-} from "recharts";
+  ResponsiveContainer,
+} from 'recharts';
 
 const SalesTrendChart = ({ salesData, showDiscount = true }) => {
   const [chartData, setChartData] = useState([]);
@@ -25,47 +25,49 @@ const SalesTrendChart = ({ salesData, showDiscount = true }) => {
     // Group sales by date
     const salesByDate = items.reduce((acc, item) => {
       const date = item.createdAt.split('T')[0];
-      
+
       if (!acc[date]) {
         acc[date] = {
           date,
           sales: 0,
           discount: 0,
-          orders: 0
+          orders: 0,
         };
       }
-      
+
       // Calculate item total with tax
-      const itemPriceWithTax = item.quantity * item.price + (item.quantity * item.price * 0.12);
-      
+      const itemPriceWithTax =
+        item.quantity * item.price + item.quantity * item.price * 0.12;
+
       // Calculate discount if coupon exists
-      const discountAmount = item.coupon && item.coupon.value > 0
-        ? (itemPriceWithTax * item.coupon.value) / 100
-        : 0;
-      
+      const discountAmount =
+        item.coupon && item.coupon.value > 0
+          ? (itemPriceWithTax * item.coupon.value) / 100
+          : 0;
+
       // Add to accumulated values
-      acc[date].sales += (itemPriceWithTax - discountAmount);
+      acc[date].sales += itemPriceWithTax - discountAmount;
       acc[date].discount += discountAmount;
       acc[date].orders += Number(item.quantity);
-      
+
       return acc;
     }, {});
-    
+
     // Convert to array and sort by date
-    return Object.values(salesByDate).sort((a, b) => 
-      new Date(a.date) - new Date(b.date)
+    return Object.values(salesByDate).sort(
+      (a, b) => new Date(a.date) - new Date(b.date)
     );
   };
 
   // Format tooltip values as currency
   const formatCurrency = (value) => {
-    return new Intl.NumberFormat("en-US", {
-      style: "currency",
-      currency: "INR",
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'INR',
       minimumFractionDigits: 2,
     }).format(value);
   };
-  
+
   // Custom tooltip to display formatted values
   const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
@@ -82,9 +84,7 @@ const SalesTrendChart = ({ salesData, showDiscount = true }) => {
               Discount: {formatCurrency(payload[1].value)}
             </p>
           )}
-          <p className="text-blue-600">
-            Orders: {payload[2]?.value || 0}
-          </p>
+          <p className="text-blue-600">Orders: {payload[2]?.value || 0}</p>
         </div>
       );
     }
@@ -100,26 +100,30 @@ const SalesTrendChart = ({ salesData, showDiscount = true }) => {
             margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
           >
             <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-            <XAxis 
-              dataKey="date" 
+            <XAxis
+              dataKey="date"
               tick={{ fontSize: 12 }}
               tickFormatter={(value) => {
                 const date = new Date(value);
                 return `${date.getDate()}/${date.getMonth() + 1}`;
               }}
             />
-            <YAxis 
+            <YAxis
               yAxisId="left"
               orientation="left"
               tick={{ fontSize: 12 }}
-              tickFormatter={(value) => formatCurrency(value).replace('.00', '')}
+              tickFormatter={(value) =>
+                formatCurrency(value).replace('.00', '')
+              }
             />
             {showDiscount && (
-              <YAxis 
-                yAxisId="right" 
+              <YAxis
+                yAxisId="right"
                 orientation="right"
                 tick={{ fontSize: 12 }}
-                tickFormatter={(value) => formatCurrency(value).replace('.00', '')}
+                tickFormatter={(value) =>
+                  formatCurrency(value).replace('.00', '')
+                }
               />
             )}
             <Tooltip content={<CustomTooltip />} />
@@ -160,7 +164,9 @@ const SalesTrendChart = ({ salesData, showDiscount = true }) => {
         </ResponsiveContainer>
       ) : (
         <div className="h-full w-full flex items-center justify-center bg-gray-50 rounded-lg">
-          <p className="text-gray-500">No data available for the selected period</p>
+          <p className="text-gray-500">
+            No data available for the selected period
+          </p>
         </div>
       )}
     </div>

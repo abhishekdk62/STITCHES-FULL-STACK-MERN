@@ -1,30 +1,30 @@
-import React, { useState, useEffect } from "react";
-import AddProduct from "./elements/AddProduct";
-import EditProduct from "./elements/EditProduct";
-import ProductsList from "./elements/ProductsList";
-import RemovedProducts from "./elements/RemovedProducts";
+import React, { useState, useEffect } from 'react';
+import AddProduct from './elements/AddProduct';
+import EditProduct from './elements/EditProduct';
+import ProductsList from './elements/ProductsList';
+import RemovedProducts from './elements/RemovedProducts';
 
 const Products = () => {
   const [showAddProduct, setShowAddProduct] = useState(
-    localStorage.getItem("showAddProduct") === "true"
+    localStorage.getItem('showAddProduct') === 'true'
   );
   const [showRemoved, setShowRemoved] = useState(
-    localStorage.getItem("showRemoved") === "true"
+    localStorage.getItem('showRemoved') === 'true'
   );
   const [showEditProduct, setShowEditProduct] = useState(
-    localStorage.getItem("showEditProduct") === "true"
+    localStorage.getItem('showEditProduct') === 'true'
   );
 
   useEffect(() => {
-    localStorage.setItem("showAddProduct", showAddProduct);
+    localStorage.setItem('showAddProduct', showAddProduct);
   }, [showAddProduct]);
 
   useEffect(() => {
-    localStorage.setItem("showRemoved", showRemoved);
+    localStorage.setItem('showRemoved', showRemoved);
   }, [showRemoved]);
 
   useEffect(() => {
-    localStorage.setItem("showEditProduct", showEditProduct);
+    localStorage.setItem('showEditProduct', showEditProduct);
   }, [showEditProduct]);
 
   return showEditProduct ? (

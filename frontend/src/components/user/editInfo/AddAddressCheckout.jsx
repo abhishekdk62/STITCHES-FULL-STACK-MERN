@@ -1,21 +1,21 @@
-import React, { useEffect, useState } from "react";
-import { addAddress } from "../../../services/userService";
-import { toast } from "react-hot-toast";
-import { getCountries } from "../../../services/countiesService";
-import { useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
-import { MapPin, X, Check } from "lucide-react";
+import React, { useEffect, useState } from 'react';
+import { addAddress } from '../../../services/userService';
+import { toast } from 'react-hot-toast';
+import { getCountries } from '../../../services/countiesService';
+import { useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { MapPin, X, Check } from 'lucide-react';
 
 export default function AddaddressCheckout({ setShowCheckEditAddress }) {
-  const [fullName, setFullName] = useState("");
-  const [country, setCountry] = useState("");
-  const [street, setStreet] = useState("");
-  const [city, setCity] = useState("");
-  const [state, setState] = useState("");
-  const [phone, setPhone] = useState("");
-  const [zip, setZip] = useState("");
+  const [fullName, setFullName] = useState('');
+  const [country, setCountry] = useState('');
+  const [street, setStreet] = useState('');
+  const [city, setCity] = useState('');
+  const [state, setState] = useState('');
+  const [phone, setPhone] = useState('');
+  const [zip, setZip] = useState('');
   const [defaultBilling, setDefaultBilling] = useState(false);
-  const [addressType, setAddressType] = useState("Home");
+  const [addressType, setAddressType] = useState('Home');
   const [countries, setCountries] = useState([]);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
@@ -25,7 +25,7 @@ export default function AddaddressCheckout({ setShowCheckEditAddress }) {
       try {
         const response = await getCountries();
         console.log(response);
-        
+
         const sortedCountries = response.sort((a, b) =>
           a.name.localeCompare(b.name)
         );
@@ -40,31 +40,31 @@ export default function AddaddressCheckout({ setShowCheckEditAddress }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!fullName) {
-      setError("Please enter the Fullname");
+      setError('Please enter the Fullname');
       return;
     }
     if (!country) {
-      setError("Please select the Country");
+      setError('Please select the Country');
       return;
     }
     if (!street) {
-      setError("Please enter the Street");
+      setError('Please enter the Street');
       return;
     }
     if (!city) {
-      setError("Please enter the City");
+      setError('Please enter the City');
       return;
     }
     if (!state) {
-      setError("Please enter the State");
+      setError('Please enter the State');
       return;
     }
     if (!phone) {
-      setError("Please enter the Phone Number");
+      setError('Please enter the Phone Number');
       return;
     }
     if (!zip) {
-      setError("Please enter the Zip Code");
+      setError('Please enter the Zip Code');
       return;
     }
 
@@ -81,49 +81,49 @@ export default function AddaddressCheckout({ setShowCheckEditAddress }) {
         addressType,
       };
       const response = await addAddress(addressData);
-      console.log("Address saved:", response.data);
-      toast.success("Address Added!", {
+      console.log('Address saved:', response.data);
+      toast.success('Address Added!', {
         icon: (
           <img
             src="https://static.thenounproject.com/png/29520-200.png"
             className="animate-bounce"
-            style={{ filter: "invert(1)" }}
+            style={{ filter: 'invert(1)' }}
             alt="Success Icon"
             width="30"
             height="30"
           />
         ),
         style: {
-          border: "1px solid #0f5132",
-          padding: "16px",
-          color: "white",
-          background: "black",
-          fontSize: "14px",
-          fontWeight: "bold",
+          border: '1px solid #0f5132',
+          padding: '16px',
+          color: 'white',
+          background: 'black',
+          fontSize: '14px',
+          fontWeight: 'bold',
         },
       });
 
-      setShowCheckEditAddress("showaddress");
+      setShowCheckEditAddress('showaddress');
     } catch (error) {
-      console.error("Error saving address:", error);
-      toast.error("Something went wrong", {
+      console.error('Error saving address:', error);
+      toast.error('Something went wrong', {
         icon: (
           <img
             src="https://static.thenounproject.com/png/29520-200.png"
             className="animate-bounce"
-            style={{ filter: "invert(1)" }}
+            style={{ filter: 'invert(1)' }}
             alt="Error Icon"
             width="30"
             height="30"
           />
         ),
         style: {
-          border: "1px solid #0f5132",
-          padding: "16px",
-          color: "white",
-          background: "red",
-          fontSize: "14px",
-          fontWeight: "bold",
+          border: '1px solid #0f5132',
+          padding: '16px',
+          color: 'white',
+          background: 'red',
+          fontSize: '14px',
+          fontWeight: 'bold',
         },
       });
     }
@@ -168,7 +168,9 @@ export default function AddaddressCheckout({ setShowCheckEditAddress }) {
         <div className="bg-gray-50 p-6 rounded-lg border border-gray-100">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
-              <label className="sm:text-sm text-[0.85rem] text-gray-500">Full Name</label>
+              <label className="sm:text-sm text-[0.85rem] text-gray-500">
+                Full Name
+              </label>
               <input
                 type="text"
                 placeholder="Enter your full name"
@@ -179,7 +181,9 @@ export default function AddaddressCheckout({ setShowCheckEditAddress }) {
             </div>
 
             <div className="space-y-2">
-              <label className="sm:text-sm text-[0.85rem] text-gray-500">Phone Number</label>
+              <label className="sm:text-sm text-[0.85rem] text-gray-500">
+                Phone Number
+              </label>
               <input
                 type="tel"
                 placeholder="Enter your phone number"
@@ -190,7 +194,9 @@ export default function AddaddressCheckout({ setShowCheckEditAddress }) {
             </div>
 
             <div className="space-y-2">
-              <label className="sm:text-sm text-[0.85rem] text-gray-500">Country</label>
+              <label className="sm:text-sm text-[0.85rem] text-gray-500">
+                Country
+              </label>
               <select
                 id="country"
                 value={country}
@@ -207,7 +213,9 @@ export default function AddaddressCheckout({ setShowCheckEditAddress }) {
             </div>
 
             <div className="space-y-2">
-              <label className="sm:text-sm text-[0.85rem] text-gray-500">State/Province</label>
+              <label className="sm:text-sm text-[0.85rem] text-gray-500">
+                State/Province
+              </label>
               <input
                 placeholder="Enter your state"
                 id="State"
@@ -218,7 +226,9 @@ export default function AddaddressCheckout({ setShowCheckEditAddress }) {
             </div>
 
             <div className="space-y-2">
-              <label className="sm:text-sm text-[0.85rem] text-gray-500">City</label>
+              <label className="sm:text-sm text-[0.85rem] text-gray-500">
+                City
+              </label>
               <input
                 type="text"
                 placeholder="Enter your city"
@@ -229,7 +239,9 @@ export default function AddaddressCheckout({ setShowCheckEditAddress }) {
             </div>
 
             <div className="space-y-2">
-              <label className="sm:text-sm text-[0.85rem] text-gray-500">ZIP/Postal Code</label>
+              <label className="sm:text-sm text-[0.85rem] text-gray-500">
+                ZIP/Postal Code
+              </label>
               <input
                 type="text"
                 placeholder="Enter zip code"
@@ -240,7 +252,9 @@ export default function AddaddressCheckout({ setShowCheckEditAddress }) {
             </div>
 
             <div className="space-y-2 md:col-span-2">
-              <label className="sm:text-sm text-[0.85rem] text-gray-500">Street Address</label>
+              <label className="sm:text-sm text-[0.85rem] text-gray-500">
+                Street Address
+              </label>
               <input
                 type="text"
                 placeholder="Enter your street address"
@@ -251,7 +265,9 @@ export default function AddaddressCheckout({ setShowCheckEditAddress }) {
             </div>
 
             <div className="space-y-2">
-              <label className="sm:text-sm text-[0.85rem] text-gray-500">Address Type</label>
+              <label className="sm:text-sm text-[0.85rem] text-gray-500">
+                Address Type
+              </label>
               <select
                 value={addressType}
                 onChange={(e) => setAddressType(e.target.value)}
@@ -273,14 +289,12 @@ export default function AddaddressCheckout({ setShowCheckEditAddress }) {
                 />
                 <span
                   className={`w-5 h-5 mr-2 border flex items-center justify-center ${
-                    defaultBilling ? "bg-black border-black" : "border-gray-300"
+                    defaultBilling ? 'bg-black border-black' : 'border-gray-300'
                   }`}
                 >
                   {defaultBilling && <Check size={14} className="text-white" />}
                 </span>
-                <span className="text-sm">
-                  Set as default billing address
-                </span>
+                <span className="text-sm">Set as default billing address</span>
               </label>
             </div>
           </div>
@@ -291,7 +305,7 @@ export default function AddaddressCheckout({ setShowCheckEditAddress }) {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             type="button"
-            onClick={() => setShowCheckEditAddress("showaddress")}
+            onClick={() => setShowCheckEditAddress('showaddress')}
             className="text-sm sm:text-base sm:px-6 px-3 py-2 sm:py-3 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors duration-300"
           >
             Cancel

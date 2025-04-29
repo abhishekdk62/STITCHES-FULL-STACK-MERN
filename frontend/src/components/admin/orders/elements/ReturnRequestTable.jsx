@@ -1,5 +1,5 @@
-import React from "react";
-import { Package, CheckCircle, XCircle } from "lucide-react";
+import React from 'react';
+import { Package, CheckCircle, XCircle } from 'lucide-react';
 
 const ReturnRequestTable = ({
   returnRequests,
@@ -7,11 +7,11 @@ const ReturnRequestTable = ({
   handleRejectRequest,
 }) => {
   return (
-    <div className="
+    <div
+      className="
     w-full
-    bg-white rounded-lg shadow-md overflow-hidden">
-   
-  
+    bg-white rounded-lg shadow-md overflow-hidden"
+    >
       {returnRequests.length === 0 ? (
         <div className="p-6 sm:p-8 text-center">
           <div className="inline-flex justify-center items-center w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-gray-100 mb-3 sm:mb-4">
@@ -58,10 +58,11 @@ const ReturnRequestTable = ({
                   (selectedVariant.discount_price * 0.12 +
                     selectedVariant.discount_price) *
                   req.quantity;
-  
+
                 return (
                   <tr key={req._id} className="hover:bg-gray-50">
-                    <td className="
+                    <td
+                      className="
       text-gray-900 
 
                        px-2 py-2 sm:px-4 sm:py-3 
@@ -70,7 +71,8 @@ const ReturnRequestTable = ({
 
       break-all     /* force breaks anywhere */
       whitespace-normal /* ensure wrapping is allowed */
-">
+"
+                    >
                       {req.orderId}
                     </td>
                     <td className="px-2 py-2 sm:px-4 sm:py-3 w-24 sm:w-auto">
@@ -88,7 +90,7 @@ const ReturnRequestTable = ({
                         )}
                         <div>
                           <p className="text-xs sm:text-sm font-medium text-gray-900">
-                            {req.productId.name || "Product Name N/A"}
+                            {req.productId.name || 'Product Name N/A'}
                           </p>
                           <p className="text-2xs sm:text-xs text-gray-500">
                             Qty: {req.quantity}
@@ -110,11 +112,13 @@ const ReturnRequestTable = ({
                       </span>
                     </td>
                     <td className="px-2 py-2 sm:px-4 sm:py-3 w-24 sm:w-auto">
-                      <div className="flex flex-col
+                      <div
+                        className="flex flex-col
                       gap-2
                       
                       
-                      space-x-1 sm:space-x-2">
+                      space-x-1 sm:space-x-2"
+                      >
                         <button
                           onClick={() =>
                             handleApproveRequest(
@@ -156,8 +160,6 @@ const ReturnRequestTable = ({
       )}
     </div>
   );
-  
-  
 };
 
 export default ReturnRequestTable;

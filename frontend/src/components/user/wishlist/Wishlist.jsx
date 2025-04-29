@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from "react";
-import { X, Heart, ShoppingCart, AlertCircle } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import React, { useEffect, useState } from 'react';
+import { X, Heart, ShoppingCart, AlertCircle } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
-import { toast } from "react-hot-toast";
+import { toast } from 'react-hot-toast';
 import {
   getWishlistApi,
   removeWishlistItem,
-} from "../../../services/wishlistService";
-import { useNavigate, useSearchParams } from "react-router-dom";
-import { addToCartApi } from "../../../services/userService";
-import { useSelector } from "react-redux";
-import Notification from "../common/Notification";
+} from '../../../services/wishlistService';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { addToCartApi } from '../../../services/userService';
+import { useSelector } from 'react-redux';
+import Notification from '../common/Notification';
 
 const Wishlist = () => {
   const [wishlistItems, setWishlistItems] = useState([]);
@@ -22,7 +22,7 @@ const Wishlist = () => {
     try {
       const response = await getWishlistApi();
       setWishlistItems(response.data.wishlist);
-      console.log("wishlist items are", response.data.wishlist);
+      console.log('wishlist items are', response.data.wishlist);
     } catch (error) {
       console.log(error);
       if (error.response.data.wishlist.length == 0) {
@@ -45,24 +45,24 @@ const Wishlist = () => {
     try {
       const response = await removeWishlistItem(removeItemId);
 
-      toast.success("Removed from wishlist", {
+      toast.success('Removed from wishlist', {
         icon: (
           <img
             src="https://static.thenounproject.com/png/29520-200.png"
             className="animate-bounce"
-            style={{ filter: "invert(1)" }}
+            style={{ filter: 'invert(1)' }}
             alt="Success Icon"
             width="30"
             height="30"
           />
         ),
         style: {
-          border: "1px solid #0f5132",
-          padding: "16px",
-          color: "white",
-          background: "black",
-          fontSize: "14px",
-          fontWeight: "bold",
+          border: '1px solid #0f5132',
+          padding: '16px',
+          color: 'white',
+          background: 'black',
+          fontSize: '14px',
+          fontWeight: 'bold',
         },
       });
     } catch (error) {
@@ -83,19 +83,19 @@ const Wishlist = () => {
           <img
             src="https://static.thenounproject.com/png/29520-200.png"
             className="animate-bounce"
-            style={{ filter: "invert(1)" }}
+            style={{ filter: 'invert(1)' }}
             alt="Success Icon"
             width="30"
             height="30"
           />
         ),
         style: {
-          border: "1px solid #0f5132",
-          padding: "16px",
-          color: "white",
-          background: "black",
-          fontSize: "14px",
-          fontWeight: "bold",
+          border: '1px solid #0f5132',
+          padding: '16px',
+          color: 'white',
+          background: 'black',
+          fontSize: '14px',
+          fontWeight: 'bold',
         },
       });
       getWishlist();
@@ -105,18 +105,18 @@ const Wishlist = () => {
           <img
             src="https://static.thenounproject.com/png/3941-200.png"
             className="animate-bounce"
-            style={{ filter: "invert(1)" }}
+            style={{ filter: 'invert(1)' }}
             alt="Success Icon"
             width="30"
             height="30"
           />
         ),
         style: {
-          padding: "16px",
-          color: "white",
-          background: "#ff6666",
-          fontSize: "14px",
-          fontWeight: "bold",
+          padding: '16px',
+          color: 'white',
+          background: '#ff6666',
+          fontSize: '14px',
+          fontWeight: 'bold',
         },
       });
     }
@@ -136,8 +136,8 @@ const Wishlist = () => {
   if (!userDetails) {
     return (
       <Notification
-        p1={"You’re not signed in"}
-        p2={"Please log in to view your Wishlists."}
+        p1={'You’re not signed in'}
+        p2={'Please log in to view your Wishlists.'}
         icon={<Heart className="w-16 h-16 text-gray-300 mb-4" />}
       />
     );
@@ -145,8 +145,8 @@ const Wishlist = () => {
   if (isEmpty) {
     return (
       <Notification
-        p1={"Your wishlist is empty"}
-        p2={"Items added to your wishlist will appear here"}
+        p1={'Your wishlist is empty'}
+        p2={'Items added to your wishlist will appear here'}
         icon={<Heart className="w-16 h-16 text-gray-300 mb-4" />}
       />
     );
@@ -162,7 +162,7 @@ const Wishlist = () => {
           </h1>
         </div>
         <div className="text-sm text-gray-500">
-          {wishlistItems.length} {wishlistItems.length === 1 ? "item" : "items"}
+          {wishlistItems.length} {wishlistItems.length === 1 ? 'item' : 'items'}
         </div>
       </div>
 
@@ -201,7 +201,7 @@ const Wishlist = () => {
                     </p>
                     <div className="mt-2 space-y-1">
                       <p className="md:text-sm text-[0.7rem] text-gray-600">
-                        <span className="font-medium">Color:</span>{" "}
+                        <span className="font-medium">Color:</span>{' '}
                         {item.selectedVariant.color}
                       </p>
                       <div className="md:mt-2 px-2 py-4 md:text-sm text-[0.7rem]">
@@ -240,8 +240,8 @@ const Wishlist = () => {
                     disabled={item.selectedVariant.stock <= 0}
                     className={`flex items-center text-sm md:text-base gap-2 px-3 py-1 md:px-5 md:py-2 rounded-md font-medium transition-all duration-300 ${
                       item.selectedVariant.stock <= 0
-                        ? "bg-gray-200 text-gray-500 cursor-not-allowed"
-                        : "bg-black text-white hover:bg-gray-800"
+                        ? 'bg-gray-200 text-gray-500 cursor-not-allowed'
+                        : 'bg-black text-white hover:bg-gray-800'
                     }`}
                   >
                     <ShoppingCart className="w-4  h-4" />

@@ -1,27 +1,29 @@
-import { useState } from "react";
-import { motion } from "framer-motion";
-import Payment from "../../components/user/order/Payment";
-import OrderSummary from "../../components/user/order/OrderSummary";
-import AddaddressCheckout from '../../components/user/editInfo/AddAddressCheckout'
+import { useState } from 'react';
+import { motion } from 'framer-motion';
+import Payment from '../../components/user/order/Payment';
+import OrderSummary from '../../components/user/order/OrderSummary';
+import AddaddressCheckout from '../../components/user/editInfo/AddAddressCheckout';
+import React from 'react'
+import React from 'react'
 
-import DeliveryAddress from "../../components/user/editinfo/DeliveryAddress";
+import DeliveryAddress from '../../components/user/editinfo/DeliveryAddress';
 
-import Header from "../../components/user/common/Header";
-import CheckoutEditAddress from "../../components/user/editInfo/CheckoutEditAddress";
+import Header from '../../components/user/common/Header';
+import CheckoutEditAddress from '../../components/user/editInfo/CheckoutEditAddress';
 
-import { CheckCircle } from "lucide-react";
+import { CheckCircle } from 'lucide-react';
 
 export default function Checkout() {
   const [step, setStep] = useState(1);
   const [showCheckEditAddress, setShowCheckEditAddress] =
-    useState("showaddress");
+    useState('showaddress');
   const [deliveryDetails, setDeliveryDetails] = useState({
-    fullName: "",
-    address: "",
-    city: "",
-    postalCode: "",
-    country: "",
-    phone: "",
+    fullName: '',
+    address: '',
+    city: '',
+    postalCode: '',
+    country: '',
+    phone: '',
   });
 
   // Animation variants
@@ -31,7 +33,7 @@ export default function Checkout() {
       opacity: 1,
       transition: {
         duration: 0.5,
-        when: "beforeChildren",
+        when: 'beforeChildren',
         staggerChildren: 0.2,
       },
     },
@@ -46,11 +48,10 @@ export default function Checkout() {
     },
   };
   const stepData = [
-    { label: "Delivery" },
-    { label: "Summary" },
-    { label: "Payment" },
+    { label: 'Delivery' },
+    { label: 'Summary' },
+    { label: 'Payment' },
   ];
-  
 
   const contentVariants = {
     hidden: { opacity: 0, y: 30 },
@@ -93,69 +94,74 @@ export default function Checkout() {
           Complete Your Purchase
         </motion.h1>
         <motion.div
-    className="flex justify-between mb-12 px-4"
-    variants={stepVariants}
-  >
-    {stepData.map((item, i) => {
-      const idx = i + 1;
-      const isCompleted = step > idx;
-      const isCurrent = step === idx;
+          className="flex justify-between mb-12 px-4"
+          variants={stepVariants}
+        >
+          {stepData.map((item, i) => {
+            const idx = i + 1;
+            const isCompleted = step > idx;
+            const isCurrent = step === idx;
 
-      return (
-        <div key={item.label}>
-          {/* Step indicator */}
-          <div
-            className={`flex flex-col items-center ${
-              step >= idx ? "text-black" : "text-gray-400"
-            }`}
-          >
-            <div
-              className={`sm:w-10 w-7 h-7 sm:h-10 flex items-center justify-center rounded-full border-2 transition-all duration-300 ${
-                isCompleted
-                  ? "border-green-500 bg-green-500 text-white"
-                  : isCurrent
-                  ? "border-black bg-black text-white"
-                  : "border-gray-300"
-              }`}
-            >
-              {isCompleted ? <CheckCircle size={16} className="sm:w-5 sm:h-5" /> : <p className="text-xs sm:text-base">{idx}</p>}
-            </div>
-            <span className="mt-2 text-sm sm:text-base font-medium">{item.label}</span>
-          </div>
+            return (
+              <div key={item.label}>
+                {/* Step indicator */}
+                <div
+                  className={`flex flex-col items-center ${
+                    step >= idx ? 'text-black' : 'text-gray-400'
+                  }`}
+                >
+                  <div
+                    className={`sm:w-10 w-7 h-7 sm:h-10 flex items-center justify-center rounded-full border-2 transition-all duration-300 ${
+                      isCompleted
+                        ? 'border-green-500 bg-green-500 text-white'
+                        : isCurrent
+                          ? 'border-black bg-black text-white'
+                          : 'border-gray-300'
+                    }`}
+                  >
+                    {isCompleted ? (
+                      <CheckCircle size={16} className="sm:w-5 sm:h-5" />
+                    ) : (
+                      <p className="text-xs sm:text-base">{idx}</p>
+                    )}
+                  </div>
+                  <span className="mt-2 text-sm sm:text-base font-medium">
+                    {item.label}
+                  </span>
+                </div>
 
-          {/* Connector line (except after last step) */}
-          {i < stepData.length - 1 && (
-            <div className="relative w-full self-center mt-1">
-              <div className="w-full h-0.5 absolute top-1/2 transform -translate-y-1/2 bg-gray-200" />
-              <div
-                className={`h-0.5 absolute top-1/2 transform -translate-y-1/2 transition-all duration-700 ease-in-out ${
-                  step > idx ? "bg-gray-300" : "bg-gray-200"
-                }`}
-                style={{ width: step > idx ? "100%" : "0%" }}
-              />
-            </div>
-          )}
-        </div>
-      );
-    })}
-  </motion.div>
-
+                {/* Connector line (except after last step) */}
+                {i < stepData.length - 1 && (
+                  <div className="relative w-full self-center mt-1">
+                    <div className="w-full h-0.5 absolute top-1/2 transform -translate-y-1/2 bg-gray-200" />
+                    <div
+                      className={`h-0.5 absolute top-1/2 transform -translate-y-1/2 transition-all duration-700 ease-in-out ${
+                        step > idx ? 'bg-gray-300' : 'bg-gray-200'
+                      }`}
+                      style={{ width: step > idx ? '100%' : '0%' }}
+                    />
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </motion.div>
 
         {/* Content Section */}
         <motion.div
           variants={contentVariants}
           className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden"
         >
-          {step === 1 && showCheckEditAddress === "showaddress" ? (
+          {step === 1 && showCheckEditAddress === 'showaddress' ? (
             <DeliveryAddress
               setStep={setStep}
               setShowCheckEditAddress={setShowCheckEditAddress}
             />
-          ) : showCheckEditAddress === "checkoutEditAddress" ? (
+          ) : showCheckEditAddress === 'checkoutEditAddress' ? (
             <CheckoutEditAddress
               setShowCheckEditAddress={setShowCheckEditAddress}
             />
-          ) : showCheckEditAddress === "addaddress" ? (
+          ) : showCheckEditAddress === 'addaddress' ? (
             <AddaddressCheckout
               setStep={setStep}
               setShowCheckEditAddress={setShowCheckEditAddress}

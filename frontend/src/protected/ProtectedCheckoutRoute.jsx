@@ -1,6 +1,6 @@
-import React from "react";
-import { useSelector } from "react-redux";
-import { Navigate } from "react-router-dom";
+import React from 'react';
+import { useSelector } from 'react-redux';
+import { Navigate } from 'react-router-dom';
 
 const ProtectedCheckoutRoute = ({ children }) => {
   const cartItems = useSelector((state) => state.cart.items);
@@ -10,11 +10,11 @@ const ProtectedCheckoutRoute = ({ children }) => {
   if (!isAuthenticated) {
     return <Navigate to="/" replace />;
   }
-  
-  if (role === "admin") {
+
+  if (role === 'admin') {
     return <Navigate to="/admin/dashboard" replace />;
   }
-  
+
   // if (cartItems.length === 0) {
   //   return <Navigate to="/user/home" replace />;
   // }
@@ -22,4 +22,4 @@ const ProtectedCheckoutRoute = ({ children }) => {
   return children;
 };
 
-export default ProtectedCheckoutRoute; 
+export default ProtectedCheckoutRoute;

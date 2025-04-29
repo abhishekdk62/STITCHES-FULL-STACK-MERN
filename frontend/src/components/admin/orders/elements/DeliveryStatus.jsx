@@ -1,34 +1,40 @@
-import React from "react";
-import { Truck, CheckCircle, Package } from "lucide-react";
-import { editProdDeliveryInfo } from "../../../../services/orderServices";
+import React from 'react';
+import { Truck, CheckCircle, Package } from 'lucide-react';
+import { editProdDeliveryInfo } from '../../../../services/orderServices';
 
-const DeliveryStatus = ({ status, setStatus, orderId, productId, variantId }) => {
+const DeliveryStatus = ({
+  status,
+  setStatus,
+  orderId,
+  productId,
+  variantId,
+}) => {
   const getStatusColor = (status) => {
     switch (status) {
-      case "Delivered":
-        return "bg-green-100 text-green-800 border-green-200";
-      case "Pending":
-        return "bg-yellow-100 text-yellow-800 border-yellow-200";
-      case "Returned":
-        return "bg-purple-100 text-purple-800 border-purple-200";
-      case "Cancelled":
-        return "bg-red-100 text-red-800 border-red-200";
-      case "Processing":
-        return "bg-blue-100 text-blue-800 border-blue-200";
-      case "Shipped":
-        return "bg-indigo-100 text-indigo-800 border-indigo-200";
+      case 'Delivered':
+        return 'bg-green-100 text-green-800 border-green-200';
+      case 'Pending':
+        return 'bg-yellow-100 text-yellow-800 border-yellow-200';
+      case 'Returned':
+        return 'bg-purple-100 text-purple-800 border-purple-200';
+      case 'Cancelled':
+        return 'bg-red-100 text-red-800 border-red-200';
+      case 'Processing':
+        return 'bg-blue-100 text-blue-800 border-blue-200';
+      case 'Shipped':
+        return 'bg-indigo-100 text-indigo-800 border-indigo-200';
       default:
-        return "bg-gray-100 text-gray-800 border-gray-200";
+        return 'bg-gray-100 text-gray-800 border-gray-200';
     }
   };
 
   const getStatusIcon = (status) => {
     switch (status) {
-      case "Delivered":
+      case 'Delivered':
         return <CheckCircle size={14} />;
-      case "Shipped":
+      case 'Shipped':
         return <Truck size={14} />;
-      case "Processing":
+      case 'Processing':
         return <Package size={14} />;
       default:
         return null;
@@ -42,7 +48,7 @@ const DeliveryStatus = ({ status, setStatus, orderId, productId, variantId }) =>
     try {
       await editProdDeliveryInfo(orderId, productId, variantId, newStatus);
     } catch (error) {
-      console.error("Error updating delivery status:", error);
+      console.error('Error updating delivery status:', error);
     }
   };
 
@@ -60,7 +66,7 @@ const DeliveryStatus = ({ status, setStatus, orderId, productId, variantId }) =>
           )}`}
         >
           {getStatusIcon(status)}
-          <span className={getStatusIcon(status) ? "ml-1.5" : ""}>
+          <span className={getStatusIcon(status) ? 'ml-1.5' : ''}>
             {status}
           </span>
         </div>

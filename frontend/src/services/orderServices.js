@@ -1,4 +1,4 @@
-import apiClient from "./apiClient";
+import apiClient from './apiClient';
 
 export const createOrder = async (
   cartid,
@@ -10,10 +10,10 @@ export const createOrder = async (
   shippingPrice,
   grandTotal,
   discount,
-  couponData,
+  couponData
 ) => {
   try {
-    const response = await apiClient.post("/user/order", {
+    const response = await apiClient.post('/user/order', {
       cartid,
       cartItems,
       address,
@@ -23,7 +23,7 @@ export const createOrder = async (
       shippingPrice,
       grandTotal,
       discount,
-      couponData
+      couponData,
     });
     return response;
   } catch (error) {
@@ -33,16 +33,15 @@ export const createOrder = async (
 export const fetchOrders = async () => {
   try {
     const response = await apiClient.get(`/user/orders/`);
-    return response.data.data || []; 
+    return response.data.data || [];
   } catch (error) {
     throw error;
   }
 };
 
-
-export const fetchOrdersAdmin = async (search = "", page = 1) => {
+export const fetchOrdersAdmin = async (search = '', page = 1) => {
   try {
-    const response = await apiClient.get("/admin/orders", {
+    const response = await apiClient.get('/admin/orders', {
       params: {
         search,
         page,
@@ -54,15 +53,21 @@ export const fetchOrdersAdmin = async (search = "", page = 1) => {
   }
 };
 
-export const cancelOrder = async (orderId, productId, variantId, quantity,paymentMethod,grandTotal) => {
+export const cancelOrder = async (
+  orderId,
+  productId,
+  variantId,
+  quantity,
+  paymentMethod,
+  grandTotal
+) => {
   try {
     const response = await apiClient.put(`/user/orders/${orderId}`, {
       productId,
       variantId,
       quantity,
       paymentMethod,
-      grandTotal
-      
+      grandTotal,
     });
     return response.data;
   } catch (error) {
@@ -77,7 +82,7 @@ export const editProdDeliveryInfo = async (
   status
 ) => {
   try {
-    const response = await apiClient.put("/admin/prod", {
+    const response = await apiClient.put('/admin/prod', {
       orderID,
       product,
       variant,
@@ -90,14 +95,20 @@ export const editProdDeliveryInfo = async (
   }
 };
 
-export const returnRequest = async (orderId, productId, variantId, reason,quantity) => {
+export const returnRequest = async (
+  orderId,
+  productId,
+  variantId,
+  reason,
+  quantity
+) => {
   try {
-    const response = await apiClient.post("/user/return", {
+    const response = await apiClient.post('/user/return', {
       orderId,
       productId,
       variantId,
       reason,
-      quantity
+      quantity,
     });
   } catch (error) {
     throw error;
@@ -106,7 +117,7 @@ export const returnRequest = async (orderId, productId, variantId, reason,quanti
 
 export const fetchReturnReqAPI = async () => {
   try {
-    const response = await apiClient.get("/admin/returnreq");
+    const response = await apiClient.get('/admin/returnreq');
     return response.data;
   } catch (error) {
     throw error;
@@ -122,15 +133,24 @@ export const checkForReturn = async (orderId, productId, variantId) => {
     throw error;
   }
 };
-export const approveReturnAPI = async (requestId,userId,rate,quantity,pid,vid) => {
+export const approveReturnAPI = async (
+  requestId,
+  userId,
+  rate,
+  quantity,
+  pid,
+  vid
+) => {
   try {
-    const response = await apiClient.put("/admin/approveReturn", {
+    const response = await apiClient.put('/admin/approveReturn', {
       requestId,
       userId,
       rate,
-      quantity,pid,vid
+      quantity,
+      pid,
+      vid,
     });
-    return response.data; 
+    return response.data;
   } catch (error) {
     throw error;
   }
@@ -138,7 +158,7 @@ export const approveReturnAPI = async (requestId,userId,rate,quantity,pid,vid) =
 
 export const rejectReturnAPI = async (requestId) => {
   try {
-    const response = await apiClient.put("/admin/rejectReturn", {
+    const response = await apiClient.put('/admin/rejectReturn', {
       requestId,
     });
     return response.data;

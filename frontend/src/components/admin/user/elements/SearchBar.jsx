@@ -1,5 +1,5 @@
-import React from "react";
-import { X, Search, RefreshCw } from "lucide-react";
+import React from 'react';
+import { X, Search, RefreshCw } from 'lucide-react';
 
 const SearchBar = ({ searchInput, setSearchInput, getUsers }) => {
   return (
@@ -20,8 +20,8 @@ const SearchBar = ({ searchInput, setSearchInput, getUsers }) => {
             {searchInput && (
               <button
                 onClick={() => {
-                  setSearchInput("");
-                  getUsers("", 1);
+                  setSearchInput('');
+                  getUsers('', 1);
                 }}
                 className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
               >
@@ -29,8 +29,6 @@ const SearchBar = ({ searchInput, setSearchInput, getUsers }) => {
               </button>
             )}
           </div>
-      
-     
         </div>
       </div>
     </div>

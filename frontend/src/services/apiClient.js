@@ -1,10 +1,10 @@
-import axios from "axios";
+import axios from 'axios';
 
 const apiClient = axios.create({
-  baseURL: "http://localhost:5000",
+  baseURL: 'http://localhost:5000',
   withCredentials: true,
   headers: {
-    "Content-Type": "application/json",
+    'Content-Type': 'application/json',
   },
 });
 
@@ -14,24 +14,24 @@ let isRefreshing = false;
 let failedQueue = [];
 
 const publicEndpoints = [
-  "/user/products", 
-  "/user/new-arrivals",
-  "/user/categoryWiseProducs",
-  "/user/getsimilarproducts",
-  "/user/searchcategoriestofilter",
-  "/user/getcategoryname",
-  "/user/check",
-  "/user/login",
-  "/user/signup",
-  "/user/send-otp",
-  "/user/verify-otp",
-  "/user/update-password",
-  "/user/signupotp",
-  "/user/verifysignupotp"
+  '/user/products',
+  '/user/new-arrivals',
+  '/user/categoryWiseProducs',
+  '/user/getsimilarproducts',
+  '/user/searchcategoriestofilter',
+  '/user/getcategoryname',
+  '/user/check',
+  '/user/login',
+  '/user/signup',
+  '/user/send-otp',
+  '/user/verify-otp',
+  '/user/update-password',
+  '/user/signupotp',
+  '/user/verifysignupotp',
 ];
 
 const processQueue = (error, token = null) => {
-  failedQueue.forEach(prom => {
+  failedQueue.forEach((prom) => {
     if (error) {
       prom.reject(error);
     } else {
@@ -45,23 +45,25 @@ apiClient.interceptors.response.use(
   (res) => res,
   async (err) => {
     const originalRequest = err.config;
-    
-    const isPublicRequest = publicEndpoints.some(endpoint => 
+
+    const isPublicRequest = publicEndpoints.some((endpoint) =>
       originalRequest.url.includes(endpoint)
     );
-    
-    if (err.response?.status === 401 && 
-        !originalRequest._retry && 
-        !originalRequest.url.includes('/refreshToken') &&
-        !isRefreshing &&
-        !isPublicRequest) {
-      
+
+    if (
+      err.response?.status === 401 &&
+      !originalRequest._retry &&
+      !originalRequest.url.includes('/refreshToken') &&
+      !isRefreshing &&
+      !isPublicRequest
+    ) {
       originalRequest._retry = true;
       isRefreshing = true;
 
       return new Promise((resolve, reject) => {
         try {
-          apiClient.get("/user/refreshToken")
+          apiClient
+            .get('/user/refreshToken')
             .then(() => {
               isRefreshing = false;
               processQueue(null);
@@ -70,35 +72,33 @@ apiClient.interceptors.response.use(
             .catch((refreshError) => {
               isRefreshing = false;
               processQueue(refreshError);
-              console.log("Refresh token expired or invalid");
-              
-           
-              localStorage.removeItem("userId");
-              localStorage.removeItem("role");
-              
+              console.log('Refresh token expired or invalid');
+
+              localStorage.removeItem('userId');
+              localStorage.removeItem('role');
+
               if (window.reduxStore) {
                 window.reduxStore.dispatch({ type: 'auth/logout' });
               }
-              
+
               reject(refreshError);
             });
         } catch (error) {
           isRefreshing = false;
           processQueue(error);
-          console.log("Error in refresh token process");
-          
-          localStorage.removeItem("userId");
-          localStorage.removeItem("role");
-          
+          console.log('Error in refresh token process');
+
+          localStorage.removeItem('userId');
+          localStorage.removeItem('role');
+
           if (window.reduxStore) {
             window.reduxStore.dispatch({ type: 'auth/logout' });
           }
-          
+
           reject(error);
         }
       });
     }
-    
 
     return Promise.reject(err);
   }

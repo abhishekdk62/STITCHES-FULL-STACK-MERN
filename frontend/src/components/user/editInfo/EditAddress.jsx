@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { addAddress, editAddress } from "../../../services/userService";
-import { getCountries } from "../../../services/countiesService";
-import { useDispatch } from "react-redux";
+import React, { useEffect, useState } from 'react';
+import { addAddress, editAddress } from '../../../services/userService';
+import { getCountries } from '../../../services/countiesService';
+import { useDispatch } from 'react-redux';
 import { toast } from 'react-hot-toast';
-import { motion } from "framer-motion";
-import { MapPin, Save } from "lucide-react";
-import { setSelectedTab } from "../../../../slices/selectedTabSlice";
+import { motion } from 'framer-motion';
+import { MapPin, Save, X } from 'lucide-react';
+import { setSelectedTab } from '../../../../slices/selectedTabSlice';
 export default function EditAddress({ address }) {
   const [fullName, setFullName] = useState(address?.fullName);
   const [country, setCountry] = useState(address?.country);
@@ -36,31 +36,31 @@ export default function EditAddress({ address }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!fullName) {
-      setError("Please enter the Fullname");
+      setError('Please enter the Fullname');
       return;
     }
     if (!country) {
-      setError("Please select the Country");
+      setError('Please select the Country');
       return;
     }
     if (!street) {
-      setError("Please enter the Street");
+      setError('Please enter the Street');
       return;
     }
     if (!city) {
-      setError("Please enter the City");
+      setError('Please enter the City');
       return;
     }
     if (!state) {
-      setError("Please enter the State");
+      setError('Please enter the State');
       return;
     }
     if (!phone) {
-      setError("Please enter the Phone Number");
+      setError('Please enter the Phone Number');
       return;
     }
     if (!zip) {
-      setError("Please enter the Zip Code");
+      setError('Please enter the Zip Code');
       return;
     }
 
@@ -78,55 +78,55 @@ export default function EditAddress({ address }) {
       };
 
       const response = await editAddress(addressData, address._id);
-      toast.success("Address updated!", {
+      toast.success('Address updated!', {
         icon: (
-          <img 
-            src="https://static.thenounproject.com/png/29520-200.png" 
+          <img
+            src="https://static.thenounproject.com/png/29520-200.png"
             className="animate-bounce"
-            style={{ filter: "invert(1)" }}
-            alt="Success Icon" 
-            width="30" 
-            height="30" 
+            style={{ filter: 'invert(1)' }}
+            alt="Success Icon"
+            width="30"
+            height="30"
           />
         ),
         style: {
-          border: "1px solid #0f5132",
-          padding: "16px",
-          color: "white",
-          background: "black",
-          fontSize: "14px",
-          fontWeight: "bold",
+          border: '1px solid #0f5132',
+          padding: '16px',
+          color: 'white',
+          background: 'black',
+          fontSize: '14px',
+          fontWeight: 'bold',
         },
       });
 
-      dispatch(setSelectedTab("editinfo"));
+      dispatch(setSelectedTab('editinfo'));
     } catch (error) {
-      console.error("Error saving address:", error);
-      toast.error("Something went wrong", {
+      console.error('Error saving address:', error);
+      toast.error('Something went wrong', {
         icon: (
-          <img 
-            src="https://static.thenounproject.com/png/29520-200.png" 
+          <img
+            src="https://static.thenounproject.com/png/29520-200.png"
             className="animate-bounce"
-            style={{ filter: "invert(1)" }}
-            alt="Success Icon" 
-            width="30" 
-            height="30" 
+            style={{ filter: 'invert(1)' }}
+            alt="Success Icon"
+            width="30"
+            height="30"
           />
         ),
         style: {
-          border: "1px solid #0f5132",
-          padding: "16px",
-          color: "white",
-          background: "red",
-          fontSize: "14px",
-          fontWeight: "bold",
+          border: '1px solid #0f5132',
+          padding: '16px',
+          color: 'white',
+          background: 'red',
+          fontSize: '14px',
+          fontWeight: 'bold',
         },
       });
     }
   };
 
   return (
-    <motion.div 
+    <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.4 }}
@@ -136,18 +136,20 @@ export default function EditAddress({ address }) {
         <a href="/" className="hover:text-gray-700">
           Home
         </a>
-        <span className="mx-2">{">"}</span>
+        <span className="mx-2">{'>'}</span>
         <a href="/account" className="hover:text-gray-700">
           My Account
         </a>
-        <span className="mx-2">{">"}</span>
+        <span className="mx-2">{'>'}</span>
         <span className="text-gray-700">Edit Address</span>
       </nav>
 
       <div className="flex justify-between items-center border-b pb-4 mb-6">
         <div className="flex items-center gap-3">
           <MapPin className="w-5 h-5 text-black" />
-          <h2 className="text-xl font-bold text-black tracking-tight">Edit Address</h2>
+          <h2 className="text-xl font-bold text-black tracking-tight">
+            Edit Address
+          </h2>
         </div>
       </div>
 
@@ -164,8 +166,8 @@ export default function EditAddress({ address }) {
         </motion.div>
       )}
 
-      <motion.form 
-        onSubmit={handleSubmit} 
+      <motion.form
+        onSubmit={handleSubmit}
         className="space-y-6"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -276,12 +278,12 @@ export default function EditAddress({ address }) {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             type="button"
-            onClick={() => dispatch(setSelectedTab("editinfo"))}
+            onClick={() => dispatch(setSelectedTab('editinfo'))}
             className="px-6 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors duration-300"
           >
             Cancel
           </motion.button>
-          
+
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}

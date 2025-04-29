@@ -1,21 +1,21 @@
-import React, { useState, useEffect } from "react";
-import { BarChart, Download, FileSpreadsheet } from "lucide-react";
-import { useSelector } from "react-redux";
-import { motion } from "framer-motion";
-import { getReportsApi } from "../../../services/salesReportService";
-import OverallStatistics from "./elements/OverallStatistics";
-import FiltersSection from "./elements/FiltersSection";
-import SalesTable from "./elements/SalesTable";
-import SalesTrendChart from "./elements/SalesTrendChart";
-import { downloadExcel, downloadPDF } from "./elements/ReportDownload";
-import TopSelling from "./elements/TopSelling";
+import React, { useState, useEffect } from 'react';
+import { BarChart, Download, FileSpreadsheet } from 'lucide-react';
+import { useSelector } from 'react-redux';
+import { motion } from 'framer-motion';
+import { getReportsApi } from '../../../services/salesReportService';
+import OverallStatistics from './elements/OverallStatistics';
+import FiltersSection from './elements/FiltersSection';
+import SalesTable from './elements/SalesTable';
+import SalesTrendChart from './elements/SalesTrendChart';
+import { downloadExcel, downloadPDF } from './elements/ReportDownload';
+import TopSelling from './elements/TopSelling';
 
 const Report = () => {
   const [salesReportData, setSalesReportData] = useState();
-  const [dateRange, setDateRange] = useState("yearly");
-  const [customStartDate, setCustomStartDate] = useState("");
+  const [dateRange, setDateRange] = useState('yearly');
+  const [customStartDate, setCustomStartDate] = useState('');
   const [customEndDate, setCustomEndDate] = useState(
-    new Date().toISOString().split("T")[0]
+    new Date().toISOString().split('T')[0]
   );
   const [showFilters, setShowFilters] = useState(false);
   const [selectedFilters, setSelectedFilters] = useState({
@@ -30,7 +30,7 @@ const Report = () => {
       const response = await getReportsApi(
         customStartDate,
         customEndDate,
-        dateRange || "yearly"
+        dateRange || 'yearly'
       );
       setSalesReportData(response);
     } catch (error) {
@@ -43,9 +43,9 @@ const Report = () => {
   }, [customEndDate, customStartDate, dateRange]);
 
   const formatCurrency = (value) => {
-    return new Intl.NumberFormat("en-US", {
-      style: "currency",
-      currency: "INR",
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'INR',
       minimumFractionDigits: 2,
     }).format(value);
   };
@@ -84,7 +84,6 @@ const Report = () => {
           showFilters={showFilters}
           setShowFilters={setShowFilters}
         />
-    
 
         {salesReportData && (
           <>
@@ -115,13 +114,13 @@ const Report = () => {
             </div>
 
             <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-          className="mb-8"
-        >
-          <TopSelling />
-        </motion.div>
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+              className="mb-8"
+            >
+              <TopSelling />
+            </motion.div>
 
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -157,8 +156,6 @@ const Report = () => {
             </motion.div>
           </>
         )}
-
-
       </div>
     </motion.div>
   );

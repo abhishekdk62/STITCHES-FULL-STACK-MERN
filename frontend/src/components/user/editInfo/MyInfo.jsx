@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import {
   Pencil,
   Home,
@@ -8,12 +8,12 @@ import {
   MapPin,
   Gift,
   Check,
-} from "lucide-react";
-import { useDispatch, useSelector } from "react-redux";
-import { setSelectedTab } from "../../../../slices/selectedTabSlice";
-import PleaseLogin from "../auth/PleaseLogin";
-import { motion } from "framer-motion";
-import Notification from "../common/Notification";
+} from 'lucide-react';
+import { useDispatch, useSelector } from 'react-redux';
+import { setSelectedTab } from '../../../../slices/selectedTabSlice';
+import PleaseLogin from '../auth/PleaseLogin';
+import { motion } from 'framer-motion';
+import Notification from '../common/Notification';
 
 const MyInfo = ({ avatar }) => {
   const user = useSelector((state) => state.auth.user);
@@ -40,8 +40,8 @@ const MyInfo = ({ avatar }) => {
   if (!user) {
     return (
       <Notification
-        p1={"You’re not signed in"}
-        p2={"Please log in to view your Account Information."}
+        p1={'You’re not signed in'}
+        p2={'Please log in to view your Account Information.'}
         icon={<User size={80} className="text-gray-300" />}
       />
     );
@@ -65,10 +65,10 @@ const MyInfo = ({ avatar }) => {
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            onClick={() => dispatch(setSelectedTab("editinfo"))}
+            onClick={() => dispatch(setSelectedTab('editinfo'))}
             className="flex items-center gap-2 text-sm px-2 py-1 md:px-4 md:py-2 rounded-md border border-black hover:bg-black hover:text-white transition-colors duration-300"
           >
-            Edit <Pencil size={13} className="md:h-4 md:w-4"  />
+            Edit <Pencil size={13} className="md:h-4 md:w-4" />
           </motion.button>
         </div>
 
@@ -87,8 +87,12 @@ const MyInfo = ({ avatar }) => {
           <div className="md:space-y-6 space-y-3 bg-gray-50 p-1 md:p-6 rounded-lg border border-gray-100">
             <div className="flex justify-between items-center">
               <div>
-                <p className="text-gray-500 text-xs md:text-sm mb-1">Your Name</p>
-                <p className="font-medium text-base md:text-lg">{user?.firstname}</p>
+                <p className="text-gray-500 text-xs md:text-sm mb-1">
+                  Your Name
+                </p>
+                <p className="font-medium text-base md:text-lg">
+                  {user?.firstname}
+                </p>
               </div>
               <div>
                 {user?.profileImage ? (
@@ -111,8 +115,12 @@ const MyInfo = ({ avatar }) => {
               <div className="flex items-start gap-3">
                 <Mail className="md:w-5 w-4 h-4 md:h-5 text-gray-500 mt-1" />
                 <div>
-                  <p className="text-gray-500 text-xs md:text-sm mb-1">Email Address</p>
-                  <p className="font-medium md:text-base text-sm lowercase">{user?.email}</p>
+                  <p className="text-gray-500 text-xs md:text-sm mb-1">
+                    Email Address
+                  </p>
+                  <p className="font-medium md:text-base text-sm lowercase">
+                    {user?.email}
+                  </p>
                 </div>
               </div>
             </div>
@@ -122,15 +130,17 @@ const MyInfo = ({ avatar }) => {
                   {/* Icon and Label */}
                   <div className="flex items-center gap-2 mb-1">
                     <Gift className="md:w-5 w-4 h-4 md:h-5 text-gray-500" />
-                    <p className="text-gray-500 text-xs md:text-sm">Referral code</p>
+                    <p className="text-gray-500 text-xs md:text-sm">
+                      Referral code
+                    </p>
                   </div>
 
                   {/* Referral Code Display */}
                   <div
                     className="border border-gray-500 p-1 md:p-3 rounded-md cursor-pointer group transition"
                     style={{
-                      borderStyle: "dotted",
-                      borderWidth: "2px",
+                      borderStyle: 'dotted',
+                      borderWidth: '2px',
                     }}
                     onClick={() =>
                       navigator.clipboard.writeText(user?.referalCode)
@@ -159,8 +169,12 @@ const MyInfo = ({ avatar }) => {
               <div className="flex items-start gap-3">
                 <Phone className="md:w-5 w-4 h-4 md:h-5 text-gray-500 mt-1" />
                 <div>
-                  <p className="text-gray-500 text-xs md:text-sm mb-1">Phone Number</p>
-                  <p className="font-medium md:text-base text-sm ">{user?.phone}</p>
+                  <p className="text-gray-500 text-xs md:text-sm mb-1">
+                    Phone Number
+                  </p>
+                  <p className="font-medium md:text-base text-sm ">
+                    {user?.phone}
+                  </p>
                 </div>
               </div>
             </div>
@@ -208,7 +222,7 @@ const MyInfo = ({ avatar }) => {
                   <div className="flex items-start gap-3 mb-4">
                     <Home className="w-10 h-10 text-gray-500 mt-1" />
                     <p className="text-gray-700 text-sm md:text-base">
-                      {address?.street}, {address?.city}, {address?.state},{" "}
+                      {address?.street}, {address?.city}, {address?.state},{' '}
                       {address?.country}, {address?.zipCode}
                     </p>
                   </div>
@@ -217,7 +231,6 @@ const MyInfo = ({ avatar }) => {
                     <span className="px-3 py-1 bg-gray-100 rounded-md text-sm font-medium text-gray-700">
                       {address.addressType}
                     </span>
-                
                   </div>
                 </div>
               </motion.div>

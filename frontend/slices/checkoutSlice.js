@@ -1,7 +1,7 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  selectedTab: "myinfo", 
+  selectedTab: 'myinfo',
   shippingAddress: null,
   shippingAddressEdit: null,
   billingAddress: null,
@@ -11,7 +11,7 @@ const initialState = {
 };
 
 const checkoutSlice = createSlice({
-  name: "checkout",
+  name: 'checkout',
   initialState,
   reducers: {
     setSelectedTab: (state, action) => {

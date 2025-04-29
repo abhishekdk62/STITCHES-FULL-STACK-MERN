@@ -1,5 +1,5 @@
-import React from "react";
-import { MapPin } from "lucide-react";
+import React from 'react';
+import { MapPin } from 'lucide-react';
 
 const CustomerDetails = ({ address }) => {
   return (
@@ -9,16 +9,18 @@ const CustomerDetails = ({ address }) => {
         Delivery Address
       </h3>
       <div className="space-y-2">
-        <p className="font-medium  text-gray-800">{address?.fullName || "N/A"}</p>
-        <p className="text-gray-600">
-          {address?.street || "N/A"}
-          {address?.street ? "," : ""} {address?.city || "N/A"}
-          {address?.city ? "," : ""}
+        <p className="font-medium  text-gray-800">
+          {address?.fullName || 'N/A'}
         </p>
         <p className="text-gray-600">
-          {address?.state || "N/A"} {address?.zipCode || ""}
+          {address?.street || 'N/A'}
+          {address?.street ? ',' : ''} {address?.city || 'N/A'}
+          {address?.city ? ',' : ''}
         </p>
-        <p className="text-gray-600">{address?.country || "N/A"}</p>
+        <p className="text-gray-600">
+          {address?.state || 'N/A'} {address?.zipCode || ''}
+        </p>
+        <p className="text-gray-600">{address?.country || 'N/A'}</p>
         <p className="text-gray-600 flex items-center mt-2">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -34,7 +36,7 @@ const CustomerDetails = ({ address }) => {
               d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
             />
           </svg>
-          {address?.phone || "N/A"}
+          {address?.phone || 'N/A'}
         </p>
       </div>
     </div>
