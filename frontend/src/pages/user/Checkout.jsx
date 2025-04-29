@@ -5,7 +5,9 @@ import OrderSummary from '../../components/user/order/OrderSummary';
 import AddaddressCheckout from '../../components/user/editInfo/AddAddressCheckout';
 import React from 'react'
 
-import DeliveryAddress from '../../components/user/editinfo/DeliveryAddress';
+// import DeliveryAddress from '../../components/user/editinfo/DeliveryAddress';
+
+import DeliveryAddress from '../../components/user/editInfo/DeliveryAddress'
 
 import Header from '../../components/user/common/Header';
 import CheckoutEditAddress from '../../components/user/editInfo/CheckoutEditAddress';
