@@ -12,7 +12,7 @@ import Coupon from "../../components/user/coupon/Coupon";
 import Orders from "../../components/user/order/Orders";
 import OrderInfo from "../../components/user/order/OrderInfo";
 import Wallet from "../../components/user/wallet/Wallet";
-import EditAddress from "../../components/user/editinfo/EditAddress";
+import EditAddress from '../../components/user/editInfo/EditAddress'
 import PromotionalBanner from "../../components/user/common/PromotionalBanner";
 import AddAddress from '../../components/user/editInfo/AddAddress'
 
