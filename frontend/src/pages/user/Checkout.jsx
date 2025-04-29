@@ -2,7 +2,8 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import Payment from "../../components/user/order/Payment";
 import OrderSummary from "../../components/user/order/OrderSummary";
-import AddaddressCheckout from "../../components/user/editinfo/AddAddressCheckout";
+import AddaddressCheckout from '../../components/user/editInfo/AddAddressCheckout'
+
 import DeliveryAddress from "../../components/user/editinfo/DeliveryAddress";
 
 import Header from "../../components/user/common/Header";
