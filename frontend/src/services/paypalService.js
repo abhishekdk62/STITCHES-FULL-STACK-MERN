@@ -18,7 +18,7 @@ export const createPaypalOrder = async (orderDetails) => {
     };
 
     const response = await fetch(
-      'http://localhost:5000/api/paypal/create-order',
+      'https://stitches.digital/api/api/paypal/create-order',
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -40,7 +40,7 @@ export const capturePaypalOrder = async (
 ) => {
   try {
     const response = await fetch(
-      `http://localhost:5000/api/paypal/capture-order/${orderID}`,
+      `https://stitches.digital/api/api/paypal/capture-order/${orderID}`,
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

@@ -53,16 +53,17 @@ router.get(
 
 
 
-    res.redirect("http://localhost:5173/user/home");
+    res.redirect("https://stitches.digital/user/home");
   }
 );
+
 
 router.get("/failure", (req, res) => {
   const errorMessage = req.session.messages
     ? req.session.messages[req.session.messages.length - 1]
     : "Authentication failed";
   res.redirect(
-    `http://localhost:5173/?error=${encodeURIComponent(errorMessage)}`
+    `https://stitches.digital/?error=${encodeURIComponent(errorMessage)}`
   );
   if (req.session.messages) {
     req.session.messages = [];
@@ -85,7 +86,7 @@ router.get("/logout", (req, res) => {
 
   // Logout from passport session
   req.logout(() => {
-    res.redirect("http://localhost:5173/");
+    res.redirect("https://stitches.digital/");
   });
 });
 

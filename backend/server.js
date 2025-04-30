@@ -19,7 +19,7 @@ const app = express();
 app.use(cookieParser());
 app.use(
   cors({
-    origin: 'http://localhost:5173', 
+    origin: 'https://stitches.digital', 
     credentials: true,
     allowedHeaders: ['Content-Type', 'Authorization'],
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
@@ -51,12 +51,12 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 
-app.use('/auth', authRoutes);
+app.use('/api/auth', authRoutes);
 
-app.use('/user', commonRouter);
-app.use('/user', userRouter);
-app.use('/admin', adminRouter);
-app.use("/api/paypal", paymentRouter);
+app.use('/api/user', commonRouter);
+app.use('/api/user', userRouter);
+app.use('/api/admin', adminRouter);
+app.use("/api/api/paypal", paymentRouter);
 
 const PORT = process.env.PORT || 5000;
 connectDB();

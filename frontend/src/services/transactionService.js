@@ -13,7 +13,7 @@ export const getTransactionsApi = async () => {
 export const addMoneyPaypalApi = async (data) => {
   try {
     const response = await axios.post(
-      'http://localhost:5000/api/paypal/add-money',
+      'https://stitches.digital/api/api/paypal/add-money',
       data
     );
 
@@ -27,7 +27,7 @@ export const addMoneyPaypalApi = async (data) => {
 export const captureWalletPaymentApi = async (orderID, userId) => {
   try {
     const response = await axios.post(
-      'http://localhost:5000/api/paypal/capture-wallet-payment',
+      'https://stitches.digital/api/api/paypal/capture-wallet-payment',
       {
         orderID,
         userId,
