@@ -17,10 +17,8 @@ node_modules/
 
 # Build outputs
 /frontend/build/
-/frontend/dist/
 /backend/build/
 /backend/dist/
-/dist/
 
 # Logs
 logs
