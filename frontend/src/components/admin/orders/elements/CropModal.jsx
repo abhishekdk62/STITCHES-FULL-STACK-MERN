@@ -50,7 +50,7 @@ const CropModal = ({ imageSrc, onCrop, onClose, aspect = 1 }) => {
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+    <div className="fixed inset-0 flex z-50 items-center justify-center bg-black/40 bg-opacity-50">
       <div className="bg-white p-4">
         {/* Container with fixed size */}
         <div className="relative w-[309px] h-[400px]">

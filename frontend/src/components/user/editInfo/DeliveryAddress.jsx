@@ -19,6 +19,10 @@ const DeliveryAddress = ({ setStep, setShowCheckEditAddress }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  useEffect(()=>{
+    console.log(address);
+    
+  },[address])
   useEffect(() => {
     if (address) {
       dispatch(setShippingAddress(address[0]));
@@ -34,6 +38,7 @@ const DeliveryAddress = ({ setStep, setShowCheckEditAddress }) => {
       console.log(error);
     }
   };
+  const [err,setError]=useState(null)
 
   useEffect(() => {
     getAddress();
@@ -154,6 +159,7 @@ const DeliveryAddress = ({ setStep, setShowCheckEditAddress }) => {
             })}
           </div>
         </div>
+        {err&&<p className='text-red-500 uppercase text-center text-base'>{err}</p>}
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -177,9 +183,15 @@ const DeliveryAddress = ({ setStep, setShowCheckEditAddress }) => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={() => {
+              if(address.length==0)
+              {
+                 return setError("Please select an address")
+              }
+          
               setStep(2);
+              setError(null)
             }}
-            className="flex items-center gap-2 text-sm sm:text-base sm:px-6 px-3 py-2 sm:py-3 rounded-md bg-black text-white hover:bg-gray-800 transition-colors duration-300"
+            className={`flex items-center gap-2 text-sm sm:text-base sm:px-6 px-3 py-2 sm:py-3 rounded-md ${address?.length==0?"bg-gray-500":"bg-black hover:bg-gray-800"} text-white  transition-colors duration-300`}
           >
             Continue <ArrowRight size={16} />
           </motion.button>

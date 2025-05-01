@@ -16,6 +16,8 @@ const Orders = ({ setActiveTab }) => {
     setLoading(true);
     try {
       const response = await fetchOrdersAdmin(search, page);
+      console.log("admin ordr list",response.data.data);
+      
       setOrderList(response.data.data);
       setTotalPages(response.data.totalPages || 1);
     } catch (error) {

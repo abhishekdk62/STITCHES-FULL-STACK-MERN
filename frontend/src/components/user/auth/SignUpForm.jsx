@@ -108,7 +108,10 @@ const LoginForm = () => {
     try {
       setOtpSent(false);
       const res = await sendSignupOTP(email);
+
       setOtpSent(true);
+      
+      
       setStep(2);
 
       toast.success('OTP has been sent to your email address!', {
@@ -133,6 +136,8 @@ const LoginForm = () => {
       });
       setSognUpError('');
     } catch (err) {
+      console.log(err);
+
       setError(err.response?.data?.message || 'Failed to send OTP');
     } finally {
       setLoading(false);
@@ -188,7 +193,8 @@ const LoginForm = () => {
   };
 
   const handleGoogleSignup = () => {
-    window.location.href = 'https://stitches.digital/api/auth/google';
+    window.location.href = `${import.meta.env.VITE_API_URL
+    }/auth/google`;
   };
 
   return (
@@ -225,7 +231,7 @@ const LoginForm = () => {
               <motion.div
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="mb-4 text-center text-red-500 bg-red-50 border border-red-200 p-3 rounded-md text-xs sm:text-sm"
+                className="mb-4 text-center text-red-400  p-3 rounded-md text-xs sm:text-sm"
               >
                 {signUpError}
               </motion.div>
@@ -235,7 +241,7 @@ const LoginForm = () => {
               <motion.div
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="mb-4 text-center text-red-500 bg-red-50 border border-red-200 p-3 rounded-md text-xs sm:text-sm"
+                className="mb-4 text-center text-red-400  p-3 rounded-md text-xs sm:text-sm"
               >
                 {error}
               </motion.div>

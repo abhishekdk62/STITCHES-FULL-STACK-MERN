@@ -114,7 +114,7 @@ const ReturnRequestTable = ({
                     <td className="px-2 py-2 sm:px-4 sm:py-3 w-24 sm:w-auto">
                       <div
                         className="flex flex-col
-                      gap-2
+                      gap-4 lg:gap-2
                       
                       
                       space-x-1 sm:space-x-2"

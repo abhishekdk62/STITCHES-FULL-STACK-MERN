@@ -55,7 +55,7 @@ const CategoryCard = ({
   };
 
   return (
-    <tr className="border-b hover:bg-gray-50 transition-colors">
+    <tr className="s hover:bg-gray-50 transition-colors">
       <td className="py-3 sm:py-4 px-4 sm:px-6">
         <div className="flex items-center">
           <div

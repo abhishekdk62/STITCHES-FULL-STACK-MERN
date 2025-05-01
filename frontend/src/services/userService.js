@@ -103,7 +103,7 @@ export const logoutUser = async () => {
 export const sendSignupOTP = async (email) => {
   try {
     const response = await apiClient.post('/user/signupotp', { email });
-    return response.data; // Expected to return OTP sending status/info
+    return response; 
   } catch (error) {
     throw error;
   }

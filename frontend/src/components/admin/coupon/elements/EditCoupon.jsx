@@ -84,9 +84,13 @@ const EditCoupon = ({ setSelectedTab }) => {
   return (
     <div className="max-w-4xl mx-auto bg-white p-6 sm:p-8 rounded-xl shadow-xl border border-gray-100">
       <div className="mb-4 sm:mb-6 border-b pb-3 sm:pb-4">
-        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">
-          Edit Coupon
-        </h1>
+        <div className="mb-8 flex items-center">
+          <div className="bg-black text-white p-3 rounded-full mr-4">
+            <Tag size={20} sm:size={24} />
+          </div>
+          <h1 className="text-lg sm:text-2xl font-bold">Edit Coupon</h1>
+        </div>
+
         <p className="text-gray-500 mt-1 text-sm sm:text-base">
           Update your promotional offer details
         </p>

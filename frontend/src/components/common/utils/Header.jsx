@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { User, Menu } from 'lucide-react';
+import { User } from 'lucide-react';
 import { logout } from '../../../../slices/authSlice';
 import { logoutAdmin } from '../../../services/userService';
 
@@ -110,7 +110,9 @@ const Header = () => {
           className="md:hidden focus:outline-none"
           onClick={() => setIsMenuOpen((o) => !o)}
         >
-          <Menu size={24} />
+             
+
+          <User size={24} />
         </button>
       </nav>
 

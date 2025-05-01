@@ -1,6 +1,6 @@
 // OrderList.jsx
 import React, { useState, useEffect } from 'react';
-import { X, Search, Package, RefreshCw, Tag } from 'lucide-react';
+import { X, Search, Package, RefreshCw, Tag, Carrot, ShoppingCart } from 'lucide-react';
 import OrderDetails from './OrderDetails';
 import Pagination from '../../../common/utils/Pagination';
 
@@ -32,13 +32,13 @@ const OrderList = ({
         {/* Header */}
         <div className="mb-6 sm:mb-8 flex items-center">
           <div className="bg-black text-white p-2 sm:p-3 rounded-full mr-3 sm:mr-4">
-            <Package size={20} className="sm:size-6" />
+            <ShoppingCart size={20} sm:size={24} />
           </div>
-          <h1 className="text-2xl sm:text-3xl font-bold">Orders Management</h1>
+          <h1 className="text-lg sm:text-2xl font-bold">Orders Management</h1>
         </div>
 
         {/* Controls Bar */}
-        <div className="bg-white p-4 sm:p-5 rounded-lg shadow-md mb-6">
+        <div className="bg-white p-4 sm:p-5 rounded-lg  mb-6">
           <div className="flex flex-col md:flex-row justify-between items-center gap-3 sm:gap-4">
             <div className="w-full md:w-auto flex flex-col md:flex-row items-center gap-3 sm:gap-4">
               <div className="relative w-full md:w-80">
@@ -99,7 +99,7 @@ const OrderList = ({
         )}
 
         {/* Orders Section */}
-        <div className="bg-white rounded-lg shadow-md overflow-hidden">
+        <div className="bg-white rounded-lg overflow-hidden">
           {loading ? (
             <div className="divide-y divide-gray-200">
               {Array.from({ length: 3 }).map((_, index) => (
@@ -124,7 +124,7 @@ const OrderList = ({
         </div>
 
         {/* Pagination at Bottom */}
-        <div className="fixed bottom-0 left-0 right-0 p-2 sm:p-3 bg-white shadow-lg border-t border-gray-200">
+        <div className="fixed bottom-0 left-0 right-0 p-2 sm:p-3 bg-white  border-t border-gray-200">
           <Pagination
             currentPage={currentPage}
             totalPages={totalPages}

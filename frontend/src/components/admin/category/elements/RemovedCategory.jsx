@@ -24,8 +24,8 @@ const RemovedCategory = ({ setShowRemovedCategory, showRemovedCategory }) => {
   }, []);
 
   return (
-    <div className="container mx-auto p-4 sm:p-6">
-      <div className="mt-4 sm:mt-6">
+    <div className="w-full mx-auto max-w-7xl p-4 sm:p-6 pb-16 sm:pb-20 bg-white rounded-lg shadow-lg border border-gray-100 ">
+      <div className="">
         {/* Header */}
         <div className="flex justify-between items-center mb-6 sm:mb-8">
           <div className="flex items-center">
@@ -47,7 +47,7 @@ const RemovedCategory = ({ setShowRemovedCategory, showRemovedCategory }) => {
         {/* Table */}
         <div className="bg-white rounded-lg shadow overflow-hidden">
           <table className="min-w-full">
-            <thead className="bg-black text-white">
+            <thead className="bg-gray-50 text-black">
               <tr>
                 <th className="py-2 sm:py-3 px-3 sm:px-4 text-left text-sm sm:text-base">
                   Category Name

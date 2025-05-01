@@ -34,16 +34,18 @@ const OrdersInfo = ({ setActiveTab }) => {
   ).toFixed(2);
 
   return (
-    <div className="bg-gray-50 max-w-7xl py-6">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="">
         <div className="bg-white rounded-lg shadow-md overflow-hidden">
           <div className="border-b border-gray-200 bg-gray-50 py-3 px-4 sm:py-4 sm:px-6 flex  sm:flex-row justify-between items-start sm:items-center gap-3">
-            <div className="flex items-center space-x-2">
-              <Package size={18} />
-              <h1 className="font-semibold text-[0.8rem] sm:text-lg md:text-lg">
-                Order Details
-              </h1>
-            </div>
+          
+            
+                    <div className="mb-8 flex items-center">
+                      <div className="bg-black text-white p-3 rounded-full mr-4">
+                        <Package size={20} sm:size={24} />
+                      </div>
+                      <h1 className="text-lg sm:text-2xl font-bold">Order Details</h1>
+                    </div>
 
             <div className="flex items-center space-x-1 sm:space-x-2">
               <span className="text-xs sm:text-sm text-gray-500">
@@ -84,7 +86,11 @@ const OrdersInfo = ({ setActiveTab }) => {
 
               {/* Right Column */}
               <div className="max-w-7xl md:w-3/5">
-                <CustomerDetails address={data2?.address} />
+                <CustomerDetails address={data2?.address}
+                user={data2.user
+                }
+
+                />
                 <PriceDetails
                   basePrice={selectedVariant?.base_price}
                   discountPrice={selectedVariant?.discount_price}

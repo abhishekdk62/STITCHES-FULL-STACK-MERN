@@ -102,10 +102,10 @@ const Main = ({ setTab, setSelectedCatId }) => {
         <div className="mb-6 sm:mb-8 flex justify-between">
           <div className="flex items-center">
             <div className="bg-black text-white p-2 sm:p-3 rounded-full mr-3 sm:mr-4">
-              <Package size={20} sm:size={24} />
+              <BadgeDollarSign size={20} sm:size={24} />
             </div>
             <h1 className="text-lg sm:text-2xl font-bold">
-              Products Management
+              Offers Management
             </h1>
           </div>
           <button onClick={() => setTab('main')}>

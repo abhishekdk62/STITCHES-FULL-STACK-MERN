@@ -256,7 +256,7 @@ const TransactionsList = ({ setShowTransactionDetails }) => {
           <div className="bg-black text-white p-2 sm:p-3 rounded-full mr-2 sm:mr-3">
             <Wallet size={20} sm:size={24} />
           </div>
-          <h1 className="text-base sm:text-lg font-bold">
+          <h1 className="text-lg sm:text-2xl font-bold">
             Wallet Transactions
           </h1>
         </div>

@@ -8,6 +8,7 @@ import {
   Trash2,
   ArrowLeft,
   ArrowRight,
+  ChartColumnStacked,
 } from 'lucide-react';
 import CategoryCard from './CategoryCard';
 import { fetchCategoriesService } from '../../../../services/categoryService';
@@ -78,13 +79,13 @@ const CategoryList = ({
   };
 
   return (
-    <div className="mx-auto bg-gray-50 w-full min-h-screen">
+    <div className="mx-auto max-w-7xl p-4 sm:p-6 pb-16 sm:pb-20 bg-gray-50 w-full min-h-screen">
       <div className="">
         <div className="mb-6 sm:mb-8 flex items-center">
           <div className="bg-black text-white p-2 sm:p-3 rounded-full mr-3 sm:mr-4">
-            <Tag size={20} sm:size={24} />
+            <ChartColumnStacked size={20} sm:size={24} />
           </div>
-          <h1 className="text-lg sm:text-xl font-bold">Category Management</h1>
+          <h1 className="text-lg sm:text-2xl font-bold">Category Management</h1>
         </div>
 
         {/* Controls Bar */}

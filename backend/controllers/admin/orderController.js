@@ -81,10 +81,16 @@ const getOrders = async (req, res) => {
     pipeline.push({ $limit: limit });
 
     // Execute the pipeline
-    const orders = await Orders.aggregate(pipeline);
+    let orders = await Orders.aggregate(pipeline);
+
+    orders = await Orders.populate(orders, {
+      path: "user",
+      select: "name email", 
+    });
+
 
     res.status(200).json({ data: orders, totalPages });
-  } catch (error) {
+  } catch (error) {    
     res.status(500).json(error);
   }
 };

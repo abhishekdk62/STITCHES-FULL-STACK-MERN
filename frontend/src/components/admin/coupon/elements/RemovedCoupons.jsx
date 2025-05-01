@@ -83,17 +83,18 @@ const RemovedCoupons = ({ setSelectedTab }) => {
 
   return (
     <div className="bg-gray-50 min-h-screen">
+      
       <div className="max-w-7xl mx-auto p-6 pb-20">
         {/* Header */}
         <div className="mb-8 flex items-center">
           <div className="bg-black text-white p-3 rounded-full mr-4">
-            <Trash2 size={24} />
+            <Trash2 size={20} sm:size={24}  />
           </div>
-          <h1 className="text-3xl font-bold">Removed Coupons</h1>
+          <h1 className="text-lg sm:text-2xl font-bold">Removed Coupons</h1>
         </div>
 
         {/* Controls Bar */}
-        <div className="bg-white p-5 rounded-lg shadow-md mb-6">
+        <div className="bg-white p-5 rounded-lg  mb-6">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <div className="w-full md:w-auto flex flex-col md:flex-row items-center gap-4">
               <div className="relative w-full md:w-80">
@@ -158,7 +159,7 @@ const RemovedCoupons = ({ setSelectedTab }) => {
         )}
 
         {/* Coupons Table */}
-        <div className="bg-white rounded-lg shadow-md overflow-hidden">
+        <div className="bg-white rounded-lg shadow-sm overflow-hidden">
           <div className="border-b border-gray-200 bg-gray-50 py-4 px-6">
             <h2 className="font-semibold text-lg">Removed Coupon List</h2>
           </div>

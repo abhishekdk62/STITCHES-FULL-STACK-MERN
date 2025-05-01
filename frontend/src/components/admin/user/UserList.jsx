@@ -68,16 +68,14 @@ const UserList = () => {
   };
 
   return (
-    <div className="bg-gray-50 min-h-screen">
+    <div className="bg-gray-50 max-w-7xl p-4 sm:p-6 pb-16 sm:pb-20 min-h-screen">
       <div className="w-full mx-auto  pb-20">
-        {/* Header */}
+     
         <div className="mb-8 flex items-center">
-          <div className="md:text-xl text-sm font-bold text-black tracking-tight">
-            <User size={24} />
+          <div className="bg-black text-white p-3 rounded-full mr-4">
+            <User size={20} sm:size={24} />
           </div>
-          <h1 className="md:text-2xl sm:text-xl font-bold">
-            Customer Management
-          </h1>
+          <h1 className="text-lg sm:text-2xl font-bold">Customer Management</h1>
         </div>
 
         {/* Search Bar */}
@@ -106,7 +104,7 @@ const UserList = () => {
         )}
 
         {/* Customers Section */}
-        <div className="bg-white rounded-lg shadow-md overflow-hidden">
+        <div className="bg-white rounded-lg  overflow-hidden">
           <div className="border-b border-gray-200 bg-gray-50 py-4 px-6">
             <h2 className="font-semibold text-lg">Customer List</h2>
           </div>

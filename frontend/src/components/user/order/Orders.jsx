@@ -25,6 +25,7 @@ export default function Orders() {
       try {
         // Call without any status parameter
         const fetchedOrders = await fetchOrders();
+        
         setOrders(fetchedOrders);
       } catch (err) {
         console.error('Error fetching orders:', err);
@@ -42,20 +43,18 @@ export default function Orders() {
   };
 
   const filteredOrders = orders.filter((order) => {
-    const orderIdMatch =
-      order.orderID?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      (order._id &&
-        order._id
-          .substring(0, 8)
-          .toLowerCase()
-          .includes(searchTerm.toLowerCase()));
-    const customerMatch = order.address?.fullName
-      ?.toLowerCase()
-      .includes(searchTerm.toLowerCase());
 
-    return searchTerm === '' || orderIdMatch || customerMatch;
-  });
+          const statusMatch = order.items?.some((item) =>
+            item.status?.toLowerCase().includes(searchTerm.toLowerCase())
+          );
+const productnameMatch=order.items.some((i)=>(i.product.name.toLowerCase().includes(searchTerm.toLowerCase())))
+              return searchTerm === '' || statusMatch || productnameMatch;
+      
+    });
+useEffect(()=>{
+  console.log(filteredOrders);
 
+},[filteredOrders])
   const getStatusBadge = (status) => {
     const statusStyles = {
       Pending:
@@ -94,20 +93,13 @@ export default function Orders() {
       />
     );
   }
-  if (filteredOrders.length === 0) {
-    return (
-      <Notification
-        p1={'No Orders Found'}
-        icon={<Package size={80} className="text-gray-300" />}
-      />
-    );
-  }
+
   return (
     <div className="bg-white px-1 pt-8 w-full ">
-      <div className="flex sm:justify-between gap-4 sm:gap-0 flex-col sm:flex-row  items-center mb-8">
+      <div className="flex border-b pb-4 sm:justify-between gap-4 sm:gap-0 flex-col sm:flex-row  items-center mb-8">
         <h1 className="text-base sm:text-lg  md:text-2xl font-bold flex items-center">
           <Package className="mr-2" />
-          Orders Management
+          My Orders 
         </h1>
         <div className="relative">
           <Search
@@ -124,6 +116,7 @@ export default function Orders() {
         </div>
       </div>
 
+
       {loading ? (
         <div className="flex justify-center  bg-white p-8 w-full mx-auto items-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-black"></div>
@@ -132,7 +125,22 @@ export default function Orders() {
         <div className="bg-red-50 border border-red-200 text-red-700 p-4 rounded-lg">
           {error}
         </div>
-      ) : (
+      ) :
+      (filteredOrders.length === 0)?(
+
+        <Notification
+        p1={'No Orders Found'}
+        p2={"Change search term"}
+        icon={<Package size={80} className="text-gray-300"
+        
+        />
+      }
+      shape={true}
+
+      />
+
+
+      ) :(
         <div className="space-y-4">
           {filteredOrders.map((order) => (
             <div

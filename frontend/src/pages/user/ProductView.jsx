@@ -10,7 +10,6 @@ const ProductView = () => {
 
   return (
     <div>
-      <PromotionalBanner />
       <Header
         selectedCategory={selectedCategory}
         setSelectedCategory={setSelectedCategory}

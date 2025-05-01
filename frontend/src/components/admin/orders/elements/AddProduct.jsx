@@ -11,6 +11,7 @@ import {
   ArrowLeft,
   ArrowRight,
   Upload,
+  Package,
 } from 'lucide-react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
@@ -56,6 +57,7 @@ const AddProduct = ({ setShowAddProduct }) => {
     'yellow',
     'purple',
     'orange',
+    'pink',
     'gray',
   ];
 
@@ -309,11 +311,19 @@ const AddProduct = ({ setShowAddProduct }) => {
   };
 
   return (
-    <div className="w-full max-w-6xl mx-auto bg-gray-50 rounded-lg shadow-md overflow-hidden">
-      {/* Header */}
-      <div className="bg-gray-900 px-6 py-3 flex justify-between items-center">
-        <h1 className="text-xl font-bold text-white">Add New Product</h1>
-      </div>
+    <div className="max-w-7xl mx-auto p-4 sm:p-6 pb-24">
+   
+
+
+
+      <div className="mb-8 flex items-center">
+                  <div className="bg-black text-white p-3 rounded-full mr-4">
+                    <Package size={20} sm:size={24} />
+                  </div>
+                  <h1 className="text-lg sm:text-2xl font-bold">Add New Product</h1>
+                </div>
+
+
 
       {/* Content */}
       <div className="p-6">
@@ -553,11 +563,10 @@ const AddProduct = ({ setShowAddProduct }) => {
                     </label>
                     <div className="relative">
                       <span className="absolute inset-y-0 left-0 flex items-center pl-2 text-gray-500 text-sm">
-                        ₹
                       </span>
                       <input
                         type="number"
-                        placeholder="Min 5000"
+                        placeholder="Min 0"
                         className="w-full pl-6 pr-2 py-1 border border-gray-400 rounded focus:outline-none focus:ring-1 focus:ring-indigo-400 text-sm"
                         value={basePrice}
                         onChange={(e) => setBasePrice(e.target.value)}
@@ -571,7 +580,6 @@ const AddProduct = ({ setShowAddProduct }) => {
                     </label>
                     <div className="relative">
                       <span className="absolute inset-y-0 left-0 flex items-center pl-2 text-gray-500 text-sm">
-                        ₹
                       </span>
                       <input
                         type="number"

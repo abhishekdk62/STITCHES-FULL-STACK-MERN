@@ -141,9 +141,9 @@ const Coupon = ({ setSelectedTab }) => {
         {/* Header */}
         <div className="mb-8 flex items-center">
           <div className="bg-black text-white p-3 rounded-full mr-4">
-            <Tag size={24} />
+            <Tag size={20} sm:size={24} />
           </div>
-          <h1 className="text-3xl font-bold">Coupon Management</h1>
+          <h1 className="text-lg sm:text-2xl font-bold">Coupon Management</h1>
         </div>
 
         {/* Controls Bar */}

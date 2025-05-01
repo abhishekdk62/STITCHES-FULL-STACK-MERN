@@ -1,7 +1,7 @@
 import React from 'react';
 import { MapPin } from 'lucide-react';
 
-const CustomerDetails = ({ address }) => {
+const CustomerDetails = ({ address,user }) => {
   return (
     <div className="bg-white p-5 rounded-lg border border-gray-200 mb-6">
       <h3 className="font-semibold text-xs sm:text-sm md:text-[0.9rem] lg-xl text-gray-700 mb-4 flex items-center">
@@ -9,6 +9,9 @@ const CustomerDetails = ({ address }) => {
         Delivery Address
       </h3>
       <div className="space-y-2">
+        <p className="font-medium  text-gray-800">
+         Email: {user?.email || 'N/A'}
+        </p>
         <p className="font-medium  text-gray-800">
           {address?.fullName || 'N/A'}
         </p>

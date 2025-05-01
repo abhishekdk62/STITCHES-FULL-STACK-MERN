@@ -3,7 +3,7 @@ import { X, Search, RefreshCw } from 'lucide-react';
 
 const SearchBar = ({ searchInput, setSearchInput, getUsers }) => {
   return (
-    <div className="bg-white p-5 rounded-lg shadow-md mb-6">
+    <div className="bg-white p-5 rounded-lg  mb-6">
       <div className="flex flex-col md:flex-row justify-between items-center gap-4">
         <div className="w-full md:w-auto flex flex-col md:flex-row items-center gap-4">
           <div className="relative w-full md:w-80">

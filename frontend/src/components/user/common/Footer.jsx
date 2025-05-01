@@ -59,10 +59,58 @@ const Footer = () => {
   };
 
   return (
-    <footer className="bg-gray-100 w-full mt-10 mb-3 text-black py-12 border-t border-gray-200">
-      <div className="container mx-auto px-4 sm:px-6">
+    <footer className="bg-gray-200 w-full mt-10 mb-3 text-black py-12 border-t border-gray-200">
+      <div className="container max-w-6xl mx-auto px-4 sm:px-6">
         {/* Top Section */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+          <div className="mb-4 md:mb-0">
+            <p className="text-xs  sm:text-sm flex items-center text-gray-600">
+              <div className='hidden md:block'>
+              <img
+                className="lg:h-30 hidden md:block md:h-20 md:w-20 lg:w-30"
+                src="https://static.thenounproject.com/png/626032-200.png"
+                alt=""
+              />
+              <p className='text-xs text-center mt-3'>Stitches.co</p>
+              </div>
+            </p>
+            <p className="text-[0.6rem] mt-2 text-gray-500">
+            </p>
+            <div className="md:flex hidden  space-x-4 mt-4">
+              <a
+                href="https://facebook.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gray-600 hover:text-blue-600 transition-colors"
+              >
+                <FaFacebook size={20} />
+              </a>
+              <a
+                href="https://twitter.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gray-600 hover:text-blue-400 transition-colors"
+              >
+                <FaTwitter size={20} />
+              </a>
+              <a
+                href="https://instagram.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gray-600 hover:text-pink-600 transition-colors"
+              >
+                <FaInstagram size={20} />
+              </a>
+              <a
+                href="https://linkedin.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gray-600 hover:text-blue-800 transition-colors"
+              >
+                <FaLinkedin size={20} />
+              </a>
+            </div>
+          </div>
           {/* Company Section */}
           <div>
             {renderSectionHeader('company', 'Company')}
@@ -163,74 +211,6 @@ const Footer = () => {
             )}
           </div>
 
-          {/* More From COSTUMES Section */}
-          <div>
-            {renderSectionHeader('more', 'More From COSTUMES')}
-            {renderSectionContent(
-              'more',
-              <ul className="space-y-2">
-                <li>
-                  <a
-                    href="/about-us"
-                    className="text-xs sm:text-sm text-gray-600 hover:text-black"
-                  >
-                    Mobile Apps
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="/services"
-                    className="text-xs sm:text-sm text-gray-600 hover:text-black"
-                  >
-                    Gift Vouchers
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="/blog"
-                    className="text-xs sm:text-sm text-gray-600 hover:text-black"
-                  >
-                    Black Friday
-                  </a>
-                </li>
-                <div className="flex space-x-4 mt-4">
-                  <a
-                    href="https://facebook.com"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-gray-600 hover:text-blue-600 transition-colors"
-                  >
-                    <FaFacebook size={20} />
-                  </a>
-                  <a
-                    href="https://twitter.com"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-gray-600 hover:text-blue-400 transition-colors"
-                  >
-                    <FaTwitter size={20} />
-                  </a>
-                  <a
-                    href="https://instagram.com"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-gray-600 hover:text-pink-600 transition-colors"
-                  >
-                    <FaInstagram size={20} />
-                  </a>
-                  <a
-                    href="https://linkedin.com"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-gray-600 hover:text-blue-800 transition-colors"
-                  >
-                    <FaLinkedin size={20} />
-                  </a>
-                </div>
-              </ul>
-            )}
-          </div>
-
           {/* Customer Care Section */}
           <div>
             {renderSectionHeader('customerCare', 'Customer Care')}
@@ -266,7 +246,7 @@ const Footer = () => {
                     href="/costume-care"
                     className="text-xs sm:text-sm text-gray-600 hover:text-black"
                   >
-                    Costume Care
+                    Stitches Care
                   </a>
                 </li>
               </ul>
@@ -279,18 +259,10 @@ const Footer = () => {
 
         {/* Bottom Section */}
         <div className="flex flex-col md:flex-row justify-between items-center">
-          <div className="mb-4 md:mb-0">
-            <p className="text-xs sm:text-sm flex items-center text-gray-600">
-              <img
-                className="h-6 w-6"
-                src="https://static.thenounproject.com/png/626032-200.png"
-                alt=""
-              />
-              © 2025 Stitches. All rights reserved.
-            </p>
-          </div>
+          <div className='text-xs text-gray-500'>
+          © 2025 Stitches. All rights reserved.
 
-          {/* Payment Methods */}
+          </div>
           <div className="flex items-center space-x-4">
             <p className="text-xs sm:text-sm text-gray-500 mr-2">
               Secure Payment:

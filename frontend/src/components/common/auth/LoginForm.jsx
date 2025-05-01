@@ -68,7 +68,7 @@ const LoginForm = ({ setForgotPassword }) => {
   };
 
   const handleGoogleLogin = () => {
-    window.location.href = 'https://stitches.digital/api/auth/google';
+    window.location.href = `${import.meta.env.VITE_API_URL}/auth/google`;
   };
 
   return (

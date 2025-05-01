@@ -31,7 +31,7 @@ const Dashboard = () => {
           />
 
           {/* Main content section */}
-          <div className="flex-1 w-full p-4">
+          <div className="flex-1 w-full">
             {activeTab === 'customer' && <Customer />}
             {activeTab === 'category' && <Category />}
             {activeTab === 'products' && <Products />}

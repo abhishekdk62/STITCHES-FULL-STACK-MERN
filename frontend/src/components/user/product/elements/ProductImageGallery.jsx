@@ -19,8 +19,8 @@ const ProductImageGallery = ({ productDetails, selectedVariant }) => {
   }, [selectedVariant]);
 
   return (
-    <div className="flex flex-col gap-4 items-center lg:w-1/2 p-6 bg-gray-50">
-      <div className="lg:h-100 md:h-80 md:w-75 lg:w-95 relative">
+    <div className="flex flex-col gap-4 items-center lg:w-1/2 p-6 ">
+      <div className="lg:h-100 flex justify-center md:h-80 md:w-75 lg:w-95 relative">
         <ReactImageMagnify
           {...{
             smallImage: {
@@ -63,13 +63,13 @@ const ProductImageGallery = ({ productDetails, selectedVariant }) => {
           <div
             key={index}
             onClick={() => setSelectedImage(productImage)}
-            className={`cursor-pointer transition-all ${
-              selectedImage === productImage ? 'ring-1 ring-black' : ''
+            className={`cursor-pointer border border-gray-300 rounded-sm p-1 transition-all ${
+              selectedImage === productImage ? 'ring-1 rounded-sm p-1 ring-black' : ''
             }`}
           >
             <img
               alt={`Product view ${index + 1}`}
-              className="w-16 h-16 object-cover rounded-sm"
+              className="w-20 h-26 object-cover rounded-sm"
               src={productImage}
             />
           </div>

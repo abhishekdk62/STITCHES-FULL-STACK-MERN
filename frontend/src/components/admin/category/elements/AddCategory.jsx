@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { PlusCircle, AlertCircle, Check, X } from 'lucide-react';
+import { PlusCircle, AlertCircle, Check, X, ChartColumnStacked } from 'lucide-react';
 import { addCategory } from '../../../../services/categoryService';
 
 const AddCategory = ({ setShowAddCategory }) => {
@@ -31,7 +31,7 @@ const AddCategory = ({ setShowAddCategory }) => {
       setSubCategories([...subCategories, subCategoryInput.trim()]);
       setSubCategoryInput('');
     } else {
-      showNotification('No duplicates allowed', 'error');
+      showNotification('No duplicate subcategories allowed', 'error');
     }
   };
 
@@ -67,43 +67,18 @@ const AddCategory = ({ setShowAddCategory }) => {
   };
 
   return (
-    <div className="w-full mx-auto bg-white p-8 rounded-lg shadow-lg border border-gray-100">
+    <div className="w-full mx-auto max-w-7xl p-4 sm:p-6 pb-16 sm:pb-20 bg-white rounded-lg shadow-lg border border-gray-100">
       {/* Header */}
       <div className="flex justify-between items-center mb-8 pb-4 border-b border-gray-200">
-        <div className="flex items-center">
-          <div className="bg-black text-white p-2 rounded-md mr-3">
-            <svg
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M12 2L2 7L12 12L22 7L12 2Z"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M2 17L12 22L22 17"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M2 12L12 17L22 12"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
+       
+        <div className="mb-6 sm:mb-8 flex items-center">
+          <div className="bg-black text-white p-2 sm:p-3 rounded-full mr-3 sm:mr-4">
+            <ChartColumnStacked size={20} sm:size={24} />
           </div>
-          <h1 className="text-2xl font-bold">Add New Category</h1>
+          <h1 className="text-lg sm:text-2xl font-bold">Add New Category</h1>
         </div>
+
+
         <button
           onClick={() => setShowAddCategory(false)}
           className="text-gray-400 hover:text-gray-700 transition-colors"

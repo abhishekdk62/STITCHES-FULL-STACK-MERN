@@ -1,6 +1,6 @@
 import React from 'react';
 import ReturnRequestTable from './ReturnRequestTable';
-import { Package, RefreshCw, AlertCircle } from 'lucide-react';
+import { Package, RefreshCw, AlertCircle, ShoppingCart } from 'lucide-react';
 
 const ReturnRequestList = ({
   returnRequests,
@@ -13,30 +13,22 @@ const ReturnRequestList = ({
     <div
       className="bg-gray-50 
     w-full
+    max-w-7xl p-4 sm:p-6 pb-16 sm:pb-20
     min-h-screen"
     >
       <div
-        className=" mx-auto
-                    px-4 sm:px-6 md:px-8 lg:px-8 xl:px-10 2xl:px-12
-                    py-6 sm:py-8 md:py-10 lg:py-12 pb-20"
+        className=""
       >
         {/* Header */}
-        <div className="mb-6 sm:mb-8 md:mb-10 flex items-center">
-          <div
-            className="bg-black text-white
-                        p-2 sm:p-3 md:p-4
-                        rounded-full
-                        mr-3 sm:mr-4 md:mr-6"
-          >
-            <Package size={20} className="md:size-5" />
+ 
+        <div className="mb-8 flex items-center">
+          <div className="bg-black text-white p-3 rounded-full mr-4">
+            <ShoppingCart size={20} sm:size={24} />
           </div>
-          <h1
-            className="font-bold
-                       text-[1rem] lg:text-2xl md:text-xl "
-          >
-            Return Requests
-          </h1>
+          <h1 className="text-lg sm:text-2xl font-bold">Return Requests</h1>
         </div>
+
+
 
         {/* Error Message */}
         {error && (
@@ -56,7 +48,7 @@ const ReturnRequestList = ({
         {/* Loading State */}
         {loading ? (
           <div
-            className="bg-white rounded-lg shadow-md
+            className="bg-white rounded-lg 
                         p-6 sm:p-8 md:p-10 lg:p-12"
           >
             <div

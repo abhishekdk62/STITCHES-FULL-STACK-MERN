@@ -29,7 +29,14 @@ const Promotions = () => {
               Timeless Bridal Collection
             </h2>
             <p className="mt-2">Grace & Glamour for Your Big Day</p>
-            <button className="mt-4 bg-white/80 cursor-pointer text-black px-2 py-1 md:px-4 md:py-2 rounded-full hover:bg-white/40">
+            <button
+                  onClick={() => {
+                    navigate('/products');
+                    setTimeout(() => {
+                      window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }, 0);
+                  }}
+            className="mt-4 bg-white/80 cursor-pointer text-black px-2 py-1 md:px-4 md:py-2 rounded-full hover:bg-white/40">
               Explore Collection
             </button>
           </div>

@@ -535,7 +535,7 @@ const ProductDetails = () => {
       </nav>
 
       {/* Product Main Section */}
-      <div className="flex flex-col lg:flex-row bg-white rounded-lg shadow-sm overflow-hidden border border-gray-100">
+      <div className="flex flex-col lg:flex-row bg-white rounded-lg  overflow-hidden ">
         <ProductImageGallery
           productDetails={productDetails}
           selectedVariant={selectedVariant}
@@ -628,7 +628,7 @@ const ProductDetails = () => {
               transition={{ type: 'spring', stiffness: 400, damping: 10 }}
               className="md:text-2xl text-xs font-medium text-red-400 ml-1"
             >
-              ({selectedVariant?.discount_percentage}% OFF)
+              ({selectedVariant?.discount_percentage.toFixed(0)}% OFF)
             </motion.span>
           </motion.div>
 
@@ -872,7 +872,7 @@ const ProductDetails = () => {
       </div>
 
       {/* Product Information Tabs */}
-      <div className="bg-white rounded-lg shadow-sm mt-6 overflow-hidden border border-gray-100">
+      <div className="bg-white rounded-lg  mt-6 overflow-hidden ">
         <div className="border-b border-gray-200">
           <div className="flex">
             {['Description', 'Reviews', 'Question&Answer'].map((tab, indx) => (
@@ -1053,7 +1053,7 @@ const ProductDetails = () => {
         </div>
       </div>
 
-      <div className="bg-white rounded-lg shadow-sm mt-6 p-6 border border-gray-100">
+      <div className="bg-white rounded-lg mt-6 p-6  ">
         <h2 className="text-lg font-bold mb-4">You May Also Like</h2>
         {loading ? (
           <SimilarProductsShimmer />
@@ -1065,10 +1065,10 @@ const ProductDetails = () => {
                 onClick={() => handleProductView(product)}
                 className="bg-white overflow-hidden   transition-all  cursor-pointer "
               >
-                <div className="">
+                <div className="flex justify-center">
                   <img
                     alt={product?.name}
-                    className="w-full h-full object-cover transition-transform duration-500 ease-in-out hover:scale-102"
+                    className="lg:w-60 w-40 h-full object-cover transition-transform duration-500 ease-in-out hover:scale-102"
                     src={product?.variants[0]?.productImages[0]}
                   />
                 </div>
@@ -1079,8 +1079,8 @@ const ProductDetails = () => {
                   }}
                   className="text-center pt-2 text-gray-700 text-sm"
                 >
-                  <h3 className="text-md font-medium text-gray-800 mb-1 truncate">
-                    {product?.name} {product?.brand}
+                  <h3 className="text-md font-medium text-center text-gray-800 mb-1 truncate">
+                    {product?.name} 
                   </h3>
                 </div>
               </div>

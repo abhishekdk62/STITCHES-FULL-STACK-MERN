@@ -37,22 +37,18 @@ const Home = () => {
 
   return (
     <div className="overflow-x-hidden">
-      <div className="max-w-10xl lg:max-w-full">
         <Header
           selectedCategory={selectedCategory}
           setSelectedCategory={setSelectedCategory}
         />
+      <div className="max-w-10xl lg:max-w-full">
         <Banner />
 
         <Saving />
         <NewArivals />
         <div className="md:px-12 lg:px-20 space-y-12">
           <Promotions />
-          {/* <Brands /> */}
-          {/* <CategoryWomen /> */}
-          {/* <Trending /> */}
-
-          {/* <CategoryMen /> */}
+     
         </div>
         <Footer />
       </div>

@@ -21,7 +21,7 @@ const OrderDetails = ({
   };
 
   return (
-    <div className="divide-y divide-gray-200">
+    <div className="divide-y  divide-gray-200">
       {orderList.map((order) => (
         <div key={order._id} className="transition-all duration-200">
           <div
@@ -36,16 +36,16 @@ const OrderDetails = ({
                   <FileText size={16} />
                 </div>
                 <div>
-                  <h3 className="font-medium text-gray-900">
+                  <h3 className="font-medium sm:text-base text-xs text-gray-900">
                     {order.orderID || order._id.substring(0, 8)}
                   </h3>
-                  <p className="text-sm text-gray-500">
-                    {order.address?.fullName || 'Customer: N/A'}
+                  <p className="sm:text-sm text-xs text-gray-500">
+                    {order.address?.fullName || 'Customer: N/A'}&emsp;&emsp; {order.user.email}
                   </p>
                 </div>
               </div>
               <div className="flex items-center gap-4">
-                <span className="text-sm">{order.items?.length} item(s)</span>
+                <span className="sm:text-sm text-xs">{order.items?.length} item(s)</span>
                 <ArrowRight
                   size={16}
                   className={`transform transition-transform ${
@@ -97,7 +97,7 @@ const OrderDetails = ({
                           </p>
                         </div>
                       </div>
-                      <div className="flex flex-col md:flex-row gap-4 items-start md:items-center w-full md:w-auto">
+                      <div className="flex flex-col  md:flex-row gap-4 items-start md:items-center w-full md:w-auto">
                         <div className="grid grid-cols-2 gap-x-6 gap-y-2 text-sm w-full md:w-auto">
                           <div className="text-gray-500">Price:</div>
                           <div className="font-medium">

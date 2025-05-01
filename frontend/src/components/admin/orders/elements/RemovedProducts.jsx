@@ -107,15 +107,16 @@ const RemovedProducts = ({ setShowRemoved }) => {
   return (
     <div className="max-w-7xl mx-auto bg-gray-50 min-h-screen">
       <div className=" p-6 pb-20">
-        {/* Header */}
-        <div className="mb-8 flex items-center">
-          <div className="bg-black text-white p-3 rounded-full mr-4">
-            <Trash2 size={24} />
-          </div>
-          <h1 className="text-3xl font-bold">Removed Products</h1>
-        </div>
+    
+        
+                <div className="mb-8 flex items-center">
+                  <div className="bg-black text-white p-3 rounded-full mr-4">
+                    <Trash2 size={20} sm:size={24} />
+                  </div>
+                  <h1 className="text-lg sm:text-2xl font-bold">Removed Products</h1>
+                </div>
 
-        <div className="bg-white p-5 rounded-lg shadow-md mb-6">
+        <div className="bg-white p-5 rounded-lg  mb-6">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <div className="w-full  flex flex-col md:flex-row items-center gap-4">
               <div className="relative w-full md:w-80">
@@ -173,7 +174,7 @@ const RemovedProducts = ({ setShowRemoved }) => {
         )}
 
         {/* Products Section */}
-        <div className="bg-white rounded-lg shadow-md overflow-hidden">
+        <div className="bg-white rounded-lg  overflow-hidden">
           <div className="border-b border-gray-200 bg-gray-50 py-4 px-6">
             <h2 className="font-semibold text-lg">Removed Product List</h2>
           </div>
@@ -249,7 +250,7 @@ const RemovedProducts = ({ setShowRemoved }) => {
         </div>
 
         {/* Fixed Pagination UI at Bottom */}
-        <div className="fixed bottom-0 left-0 right-0 p-3 bg-white shadow-lg border-t border-gray-200">
+        <div className="fixed bottom-0 left-0 right-0 p-3 bg-white  border-t border-gray-200">
           <div className="flex justify-center items-center space-x-4 max-w-xs mx-auto">
             <button
               onClick={() => {

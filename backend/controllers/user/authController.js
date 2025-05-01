@@ -13,6 +13,11 @@ const sendEmail = require("../../utils/sendMail");
 const signupOTP = async (req, res) => {
   try {
     const { email } = req.body;
+    const user=await User.findOne({email})
+    if(user)
+    {
+      return res.status(402).json({ message:"User already exist"})
+    }
     const otp = crypto.randomInt(100000, 999999);
     const otpExpiry = Date.now() + 5 * 60 * 1000;
     await OTPModel.findOneAndUpdate(
@@ -27,6 +32,8 @@ const signupOTP = async (req, res) => {
     );
     res.json({ message: "OTP sent successfully" });
   } catch (error) {
+    console.log(error);
+    
     res
       .status(500)
       .json({ message: "Error sending OTP", error: error.message });

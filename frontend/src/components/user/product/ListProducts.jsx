@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { motion, AnimatePresence } from 'framer-motion';
 
 import axios from 'axios';
-import { Heart, X, ListFilter, ArrowUpAZ } from 'lucide-react';
+import { Heart, X, ListFilter, ArrowUpAZ, Check, Tags, IndianRupee } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import { useDebounce } from '../../../../utils/useDebounce';
 import { useNavigate } from 'react-router-dom';
@@ -27,6 +27,8 @@ const ListProducts = ({ selectedCategory, setSelectedCategory }) => {
   const [categoryList, setCategoryList] = useState([]);
   const [error, setError] = useState('');
   const [isOpen, setIsOpen] = useState(false);
+  const [selectedSizes, setSelectedSizes] = useState(['M']);
+
 
   const navigate = useNavigate();
 
@@ -68,7 +70,7 @@ const ListProducts = ({ selectedCategory, setSelectedCategory }) => {
         maxPrice,
         sortBy,
         page: currentPage,
-        limit: 10,
+        limit: 9,
       };
 
       const data = await getProductsService(requestBody);
@@ -144,11 +146,22 @@ const ListProducts = ({ selectedCategory, setSelectedCategory }) => {
   const handleProductView = (product) => {
     localStorage.setItem('productInfo', JSON.stringify(product));
     navigate(`/product/${product._id}`);
+    setTimeout(() => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, 0);
   };
   const handleSortChange = (value) => {
     setSortBy(value);
     setIsOpen(false);
   };
+  const toggleSize = (size) => {
+    if (selectedSizes.includes(size)) {
+      setSelectedSizes(selectedSizes.filter(s => s !== size));
+    } else {
+      setSelectedSizes([...selectedSizes, size]);
+    }
+  };
+
 
   const handleWishlist = async (pid, selectedVariant) => {
     if (!userDetails) {
@@ -225,42 +238,50 @@ const ListProducts = ({ selectedCategory, setSelectedCategory }) => {
   };
   const [showFilters, setShowFilters] = useState(false);
 
-  // Filter sidebar content - reused in both desktop and mobile views
   const FiltersContent = () => (
-    <>
-      <h2 className="text-xl hidden lg:block font-bold tracking-widest text-gray-800 mb-3">
+    <div className='lg:border  lg:rounded-2xl lg:p-5 lg:shadow-md lg:border-gray-200'>
+      <h2 className="text-xl   hidden lg:block font-bold tracking-widest text-gray-800 mb-3">
         Filters
       </h2>
 
       <hr className="mb-4 text-gray-200" />
 
       <div className="mb-6">
-        <h3 className="text-xs lg:text-[1rem] sm:text-[0.9rem]  text-gray-800 font-semibold mb-3">
-          Categories
-        </h3>
-        <ul className="  sm:space-y-1">
-          {categoryList.map((category, indx) => (
-            <li
-              key={indx}
-              onClick={() => {
-                setSelectedCategory(category._id);
-                if (window.innerWidth < 1024) setShowFilters(false);
-              }}
-              className={`py-1 px-2  rounded-md cursor-pointer transition-colors hover:bg-gray-100 ${
-                category._id === selectedCategory
-                  ? 'bg-gray-100 font-medium'
-                  : ''
-              }`}
-            >
-              <span
-                style={{ fontWeight: 400 }}
-                className="text-[0.7rem] lg:text-[0.8rem]  text-gray-700"
+      <div className="flex items-center gap-2">
+              <Tags size={16} className="text-gray-600" />
+              <h3 className="text-sm lg:text-base font-semibold text-gray-800">
+                Categories
+              </h3>
+            </div>
+
+        <ul className="ml-3 mt-3 sm:space-y-1">
+            {categoryList.map((category, indx) => (
+              <li
+                key={indx}
+                onClick={() => {
+                  setSelectedCategory(category._id);
+                  if (window.innerWidth < 1024) setShowFilters(false);
+                }}
+                className={`py-1 px-2 rounded-md cursor-pointer transition-colors hover:bg-gray-100 flex items-center justify-between ${
+                  category._id === selectedCategory
+                    ? 'bg-gray-100 border-l-2 border-gray-900'
+                    : ''
+                }`}
               >
-                {category.name}
-              </span>
-            </li>
-          ))}
-        </ul>
+                <span
+                  style={{ fontWeight: 400 }}
+                  className="text-xs lg:text-xs text-gray-700"
+                >
+                  {category.name}
+                </span>
+                
+                {category._id === selectedCategory && (
+                  <Check size={14} className="text-gray-900" />
+                )}
+              </li>
+            ))}
+          </ul>
+        
       </div>
       <hr className="mb-4 text-gray-200" />
 
@@ -278,20 +299,32 @@ const ListProducts = ({ selectedCategory, setSelectedCategory }) => {
           Size
         </h3>
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-          {['XXS', 'XS', 'S', 'M', 'L', 'XL', 'XXL', '3XL', '4XL'].map(
-            (size) => (
-              <button
-                key={size}
-                className="border border-gray-300 rounded-lg py-1 text-[0.6rem] lg:text-[0.7rem] hover:bg-gray-100 transition-colors font-medium"
-              >
-                {size}
-              </button>
-            )
-          )}
+        {['XXS', 'XS', 'S', 'M', 'L', 'XL', 'XXL', '3XL', '4XL'].map(
+              (size) => (
+                <button
+                  key={size}
+                  onClick={() => toggleSize(size)}
+                  className={`
+                    relative overflow-hidden border rounded-lg py-1 text-xs
+                    transition-all duration-200 font-medium
+                    ${selectedSizes.includes(size) 
+                      ? 'bg-black text-white border-gray-500' 
+                      : 'border-gray-300 hover:bg-gray-100 text-black'}
+                  `}
+                >
+                  {selectedSizes.includes(size) && (
+                    <div className="absolute top-0 right-0 bg-gray-800 p-1 rounded-bl-md">
+                      <Check size={8} className="text-white" />
+                    </div>
+                  )}
+                  {size}
+                </button>
+              )
+            )}
         </div>
       </div>
       <hr className="mb-4 text-gray-200" />
-    </>
+    </div>
   );
 
   return (
@@ -450,7 +483,7 @@ const ListProducts = ({ selectedCategory, setSelectedCategory }) => {
                   return (
                     <div key={product._id} className="relative group">
                       <div
-                        onClick={() => handleProductView(product)}
+                        onClick={() => {handleProductView(product)}}
                         className="p-0 cursor-pointer"
                       >
                         <div className="flex items-center justify-center">
@@ -617,17 +650,17 @@ const PriceRangeSlider = ({
 
   return (
     <div className="mb-6">
-      <h3 className="text-xs sm:text-[0.9rem] lg:text-[1rem] font-semibold mb-3">
-        Price Range
-      </h3>
-      <div className="flex items-center justify-between mb-2">
-        <span className="text-[0.7rem] sm:text-[0.8rem] lg:text-[0.9rem] font-medium">
-          ₹{values[0]}
-        </span>
-        <span className="text-[0.7rem] sm:text-[0.8rem] lg:text-[0.9rem] font-medium">
-          ₹{values[1]}
-        </span>
-      </div>
+   
+      <div className="flex items-center gap-2">
+      <IndianRupee className='h-3 w-3' /> 
+              <h3 className="text-sm lg:text-base font-semibold text-gray-800">
+                Price Range
+              </h3>
+            </div>
+            <div className="flex justify-between mt-3 mb-2">
+          <span className="text-xs text-gray-500">Min: ₹200</span>
+          <span className="text-xs text-gray-500">Max: ₹50000</span>
+        </div>
       <div className="py-4">
         <Range
           step={1000}
@@ -638,7 +671,7 @@ const PriceRangeSlider = ({
           renderTrack={({ props, children }) => (
             <div
               {...props}
-              className="w-full h-1.5 rounded-full bg-gray-300"
+              className="relative w-full h-1.5 rounded-full bg-gray-300"
               style={{
                 ...props.style,
               }}
@@ -657,7 +690,7 @@ const PriceRangeSlider = ({
           renderThumb={({ props }) => (
             <div
               {...props}
-              className="h-4 w-4 bg-gray-400 border-2 border-white shadow-md rounded-full cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary/50"
+className="h-4 w-4 bg-gray-400 border-2 border-white shadow-md rounded-full cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary/50 touch-none"
               style={{
                 ...props.style,
                 boxShadow: '0 1px 3px rgba(0,0,0,0.3)',
@@ -669,6 +702,15 @@ const PriceRangeSlider = ({
           )}
         />
       </div>
+      <div className="flex items-center justify-between mb-2 ">
+  <span className="px-2 py-1 bg-gray-100 rounded-md border border-gray-300 text-[0.7rem] sm:text-[0.8rem] lg:text-[0.9rem] font-medium text-gray-700">
+    ₹{values[0]}
+  </span>
+  <span className="px-2 py-1 bg-gray-100 rounded-md border border-gray-300 text-[0.7rem] sm:text-[0.8rem] lg:text-[0.9rem] font-medium text-gray-700">
+    ₹{values[1]}
+  </span>
+</div>
+
     </div>
   );
 };

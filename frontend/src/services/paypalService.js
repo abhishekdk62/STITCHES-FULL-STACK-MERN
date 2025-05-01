@@ -1,3 +1,5 @@
+import apiClient from "./apiClient";
+
 export const createPaypalOrder = async (orderDetails) => {
   try {
     const payload = {
@@ -17,16 +19,9 @@ export const createPaypalOrder = async (orderDetails) => {
       discount: orderDetails.discount,
     };
 
-    const response = await fetch(
-      'https://stitches.digital/api/api/paypal/create-order',
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-      }
-    );
+    const response = await apiClient.post("/api/paypal/create-order",JSON.stringify(payload)) 
 
-    return await response.json();
+    return response.data;
   } catch (error) {
     console.log('❌ Error creating PayPal order:', error);
     throw error;
@@ -39,16 +34,9 @@ export const capturePaypalOrder = async (
   couponDetails
 ) => {
   try {
-    const response = await fetch(
-      `https://stitches.digital/api/api/paypal/capture-order/${orderID}`,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(orderDetails, couponDetails), // Send order details along with order ID
-      }
-    );
-
-    return await response.json();
+    const response = await apiClient.post(`api/paypal/capture-order/${orderID}`,JSON.stringify(orderDetails, couponDetails)) 
+    
+    return  response.data;
   } catch (error) {
     console.error('❌ Error capturing PayPal order:', error);
     throw error;

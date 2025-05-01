@@ -70,14 +70,19 @@ const AddCoupon = ({ setSelectedTab }) => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto bg-white p-6 sm:p-8 rounded-xl shadow-xl border border-gray-100">
+    <div className="max-w-7xl p-4 sm:p-6 pb-16 sm:pb-20 mx-auto bg-gray-50  rounded-xl shadow-xl border border-gray-100">
       <div className="mb-4 sm:mb-6 border-b pb-3 sm:pb-4">
-        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">
-          Add New Coupon
-        </h1>
-        <p className="text-gray-500 mt-1 text-sm sm:text-base">
-          Create promotional offers for your customers
-        </p>
+       
+
+ <div className="mb-8 flex items-center">
+          <div className="bg-black text-white p-3 rounded-full mr-4">
+            <Tag size={20} sm:size={24} />
+          </div>
+          <h1 className="text-lg sm:text-2xl font-bold">          Add New Coupon
+          </h1>
+        </div>
+
+      
       </div>
 
       {error && (
@@ -89,7 +94,7 @@ const AddCoupon = ({ setSelectedTab }) => {
 
       <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
         {/* Form Fields */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+        <div className="grid grid-cols-1 bg-white p-3 md:grid-cols-2 gap-4 sm:gap-6">
           {/* Coupon Name */}
           <div className="space-y-1 sm:space-y-2">
             <label

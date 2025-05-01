@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Package, CircleArrowLeft } from 'lucide-react';
+import { Package, CircleArrowLeft, BadgeDollarSign } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import { getProductsByCatApi } from '../../../../services/productService';
 import { applyProdOfferApi } from '../../../../services/offerServices';
@@ -92,10 +92,10 @@ const Prods = ({ setTab, selectedCatId }) => {
         <div className="mb-4 sm:mb-6 flex justify-between">
           <div className="flex items-center">
             <div className="bg-black text-white p-2 sm:p-3 rounded-full mr-2 sm:mr-3">
-              <Package size={20} sm:size={24} />
+              <BadgeDollarSign size={20} sm:size={24} />
             </div>
-            <h1 className="text-base sm:text-lg font-bold">
-              Products Management
+            <h1 className="text-lg sm:text-2xl font-bold">
+              Products Offer Management
             </h1>
           </div>
           <button onClick={() => setTab('main')}>

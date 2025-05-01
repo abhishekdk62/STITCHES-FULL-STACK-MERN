@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { X, Trash2, CheckCircle, Plus } from 'lucide-react';
+import { X, Trash2, CheckCircle, Plus, Package, Upload } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { fetchCategoriesAdmin } from '../../../../services/categoryService';
 import {
   editProductService,
   fetchProduct,
 } from '../../../../services/productService';
+import CropModal from './CropModal';
 const EditProduct = ({ setShowEditProduct }) => {
   const [productDetails, setProductDetails] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -24,11 +25,92 @@ const EditProduct = ({ setShowEditProduct }) => {
   const [discountPrice, setDiscountPrice] = useState('');
   const [stock, setStock] = useState('');
   const [variantImages, setVariantImages] = useState(['']);
+  // Add these with your other state declarations
+const [cropModalOpen, setCropModalOpen] = useState(false);
+const [currentImageIndex, setCurrentImageIndex] = useState(null);
+const [tempImageSrc, setTempImageSrc] = useState(null);
+const [currentVariantIndex, setCurrentVariantIndex] = useState(null); // For variant images
+// Add these functions in your component
+
+// For product images
+const openFileDialog = (index) => {
+  document.getElementById(`fileInput${index}`).click();
+};
+
+const handleFileChange = (index, event) => {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = () => {
+    setTempImageSrc(reader.result);
+    setCurrentImageIndex(index);
+    setCropModalOpen(true);
+  };
+  reader.readAsDataURL(file);
+};
+
+// For variant images
+const handleVariantFileChange = (variantIndex, imgIndex, event) => {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = () => {
+    setTempImageSrc(reader.result);
+    setCurrentImageIndex(imgIndex);
+    setCurrentVariantIndex(variantIndex);
+    setCropModalOpen(true);
+  };
+  reader.readAsDataURL(file);
+};
+
+const handleCrop = async (croppedBlob) => {
+  const formData = new FormData();
+  formData.append('file', croppedBlob, 'cropped.jpg');
+  formData.append('upload_preset', 'COSTUMES');
+
+  try {
+    const res = await fetch(
+      'https://api.cloudinary.com/v1_1/dv8xenucq/image/upload',
+      {
+        method: 'POST',
+        body: formData,
+      }
+    );
+    const data = await res.json();
+    
+    if (currentVariantIndex !== null) {
+      // Handle variant image crop
+      const updatedVariants = [...variants];
+      if (!updatedVariants[currentVariantIndex].productImages) {
+        updatedVariants[currentVariantIndex].productImages = [];
+      }
+      
+      const newImages = [...updatedVariants[currentVariantIndex].productImages];
+      newImages[currentImageIndex] = data.secure_url;
+      updatedVariants[currentVariantIndex].productImages = newImages;
+      setVariants(updatedVariants);
+    } else {
+      // Handle product image crop
+      const newImages = [...productImages];
+      newImages[currentImageIndex] = data.secure_url;
+      setProductImages(newImages);
+    }
+  } catch (error) {
+    console.error('Error uploading image:', error);
+    toast.error('Failed to upload image');
+  } finally {
+    setCropModalOpen(false);
+    setTempImageSrc(null);
+    setCurrentImageIndex(null);
+    setCurrentVariantIndex(null);
+  }
+};
   const sizes = ['SM', 'M', 'L', 'XL'];
   const colors = [
     'red',
     'blue',
     'white',
+    'pink',
     'black',
     'green',
     'yellow',
@@ -256,37 +338,66 @@ const EditProduct = ({ setShowEditProduct }) => {
     updatedVariants[index] = { ...updatedVariants[index], [field]: value };
     setVariants(updatedVariants);
   };
-
   const addVariant = async () => {
-    const uploadedImages = await uploadVariantImages();
-    if (uploadedImages.length < 2) {
-      setError('Add at least two product images');
-      return;
-    }
-    if (
-      !(selectedColor && selectedSize && basePrice && discountPrice && stock)
-    ) {
+    // First validate all required fields are filled
+    if (!(selectedColor && selectedSize && basePrice && discountPrice && stock)) {
       setError('Please fill in all variant fields');
       return;
     }
+  
+    // Validate prices and stock
+    if (Number(basePrice) <= 0) {
+      setError('Base price must be greater than 0');
+      return;
+    }
+    if (Number(discountPrice) <= 0) {
+      setError('Discount price must be greater than 0');
+      return;
+    }
+    if (Number(discountPrice) > Number(basePrice)) {
+      setError('Discount price cannot be more than base price');
+      return;
+    }
+    if (Number(stock) <= 0) {
+      setError('Stock must be greater than 0');
+      return;
+    }
+  
+    // Check we have at least 2 images (already cropped and uploaded)
+    const filledImages = variantImages.filter(img => img && img !== '');
+    if (filledImages.length < 2) {
+      setError('Add at least two product images');
+      return;
+    }
+  
     setLoading(true);
-    const newVariant = {
-      color: selectedColor,
-      size: selectedSize,
-      base_price: Number(basePrice),
-      discount_price: Number(discountPrice),
-      stock: Number(stock),
-      productImages: uploadedImages,
-    };
-    setVariants([...variants, newVariant]);
-    setSelectedColor('');
-    setSelectedSize('');
-    setBasePrice('');
-    setDiscountPrice('');
-    setStock('');
-    setVariantImages(['']);
-    setError('');
-    setLoading(false);
+  
+    try {
+      const newVariant = {
+        color: selectedColor,
+        size: selectedSize,
+        base_price: Number(basePrice),
+        discount_price: Number(discountPrice),
+        stock: Number(stock),
+        productImages: filledImages, // Use the already uploaded/cropped images
+      };
+  
+      setVariants([...variants, newVariant]);
+      
+      // Reset form fields
+      setSelectedColor('');
+      setSelectedSize('');
+      setBasePrice('');
+      setDiscountPrice('');
+      setStock('');
+      setVariantImages(['']); // Reset with one empty field
+      setError('');
+    } catch (error) {
+      console.error('Error adding variant:', error);
+      setError('Failed to add variant. Please try again.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const removeVariant = (index) => {
@@ -414,11 +525,23 @@ const EditProduct = ({ setShowEditProduct }) => {
   }, [productDetails]);
 
   return (
-    <div className="w-full max-w-6xl mx-auto bg-gray-50 rounded-lg shadow-md overflow-hidden">
-      <div className="bg-black px-4 sm:px-6 lg:px-8 py-3 sm:py-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 sm:gap-0">
-        <h1 className="text-lg sm:text-xl md:text-2xl font-bold text-white">
-          Edit Product
-        </h1>
+    <div className="max-w-7xl bg-gray-50 mx-auto p-4 sm:p-6 pb-24">
+          
+    {cropModalOpen && tempImageSrc && (
+      <CropModal
+        imageSrc={tempImageSrc}
+        onCrop={handleCrop}
+        onClose={() => setCropModalOpen(false)}
+        aspect={309 / 400}
+      />
+    )}
+      <div className=" flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 sm:gap-0">
+      <div className="mb-8 flex items-center">
+                  <div className="bg-black text-white p-3 rounded-full mr-4">
+                    <Package size={20} sm:size={24} />
+                  </div>
+                  <h1 className="text-lg sm:text-2xl font-bold">Add New Product</h1>
+                </div>
         <button
           onClick={() => {
             setShowEditProduct(false);
@@ -431,7 +554,7 @@ const EditProduct = ({ setShowEditProduct }) => {
       </div>
 
       {/* Content */}
-      <div className="p-4 sm:p-6 lg:p-8">
+      <div className="p-4  sm:p-6 lg:p-8">
         {loading && (
           <div className="mb-4 p-2 bg-blue-100 text-blue-700 rounded text-xs sm:text-sm">
             Uploading images... Please wait.
@@ -440,7 +563,7 @@ const EditProduct = ({ setShowEditProduct }) => {
 
         <form onSubmit={handleSubmit}>
           {/* Basic Product Information */}
-          <div className="grid grid-cols-1 gap-4 sm:gap-6 mb-6">
+          <div className="grid p-3 bg-white rounded-xl grid-cols-1 gap-4 sm:gap-6 mb-6">
             <h2 className="text-base sm:text-lg font-semibold text-gray-800 border-b pb-1 mb-3">
               Product Information
             </h2>
@@ -480,7 +603,7 @@ const EditProduct = ({ setShowEditProduct }) => {
           </div>
 
           {/* Category Selection */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 mb-6">
+          <div className="grid p-3 bg-white rounded-xl grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 mb-6">
             <div>
               <label className="block text-gray-700 text-xs sm:text-sm font-medium mb-1">
                 Category <span className="text-red-500">*</span>
@@ -535,7 +658,7 @@ const EditProduct = ({ setShowEditProduct }) => {
 
           {/* Current Variants */}
           {variants.length > 0 && (
-            <div className="mb-6">
+            <div className="mb-6 p-3 bg-white rounded-xl">
               <h2 className="text-base sm:text-lg font-semibold text-gray-800 border-b pb-1 mb-3">
                 Product Variants ({variants.length})
               </h2>
@@ -543,7 +666,7 @@ const EditProduct = ({ setShowEditProduct }) => {
                 {variants.map((variant, idx) => (
                   <div
                     key={idx}
-                    className="bg-white p-4 sm:p-6 rounded shadow-sm border border-gray-200"
+                    className="bg-white p-4 sm:p-6 rounded   border-gray-200"
                   >
                     <div className="grid grid-cols-1 lg:grid-cols-5 gap-4 mb-4">
                       {/** Color / Size / Prices / Stock */}
@@ -585,7 +708,6 @@ const EditProduct = ({ setShowEditProduct }) => {
                             >
                               {field !== 'stock' && (
                                 <span className="absolute inset-y-0 left-0 flex items-center pl-2 text-gray-500 text-xs sm:text-sm">
-                                  ₹
                                 </span>
                               )}
                               <input
@@ -618,48 +740,45 @@ const EditProduct = ({ setShowEditProduct }) => {
                         Variant Images <span className="text-red-500">*</span>
                       </label>
                       <div className="flex flex-wrap gap-3">
-                        {variant.productImages?.map((img, j) => (
-                          <div
-                            key={j}
-                            className="relative border-2 border-indigo-500 rounded overflow-hidden group w-24 h-24 sm:w-32 sm:h-32"
-                          >
-                            <img
-                              src={img}
-                              alt={`Variant ${idx}-${j}`}
-                              className="w-full h-full object-cover"
-                            />
-                            <div className="absolute inset-0 w-full h-full bg-black bg-opacity-50 opacity-100 lg:opacity-0 sm:group-hover:opacity-100 flex items-center justify-center transition-opacity">
-                              <button
-                                type="button"
-                                onClick={() => removeVariantImage(idx, j)}
-                                className="bg-red-500 text-white rounded-full p-1 hover:bg-red-600"
-                              >
-                                <Trash2 size={16} />
-                              </button>
-                            </div>
-                          </div>
-                        ))}
-                        <div className="w-24 h-24 sm:w-32 sm:h-32 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center cursor-pointer hover:shadow-sm">
-                          <input
-                            id={`addVariantImage-${idx}`}
-                            type="file"
-                            accept="image/*"
-                            className="hidden"
-                            onChange={(e) => addVariantImage(idx, e)}
-                          />
-                          <button
-                            type="button"
-                            onClick={() =>
-                              document
-                                .getElementById(`addVariantImage-${idx}`)
-                                .click()
-                            }
-                            className="text-gray-600 text-xs sm:text-sm"
-                          >
-                            {loading ? 'Uploading...' : 'Add Image'}
-                          </button>
-                        </div>
-                      </div>
+  {variant.productImages?.map((img, imgIndex) => (
+    <div
+      key={imgIndex}
+      className="relative border-2 border-indigo-500 rounded overflow-hidden group w-24 h-24 sm:w-32 sm:h-32"
+    >
+      <img
+        src={img}
+        alt={`Variant ${idx}-${imgIndex}`}
+        className="w-full h-full object-cover"
+      />
+      <div className="absolute inset-0 w-full h-full bg-black bg-opacity-50 opacity-100 lg:opacity-0 sm:group-hover:opacity-100 flex items-center justify-center transition-opacity">
+        <button
+          type="button"
+          onClick={() => removeVariantImage(idx, imgIndex)}
+          className="bg-red-500 text-white rounded-full p-1 hover:bg-red-600"
+        >
+          <Trash2 size={16} />
+        </button>
+      </div>
+    </div>
+  ))}
+  <div className="w-24 h-24 sm:w-32 sm:h-32 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center cursor-pointer hover:shadow-sm">
+    <input
+      id={`addVariantImage-${idx}`}
+      type="file"
+      accept="image/*"
+      className="hidden"
+      onChange={(e) => handleVariantFileChange(idx, variant.productImages?.length || 0, e)}
+    />
+    <button
+      type="button"
+      onClick={() => document.getElementById(`addVariantImage-${idx}`).click()}
+      className="text-gray-600 text-xs sm:text-sm flex flex-col items-center"
+    >
+      <Upload size={20} className="text-gray-400 mb-1" />
+      <span>Add Image</span>
+    </button>
+  </div>
+</div>
                     </div>
 
                     <div className="flex justify-end">
@@ -719,14 +838,13 @@ const EditProduct = ({ setShowEditProduct }) => {
                     <div className={field !== 'stock' ? 'relative' : ''}>
                       {field !== 'stock' && (
                         <span className="absolute inset-y-0 left-0 flex items-center pl-2 text-gray-500 text-xs sm:text-sm">
-                          ₹
                         </span>
                       )}
                       <input
                         type="number"
                         placeholder={
                           field === 'basePrice'
-                            ? 'Min 5000'
+                            ? 'Min 0'
                             : field === 'discountPrice'
                               ? 'Enter discount price'
                               : 'Enter stock'
@@ -764,50 +882,58 @@ const EditProduct = ({ setShowEditProduct }) => {
                   Variant Images <span className="text-red-500">*</span>
                 </label>
                 <div className="flex flex-wrap gap-3">
-                  {variantImages.map((img, i) => (
-                    <div
-                      key={i}
-                      className="relative border-2 border-dashed border-gray-300 rounded overflow-hidden group w-24 h-24 sm:w-32 sm:h-32"
-                    >
-                      {img ? (
-                        <>
-                          <img
-                            src={img}
-                            alt={`New Variant ${i}`}
-                            className="w-full h-full object-cover"
-                          />
-                          <div className="absolute inset-0 bg-black bg-opacity-50 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 flex items-center justify-center transition-opacity">
-                            <button
-                              type="button"
-                              onClick={() => removeNewVariantImage(i)}
-                              className="bg-red-500 text-white rounded-full p-1 hover:bg-red-600"
-                            >
-                              <Trash2 size={16} />
-                            </button>
-                          </div>
-                        </>
-                      ) : (
-                        <div
-                          className="w-full h-full flex items-center justify-center cursor-pointer bg-gray-50 hover:bg-gray-100 transition-colors p-2 text-xs sm:text-sm"
-                          onClick={() =>
-                            document
-                              .getElementById(`newVariantImage-${i}`)
-                              .click()
-                          }
-                        >
-                          <input
-                            id={`newVariantImage-${i}`}
-                            type="file"
-                            accept="image/*"
-                            className="hidden"
-                            onChange={(e) => handleProductImageChange(i, e)}
-                          />
-                          {loading ? 'Uploading...' : 'Add Image'}
-                        </div>
-                      )}
-                    </div>
-                  ))}
-                </div>
+  {variantImages.map((img, index) => (
+    <div
+      key={index}
+      className={`relative border-2 ${
+        img ? 'border-indigo-500' : 'border-dashed border-gray-300'
+      } rounded overflow-hidden group w-24 h-24 sm:w-32 sm:h-32`}
+    >
+      {img ? (
+        <>
+          <img
+            src={img}
+            alt={`Product ${index}`}
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-black bg-opacity-50 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 flex items-center justify-center transition-opacity">
+            <button
+              type="button"
+              onClick={() => removeProductImage(index)}
+              className="bg-red-500 text-white rounded-full p-1 hover:bg-red-600"
+            >
+              <Trash2 size={16} />
+            </button>
+          </div>
+        </>
+      ) : (
+        <>
+          <input
+            id={`fileInput${index}`}
+            type="file"
+            accept="image/*"
+            className="hidden"
+            onChange={(e) => handleFileChange(index, e)}
+          />
+          <div
+            onClick={() => openFileDialog(index)}
+            className="w-full h-full flex items-center justify-center cursor-pointer bg-gray-50 hover:bg-gray-100 transition-colors p-2 text-xs sm:text-sm"
+          >
+            <Upload size={20} className="text-gray-400 mb-1" />
+            <span>Upload</span>
+          </div>
+        </>
+      )}
+    </div>
+  ))}
+  <button
+    type="button"
+    onClick={() => setProductImages([...productImages, ''])}
+    className="w-24 h-24 sm:w-32 sm:h-32 flex items-center justify-center border-2 border-dashed border-gray-300 rounded hover:bg-gray-50"
+  >
+    <Plus size={24} className="text-gray-400" />
+  </button>
+</div>
               </div>
 
               <div className="flex justify-end">

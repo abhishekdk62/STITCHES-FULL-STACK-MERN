@@ -63,8 +63,8 @@ router.post("/create-order", async (req, res) => {
       discount,
     } = req.body;
 
-    const finalReturnUrl = returnUrl || "https://stitches.digital/payment/success";
-    const finalCancelUrl = cancelUrl || "https://stitches.digital/payment/failure";
+    const finalReturnUrl = returnUrl || `${process.env.FRONTEND_URL}/payment/success`;
+    const finalCancelUrl = cancelUrl || `${process.env.FRONTEND_URL}/payment/failure`;
 
     const orderResponse = await axios.post(
       `${PAYPAL_API}/v2/checkout/orders`,
@@ -238,8 +238,8 @@ router.post("/add-money", async (req, res) => {
       return res.status(400).json({ message: "Invalid amount" });
     }
 
-    const return_url = `https://stitches.digital/wallet/payed?success=true&userId=${userId}`;
-    const cancel_url = `https://stitches.digital/wallet/payed?cancel=true`;
+    const return_url = `${process.env.FRONTEND_URL}/wallet/payed?success=true&userId=${userId}`;
+    const cancel_url = `${process.env.FRONTEND_URL}/wallet/payed?cancel=true`;
 
     const orderResponse = await axios.post(
       `${PAYPAL_API}/v2/checkout/orders`,

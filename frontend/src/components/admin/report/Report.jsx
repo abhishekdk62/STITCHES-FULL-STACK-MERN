@@ -55,18 +55,17 @@ const Report = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.4 }}
-      className="bg-white min-h-screen w-full rounded-xl"
+      className="bg-white max-w-7xl p-4 sm:p-6 pb-16 sm:pb-20 min-h-screen w-full rounded-xl"
     >
       <div className=" w-full justify-between items-center border-b pb-4 mb-8">
-        <div className="">
-          <div className="flex items-center gap-3">
-            <BarChart className="w-6 h-6 text-black" />
-            <h2 className="md:text-2xl text-xl font-bold text-black tracking-tight">
-              Sales Report
-            </h2>
-          </div>
-        </div>
+     
 
+        <div className="mb-8 flex items-center">
+          <div className="bg-black text-white p-3 rounded-full mr-4">
+            <BarChart size={20} sm:size={24} />
+          </div>
+          <h1 className="text-lg sm:text-2xl font-bold">Sales Report</h1>
+        </div>
         {salesReportData && (
           <OverallStatistics
             salesReportData={salesReportData}

@@ -8,12 +8,13 @@ const ProductsView = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);
 
   return (
-    <div className="max-w-7xl mx-auto overflow-x-hidden">
-      <PromotionalBanner />
+   <>
+   
       <Header
         selectedCategory={selectedCategory}
         setSelectedCategory={setSelectedCategory}
       />
+   <div className="max-w-7xl mx-auto overflow-x-hidden">
 
       <div className="px-6 md:px-12 lg:px-20 space-y-12">
         <ListProducts
@@ -21,8 +22,9 @@ const ProductsView = () => {
           setSelectedCategory={setSelectedCategory}
         />
       </div>
-      <Footer />
     </div>
+    <Footer />
+   </>
   );
 };
 

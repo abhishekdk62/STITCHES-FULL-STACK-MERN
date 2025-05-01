@@ -65,7 +65,6 @@ const Sidebar = () => {
 
   return (
     <>
-      {/* Mobile Hamburger Button */}
       <div className="lg:hidden fixed top-5 left-4 z-50">
         <motion.button
           whileTap={{ scale: 0.9 }}
@@ -80,13 +79,12 @@ const Sidebar = () => {
         </motion.button>
       </div>
 
-      {/* Desktop Sidebar */}
-      <div className="hidden lg:block">
+      <div className="hidden h-screen mt-10 lg:block">
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5 }}
-          className="bg-white rounded-2xl shadow-md p-6 w-[304px]"
+          className="bg-white rounded-2xl border border-gray-200 p-6 w-[304px]"
         >
           {/* Hello heading */}
           <motion.div
