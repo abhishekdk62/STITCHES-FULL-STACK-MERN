@@ -6,7 +6,7 @@ import {
   MinusCircle,
   PlusCircle,
 } from 'lucide-react';
-import React from 'react'
+import React from 'react';
 
 import {
   getCartItems,
@@ -42,11 +42,12 @@ export default function ShoppingCart() {
   };
 
   useEffect(() => {
-    setIsLoading(true);
-
-    getCart();
-    setIsLoading(false);
-  }, []);
+    if (userDetails) {
+      setIsLoading(true);
+      getCart();
+      setIsLoading(false);
+    }
+  }, [userDetails]);
 
   const changeQauntity = async (item, newQuantity) => {
     if (newQuantity < 1) {

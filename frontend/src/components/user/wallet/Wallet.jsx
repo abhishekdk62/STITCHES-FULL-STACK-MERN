@@ -135,7 +135,7 @@ const Wallet = () => {
       <Notification
         p1={'You’re not signed in'}
         p2={'Please log in to view your wallet.'}
-        icon={<Wallet className="w-16 h-16 text-gray-300 mb-4" />}
+        icon={<WalletIcon className="w-16 h-16 text-gray-300 mb-4" />}
       />
     );
   }
