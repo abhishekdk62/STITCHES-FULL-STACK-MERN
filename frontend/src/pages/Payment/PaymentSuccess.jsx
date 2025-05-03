@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Header from '../../components/user/common/Header';
 import Success from '../../components/user/order/Success';
 import Footer from '../../components/user/common/Footer';
@@ -8,7 +8,7 @@ import { capturePaypalOrder } from '../../services/paypalService';
 const PaymentSuccess = () => {
   const location = useLocation();
   const navigate = useNavigate();
-
+const [hide,setHide]=useState(true)
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
     const orderID = queryParams.get('token');
@@ -58,7 +58,7 @@ const PaymentSuccess = () => {
   return (
     <div>
       <Header />
-      <Success />
+      <Success hide={hide} />
       <Footer />
     </div>
   );

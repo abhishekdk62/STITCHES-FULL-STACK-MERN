@@ -43,7 +43,7 @@ const Particle = ({ index, color = 'black' }) => {
   );
 };
 
-export default function Success() {
+export default function Success({hide=false}) {
   const [showParticles, setShowParticles] = useState(false);
   const [replay, setReplay] = useState(false);
 
@@ -111,7 +111,6 @@ export default function Success() {
           >
             Thank you!
           </motion.h2>
-
           <motion.p
             className="mb-6 text-sm text-center text-gray-500"
             initial={{ opacity: 0 }}
@@ -122,7 +121,7 @@ export default function Success() {
           </motion.p>
 
           {/* Buttons */}
-          <motion.div
+{!hide&&     <motion.div
             className="flex flex-col sm:flex-row gap-3 w-full"
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
@@ -140,7 +139,9 @@ export default function Success() {
             >
               CONTINUE SHOPPING
             </button>
-          </motion.div>
+          </motion.div>}
+
+     
         </div>
       </div>
     </div>

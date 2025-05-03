@@ -47,7 +47,7 @@ export default function Orders() {
           const statusMatch = order.items?.some((item) =>
             item.status?.toLowerCase().includes(searchTerm.toLowerCase())
           );
-const productnameMatch=order.items.some((i)=>(i.product.name.toLowerCase().includes(searchTerm.toLowerCase())))
+const productnameMatch=order.items.some((i)=>(i?.product?.name.toLowerCase().includes(searchTerm.toLowerCase())))
               return searchTerm === '' || statusMatch || productnameMatch;
       
     });

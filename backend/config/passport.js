@@ -13,6 +13,12 @@ passport.use(
       try {
         let user = await User.findOne({ email: profile.emails[0].value });
         if (!user) {
+          const generatedReferalCode = Math.random()
+          .toString(36)
+          .slice(2, 10)
+          .toUpperCase();
+
+
           // Create a new user if one doesn't exist
           user = new User({
             email: profile.emails[0].value,
@@ -21,6 +27,7 @@ passport.use(
             profileImage: profile.photos[0].value,
             phone: "0000000000",
             password: "",
+            referalCode: generatedReferalCode,
           });
           await user.save();
         }
