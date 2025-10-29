@@ -50,19 +50,13 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-//?production routes
 app.use('/api/auth', authRoutes);
 app.use('/api/user', commonRouter);
 app.use('/api/user', userRouter);
 app.use('/api/admin', adminRouter);
 app.use("/api/api/paypal", paymentRouter);
 
-//?developement routes
-// app.use("/auth", authRoutes);
-// app.use("/user", commonRouter);
-// app.use("/user", userRouter);
-// app.use("/admin", adminRouter);
-// app.use("/api/paypal", paymentRouter);
+
 
 const PORT = process.env.PORT || 5000;
 connectDB();
