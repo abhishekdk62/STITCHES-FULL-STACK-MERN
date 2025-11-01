@@ -125,13 +125,14 @@ const signup = async (req, res) => {
     res.cookie("accessToken", accessToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: "lax",
+      sameSite: "none", 
+
       maxAge: Number(process.env.ACCESS_TOKEN_MAX_AGE),
     });
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: "lax",
+      sameSite: "none",
       maxAge: Number(process.env.REFRESH_TOKEN_MAX_AGE),
     });
     res.status(201).json({
@@ -277,7 +278,6 @@ const verifyEmailOtp = async (req, res) => {
       return res.status(400).json({ message: "Email is already in use." });
     }
 
-    // Fetch the logged-in user
     const user = await User.findById(userId);
     if (!user) {
       return res.status(404).json({ message: "User not found." });

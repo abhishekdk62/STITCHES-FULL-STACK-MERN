@@ -20,7 +20,7 @@ router.get(
 
     res.cookie("accessToken", accessToken, {
       httpOnly: true,
-      sameSite: "lax",
+      sameSite: "none",
       secure: process.env.NODE_ENV === "production",
       maxAge: Number(process.env.ACCESS_TOKEN_MAX_AGE),
     });
@@ -28,7 +28,7 @@ router.get(
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: "lax",
+      sameSite: "none",
       maxAge: Number(process.env.REFRESH_TOKEN_MAX_AGE), 
     });
     res.redirect(`${process.env.FRONTEND_URL}/user/home`);

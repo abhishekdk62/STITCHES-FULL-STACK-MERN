@@ -22,7 +22,6 @@ const refreshToken =(req,res)=>{
       res.cookie("accessToken", accessToken, {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
-        sameSite: "lax",
         maxAge: Number(process.env.ACCESS_TOKEN_MAX_AGE), 
       });
   

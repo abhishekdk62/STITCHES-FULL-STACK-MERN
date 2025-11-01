@@ -17,8 +17,6 @@ passport.use(
           .toString(36)
           .slice(2, 10)
           .toUpperCase();
-
-
           // Create a new user if one doesn't exist
           user = new User({
             email: profile.emails[0].value,

@@ -54,39 +54,29 @@ apiClient.interceptors.response.use(
       err.response?.status === 401 &&
       !originalRequest._retry &&
       !originalRequest.url.includes('/refreshToken') &&
-      !isRefreshing &&
       !isPublicRequest
     ) {
+      if (isRefreshing) {
+        // Add to queue and wait for refresh to complete
+        return new Promise((resolve, reject) => {
+          failedQueue.push({ resolve, reject });
+        })
+          .then(() => apiClient(originalRequest))
+          .catch((err) => Promise.reject(err));
+      }
+
       originalRequest._retry = true;
       isRefreshing = true;
 
-      return new Promise((resolve, reject) => {
-        try {
-          apiClient
-            .get('/user/refreshToken')
-            .then(() => {
-              isRefreshing = false;
-              processQueue(null);
-              resolve(apiClient(originalRequest)); // Retry the original request
-            })
-            .catch((refreshError) => {
-              isRefreshing = false;
-              processQueue(refreshError);
-              console.log('Refresh token expired or invalid');
-
-              localStorage.removeItem('userId');
-              localStorage.removeItem('role');
-
-              if (window.reduxStore) {
-                window.reduxStore.dispatch({ type: 'auth/logout' });
-              }
-
-              reject(refreshError);
-            });
-        } catch (error) {
-          isRefreshing = false;
-          processQueue(error);
-          console.log('Error in refresh token process');
+      return apiClient
+        .get('/user/refreshToken')
+        .then(() => {
+          processQueue(null);
+          return apiClient(originalRequest);
+        })
+        .catch((refreshError) => {
+          processQueue(refreshError);
+          console.log('Refresh token expired or invalid');
 
           localStorage.removeItem('userId');
           localStorage.removeItem('role');
@@ -95,9 +85,11 @@ apiClient.interceptors.response.use(
             window.reduxStore.dispatch({ type: 'auth/logout' });
           }
 
-          reject(error);
-        }
-      });
+          return Promise.reject(refreshError);
+        })
+        .finally(() => {
+          isRefreshing = false;
+        });
     }
 
     return Promise.reject(err);

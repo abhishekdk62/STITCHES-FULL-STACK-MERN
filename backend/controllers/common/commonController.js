@@ -28,35 +28,25 @@ const login = async (req, res) => {
       return res.status(400).json({ message: "Incorrect Password" });
     }
 
-    //generate token
-
-    const accessToken = generateToken(
-      user._id,
-      role,
-      process.env.ACCESS_SECRET,
-      "15m"
-    );
-    const refreshToken = generateToken(
-      user._id,
-      role,
-      process.env.REFRESH_SECRET,
-      "7d"
-    );
-
-    res.cookie("accessToken", accessToken, {
+    const accessToken = generateToken(user._id, role, process.env.ACCESS_SECRET, "15m");
+    const refreshToken = generateToken(user._id, role, process.env.REFRESH_SECRET, "7d");
+    
+    const cookieOptions = {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "lax",
+      secure: true, // Changed
+      sameSite: "none", // Changed
+    };
+    
+    res.cookie("accessToken", accessToken, {
+      ...cookieOptions,
       maxAge: Number(process.env.ACCESS_TOKEN_MAX_AGE),
     });
-
+    
     res.cookie("refreshToken", refreshToken, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "lax",
+      ...cookieOptions,
       maxAge: Number(process.env.REFRESH_TOKEN_MAX_AGE),
     });
-
+    
     res.status(200).json({
       message: "Login successful",
       userId: user._id,
@@ -93,13 +83,15 @@ const logout = async (req, res) => {
   try {
     res.clearCookie("accessToken", {
       httpOnly: true,
-      sameSite: "lax",
+      sameSite: "none", 
+
       secure: process.env.NODE_ENV === "production",
     });
 
     res.clearCookie("refreshToken", {
       httpOnly: true,
-      sameSite: "lax",
+      sameSite: "none", 
+
       secure: process.env.NODE_ENV === "production",
     });
 
