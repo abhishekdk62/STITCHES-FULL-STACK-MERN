@@ -10,8 +10,11 @@ export const generatePDFInvoice = (
   grandTotal
 ) => {
   const doc = new jsPDF();
+  // doc.setFillColor(240, 240, 240); // light gray
 
   // Title and Order Info
+  // doc.setTextColor(255, 0, 0); // RGB (Red)
+
   doc.setFontSize(18);
   doc.text('Invoice', 14, 22);
   doc.setFontSize(12);

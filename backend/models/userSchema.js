@@ -3,17 +3,17 @@ const mongoose = require("mongoose");
 const userSchema = new mongoose.Schema(
   {
     email: { type: String, required: true, unique: true },
-    role:{type:String},
+    role: { type: String },
     password: {
       type: String,
       required: function () {
-        return !this.googleId; // Password is required only if googleId is not set
+        return !this.googleId;
       },
     },
-    phone: { type: String, required: true, unique: true },
-    referalCode:{
-      type:String,
-unique:true
+    phone: { type: String, required: true },
+    referalCode: {
+      type: String,
+      unique: true,
     },
     firstname: { type: String, required: true },
     lastname: { type: String },
