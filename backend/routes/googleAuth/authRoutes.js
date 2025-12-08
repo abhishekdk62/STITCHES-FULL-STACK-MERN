@@ -13,27 +13,29 @@ router.get(
   "/google/callback",
   passport.authenticate("google", { failureRedirect: "/auth/failure" }),
   (req, res) => {
-  
-
-    const accessToken = generateToken(req.user._id, "user",process.env.ACCESS_SECRET,"15m");
-    const refreshToken = generateToken(req.user._id, "user",process.env.REFRESH_SECRET,"7d");
+    const accessToken = generateToken(req.user._id, "user", process.env.ACCESS_SECRET, "15m");
+    const refreshToken = generateToken(req.user._id, "user", process.env.REFRESH_SECRET, "7d");
 
     res.cookie("accessToken", accessToken, {
       httpOnly: true,
-      sameSite: "none",
-      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",  // ← Changed from "none"
+      secure: false,    // ← Changed from process.env check
       maxAge: Number(process.env.ACCESS_TOKEN_MAX_AGE),
+      path: '/'         // ← Added this
     });
 
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "none",
-      maxAge: Number(process.env.REFRESH_TOKEN_MAX_AGE), 
+      secure: false,    // ← Changed from process.env check
+      sameSite: "lax",  // ← Changed from "none"
+      maxAge: Number(process.env.REFRESH_TOKEN_MAX_AGE),
+      path: '/'         // ← Added this
     });
+    
     res.redirect(`${process.env.FRONTEND_URL}/user/home`);
   }
 );
+
 
 
 router.get("/failure", (req, res) => {

@@ -124,17 +124,21 @@ const signup = async (req, res) => {
     );
     res.cookie("accessToken", accessToken, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "none", 
-
+      secure: false,        // ← Changed from process.env check
+      sameSite: "lax",      // ← Changed from "none"
       maxAge: Number(process.env.ACCESS_TOKEN_MAX_AGE),
+      path: '/'             // ← Added this
     });
+    
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "none",
+      secure: false,        // ← Changed from process.env check
+      sameSite: "lax",      // ← Changed from "none"
       maxAge: Number(process.env.REFRESH_TOKEN_MAX_AGE),
+      path: '/'             // ← Added this
     });
+    
+
     res.status(201).json({
       message: "Signup successful",
       userId: newUser._id,

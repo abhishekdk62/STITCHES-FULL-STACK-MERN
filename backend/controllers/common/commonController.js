@@ -31,11 +31,14 @@ const login = async (req, res) => {
     const accessToken = generateToken(user._id, role, process.env.ACCESS_SECRET, "15m");
     const refreshToken = generateToken(user._id, role, process.env.REFRESH_SECRET, "7d");
     
+      
     const cookieOptions = {
       httpOnly: true,
-      secure: true, // Changed
-      sameSite: "none", // Changed
+      secure: false,     // ← Changed from true
+      sameSite: "lax",   // ← Changed from "none"
+      path: '/'          // ← Added this
     };
+
     
     res.cookie("accessToken", accessToken, {
       ...cookieOptions,
@@ -83,16 +86,16 @@ const logout = async (req, res) => {
   try {
     res.clearCookie("accessToken", {
       httpOnly: true,
-      sameSite: "none", 
-
-      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",   // ← Changed from "none"
+      secure: false,     // ← Changed from process.env check
+      path: '/'          // ← Added this
     });
 
     res.clearCookie("refreshToken", {
       httpOnly: true,
-      sameSite: "none", 
-
-      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",   // ← Changed from "none"
+      secure: false,     // ← Changed from process.env check
+      path: '/'          // ← Added this
     });
 
     res.status(200).json({ message: "Logged out successfully" });
@@ -100,6 +103,7 @@ const logout = async (req, res) => {
     res.status(500).json({ message: "Server error", error });
   }
 };
+
 
 const check = async (req, res) => {
   try {
