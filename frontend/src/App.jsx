@@ -1,5 +1,4 @@
 import {
-  BrowserRouter as Router,
   Routes,
   Route,
   useNavigate,
@@ -10,7 +9,7 @@ import Home from './pages/user/Home';
 import SignUp from './pages/user/Signup';
 import PrivateRoute from './protected/PrivateRoute';
 import PublicRoute from './protected/PublicRoute';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import ProductsView from './pages/user/ProductsView';
 import ProductView from './pages/user/ProductView';
 import { login, logout } from '../slices/authSlice';
@@ -25,6 +24,9 @@ import PaymentFailure from './pages/Payment/PaymentFailure';
 import OrderConfirmed from './pages/Payment/OrderConfirmed';
 import WalletSuccuss from './pages/Payment/WalletSuccuss';
 import WalletError from './pages/Payment/WalletError';
+import Header from './components/user/common/Header';
+import Footer from './components/user/common/Footer';
+import WallSuccess from './components/user/wallet/WalletSuccess';
 
 function App() {
   const navigate = useNavigate();
@@ -34,17 +36,19 @@ function App() {
     const checkUser = async () => {
       try {
         const { userId, role, user } = await verifyUser();
-
         dispatch(login({ userId, role, user }));
       } catch (error) {
-        if (error.message === 'User blocked') {
+        if (error.message === 'User blocked' || error.response?.status === 401) {
           dispatch(logout());
-          navigate('/');
+          if (error.message === 'User blocked') {
+            navigate('/');
+          }
         }
       }
     };
     checkUser();
   }, [dispatch, navigate]);
+
   return (
     <Routes>
       <Route
@@ -120,6 +124,16 @@ function App() {
       <Route path="/payment/success" element={<PaymentSuccess />} />
       <Route path="/order/confirmed" element={<OrderConfirmed />} />
       <Route path="/wallet/payed" element={<WalletSuccuss />} />
+      <Route
+        path="/wallet/success"
+        element={
+          <div>
+            <Header />
+            <WallSuccess />
+            <Footer />
+          </div>
+        }
+      />
       <Route path="/wallet/error" element={<WalletError />} />
     </Routes>
   );

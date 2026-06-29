@@ -8,6 +8,7 @@ const OTPModel = require("../../models/otpSchema");
 
 const Referal = require("../../models/referalSchema");
 const generateToken = require("../../utils/generateToken");
+const { getCookieOptions } = require("../../utils/cookieOptions");
 const sendEmail = require("../../utils/sendMail");
 
 const signupOTP = async (req, res) => {
@@ -22,7 +23,7 @@ const signupOTP = async (req, res) => {
     const otpExpiry = Date.now() + 5 * 60 * 1000;
     await OTPModel.findOneAndUpdate(
       { email },
-      { otp, otpExpiry },
+      { otp: otp.toString(), otpExpiry },
       { upsert: true, new: true }
     );
     await sendEmail(
@@ -49,7 +50,7 @@ const verifySignupOTP = async (req, res) => {
         .status(400)
         .json({ message: "OTP not found. Please request a new one." });
     }
-    if (otpRecord.otp !== otp || otpRecord.otpExpiry < Date.now()) {
+    if (otpRecord.otp !== String(otp) || otpRecord.otpExpiry < Date.now()) {
       return res.status(400).json({ message: "Invalid or expired OTP" });
     }
     await OTPModel.deleteOne({ email });
@@ -122,20 +123,15 @@ const signup = async (req, res) => {
       process.env.REFRESH_SECRET,
       "7d"
     );
+    const cookieOptions = getCookieOptions();
     res.cookie("accessToken", accessToken, {
-      httpOnly: true,
-      secure: false,        // ← Changed from process.env check
-      sameSite: "lax",      // ← Changed from "none"
+      ...cookieOptions,
       maxAge: Number(process.env.ACCESS_TOKEN_MAX_AGE),
-      path: '/'             // ← Added this
     });
-    
+
     res.cookie("refreshToken", refreshToken, {
-      httpOnly: true,
-      secure: false,        // ← Changed from process.env check
-      sameSite: "lax",      // ← Changed from "none"
+      ...cookieOptions,
       maxAge: Number(process.env.REFRESH_TOKEN_MAX_AGE),
-      path: '/'             // ← Added this
     });
     
 
@@ -165,7 +161,11 @@ const sendOTP = async (req, res) => {
     const otp = crypto.randomInt(100000, 999999);
     const otpExpiry = Date.now() + 5 * 60 * 1000;
 
-    await User.findOneAndUpdate({ email }, { otp, otpExpiry }, { new: true });
+    await User.findOneAndUpdate(
+      { email },
+      { otp: otp.toString(), otpExpiry },
+      { new: true }
+    );
 
     const transporter = nodemailer.createTransport({
       service: "gmail",
@@ -207,14 +207,16 @@ const verifyOTP = async (req, res) => {
         .json({ message: "OTP has expired. Please request a new one." });
     }
 
-    if (user.otp !== otp) {
+    if (user.otp !== String(otp)) {
       return res.status(400).json({ message: "Invalid OTP" });
     }
 
-    // Clear OTP after successful verification
     await User.findOneAndUpdate(
       { email },
-      { $unset: { otp: 1, otpExpiry: 1 } }
+      {
+        $unset: { otp: 1, otpExpiry: 1 },
+        $set: { passwordResetVerifiedAt: Date.now() },
+      }
     );
 
     res.json({ success: true, message: "OTP verified successfully" });
@@ -229,11 +231,31 @@ const resetPassword = async (req, res) => {
   try {
     const { email, password } = req.body;
 
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(400).json({ message: "User not found" });
+    }
+
+    const RESET_WINDOW_MS = 10 * 60 * 1000;
+    if (
+      !user.passwordResetVerifiedAt ||
+      Date.now() - user.passwordResetVerifiedAt > RESET_WINDOW_MS
+    ) {
+      return res
+        .status(400)
+        .json({ message: "Please verify OTP before resetting password" });
+    }
+
     const hashedPassword = await bcrypt.hash(password, 10);
 
     await User.updateOne(
       { email },
-      { password: hashedPassword, otp: null, otpExpiry: null }
+      {
+        password: hashedPassword,
+        otp: null,
+        otpExpiry: null,
+        passwordResetVerifiedAt: null,
+      }
     );
 
     res.json({ message: "Password updated successfully" });

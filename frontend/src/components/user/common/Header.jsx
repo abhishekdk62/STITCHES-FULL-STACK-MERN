@@ -56,7 +56,7 @@ function UserModal({ open, onClose, onLogout }) {
                 <div className="font-bold text-base md:text-lg flex items-center">
                   <User className="w-4 h-4 md:w-5 md:h-5 text-gray-600 mr-2" />
                   {isAuthenticated
-                    ? userDetails?.firstname.toUpperCase()
+                    ? userDetails?.firstname ?? 'User'
                     : 'GUEST'}
                 </div>
                 <motion.button
@@ -253,68 +253,58 @@ const Header = ({ selectedCategory, setSelectedCategory }) => {
   }, [showSearch]);
 
   return (
-    <div className="relative shadow-2xs bg-white">
-      {/* Mobile layout (below md breakpoint) */}
-      <div className="[@media(min-width:450px)]:hidden">
-        <nav className="flex items-center p-1 md:p-2 relative">
-          <div className="flex items-center justify-between w-full">
-            <a
+    <div className="relative shadow-sm bg-white sticky top-0 z-40 border-b border-gray-100">
+      {/* Mobile layout */}
+      <div className="sm:hidden">
+        <nav className="flex items-center justify-between px-3 py-2">
+          <div className="flex items-center gap-1">
+            <button
               onClick={() => {
                 dispatch(setSelectedTab('cart'));
                 navigate('/user/account');
               }}
-              className="cursor-pointer p-2 rounded-full bg-black text-white hover:bg-gray-800 transition-all duration-300 hover:scale-110 transform"
+              className="p-2.5 rounded-full bg-gray-100 text-gray-800 hover:bg-gray-200 transition-colors"
+              aria-label="Cart"
             >
-              <FaShoppingCart className="h-3 w-3" />
-            </a>
-
-            <div className="flex items-center space-x-4">
-              <a
-                onClick={() => {
-                  dispatch(setSelectedTab('wishlist'));
-                  navigate('/user/account');
-                }}
-                className="p-2 cursor-pointer rounded-full bg-black text-white hover:bg-gray-800 transition-all duration-300 hover:scale-110 transform"
-              >
-                <FaHeart className="h-3 w-3" />
-              </a>
-            </div>
-
-            <div
-              className="relative group cursor-pointer"
-              onClick={() => navigate('/user/home')}
+              <FaShoppingCart className="h-4 w-4" />
+            </button>
+            <button
+              onClick={() => {
+                dispatch(setSelectedTab('wishlist'));
+                navigate('/user/account');
+              }}
+              className="p-2.5 rounded-full bg-gray-100 text-gray-800 hover:bg-gray-200 transition-colors"
+              aria-label="Wishlist"
             >
-              <span className="flex items-center">
-                <h3
-                  style={{ fontFamily: "'Bayon', sans-serif" }}
-                  className="text-xl tracking-tighter"
-                >
-                  STITCHES
-                </h3>
-                <img
-                  className="h-6 w-6 hidden [@media(min-width:450px)]:block"
-                  src="https://static.thenounproject.com/png/626032-200.png"
-                  alt=""
-                />
-              </span>
-            </div>
+              <FaHeart className="h-4 w-4" />
+            </button>
+          </div>
 
-            <div>
-              <button
-                onClick={() => setShowSearch(!showSearch)}
-                className="p-2 rounded-full bg-black text-white hover:bg-gray-800 transition-all duration-300"
-              >
-                <Search className="h-3 w-3" />
-              </button>
-            </div>
+          <button
+            onClick={() => navigate('/user/home')}
+            className="brand-label text-lg tracking-tight"
+            style={{ fontFamily: "'Bayon', sans-serif" }}
+          >
+            STITCHES
+          </button>
+
+          <div className="flex items-center gap-1">
+            <button
+              onClick={() => setShowSearch(!showSearch)}
+              className="p-2.5 rounded-full bg-gray-100 text-gray-800 hover:bg-gray-200 transition-colors"
+              aria-label="Search"
+            >
+              <Search className="h-4 w-4" />
+            </button>
             <div className="relative" ref={dropdownRef}>
               <button
                 onClick={() => setOpen(!open)}
                 className={
-                  !isAuthenticated || !userDetails?.profileImage
-                    ? 'p-2 cursor-pointer rounded-full bg-black text-white hover:bg-gray-800 transition-all duration-300 hover:scale-110 transform'
-                    : 'cursor-pointer transition-all duration-300 hover:scale-110 transform'
+                  isAuthenticated && userDetails?.profileImage
+                    ? 'rounded-full overflow-hidden w-9 h-9 ring-2 ring-gray-200'
+                    : 'p-2.5 rounded-full bg-gray-100 text-gray-800 hover:bg-gray-200 transition-colors'
                 }
+                aria-label="Account menu"
               >
                 {isAuthenticated && userDetails?.profileImage ? (
                   <img
@@ -370,7 +360,7 @@ const Header = ({ selectedCategory, setSelectedCategory }) => {
       </div>
 
       {/* Desktop layout (md breakpoint and above) */}
-      <div className="hidden [@media(min-width:450px)]:block">
+      <div className="hidden sm:block">
         <nav className="flex items-center justify-between p-4 relative">
           {/* Left Section */}
           <div className="flex ml-4 mt-3 items-center">

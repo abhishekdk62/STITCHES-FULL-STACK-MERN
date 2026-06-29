@@ -3,7 +3,7 @@ const mockCountries = [
   { name: 'Canada', code: 'CA' },
   { name: 'United Kingdom', code: 'GB' },
   { name: 'Australia', code: 'AU' },
-  { name: 'India', code: 'AU' },
+  { name: 'India', code: 'IN' },
 ];
 
 export const getCountries = async () => {

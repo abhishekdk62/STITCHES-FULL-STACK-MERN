@@ -1,4 +1,6 @@
 import axios from 'axios';
+import { getStore } from './storeRef';
+import { logout } from '../../slices/authSlice';
 
 const apiClient = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
@@ -8,9 +10,7 @@ const apiClient = axios.create({
   },
 });
 
-// Flag to prevent infinite loop of refresh token requests
 let isRefreshing = false;
-// Store failed requests to retry them after token refresh
 let failedQueue = [];
 
 const publicEndpoints = [
@@ -57,12 +57,11 @@ apiClient.interceptors.response.use(
       !isPublicRequest
     ) {
       if (isRefreshing) {
-        // Add to queue and wait for refresh to complete
         return new Promise((resolve, reject) => {
           failedQueue.push({ resolve, reject });
         })
           .then(() => apiClient(originalRequest))
-          .catch((err) => Promise.reject(err));
+          .catch((error) => Promise.reject(error));
       }
 
       originalRequest._retry = true;
@@ -76,13 +75,17 @@ apiClient.interceptors.response.use(
         })
         .catch((refreshError) => {
           processQueue(refreshError);
-          console.log('Refresh token expired or invalid');
 
           localStorage.removeItem('userId');
           localStorage.removeItem('role');
 
-          if (window.reduxStore) {
-            window.reduxStore.dispatch({ type: 'auth/logout' });
+          const store = getStore();
+          if (store) {
+            store.dispatch(logout());
+          }
+
+          if (!window.location.pathname.includes('/')) {
+            window.location.href = '/';
           }
 
           return Promise.reject(refreshError);

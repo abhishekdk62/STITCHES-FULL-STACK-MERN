@@ -23,7 +23,7 @@ passport.use(
             firstname: profile.displayName,
             googleId: profile.id,
             profileImage: profile.photos[0].value,
-            phone: "0000000000",
+            phone: `g${profile.id.slice(-10)}`,
             password: "",
             referalCode: generatedReferalCode,
           });
@@ -37,7 +37,14 @@ passport.use(
   )
 );
 
-passport.serializeUser((user, done) => done(null, user));
-passport.deserializeUser((obj, done) => done(null, obj));
+passport.serializeUser((user, done) => done(null, user._id));
+passport.deserializeUser(async (id, done) => {
+  try {
+    const user = await User.findById(id).select("-password -otp -otpExpiry");
+    done(null, user);
+  } catch (error) {
+    done(error, null);
+  }
+});
 
 module.exports = passport;

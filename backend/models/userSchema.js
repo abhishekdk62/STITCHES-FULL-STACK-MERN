@@ -28,8 +28,9 @@ const userSchema = new mongoose.Schema(
       unique: true,
       sparse: true,
     },
-    otp: { type: String }, // Field for storing OTP
-    otpExpiry: { type: Number }, // Field for OTP expiry time
+    otp: { type: String },
+    otpExpiry: { type: Number },
+    passwordResetVerifiedAt: { type: Number },
     cart: { type: mongoose.Schema.Types.ObjectId, ref: "Cart" }, // ADDED: Reference to the user's cart
     orders: [{ type: mongoose.Schema.Types.ObjectId, ref: "Order" }], // ADDED: Array of order references
     wishlist: [{ type: mongoose.Schema.Types.ObjectId, ref: "Product" }], // ADDED: Array of product references in wishlist

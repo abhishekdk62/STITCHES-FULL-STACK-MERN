@@ -61,9 +61,7 @@ export default function Payment({ setStep, couponData }) {
     cartItems?.shippingPrice -
     discount;
   useEffect(() => {
-    if (paymentMethod == 'cod' && grandTotal >= 1000) {
-      setDisableCod(true);
-    }
+    setDisableCod(paymentMethod === 'cod' && grandTotal >= 1000);
   }, [paymentMethod, grandTotal]);
 
   const navigate = useNavigate();
@@ -176,37 +174,40 @@ export default function Payment({ setStep, couponData }) {
           className="mb-8"
         >
           <h3 className="text-lg font-semibold mb-4">Payment Method</h3>
-          <div className="grid  grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
             {paymentOptions.map((option) => (
               <motion.label
                 key={option.id}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className={`flex flex-col p-2 sm:p-5 border rounded-lg cursor-pointer transition-all duration-200 ${
+                whileHover={{ scale: 1.01 }}
+                whileTap={{ scale: 0.99 }}
+                className={`relative flex flex-col p-4 border-2 rounded-xl cursor-pointer transition-all duration-200 ${
                   paymentMethod === option.id
-                    ? 'border-black bg-gray-50 shadow-sm'
-                    : 'border-gray-200 hover:border-gray-300'
+                    ? 'border-black bg-gray-50 shadow-md ring-1 ring-black/10'
+                    : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50'
                 }`}
               >
-                <div className="flex items-center justify-between sm:mb-2">
-                  <div className="flex items-center flex-col sm:flex-row gap-3">
+                {paymentMethod === option.id && (
+                  <span className="absolute top-2 right-2 w-2 h-2 bg-black rounded-full" />
+                )}
+                <div className="flex items-center gap-3 mb-2">
+                  <div className={`p-2 rounded-lg ${paymentMethod === option.id ? 'bg-black text-white' : 'bg-gray-100 text-gray-600'}`}>
                     {option.icon}
-                    <span className=" sm:text-md text-sm font-medium">
-                      {option.name}
-                    </span>
                   </div>
-                  <input
-                    type="radio"
-                    name="paymentMethod"
-                    value={option.id}
-                    checked={paymentMethod === option.id}
-                    onChange={() => setPaymentMethod(option.id)}
-                    className="h-4 w-4 hidden  accent-black"
-                  />
+                  <span className="text-sm sm:text-base font-semibold">
+                    {option.name}
+                  </span>
                 </div>
-                <p className="sm:text-sm hidden sm:block text-gray-500 mt-1">
+                <p className="text-xs sm:text-sm text-gray-500">
                   {option.description}
                 </p>
+                <input
+                  type="radio"
+                  name="paymentMethod"
+                  value={option.id}
+                  checked={paymentMethod === option.id}
+                  onChange={() => setPaymentMethod(option.id)}
+                  className="sr-only"
+                />
               </motion.label>
             ))}
           </div>
@@ -230,7 +231,7 @@ export default function Payment({ setStep, couponData }) {
               </div>
               <div className="text-right">
                 <p className="sm:text-lg text-base font-bold">
-                  ₹{userDetails?.balance.toFixed(2)}
+                  ₹{(userDetails?.balance ?? 0).toFixed(2)}
                 </p>
               </div>
             </div>
@@ -263,9 +264,16 @@ export default function Payment({ setStep, couponData }) {
                     Insufficient balance
                   </p>
                 </div>
-                <p className=" sm:text-md text-sm mt-1 pl-7">
-                  Please select another payment method.
+                <p className="text-sm mt-1 pl-7">
+                  Please add money to your wallet or choose another payment method.
                 </p>
+                <button
+                  type="button"
+                  onClick={() => navigate('/user/account')}
+                  className="mt-3 ml-7 text-sm font-medium text-amber-900 underline hover:no-underline"
+                >
+                  Go to Wallet →
+                </button>
               </motion.div>
             )}
           </motion.div>
@@ -279,8 +287,8 @@ export default function Payment({ setStep, couponData }) {
             className="mb-8 p-6 bg-gray-50 rounded-lg border border-gray-100 text-center"
           >
             <div className="mb-4">
-              <div className="sm:w-15 h-12 w-12 sm:h-15 bg-blue-100 rounded-full flex items-center justify-center mx-auto">
-                <DollarSign className="sm:w-7 w-5 g-5  sm:h-7 text-blue-600" />
+              <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto">
+                <DollarSign className="w-6 h-6 text-blue-600" />
               </div>
             </div>
             <h3 className="sm:text-md text-sm font-semibold mb-2">

@@ -5,6 +5,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { login } from '../../../../slices/authSlice';
 import { loginUser } from '../../../services/userService';
+import { verifyUser } from '../../../services/authService';
 import SplitText from '../utils/SplitText';
 
 const LoginForm = ({ setForgotPassword }) => {
@@ -56,9 +57,9 @@ const LoginForm = ({ setForgotPassword }) => {
     setLoading(true);
     try {
       const res = await loginUser(email, password);
-      console.log(res);
       const { userId, role } = res;
-      dispatch(login({ userId, role }));
+      const { user } = await verifyUser();
+      dispatch(login({ userId, role, user }));
       navigate(role === 'admin' ? '/admin/dashboard' : '/user/home');
     } catch (err) {
       setError(err.response?.data?.message || 'Login failed');
@@ -72,19 +73,15 @@ const LoginForm = ({ setForgotPassword }) => {
   };
 
   return (
-    <div className="flex min-h-full bg-gray-200 p-4 sm:p-6 w-full justify-center items-center">
+    <div className="flex min-h-full bg-gradient-to-br from-gray-50 via-white to-gray-100 p-4 sm:p-8 w-full justify-center items-center">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        className="w-full max-w-md sm:max-w-lg relative"
+        transition={{ duration: 0.5 }}
+        className="w-full max-w-md relative"
       >
-        <motion.div
-          className="bg-white rounded-lg z-10 overflow-hidden"
-          whileHover={{ y: -5 }}
-          transition={{ duration: 0.3 }}
-        >
-          <div className="p-6 sm:p-8 border border-gray-400 rounded-lg">
+        <motion.div className="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100">
+          <div className="p-6 sm:p-8">
             <div className="flex justify-center">
               <div className="text-center pb-4">
                 <h1 className="text-xl sm:text-2xl font-bold text-black">
@@ -113,7 +110,7 @@ const LoginForm = ({ setForgotPassword }) => {
               <motion.div
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="mb-4 text-center text-red-500 bg-red-50 border border-red-200 p-3 text-xs sm:text-sm"
+                className="mb-4 text-center text-red-600 bg-red-50 border border-red-200 rounded-lg p-3 text-sm"
               >
                 {error}
               </motion.div>
@@ -129,7 +126,7 @@ const LoginForm = ({ setForgotPassword }) => {
                 transition={{ delay: 0.2 }}
               >
                 <label
-                  className="block text-gray-700 mb-1 sm:mb-2 flex items-center text-xs sm:text-sm"
+                  className="block text-gray-700 mb-2 flex items-center text-sm font-medium"
                   htmlFor="email"
                 >
                   <Mail className="w-4 sm:w-5 h-4 sm:h-5 text-gray-600 mr-2" />
@@ -140,7 +137,7 @@ const LoginForm = ({ setForgotPassword }) => {
                   placeholder="Enter your email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full rounded-md border border-gray-300 px-3 sm:px-4 py-2 sm:py-3 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent text-xs sm:text-sm"
+                  className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent text-sm transition-shadow"
                 />
               </motion.div>
 
@@ -151,7 +148,7 @@ const LoginForm = ({ setForgotPassword }) => {
                 transition={{ delay: 0.3 }}
               >
                 <label
-                  className="block text-gray-700 mb-1 sm:mb-2 flex items-center text-xs sm:text-sm"
+                  className="block text-gray-700 mb-2 flex items-center text-sm font-medium"
                   htmlFor="password"
                 >
                   <Lock className="w-4 sm:w-5 h-4 sm:h-5 text-gray-600 mr-2" />
@@ -164,7 +161,7 @@ const LoginForm = ({ setForgotPassword }) => {
                     placeholder="Enter your password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="w-full rounded-md border border-gray-300 px-3 sm:px-4 py-2 sm:py-3 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent text-xs sm:text-sm"
+                    className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent text-sm transition-shadow"
                   />
                   <motion.span
                     whileHover={{ scale: 1.1 }}
@@ -198,7 +195,7 @@ const LoginForm = ({ setForgotPassword }) => {
 
               <motion.button
                 type="submit"
-                className="w-full rounded-md cursor-pointer bg-black text-white py-2 sm:py-3 transition-all duration-300 disabled:opacity-50 text-xs sm:text-sm"
+                className="w-full rounded-lg cursor-pointer bg-black text-white py-3 transition-all duration-200 disabled:opacity-50 text-sm font-semibold hover:bg-gray-800"
                 disabled={loading}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
@@ -247,7 +244,7 @@ const LoginForm = ({ setForgotPassword }) => {
             >
               <motion.button
                 onClick={handleGoogleLogin}
-                className="w-full gap-2 sm:gap-3 flex items-center justify-center rounded-md py-2 sm:py-3 border border-gray-300 hover:bg-gray-50 transition-all duration-300 text-xs sm:text-sm"
+                className="w-full gap-3 flex items-center justify-center rounded-lg py-3 border border-gray-200 hover:bg-gray-50 hover:border-gray-300 transition-all text-sm"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >

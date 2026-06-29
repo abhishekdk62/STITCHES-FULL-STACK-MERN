@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Header from '../../components/user/common/Header';
 import Success from '../../components/user/order/Success';
 import Footer from '../../components/user/common/Footer';
@@ -8,16 +8,16 @@ import { capturePaypalOrder } from '../../services/paypalService';
 const PaymentSuccess = () => {
   const location = useLocation();
   const navigate = useNavigate();
-const [hide,setHide]=useState(true)
+  const [hide] = useState(true);
+  const capturedRef = useRef(false);
+
   useEffect(() => {
+    if (capturedRef.current) return;
+
     const queryParams = new URLSearchParams(location.search);
     const orderID = queryParams.get('token');
 
-    console.log('✅ PaymentSuccess Component Loaded');
-    console.log('🔍 Extracted orderID:', orderID);
-
     const storedOrderDetails = localStorage.getItem('orderDetails');
-
     const storedCouponDetails = localStorage.getItem('coupon');
 
     const orderDetails = storedOrderDetails
@@ -27,30 +27,24 @@ const [hide,setHide]=useState(true)
       ? JSON.parse(storedCouponDetails)
       : null;
 
-    console.log('📝 Order Details Received:', orderDetails);
-
-    if (!orderID || !orderDetails || !couponDetails) {
-      console.error(
-        '❌ Missing orderID or orderDetails or couponDetails. Redirecting to failure.'
-      );
+    if (!orderID || !orderDetails) {
       navigate('/payment/failure');
       return;
     }
 
+    capturedRef.current = true;
+
     capturePaypalOrder(orderID, orderDetails, couponDetails)
       .then((response) => {
-        console.log('✅ Capture Response:', response);
-
         if (response.success) {
           localStorage.removeItem('orderDetails');
+          localStorage.removeItem('coupon');
           navigate('/order/confirmed', { state: { order: response.order } });
         } else {
-          console.error('❌ Capture failed. Redirecting to failure.');
           navigate('/payment/failure');
         }
       })
-      .catch((error) => {
-        console.error('❌ Error capturing order:', error);
+      .catch(() => {
         navigate('/payment/failure');
       });
   }, [location, navigate]);

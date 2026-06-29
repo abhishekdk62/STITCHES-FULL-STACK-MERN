@@ -63,7 +63,7 @@ export default function OrderSummary({ setStep, setCouponData, couponData }) {
 
       setErr('');
     } catch (error) {
-      setErr(error.response.data);
+      setErr(error.response?.data?.message || 'Invalid coupon');
       console.log(error);
     }
   };
@@ -114,7 +114,7 @@ export default function OrderSummary({ setStep, setCouponData, couponData }) {
     } else {
       setDisabled(false);
     }
-  }, []);
+  }, [finalTotal]);
 
   const selectCoupon = (code) => {
     setCouponCode(code);
@@ -166,7 +166,7 @@ export default function OrderSummary({ setStep, setCouponData, couponData }) {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.4 }}
-      className="p-8 bg-white   w-full mx-auto"
+      className="p-4 sm:p-6 md:p-8 bg-white w-full max-w-4xl mx-auto rounded-xl"
     >
       <AnimatePresence>
         {isOpen && (
@@ -359,13 +359,13 @@ export default function OrderSummary({ setStep, setCouponData, couponData }) {
                 <p className="font-medium text-sm sm:text-lg">
                   {address?.fullName}
                 </p>
-                <p className="text-gray-700 text:xs sm:text-base mt-1">
+                <p className="text-gray-700 text-xs sm:text-base mt-1">
                   {address?.street}
                 </p>
-                <p className="text-gray-700 text:xs sm:text-base">
+                <p className="text-gray-700 text-xs sm:text-base">
                   {address?.city}, {address?.state}, {address?.zipCode}
                 </p>
-                <p className="text-gray-700 text:xs sm:text-base mt-2 flex items-center gap-2">
+                <p className="text-gray-700 text-xs sm:text-base mt-2 flex items-center gap-2">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="h-4 w-4"
@@ -479,7 +479,7 @@ export default function OrderSummary({ setStep, setCouponData, couponData }) {
           {discount ? (
             <div className="flex justify-between text-gray-700">
               <p className="text-sm sm:text-base">Discount</p>
-              <p className="text-sm sm:text-base text-green-300">₹{discount}</p>
+              <p className="text-sm sm:text-base text-green-600 font-medium">-₹{discount.toFixed(2)}</p>
             </div>
           ) : null}
           <div className="border-t border-gray-200 pt-3 mt-3"></div>
@@ -516,7 +516,7 @@ export default function OrderSummary({ setStep, setCouponData, couponData }) {
                 onChange={(e) => setCouponCode(e.target.value)}
               />
             </div>
-            <div className=" flex sm:flex-row flex-col md:gap-70 gap-5 items-center">
+            <div className="flex sm:flex-row flex-col gap-3 sm:gap-4 items-stretch sm:items-center">
               <div>
                 <motion.button
                   whileHover={{ scale: 1.03 }}
@@ -551,7 +551,7 @@ export default function OrderSummary({ setStep, setCouponData, couponData }) {
             </motion.button>
           )}
 
-          <div>{err && <p className="text-red-400 uppercase ">{err}</p>}</div>
+          <div>{err && <p className="text-red-600 text-sm bg-red-50 rounded-lg px-3 py-2">{err}</p>}</div>
         </div>
       </motion.div>
 

@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const { v4: uuidv4 } = require("uuid");
 
 const orderSchema = new mongoose.Schema(
   {
@@ -75,6 +74,10 @@ const orderSchema = new mongoose.Schema(
     },
     transactionId: {
       type: String,
+    },
+    paypalOrderId: {
+      type: String,
+      sparse: true,
     },
     totalPrice: {
       type: Number,

@@ -85,7 +85,7 @@ const getOrders = async (req, res) => {
 
     orders = await Orders.populate(orders, {
       path: "user",
-      select: "name email", 
+      select: "firstname email",
     });
 
 

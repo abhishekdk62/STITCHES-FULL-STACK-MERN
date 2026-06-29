@@ -39,7 +39,6 @@ const ProductDetails = () => {
   const [showWishlistAlert, setShowWishlistAlert] = useState(false);
   const [productDetails, setProductDetails] = useState(null);
   const [selectedTabSmall, setSelectedTabSmall] = useState('Description');
-  const [userInfo, setUserInfo] = useState(null);
   const [similarProducts, setSimilarProducts] = useState([]);
   const [selectedSize, setSelectedSize] = useState(null);
   const [selectedColor, setSelectedColor] = useState();
@@ -99,7 +98,7 @@ const ProductDetails = () => {
       setProductDetails(product);
     } catch (error) {
       console.log(error);
-      if (error.response.data.message == 'Product not found') {
+      if (error.response?.data?.message == 'Product not found') {
         navigate('/products');
       }
     }
@@ -278,11 +277,6 @@ const ProductDetails = () => {
     if (!productDetails) return;
 
     setLoding(true);
-
-    // Retrieve user info
-    const user = localStorage.getItem('user');
-    const parsedUser = JSON.parse(user);
-    setUserInfo(parsedUser);
 
     const fetchSimilarProducts = async () => {
       try {

@@ -1,11 +1,7 @@
 const User = require("../../models/userSchema");
-
 const Product = require("../../models/productSchema");
-
-const Order = require("../../models/orderSchema"); // adjust the path as needed
-
+const Order = require("../../models/orderSchema");
 const Coupons = require("../../models/couponSchema");
-
 const Transaction = require("../../models/transactionSchema");
 const Cart = require("../../models/cartSchema");
 
@@ -46,19 +42,25 @@ const createOrder = async (req, res) => {
       quantity: item.quantity,
       price: item.price,
     }));
-    if (couponData.length > 0) {
-      let coupon = await Coupons.findById(couponData._id);
-      coupon.usedCount += 1;
 
-      coupon.save();
+    if (couponData?.code || couponData?._id) {
+      const coupon = await Coupons.findById(couponData._id);
+      if (coupon) {
+        coupon.usedCount += 1;
+        await coupon.save();
+      }
     }
 
-    const orderID = "ORD-" + Math.random().toString().slice(2, 7);
+    const orderID = `ORD-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`;
+
     if (paymentMethod === "wallet") {
+      const userDoc = await User.findById(user);
+      if (!userDoc || userDoc.balance < grandTotal) {
+        return res.status(400).json({ message: "Insufficient wallet balance" });
+      }
       await User.findByIdAndUpdate(user, { $inc: { balance: -grandTotal } });
 
-      let transactionDetails = `${grandTotal} Rs has been deducted from your wallet for the Order with ID ${orderID}.`;
-      
+      const transactionDetails = `${grandTotal} Rs has been deducted from your wallet for the Order with ID ${orderID}.`;
 
       const transaction = new Transaction({
         user,
@@ -66,7 +68,7 @@ const createOrder = async (req, res) => {
         transactionType: "Debited",
         amount: grandTotal,
         currency: "Rs",
-        details:transactionDetails ,
+        details: transactionDetails,
       });
 
       await transaction.save();
@@ -90,8 +92,8 @@ const createOrder = async (req, res) => {
       totalPrice,
       grandTotal,
       coupon: {
-        code: couponData.code || null,
-        value: couponData.discountValue || null,
+        code: couponData?.code || null,
+        value: couponData?.discountValue || null,
       },
       tax: tax || 0,
       shippingPrice: shippingPrice || 0,
@@ -123,7 +125,6 @@ const getUserOrders = async (req, res) => {
   try {
     const userId = req.user.id;
 
-    // Fetch all orders for the given user with populated fields
     const orders = await Order.find({ user: userId })
       .populate("items.product")
       .populate("items.variant");
@@ -139,12 +140,16 @@ const cancelOrderItem = async (req, res) => {
   try {
     const userId = req.user.id;
     const { orderId } = req.params;
-    const { productId, variantId, quantity, paymentMethod, grandTotal } =
-      req.body;
+    const { productId, variantId, quantity, paymentMethod } = req.body;
+
     const order = await Order.findById(orderId);
     if (!order) {
       return res.status(404).json({ message: "Order not found." });
     }
+    if (order.user.toString() !== userId) {
+      return res.status(403).json({ message: "Not authorized to cancel this order." });
+    }
+
     const itemIndex = order.items.findIndex(
       (item) =>
         item.product.toString() === productId &&
@@ -158,8 +163,13 @@ const cancelOrderItem = async (req, res) => {
         .status(400)
         .json({ message: "This item is already cancelled." });
     }
+
+    const cancelledItem = order.items[itemIndex];
+    const refundAmount = cancelledItem.price * quantity;
+
     order.items[itemIndex].status = "Cancelled";
     await order.save();
+
     const updatedProduct = await Product.findOneAndUpdate(
       { _id: productId, "variants._id": variantId },
       { $inc: { "variants.$.stock": quantity } },
@@ -168,32 +178,24 @@ const cancelOrderItem = async (req, res) => {
     if (!updatedProduct) {
       return res.status(404).json({ message: "Product or variant not found." });
     }
-    let transactionDetails = `Order ID ${orderId} has been cancelled.`;
+
+    let transactionDetails = `Order ID ${orderId} item cancelled.`;
 
     if (paymentMethod !== "cod") {
       const user = await User.findById(userId);
       if (!user) {
-        return res.status(404).json({ error: "User not found" });
+        return res.status(404).json({ message: "User not found" });
       }
 
-      try {
-        user.balance += grandTotal;
-        await user.save();
-        transactionDetails += ` Refunded ${grandTotal} Rs to user wallet.`;
-      } catch (error) {
-        console.error("Error updating user balance:", error);
-        return res
-          .status(500)
-          .json({ message: "Failed to update user balance." });
-      }
-    }
+      user.balance += refundAmount;
+      await user.save();
+      transactionDetails += ` Refunded ${refundAmount} Rs to user wallet.`;
 
-    if (paymentMethod != "cod") {
       const transaction = new Transaction({
         user: userId,
         order: orderId,
         transactionType: "Cancellation",
-        amount: grandTotal,
+        amount: refundAmount,
         details: transactionDetails,
       });
       await transaction.save();

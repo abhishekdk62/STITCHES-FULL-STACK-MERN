@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
@@ -44,6 +44,7 @@ const Wallet = () => {
     fetchTransactions();
   }, []);
   const [showAll, setShowAll] = useState(false);
+  const listRef = useRef(null);
 
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString('en-US', {
@@ -96,6 +97,7 @@ const Wallet = () => {
       }
     } catch (error) {
       console.error('Error creating PayPal order:', error);
+      toast.error('Failed to initiate payment. Please try again.');
     }
   };
 
@@ -133,9 +135,11 @@ const Wallet = () => {
   if (!userDetails) {
     return (
       <Notification
-        p1={'You’re not signed in'}
-        p2={'Please log in to view your wallet.'}
-        icon={<WalletIcon className="w-16 h-16 text-gray-300 mb-4" />}
+        p1="You're not signed in"
+        p2="Log in to view your wallet balance and transaction history."
+        icon={<WalletIcon />}
+        actionLabel="Log In"
+        onAction={() => window.location.href = '/'}
       />
     );
   }
@@ -145,7 +149,7 @@ const Wallet = () => {
       initial="hidden"
       animate="visible"
       variants={containerVariants}
-      className="p-8 bg-white rounded-xl shadow-sm w-full md:w-4xl border border-gray-100"
+      className="p-4 sm:p-6 md:p-8 bg-white w-full max-w-4xl mx-auto rounded-xl"
     >
       <>
         <motion.div
@@ -163,14 +167,12 @@ const Wallet = () => {
         {/* Balance Card */}
         <motion.div
           variants={itemVariants}
-          className="mb-8 bg-gradient-to-r from-yellow-600 to-yellow-300 p-3 md:p-8 rounded-xl text-white shadow-lg"
+          className="mb-8 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 p-6 sm:p-8 rounded-2xl text-white shadow-xl"
         >
           <div className="flex items-start justify-between">
             <div>
-              <p className="text-gray-300 md:text-base text-sm mb-2">
-                Available Balance
-              </p>
-              <h3 className="md:text-4xl text-sm font-bold">
+              <p className="text-gray-400 text-sm mb-1">Available Balance</p>
+              <h3 className="text-3xl sm:text-4xl font-bold tracking-tight">
                 ₹{walletBalance?.toFixed(2)}
               </h3>
             </div>
@@ -181,7 +183,7 @@ const Wallet = () => {
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             onClick={() => setShowAddMoneyModal(true)}
-            className="mt-6 flex items-center gap-2 bg-white text-black md:px-5 md:py-3 px-2 py-1 rounded-md md:rounded-lg font-medium hover:bg-gray-100 transition-all duration-300"
+            className="mt-6 flex items-center gap-2 bg-white text-black px-5 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-all text-sm"
           >
             <Plus className="md:w-4 w-3 h-3 md:h-4" />
             <p className="md:text-base text-xs">Add Money</p>
@@ -271,7 +273,7 @@ const Wallet = () => {
   "
                       >
                         <div className="flex items-center gap-3">
-                          <div className="p-2 hidden [@media(min-width:450px)]:block text-end  text-sm md:text-base bg-gray-100 rounded-full">
+                          <div className="p-2 bg-gray-100 rounded-full shrink-0">
                             {getTransactionIcon(transaction.transactionType)}
                           </div>
                           <div>
@@ -317,7 +319,7 @@ const Wallet = () => {
                         onClick={handleViewAll}
                         whileHover={{ scale: 1.03 }}
                         whileTap={{ scale: 0.95 }}
-                        className="border text-sm md:text-base border-white text-gray-700 py-3 px-6 rounded-lg hover:bg-white hover:text-black transition-colors"
+                        className="border text-sm border-gray-300 text-gray-700 py-3 px-6 rounded-lg hover:bg-gray-900 hover:text-white hover:border-gray-900 transition-colors"
                       >
                         View All Transactions
                       </motion.button>

@@ -5,50 +5,47 @@ import Promotions from '../../components/user/landing/Promotions';
 import NewArivals from '../../components/user/landing/NewArivals';
 import Banner from '../../components/user/common/Banner';
 import Footer from '../../components/user/common/Footer';
-import CategoryMen from '../../components/user/category/CategoryMen';
-import CategoryWomen from '../../components/user/category/CategoryWomen';
 import Saving from '../../components/user/landing/Saving';
-import Brands from '../../components/user/landing/Brands';
-import Trending from '../../components/user/landing/Trending';
 import { useDispatch } from 'react-redux';
 import { login } from '../../../slices/authSlice';
-import Gap from '../../components/user/landing/Gap';
 import { useState } from 'react';
-import PromotionalBanner from '../../components/user/common/PromotionalBanner';
+import { verifyUser } from '../../services/authService';
 
 const Home = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
   useEffect(() => {
-    // Extract token from the query parameters
     const searchParams = new URLSearchParams(location.search);
     const token = searchParams.get('token');
 
     if (token) {
-      dispatch(login({ token }));
-
-      localStorage.setItem('token', token);
-      // Optionally, remove the token from the URL for cleanliness
-      navigate('/user/home', { replace: true });
+      verifyUser()
+        .then(({ userId, role, user }) => {
+          dispatch(login({ userId, role, user }));
+          navigate('/user/home', { replace: true });
+        })
+        .catch(() => {
+          navigate('/', { replace: true });
+        });
     }
-  }, [location, navigate]);
+  }, [location, navigate, dispatch]);
+
   const [selectedCategory, setSelectedCategory] = useState(null);
 
   return (
     <div className="overflow-x-hidden">
-        <Header
-          selectedCategory={selectedCategory}
-          setSelectedCategory={setSelectedCategory}
-        />
-      <div className="max-w-10xl lg:max-w-full">
+      <Header
+        selectedCategory={selectedCategory}
+        setSelectedCategory={setSelectedCategory}
+      />
+      <div className="max-w-7xl mx-auto w-full">
         <Banner />
-
         <Saving />
         <NewArivals />
-        <div className="md:px-12 lg:px-20 space-y-12">
+        <div className="px-4 md:px-12 lg:px-20 space-y-12">
           <Promotions />
-     
         </div>
         <Footer />
       </div>

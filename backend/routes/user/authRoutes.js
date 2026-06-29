@@ -20,8 +20,8 @@ router.post("/verify-otp", verifyOTP);
 router.post("/update-password", resetPassword);
 router.post("/signupotp", signupOTP);
 router.post("/verifysignupotp", verifySignupOTP);
-router.post("/password", authMiddleware(), changePassword);
-router.post("/email", authMiddleware(), requestEmailChange);
-router.post("/email/verify", authMiddleware(), verifyEmailOtp);
+router.post("/password", authMiddleware(["user"]), changePassword);
+router.post("/email", authMiddleware(["user"]), requestEmailChange);
+router.post("/email/verify", authMiddleware(["user"]), verifyEmailOtp);
 
 module.exports = router;

@@ -7,12 +7,13 @@ import 'react-phone-input-2/lib/style.css';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import toast from 'react-hot-toast';
-import { login } from '../../../../slices/authSlice'; // Redux action for login
+import { login } from '../../../../slices/authSlice';
 import {
   completeSignup,
   sendSignupOTP,
   verifySignupOTP,
 } from '../../../services/userService';
+import { verifyUser } from '../../../services/authService';
 import {
   UserPlus,
   User,
@@ -180,8 +181,9 @@ const LoginForm = () => {
         referralCode,
       };
       const res = await completeSignup(signupData);
-      const { userId, role } = res; // Expecting userId and role from backend
-      dispatch(login({ userId, role }));
+      const { userId, role } = res;
+      const { user } = await verifyUser();
+      dispatch(login({ userId, role, user }));
       navigate(role === 'admin' ? '/admin/dashboard' : '/user/home');
     } catch (err) {
       console.log(err);
@@ -199,7 +201,7 @@ const LoginForm = () => {
 
   return (
     <div
-      className="flex bg-gray-200 min-h-full p-4 sm:p-6 w-full justify-center items-center"
+      className="flex bg-gradient-to-br from-gray-50 via-white to-gray-100 min-h-full p-4 sm:p-8 w-full justify-center items-center"
       style={{
         backgroundSize: 'cover',
         backgroundPosition: 'center',
@@ -212,17 +214,26 @@ const LoginForm = () => {
         transition={{ duration: 0.6 }}
         className="w-full max-w-sm sm:max-w-md relative"
       >
-        <motion.div
-          className="bg-white rounded-lg z-10 overflow-hidden"
-          whileHover={{ y: -5 }}
-          transition={{ duration: 0.3 }}
-        >
-          <div className="p-5 sm:p-6 border rounded-lg">
+        <motion.div className="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100">
+          <div className="p-5 sm:p-8">
+            <div className="flex justify-center mb-2">
+              <div className="flex gap-2">
+                {[1, 2, 3].map((s) => (
+                  <div
+                    key={s}
+                    className={`h-1.5 rounded-full transition-all ${
+                      step >= s ? 'w-8 bg-black' : 'w-4 bg-gray-200'
+                    }`}
+                  />
+                ))}
+              </div>
+            </div>
             <div className="flex justify-center">
               <div className="text-center pb-4">
-                <h1 className="text-lg sm:text-xl font-bold text-black">
+                <h1 className="text-xl sm:text-2xl font-bold text-gray-900">
                   Create an account
                 </h1>
+                <p className="text-gray-500 text-sm mt-1">Step {step} of 3</p>
               </div>
             </div>
 

@@ -1,6 +1,12 @@
 const jwt = require("jsonwebtoken");
 
 const authMiddleware = (allowedRoles = []) => {
+  const roles = Array.isArray(allowedRoles)
+    ? allowedRoles
+    : allowedRoles
+      ? [allowedRoles]
+      : [];
+
   return (req, res, next) => {
     const accessToken = req.cookies?.accessToken;
     if (!accessToken) {
@@ -17,15 +23,15 @@ const authMiddleware = (allowedRoles = []) => {
       }
 
       req.user = verified;
-      if (allowedRoles.length > 0 && !allowedRoles.includes(verified.role)) {
+      if (roles.length > 0 && !roles.includes(verified.role)) {
         return res.status(403).json({ message: "Forbidden: Access denied" });
       }
 
       next();
     } catch (error) {
-      if (error.name === 'TokenExpiredError') {
+      if (error.name === "TokenExpiredError") {
         return res.status(401).json({ message: "Token expired" });
-      } else if (error.name === 'JsonWebTokenError') {
+      } else if (error.name === "JsonWebTokenError") {
         return res.status(401).json({ message: "Invalid token" });
       }
       return res.status(500).json({ message: "Authentication error" });

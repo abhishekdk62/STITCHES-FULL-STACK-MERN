@@ -2,16 +2,15 @@
 const Review = require("../../models/reviewSchema");
 const { default: mongoose } = require("mongoose");
 
-
-
 const addReview = async (req, res) => {
   try {
-    const { newReview, productId, userId } = req.body;
+    const { newReview, productId } = req.body;
+    const userId = req.user.id;
+
     if (
       newReview.text == null ||
       newReview.rating == null ||
-      productId == null ||
-      userId == null
+      productId == null
     ) {
       return res.status(400).json({ message: "All fields are required" });
     }
@@ -75,7 +74,7 @@ const getRating = async (req, res) => {
 
     const rating = await Review.aggregate([
       {
-        $match: { productId: new mongoose.Types.ObjectId(id) }, // Convert to ObjectId
+        $match: { productId: new mongoose.Types.ObjectId(id) },
       },
       {
         $group: {
@@ -92,11 +91,10 @@ const getRating = async (req, res) => {
   }
 };
 
-
-
 module.exports = {
   addReview,
   getReview,
   getRatings,
   getRating,
 };
+

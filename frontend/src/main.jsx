@@ -12,6 +12,7 @@ import checkoutReducer from '../slices/checkoutSlice';
 import './index.css';
 import App from './App.jsx';
 import { Toaster } from 'react-hot-toast';
+import { setStore } from './storeRef';
 
 const store = configureStore({
   reducer: {
@@ -24,8 +25,7 @@ const store = configureStore({
   },
 });
 
-// Expose store to window for use in apiClient.js
-window.reduxStore = store;
+setStore(store);
 
 createRoot(document.getElementById('root')).render(
   <Provider store={store}>

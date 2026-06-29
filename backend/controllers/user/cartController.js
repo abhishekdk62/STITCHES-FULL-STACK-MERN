@@ -83,6 +83,9 @@ const changeQuantity = async (req, res) => {
     if (!cart) {
       return res.status(404).json({ message: "Cart not found" });
     }
+    if (cart.userId.toString() !== req.user.id) {
+      return res.status(403).json({ message: "Not authorized to modify this cart" });
+    }
     const item = cart.items.find(
       (item) => item.productId.equals(pid) && item.variantId.equals(vid)
     );
@@ -164,6 +167,9 @@ const deleteItem = async (req, res) => {
     const cart = await Cart.findById(cartId);
     if (!cart) {
       return res.status(404).json({ message: "Cart not found" });
+    }
+    if (cart.userId.toString() !== req.user.id) {
+      return res.status(403).json({ message: "Not authorized to modify this cart" });
     }
     const itemIndex = cart.items.findIndex((i) => i._id.equals(itemid));
     if (itemIndex === -1) {

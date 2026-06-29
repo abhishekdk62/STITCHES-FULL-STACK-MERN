@@ -1,12 +1,14 @@
-const express = require('express');
-const { login, logout, check, updateProfile } = require('../../controllers/common/commonController');
-const { refreshToken } = require('../../controllers/authToken/authController');
-const router=express.Router()
+const express = require("express");
+const { login, logout, check, updateProfile } = require("../../controllers/common/commonController");
+const { refreshToken } = require("../../controllers/authToken/authController");
+const authMiddleware = require("../../middlewares/verifyToken");
 
-router.post("/login",login)
-router.post("/update",updateProfile)
-router.post("/logout",logout)
-router.get("/check",check)
-router.get("/refreshToken",refreshToken)
+const router = express.Router();
 
-module.exports=router
+router.post("/login", login);
+router.post("/update", authMiddleware(["admin"]), updateProfile);
+router.post("/logout", logout);
+router.get("/check", check);
+router.get("/refreshToken", refreshToken);
+
+module.exports = router;

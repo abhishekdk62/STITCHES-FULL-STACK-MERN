@@ -12,9 +12,9 @@ const getTransactions = async (req, res) => {
       createdAt: -1,
     });
 
-    const user=await User.findById(userId)
+    const user = await User.findById(userId).select("-password -otp -otpExpiry");
 
-    res.status(200).json({ transactions,user });
+    res.status(200).json({ transactions, user });
   } catch (error) {
     console.error("Error fetching transactions:", error);
     res.status(500).json({ error: error.message });

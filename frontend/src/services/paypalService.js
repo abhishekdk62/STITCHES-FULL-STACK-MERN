@@ -12,18 +12,17 @@ export const createPaypalOrder = async (orderDetails) => {
       shippingPrice: orderDetails.shippingPrice,
       grandTotal: orderDetails.grandTotal,
       amount: orderDetails.grandTotal,
-      uid: orderDetails.userId,
       returnUrl: orderDetails.returnUrl,
       cancelUrl: orderDetails.cancelUrl,
       couponData: orderDetails.couponData,
       discount: orderDetails.discount,
     };
 
-    const response = await apiClient.post("/api/paypal/create-order",JSON.stringify(payload)) 
+    const response = await apiClient.post("/api/paypal/create-order", payload);
 
     return response.data;
   } catch (error) {
-    console.log('❌ Error creating PayPal order:', error);
+    console.error("Error creating PayPal order:", error);
     throw error;
   }
 };
@@ -34,11 +33,14 @@ export const capturePaypalOrder = async (
   couponDetails
 ) => {
   try {
-    const response = await apiClient.post(`api/paypal/capture-order/${orderID}`,JSON.stringify(orderDetails, couponDetails)) 
-    
-    return  response.data;
+    const response = await apiClient.post(
+      `/api/paypal/capture-order/${orderID}`,
+      { orderDetails, couponDetails }
+    );
+
+    return response.data;
   } catch (error) {
-    console.error('❌ Error capturing PayPal order:', error);
+    console.error("Error capturing PayPal order:", error);
     throw error;
   }
 };

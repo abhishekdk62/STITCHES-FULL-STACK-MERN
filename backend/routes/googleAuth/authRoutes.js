@@ -1,8 +1,9 @@
 const express = require("express");
-const passport = require("passport"); // This will use our passport config from config/passport.js
+const passport = require("passport");
 const generateToken = require("../../utils/generateToken");
-const router = express.Router();
+const { getCookieOptions } = require("../../utils/cookieOptions");
 
+const router = express.Router();
 
 router.get(
   "/google",
@@ -11,32 +12,38 @@ router.get(
 
 router.get(
   "/google/callback",
-  passport.authenticate("google", { failureRedirect: "/auth/failure" }),
+  passport.authenticate("google", {
+    failureRedirect: "/api/auth/failure",
+  }),
   (req, res) => {
-    const accessToken = generateToken(req.user._id, "user", process.env.ACCESS_SECRET, "15m");
-    const refreshToken = generateToken(req.user._id, "user", process.env.REFRESH_SECRET, "7d");
+    const accessToken = generateToken(
+      req.user._id,
+      "user",
+      process.env.ACCESS_SECRET,
+      "15m"
+    );
+    const refreshToken = generateToken(
+      req.user._id,
+      "user",
+      process.env.REFRESH_SECRET,
+      "7d"
+    );
+
+    const cookieOptions = getCookieOptions();
 
     res.cookie("accessToken", accessToken, {
-      httpOnly: true,
-      sameSite: "lax",  // ← Changed from "none"
-      secure: false,    // ← Changed from process.env check
+      ...cookieOptions,
       maxAge: Number(process.env.ACCESS_TOKEN_MAX_AGE),
-      path: '/'         // ← Added this
     });
 
     res.cookie("refreshToken", refreshToken, {
-      httpOnly: true,
-      secure: false,    // ← Changed from process.env check
-      sameSite: "lax",  // ← Changed from "none"
+      ...cookieOptions,
       maxAge: Number(process.env.REFRESH_TOKEN_MAX_AGE),
-      path: '/'         // ← Added this
     });
-    
+
     res.redirect(`${process.env.FRONTEND_URL}/user/home`);
   }
 );
-
-
 
 router.get("/failure", (req, res) => {
   const errorMessage = req.session.messages
@@ -51,27 +58,14 @@ router.get("/failure", (req, res) => {
 });
 
 router.get("/logout", (req, res) => {
-  // Clear authentication cookies
-  res.clearCookie('accessToken', { 
-    httpOnly: true, 
-    sameSite: 'lax', 
-    secure: process.env.NODE_ENV === "production" 
-  });
-  
-  res.clearCookie('refreshToken', { 
-    httpOnly: true, 
-    sameSite: 'lax', 
-    secure: process.env.NODE_ENV === "production" 
-  });
+  const cookieOptions = getCookieOptions();
 
-  // Logout from passport session
+  res.clearCookie("accessToken", cookieOptions);
+  res.clearCookie("refreshToken", cookieOptions);
+
   req.logout(() => {
     res.redirect(process.env.FRONTEND_URL);
   });
-});
-
-router.get("/user", (req, res) => {
-  res.json(req.user || null);
 });
 
 module.exports = router;
