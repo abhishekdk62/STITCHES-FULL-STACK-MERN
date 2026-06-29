@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { getStore } from './storeRef';
+import { getStore } from '../storeRef';
 import { logout } from '../../slices/authSlice';
 
 const apiClient = axios.create({
