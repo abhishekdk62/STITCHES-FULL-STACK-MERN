@@ -18,7 +18,7 @@ export const createPaypalOrder = async (orderDetails) => {
       discount: orderDetails.discount,
     };
 
-    const response = await apiClient.post("/api/paypal/create-order", payload);
+    const response = await apiClient.post("/paypal/create-order", payload);
 
     return response.data;
   } catch (error) {
@@ -34,7 +34,7 @@ export const capturePaypalOrder = async (
 ) => {
   try {
     const response = await apiClient.post(
-      `/api/paypal/capture-order/${orderID}`,
+      `/paypal/capture-order/${orderID}`,
       { orderDetails, couponDetails }
     );
 

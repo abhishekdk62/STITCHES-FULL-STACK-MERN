@@ -11,7 +11,7 @@ export const getTransactionsApi = async () => {
 
 export const addMoneyPaypalApi = async (data) => {
   try {
-    const response = await apiClient.post('/api/paypal/add-money', data);
+    const response = await apiClient.post('/paypal/add-money', data);
 
     return response.data;
   } catch (error) {
@@ -22,7 +22,7 @@ export const addMoneyPaypalApi = async (data) => {
 
 export const captureWalletPaymentApi = async (orderID) => {
   try {
-    const response = await apiClient.post('/api/paypal/capture-wallet-payment', {
+    const response = await apiClient.post('/paypal/capture-wallet-payment', {
       orderID,
     });
 

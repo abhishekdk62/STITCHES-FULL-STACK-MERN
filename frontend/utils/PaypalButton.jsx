@@ -65,7 +65,7 @@ export default function PayPalButton({
       const orderDetails = {
         cid: cartItems._id,
         items: cartItems.items.map((item) => ({
-          productId: item.productId,
+          productId: item.productId?._id || item.productId,
           variantId: item.variantId,
           quantity: item.quantity,
           price: item.price,
@@ -100,7 +100,8 @@ export default function PayPalButton({
     } catch (error) {
       console.error('❌ PayPal Payment Error:', error);
       setErrorMessage(
-        'There was an error initiating PayPal payment. Please try again.'
+        error.response?.data?.message ||
+          'There was an error initiating PayPal payment. Please try again.'
       );
     }
   }, [cartItems, address, paymentMethod, grandTotal, userDetails]);

@@ -52,6 +52,9 @@ const generateAccessToken = async () => {
   }
 };
 
+const safeAmount = (value) =>
+  parseFloat(Number(value || 0).toFixed(2));
+
 router.post("/create-order", authMiddleware(["user"]), async (req, res) => {
   try {
     const accessToken = await generateAccessToken();
@@ -72,6 +75,18 @@ router.post("/create-order", authMiddleware(["user"]), async (req, res) => {
 
     const uid = req.user.id;
 
+    const itemTotal = safeAmount(totalPrice);
+    const taxTotal = safeAmount(tax);
+    const shippingTotal = safeAmount(shippingPrice);
+    const discountTotal = safeAmount(discount);
+    const amountTotal = safeAmount(
+      grandTotal ?? itemTotal + taxTotal + shippingTotal - discountTotal
+    );
+
+    if (amountTotal <= 0) {
+      return res.status(400).json({ message: "Invalid order amount" });
+    }
+
     const finalReturnUrl = isAllowedUrl(returnUrl)
       ? returnUrl
       : `${process.env.FRONTEND_URL}/payment/success`;
@@ -87,20 +102,23 @@ router.post("/create-order", authMiddleware(["user"]), async (req, res) => {
           {
             amount: {
               currency_code: "USD",
-              value: grandTotal.toFixed(2),
+              value: amountTotal.toFixed(2),
               breakdown: {
                 item_total: {
                   currency_code: "USD",
-                  value: totalPrice.toFixed(2),
+                  value: itemTotal.toFixed(2),
                 },
-                tax_total: { currency_code: "USD", value: tax.toFixed(2) },
+                tax_total: {
+                  currency_code: "USD",
+                  value: taxTotal.toFixed(2),
+                },
                 discount: {
                   currency_code: "USD",
-                  value: (discount || 0).toFixed(2),
+                  value: discountTotal.toFixed(2),
                 },
                 shipping: {
                   currency_code: "USD",
-                  value: shippingPrice.toFixed(2),
+                  value: shippingTotal.toFixed(2),
                 },
               },
             },
@@ -137,7 +155,7 @@ router.post("/create-order", authMiddleware(["user"]), async (req, res) => {
         totalPrice,
         tax,
         shippingPrice,
-        grandTotal,
+        grandTotal: amountTotal,
         uid,
         cid,
         couponData,
